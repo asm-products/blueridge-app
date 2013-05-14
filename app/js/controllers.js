@@ -2,10 +2,10 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', []).
-  controller('MyCtrl1', [function() {
+angular.module('blueRidge.controllers', []).
+  controller('ToDoCtrl', [function() {
 
   }])
-  .controller('MyCtrl2', [function() {
+  .controller('PeopleCtrl', [function() {
 
   }]);
