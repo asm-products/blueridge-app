@@ -31,34 +31,15 @@ body {
 .container .credit {
   margin: 20px 0;
 }
-
-/*
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+.jumbotron {
+  margin: 60px 0;
+  text-align: center;
 }
-
-.menu:before {
-  content: "[";
+.jumbotron h1 {
+  font-size: 72px;
+  line-height: 1;
 }
-
-.menu:after {
-  content: "]";
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
 }
-
-.menu > li {
-  display: inline;
-}
-
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
-}
-*/
