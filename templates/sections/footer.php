@@ -2,7 +2,7 @@
   </div>
   <div id="footer">
     <div class="container">
-      <p class="muted credit">BlueRidge App: v0.1</p>
+       <p class="muted credit">&copy; 2013 &mdash; Made in Atlanta, GA by <a href="http://ninelabs.com">Nine Labs</a></p>
     </div>
   </div>
   <script src="/lib/angular/angular.min.js"></script>

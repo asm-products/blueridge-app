@@ -63,9 +63,9 @@ $app->get('/basecamp/',function() use ($app){
 	}
 });
 
-/*
-$app->get('/app/(:resource)',function() use ($app){
-	$app->render('app.php');
+
+$app->get('/login/',function() use ($app){
+	$app->render('login.php');
 });
-*/
+
 $app->run();
