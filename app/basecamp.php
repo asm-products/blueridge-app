@@ -1,5 +1,13 @@
 <?php 
 /* 
+ * 
+ * 
+ * 
+// urls for code and then token
+https://launchpad.37signals.com/authorization/new?type=web_server&client_id=e391c424f7787e13c608bda67a22c2b121e50418&redirect_uri=http://blueridgeapp.com/auth
+https://launchpad.37signals.com/authorization/token?type=web_server&client_id=e391c424f7787e13c608bda67a22c2b121e50418&redirect_uri=http://blueridgeapp.com/auth&client_secret=secrete&code=code
+
+
 username: mospired
 password: gscellC56
 
