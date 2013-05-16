@@ -1,5 +1,5 @@
 'use strict';
-angular.module('blueRidge', ['blueRidge.filters', 'blueRidge.services', 'blueRidge.directives', 'blueRidge.controllers']).
+angular.module('blueRidge', ['blueRidge.services']).
 config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/todos', {
 		templateUrl: 'partials/todos.html', 
