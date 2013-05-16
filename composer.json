@@ -1,0 +1,16 @@
+{
+  "require": {
+    "slim/slim": "2.*",
+    "slim/extras": "2.*"
+  },
+  "require-dev": {
+    "phing/phing": "dev-master",
+    "phpunit/phpunit": "3.*"
+  },
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-0": {
+      "BlueRidge": "src/"
+    }
+  }
+}
