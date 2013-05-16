@@ -3,6 +3,7 @@
   <property name="project" value="${phing.project.name}" override="true" />
   <property name="builddir" value="../devops/builds/${project}" override="true" />
   <property name="releasedir" value="/releases/${project}" override="true" />
+  <property name="docroot" value="/var/www/${project}" override="true" />
   <property name="host" value="208.68.39.158" override="true" />
   <property name="user" value="root" override="true" />
   <property name="pword" value="ecswojfbqswa" override="true" />
@@ -27,7 +28,7 @@
   </target>
 
   <target name="deploy" depends="setup">
-    <ssh username="${user}" password="${pword}" host="${host}" command="unzip -o ${releasedir}/${release} -d /var/www/${project}" />
+    <ssh username="${user}" password="${pword}" host="${host}" command="rm-rf ${docroot}/* &amp;&amp; unzip -o ${releasedir}/${release} -d ${docroot} &amp;&amp; cd ${docroot} ; composer update --no-dev" />
   </target>
 
 </project>
