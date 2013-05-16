@@ -1,9 +1,11 @@
 'use strict';
 /* Controllers */
-angular.module('blueRidge.controllers', []).
-  controller('ToDoCtrl', [function() {
+function ToDoCtrl($scope, Project) {
+	$scope.todos = Project.findTodos();
+	console.log($scope.todos);
+}
 
-  }])
-  .controller('PeopleCtrl', [function() {
-
-  }]);
+function PeopleCtrl($scope, Project) {
+	$scope.members = Project.findMembers();
+	console.log($scope.members);
+}

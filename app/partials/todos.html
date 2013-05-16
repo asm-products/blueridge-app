@@ -2,7 +2,7 @@
     <li class="active"><a href="#/todos">To-Dos</a></li>
     <li><a href="#/people">People</a></li>
  </ul>
- <table class="table table-hover">
+<!--  <table class="table table-hover">
  	<thead>
  		<tr>
  			<th>Date</th>
@@ -18,4 +18,18 @@
  		<tr><td>5/4/13 <span class="label label-important">5 over</span></td><td><a href="#">Test the thing</a></td><td>Moses</td><td>AWDG Website / Member Page</td><tr>
  		<tr><td>5/15/13</td><td><a href="#">Design the thing</a></td><td>Jason</td><td>New App / Icon</td><tr>
  	</tbody>
- </table>
+ </table> -->
+ 
+ 
+<table>
+  <thead>
+  <tr>
+    <th>Todos</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="todo in todos">
+    <td>{{todo.item}}</td>
+  </tr>
+  </tbody>
+</table>

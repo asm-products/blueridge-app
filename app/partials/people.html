@@ -2,7 +2,7 @@
     <li><a href="#/todos">To-Dos</a></li>
     <li class="active"><a href="#/people">People</a></li>
  </ul>
-<table class="table table-hover table-condensed">
+<!-- <table class="table table-hover table-condensed">
  	<thead>
     	<tr><th>Person</th><th>Overdue</th><th>Next 3 days</th><th>Next 7 days</th><th><tr>
  	</thead>
@@ -16,4 +16,21 @@
 	    <tr><td><img style="border-radius:100px" src="img/avatar.jcornelius.gif"></td><td>4</td><td>10</td><td>17</td><tr>
 	    <tr><td><img style="border-radius:100px" src="img/avatar.jcornelius.gif"></td><td>4</td><td>10</td><td>17</td><tr>
 	 </tbody>
+</table> -->
+
+<table>
+  <thead>
+  <tr>
+    <th>id</th>
+    <th>first name</th>
+    <th>last name</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="member in members">
+    <td>{{member.id}}</td>
+    <td>{{member.firstnames}}</td>
+    <td>{{member.lastnames}}</td>
+  </tr>
+  </tbody>
 </table>
