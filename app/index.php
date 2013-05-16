@@ -15,7 +15,7 @@ $app->get('/',function() use ($app){
 	 * @todo check for session
 	 */
 	// redirect them to basecamp
-	 $app->redirect('https://launchpad.37signals.com/authorization/new?type=web_server&client_id=e391c424f7787e13c608bda67a22c2b121e50418&redirect_uri=http://dev-www.blueridgeapp.com/auth');
+	 $app->redirect('https://launchpad.37signals.com/authorization/new?type=web_server&client_id=e391c424f7787e13c608bda67a22c2b121e50418&redirect_uri=http://www.blueridgeapp.com/auth');
 });
 
 $app->get('/auth',function() use ($app){

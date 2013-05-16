@@ -28,7 +28,7 @@
   </target>
 
   <target name="deploy" depends="setup">
-    <ssh username="${user}" password="${pword}" host="${host}" command="rm-rf ${docroot}/* &amp;&amp; unzip -o ${releasedir}/${release} -d ${docroot} &amp;&amp; cd ${docroot} ; composer update --no-dev" />
+    <ssh username="${user}" password="${pword}" host="${host}" command="cd ${docroot} &amp;&amp; unzip -o ${releasedir}/${release} -d ${docroot} &amp;&amp;  composer update --no-dev" />
   </target>
 
 </project>
