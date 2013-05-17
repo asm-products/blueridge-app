@@ -7,8 +7,8 @@
 
 	<form class="form-signin">
 		<h2 class="form-signin-heading">Please sign in</h2>
-		<input type="text" class="input-block-level" placeholder="Email address">
-		<input type="password" class="input-block-level" placeholder="Password">
+		<input type="email" class="email input-block-level" required placeholder="Email address">
+		<input type="password" class="input-block-level" required placeholder="Password">
 		<label class="checkbox">
 			<input type="checkbox" value="remember-me"> Remember me
 		</label>

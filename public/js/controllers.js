@@ -9,3 +9,7 @@ function PeopleCtrl($scope, Project) {
 	$scope.members = Project.findMembers();
 	console.log($scope.members);
 }
+function UsersCtrl($scope, Project) {
+	$scope.members = Project.findUser();
+	//console.log($scope.members);
+}

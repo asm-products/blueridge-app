@@ -38,7 +38,7 @@
   </target>
 
   <target name="deploy" depends="setup">
-    <ssh username="${user}" password="${pword}" host="${host}" command="rm -rf /var/www/blueridgeapp/* cd /var/www/blueridgeapp/ ; unzip -o /releases/blueridge/${release} -d /var/www/blueridgeapp ; composer update --no-dev" />
+    <ssh username="${user}" password="${pword}" host="${host}" command="unzip -o /releases/blueridgeapp/${release} -d /var/www/blueridgeapp" />
   </target>
 
 </project>
