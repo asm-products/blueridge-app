@@ -32,7 +32,7 @@ class BlueRidgeApi
 	}
 	public function fetchTodos($userid){
 
-		$url = "http://dev-api.blueridgeapp.com/todos/?user={$userid}";
+		$url = "http://api.blueridgeapp.com/todos/?user={$userid}";
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_HEADER,0);  
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER ,1); 
