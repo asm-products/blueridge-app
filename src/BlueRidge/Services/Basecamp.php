@@ -3,7 +3,7 @@
  * Basecamp Auth classes
  */
 
-namespace BlueRidge\Service;
+namespace BlueRidge\Services;
 
 class Basecamp 
 {
@@ -28,7 +28,7 @@ class Basecamp
 		curl_setopt($ch, CURLOPT_HEADER,0);  
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER ,1); 
 
-		$token = curl_exec($ch);
+		$auth = curl_exec($ch);
 		curl_close($ch);
 		$this->auth = $auth;		
 		return $this;

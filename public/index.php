@@ -29,10 +29,14 @@ $app->get('/basecamp/',function() use ($app){
 	$code = $app->request()->get('code');
 	if(!empty($code)){
 		$basecamp = new \BlueRidge\Services\Basecamp();
-		$api = new \BlueRidge\Services\BlueRidgeApi();
-		$auth= $basecamp->getToken($code)->getAuth();
 
-		var_dump($auth);		
+		//var_dump($basecamp);
+		//exit();
+		//$api = new \BlueRidge\Services\BlueRidgeApi();
+		$auth= $basecamp->getToken($code);//->getAuth();
+
+		var_dump($auth);
+		exit();		
 		//$user=$api->setUser($token);		
 	}
 
