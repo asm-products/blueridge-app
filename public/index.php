@@ -33,10 +33,11 @@ $app->get('/basecamp/',function() use ($app){
 		$authorization = $basecamp->getAuth($authToken);
 
 		$api = new \BlueRidge\Services\BlueRidgeApi();
-		$api->createUser($authToken,$authorization);
+		$user=$api->createUser($authToken,$authorization);
 		error_log($authToken);
 		error_log($authorization);
-		$app->redirect('/todos/');		
+		$url = "/todos/{$user->id}";
+		$app->redirect($url);		
 	}
 
 });
@@ -70,8 +71,12 @@ $app->post('/login/',function() use ($app){
 	
 	//$app->render('login.php');
 });
-$app->get('/todos/',function() use ($app){
-	$app->render('todos.php');
+$app->get('/todos/:userid/',function($userid=null) use ($app){
+	if(!empty($userid)){
+		$api = new \BlueRidge\Services\BlueRidgeApi();
+		$todos = $api->fetchTodos($userid);
+	}
+	$app->render('todos.php',array("todos"=>$todos));
 });
 $app->get('/people/',function() use ($app){
 	$app->render('people.php');

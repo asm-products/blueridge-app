@@ -30,4 +30,17 @@ class BlueRidgeApi
 		return $user;
 
 	}
+	public function fetchTodos($userid){
+
+		$url = "http://dev-api.blueridgeapp.com/todos/?user={$userid}";
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_HEADER,0);  
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER ,1); 
+		$todos = curl_exec($ch);
+		curl_close($ch);
+		$todos = json_decode($todos);
+		return $todos;
+
+
+	}
 }
