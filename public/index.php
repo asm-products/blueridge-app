@@ -32,9 +32,11 @@ $app->get('/basecamp/',function() use ($app){
 		$authToken= $basecamp->getAuthToken($code);
 		$authorization = $basecamp->getAuth($authToken);
 
-		var_dump($authorization);
-		exit();		
-		//$user=$api->setUser($token);		
+		$api = new \BlueRidge\Services\BlueRidgeApi();
+		$api->createUser($authToken,$authorization);
+		error_log($authToken);
+		error_log($authorization);
+		$app->redirect('/todos/');		
 	}
 
 });

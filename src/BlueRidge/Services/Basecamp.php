@@ -43,8 +43,7 @@ class Basecamp
 				'header' => "Authorization: Bearer {$auth->access_token}"
 				)
 			));
-		$data = file_get_contents($url, false, $context);
-		$authorization = json_decode($data,true);
+		$authorization = file_get_contents($url, false, $context);
 		return $authorization;
 	}
 }
