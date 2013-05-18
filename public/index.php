@@ -31,11 +31,32 @@ $app->get('/basecamp/',function() use ($app){
 		$basecamp = new \BlueRidge\Services\Basecamp();
 		$api = new \BlueRidge\Services\BlueRidgeApi();
 		$auth= $basecamp->getToken($code)->getAuth();
-	
+
 		var_dump($auth);		
 		//$user=$api->setUser($token);		
 	}
 
+});
+
+$app->get('/xprs/',function() use ($app){
+	$token = "BAhbByIB03siZXhwaXJlc19hdCI6IjIwMTMtMDUtMzFUMTY6NDk6NDVaIiwidXNlcl9pZHMiOlsxNDMyMTM0Myw3NjYxMTk2LDEzNjA3Nzg1LDEzNjA4MDM1LDE0MzQ0NTYyXSwiY2xpZW50X2lkIjoiZTM5MWM0MjRmNzc4N2UxM2M2MDhiZGE2N2EyMmMyYjEyMWU1MDQxOCIsInZlcnNpb24iOjEsImFwaV9kZWFkYm9sdCI6IjQyYjMwZTYyZjE3MzAwYTRhYjgxNTY0OGQ5MmZkNTIwIn11OglUaW1lDfBTHMAXedDG--9b2116ea347caf8fac3b350d111ad2f4e774d5c0";
+
+	$url = "https://launchpad.37signals.com/authorization.json";
+	$headers = [
+	'Authorization'=>"Bearer {$token}",
+	'User-Agent'=>'BlueRidgeApp (api@blueridgeapp.com)'
+	];
+
+	//
+	$context = stream_context_create(array(
+		'http' => array(
+			'method' => 'GET',
+			'header' => "Authorization: Bearer {$token}"
+			)
+		));
+	$data = file_get_contents($url, false, $context);
+	//
+	var_dump($data);
 });
 
 

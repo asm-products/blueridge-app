@@ -28,7 +28,7 @@ class Basecamp
 		curl_setopt($ch, CURLOPT_HEADER,0);  
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER ,1); 
 
-		$auth = curl_exec($ch);
+		$token = curl_exec($ch);
 		curl_close($ch);
 		$this->auth = $auth;		
 		return $this;
@@ -37,24 +37,14 @@ class Basecamp
 	public function getAuth(){
 
 		$url = "https://launchpad.37signals.com/authorization.json";
-		$headers = [
-		'Authorization'=>"Bearer {$this->auth->access_token}",
-		'User-Agent'=>'BlueRidgeApp (api@blueridgeapp.com)'
-		];
-		$ch = curl_init($url);
-
-
-
-		curl_setopt($ch, CURLOPT_GET, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $params );
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-		curl_setopt($ch, CURLOPT_HEADER,0);  
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER ,1); 
-
-		$auth = curl_exec($ch);
-		curl_close($ch);
-		$this->auth = $auth;		
-		return $this;
-
+		$context = stream_context_create(array(
+			'http' => array(
+				'method' => 'GET',
+				'header' => "Authorization: Bearer {$this->auth->access_token}"
+				)
+			));
+		$data = file_get_contents($url, false, $context);
+		$authorization = json_decode($data,true);
+		return $authorization;
 	}
 }
