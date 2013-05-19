@@ -8,7 +8,7 @@ require '../vendor/autoload.php';
 use \Slim\Slim;
 use \BlueRidge\Init;
 use \BlueRidge\Entities\User;
-use \BlueRidge\Entities\Todo;
+use \BlueRidge\Entities\ToDo;
 use \BlueRidge\Services\Basecamp;
 
 $app = new Slim();
@@ -35,9 +35,13 @@ $app->get('/basecamp/',function() use ($app){
 		$authUser = $basecamp->getAuth($authToken);
 
 		$user= new User();
-		$user->init($this->app);
+		$user->init($app);
+
 		$currentUser=$user->create($authToken,$authUser);
-		$url = "/todos/{$currentUser->id}";
+		//var_dump($user);
+		//var_dump($currentUser);
+		//exit();
+		$url = "/todos/{$currentUser['id']}";
 		$app->redirect($url);		
 	}else{
 		//redirect with a fail 500 Error
@@ -55,7 +59,7 @@ $app->post('/login/',function() use ($app){
 });
 $app->get('/todos/:userid/',function($userid=null) use ($app){
 	if(!empty($userid)){
-		$todo = new Todo();
+		$todo = new ToDo();
 		$todo->init($app);
 		$todos=$todo->fetch($userid);
 	}

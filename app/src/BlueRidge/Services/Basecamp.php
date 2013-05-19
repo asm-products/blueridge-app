@@ -48,7 +48,6 @@ class Basecamp
 	}
 
 	public function getToDos($user){
-		$this->$user = $user;
 		$endpoint = "todolists.json";
 		$accounts = $user['services']['basecamp']['user']['accounts'];
 		$this->access_token = $user['services']['basecamp']['auth']['access_token'];
