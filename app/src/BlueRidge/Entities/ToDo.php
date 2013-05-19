@@ -33,13 +33,13 @@ class ToDo extends EntityAbstract
 	 * Fetch
 	 * @return Array
 	 */
-	public function fetch($params){
+	public function fetch($userid){
 
 		$todos = array();
 		$user = new User();
 		
 		// fetch user by email
-		$user = $user->init($this->app)->fetchOneById($params['user']);
+		$user = $user->init($this->app)->fetchOneById($userid);
 
 		// fetch the todo from the service and store them in cache
 		$basecamp = new Basecamp($this->app);

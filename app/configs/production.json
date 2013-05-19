@@ -6,7 +6,6 @@
   },
   "service": {
     "basecamp": {
-      "baseUrl": "https://basecamp.com/",
       "userAgent": "BlueRidgeApp (api@blueridgeapp.com)"
     }
   },

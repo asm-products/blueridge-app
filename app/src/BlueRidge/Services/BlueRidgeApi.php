@@ -7,6 +7,10 @@ namespace BlueRidge\Services;
 
 class BlueRidgeApi 
 {
+	/**
+	 * @deprecated
+	 * Moved to app User Class
+	 */
 	public function createUser($authToken,$authorization){
 
 		$url = "http://api.blueridgeapp.com/users/";
@@ -30,6 +34,9 @@ class BlueRidgeApi
 		return $user;
 
 	}
+	/**
+	 * @deprecated
+	 */
 	public function fetchTodos($userid){
 
 		$url = "http://api.blueridgeapp.com/todos/?user={$userid}";

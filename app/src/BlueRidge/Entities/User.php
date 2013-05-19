@@ -59,20 +59,20 @@ class User extends EntityAbstract
 		return $user->toArray();
 	}
 
-	public function createFromBasecamp($authToken,$auth){
+	public function create($authToken,$authUser){
 		$db = $this->app->database;
 		$users = new \MongoCollection($db,"Users");
 
-		$token = json_decode($authToken,true);
-		$auth = json_decode($auth,true);
+		$authToken = json_decode($authToken);
+		$authUser = json_decode($authUser);
 
 		$doc = array(
-			"email"=>$auth['identity']['email_address'],
-			"name"=>"{$auth['identity']['first_name']} {$auth['identity']['last_name']}",
+			"email"=>$authUser->identity->email_address,
+			"name"=>"{$authUser->identity->first_name} {$authUser->identity->last_name}",
 			"services"=>array(
 				"basecamp" =>array(
-					"auth"=>$token,
-					"user"=>$auth
+					"auth"=>$authToken,
+					"user"=>$authUser
 					)
 				)
 			);

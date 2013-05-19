@@ -53,7 +53,6 @@ class Basecamp
 		$accounts = $user['services']['basecamp']['user']['accounts'];
 		$this->access_token = $user['services']['basecamp']['auth']['access_token'];
 
-		//var_dump($user['services']['basecamp']);
 
 		//fetch all accounts
 		$bcx_accounts = array(); 
@@ -62,8 +61,6 @@ class Basecamp
 				$bcx_accounts[] = $account;
 			}			
 		}
-
-		//var_dump($bcx_accounts);
 		// fetch todolists
 		$lists=array();
 		foreach ($bcx_accounts as $user_account) {
@@ -73,17 +70,14 @@ class Basecamp
 			}		
 		} 
 
-		// fetch all todos
+		// fetch todos
 		$todo_items = array();
 		foreach ($lists as $listitem) {
 			foreach ($listitem as $item) {
-				$todos = $this->fetch($item['url']);
-				//var_dump($todos['todos']);
-				//exit();
-				foreach($todos['todos']['remaining'] as $todo){
+				$todos = $this->fetch($item->url);
+				foreach($todos->todos->remaining as $todo){
 					$todo_items[] = $todo;
 				}
-				//$todo_items[]=$todos['todos']['remaining'];
 			}			
 		}
 
@@ -100,7 +94,7 @@ class Basecamp
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$data=curl_exec($ch);
 		curl_close($ch);
-		$data = json_decode($data,true);
+		$data = json_decode($data);
 		return $data;
 	}
 

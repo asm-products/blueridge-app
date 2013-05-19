@@ -1,6 +1,6 @@
 <?php include "sections/header.php"; ?>
 <?php //var_dump($todos);?>
-<div class="container-narrow">
+<div class="container">
 	<div class="masthead">
 		<h3 class="muted">Blueridge</h3>
 	</div>

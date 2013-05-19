@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "ec075eb18c4cee0346afd5c81cae3dd9",
+    "hash": "35f1f60c7b17b1932d46837b9abe5a0b",
     "packages": [
         {
             "name": "slim/extras",
@@ -101,58 +101,6 @@
         }
     ],
     "packages-dev": [
-        {
-            "name": "phing/phing",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phingofficial/phing.git",
-                "reference": "8b5a27e919c1dacfd8caa2c34eaaec1723d82fa7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/8b5a27e919c1dacfd8caa2c34eaaec1723d82fa7",
-                "reference": "8b5a27e919c1dacfd8caa2c34eaaec1723d82fa7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.0"
-            },
-            "bin": [
-                "composer/bin/phing"
-            ],
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "classes/phing/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "classes"
-            ],
-            "license": [
-                "LGPL3"
-            ],
-            "authors": [
-                {
-                    "name": "Michiel Rook",
-                    "email": "mrook@php.net"
-                },
-                {
-                    "name": "Phing Community",
-                    "homepage": "http://www.phing.info/trac/wiki/Development/Contributors"
-                }
-            ],
-            "description": "PHing Is Not GNU make; it's a PHP project build system or build tool based on Apache Ant.",
-            "homepage": "http://www.phing.info/",
-            "keywords": [
-                "build",
-                "task",
-                "tool"
-            ],
-            "time": "2013-05-15 11:01:13"
-        },
         {
             "name": "phpunit/php-code-coverage",
             "version": "1.2.10",
@@ -559,9 +507,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "phing/phing": 20
-    },
+    "stability-flags": [
+
+    ],
     "platform": [
 
     ],

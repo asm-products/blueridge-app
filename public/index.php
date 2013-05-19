@@ -7,11 +7,12 @@ require '../vendor/autoload.php';
 
 use \Slim\Slim;
 use \BlueRidge\Init;
+use \BlueRidge\Entities\User;
+use \BlueRidge\Entities\Todo;
+use \BlueRidge\Services\Basecamp;
 
-
-$app = new Slim(array(
-	'templates.path' => '../templates'
-	));
+$app = new Slim();
+$app->add(new Init());
 
 $app->get('/',function() use ($app){
 	$app->render('home.php');
@@ -29,53 +30,34 @@ $app->get('/basecamp/',function() use ($app){
 
 	$code = $app->request()->get('code');
 	if(!empty($code)){
-		$basecamp = new \BlueRidge\Services\Basecamp();
+		$basecamp = new Basecamp();
 		$authToken= $basecamp->getAuthToken($code);
-		$authorization = $basecamp->getAuth($authToken);
+		$authUser = $basecamp->getAuth($authToken);
 
-		$api = new \BlueRidge\Services\BlueRidgeApi();
-		$user=$api->createUser($authToken,$authorization);
-		error_log($authToken);
-		error_log($authorization);
-		$url = "/todos/{$user->id}";
+		$user= new User();
+		$user->init($this->app);
+		$currentUser=$user->create($authToken,$authUser);
+		$url = "/todos/{$currentUser->id}";
 		$app->redirect($url);		
+	}else{
+		//redirect with a fail 500 Error
+		$app->redirect('/fail/',500);
 	}
 
 });
-
-$app->get('/xprs/',function() use ($app){
-	$token = "BAhbByIB03siZXhwaXJlc19hdCI6IjIwMTMtMDUtMzFUMTY6NDk6NDVaIiwidXNlcl9pZHMiOlsxNDMyMTM0Myw3NjYxMTk2LDEzNjA3Nzg1LDEzNjA4MDM1LDE0MzQ0NTYyXSwiY2xpZW50X2lkIjoiZTM5MWM0MjRmNzc4N2UxM2M2MDhiZGE2N2EyMmMyYjEyMWU1MDQxOCIsInZlcnNpb24iOjEsImFwaV9kZWFkYm9sdCI6IjQyYjMwZTYyZjE3MzAwYTRhYjgxNTY0OGQ5MmZkNTIwIn11OglUaW1lDfBTHMAXedDG--9b2116ea347caf8fac3b350d111ad2f4e774d5c0";
-
-	$url = "https://launchpad.37signals.com/authorization.json";
-	$headers = [
-	'Authorization'=>"Bearer {$token}",
-	'User-Agent'=>'BlueRidgeApp (api@blueridgeapp.com)'
-	];
-
-	//
-	$context = stream_context_create(array(
-		'http' => array(
-			'method' => 'GET',
-			'header' => "Authorization: Bearer {$token}"
-			)
-		));
-	$data = file_get_contents($url, false, $context);
-	//
-	var_dump($data);
-});
-
 
 $app->get('/login/',function() use ($app){
 	$app->render('login.php');
 });
 $app->post('/login/',function() use ($app){
-	
+	//login user
 	//$app->render('login.php');
 });
 $app->get('/todos/:userid/',function($userid=null) use ($app){
 	if(!empty($userid)){
-		$api = new \BlueRidge\Services\BlueRidgeApi();
-		$todos = $api->fetchTodos($userid);
+		$todo = new Todo();
+		$todo->init($app);
+		$todos=$todo->fetch($userid);
 	}
 	$app->render('todos.php',array("todos"=>$todos));
 });
