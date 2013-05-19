@@ -6,6 +6,7 @@
 require '../vendor/autoload.php';
 
 use \Slim\Slim;
+use \BlueRidge\Init;
 
 
 $app = new Slim(array(
