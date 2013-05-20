@@ -84,7 +84,9 @@ class ToDo extends EntityAbstract
 		foreach($todo_items as $key => $item){
 			$initPos = 0;
 			$todo = new Todo($item);
-			$todo->owner = $item->assignee->name;
+			if(!empty($item->assignee)){
+				$todo->owner = $item->assignee->name;
+			}	
 			$todo->url = $item->siteUrl;
 			if(!empty($item->due_on)){
 				$initPos = 1;
