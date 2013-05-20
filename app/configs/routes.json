@@ -1,0 +1,24 @@
+{
+  "todos": {
+    "entity": "ToDo",
+    "methods": [
+      "get"
+    ]
+  },
+  "users": {
+    "entity": "User",
+    "methods": [
+      "get",
+      "post",
+      "put",
+      "delete"
+    ]
+  },
+  "auth": {
+    "entity": "Auth",
+    "methods": [
+      "get",
+      "post"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "database": {
+    "name": "BlueRidge",
+    "host": "localhost",
+    "port": "27017"
+  },
+  "service": {
+    "basecamp": {
+      "userAgent": "BlueRidgeApp (api@blueridgeapp.com)"
+    }
+  },
+  "cache": {
+    "host": "localhost",
+    "port": 11211
+  },
+  "debug": false,
+  "log_enabled": false,
+  "templates_path":"../app/views"
+}
