@@ -1,7 +1,7 @@
 <?php include "sections/header.php"; ?>
 <div class="container-narrow">
   <div class="masthead">
-    <h3 class="muted">Blueridge</h3>
+    <h3 class="muted">BlueRidge</h3>
   </div>
   <hr>
   <div class="jumbotron">
@@ -16,7 +16,7 @@
 
   <div class="row-fluid marketing">
     <div class="span6">
-     <h4>What does Blue Ridge do?</h4>
+     <h4>What does BlueRidge do?</h4>
      <p>Simple. We connect to your Basecamp account, grab all the To-Do items in all the To-Do lists, across all your projects and show them to you in one sortable easy to read list. <a href="">See a Screenshot</a></p>
      <h4>How much does it cost?</h4>
      <p>Only $10 a month. A fraction of what it&rsquo;s worth. You&rsquo;ll save that time in the first day using it. No hidden fees. No minimum terms. Cancel anytime.</p>
