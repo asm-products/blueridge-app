@@ -1,5 +1,5 @@
 <?php include "sections/header.php"; ?>
-<div class="container">
+<div class="container-narrow">
 	<div class="masthead">
 		<h3 class="muted">BlueRidge</h3>
 	</div>
