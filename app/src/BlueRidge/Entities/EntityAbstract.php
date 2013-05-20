@@ -20,31 +20,6 @@ abstract class EntityAbstract
 			return $this;
 		}		
 	}
-	/**
-	 * ToArray
-	 * @return Array
-	 * get aan array representation of the object
-	 */
-	/*
-	protected function toArray(){
-		$reflect = new \ReflectionClass($this);
-		$properties = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED);
-		$item = array();
-		foreach($properties as $prop){
-			
-			$item[$prop->name] = $this->$prop->name;
-			var_dump($item);
-		}
-
-		exit();
-
-		$item = ["id"=>$this->id];
-
-
-		return $item;
-	}
-	*/
-
 	public function init($app){
 		if (!empty($app)){
 			$this->app = $app;
