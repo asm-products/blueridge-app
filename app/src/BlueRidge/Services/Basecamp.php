@@ -48,7 +48,6 @@ class Basecamp
 	}
 
 	public function getToDos($user){
-		$this->$user = $user;
 		$endpoint = "todolists.json";
 		$accounts = $user['services']['basecamp']['user']['accounts'];
 		$this->access_token = $user['services']['basecamp']['auth']['access_token'];
@@ -76,12 +75,20 @@ class Basecamp
 			foreach ($listitem as $item) {
 				$todos = $this->fetch($item->url);
 				foreach($todos->todos->remaining as $todo){
+					$todo->project= $item->bucket->name;
+					$todo->list=$item->name;
+					$todo->siteUrl=$this->getSiteUrl($todo->url);
 					$todo_items[] = $todo;
 				}
 			}			
 		}
 
 		return $todo_items;
+	}
+	protected function getSiteUrl($url){
+		$points = ['/api/v1','.json'];
+		$siteUrl = str_replace($points,'',$url);
+		return $siteUrl;
 	}
 	protected function fetch($url){
 
