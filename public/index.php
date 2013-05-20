@@ -35,9 +35,13 @@ $app->get('/basecamp/',function() use ($app){
 		$authUser = $basecamp->getAuth($authToken);
 
 		$user= new User();
-		$user->init($this->app);
+		$user->init($app);
+
 		$currentUser=$user->create($authToken,$authUser);
-		$url = "/todos/{$currentUser->id}";
+		//var_dump($user);
+		//var_dump($currentUser);
+		//exit();
+		$url = "/todos/{$currentUser['id']}";
 		$app->redirect($url);		
 	}else{
 		//redirect with a fail 500 Error
