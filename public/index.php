@@ -8,7 +8,7 @@ require '../vendor/autoload.php';
 use \Slim\Slim;
 use \BlueRidge\Init;
 use \BlueRidge\Entities\User;
-use \BlueRidge\Entities\Todo;
+use \BlueRidge\Entities\ToDo;
 use \BlueRidge\Services\Basecamp;
 
 $app = new Slim();
@@ -55,7 +55,7 @@ $app->post('/login/',function() use ($app){
 });
 $app->get('/todos/:userid/',function($userid=null) use ($app){
 	if(!empty($userid)){
-		$todo = new Todo();
+		$todo = new ToDo();
 		$todo->init($app);
 		$todos=$todo->fetch($userid);
 	}
