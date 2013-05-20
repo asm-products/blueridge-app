@@ -11,11 +11,5 @@ Simple. We connect to your Basecamp account, grab all the To-Do items in all the
 
 Built on php 5.4 
 
-Requires 
-* Composer
-* Slim
-* Bootstrap (angular.js version and setup)
-* Basecamp intergration  
-
-* Basecamp API - https://github.com/37signals/bcx-api
-* Slim Docs - http://docs.slimframework.com/
+Basecamp API - https://github.com/37signals/bcx-api
+Slim Docs - http://docs.slimframework.com/
