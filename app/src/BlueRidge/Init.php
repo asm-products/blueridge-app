@@ -71,9 +71,15 @@ class Init extends Middleware
      * Setup Cache
      */
     protected function setCache(){
-        return;
+       // return;
         $memcache = new \Memcache;
-        return $memcache->connect('localhost', 11211);
+        $connection= $memcache->connect('localhost', 11211);
+
+        if(empty($connection)){
+            return;
+        }
+        
+        return $memcache;
 
     }
 

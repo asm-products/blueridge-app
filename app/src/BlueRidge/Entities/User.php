@@ -48,13 +48,21 @@ class User extends EntityAbstract
 		$users = new \MongoCollection($db,"Users");	
 
 		$doc=$users->findOne($params);
+		if(empty($doc)){
+			return;
+		}
 		$user = new User($doc);
 		return $user->toArray();
 	}
 	public function fetchOneById($id){
 		$db = $this->app->database;
 		$users = new \MongoCollection($db,"Users");	
+		
 		$doc=$users->findOne(array('_id' => new \MongoId($id)));
+		if(empty($doc)){
+			return;
+		}
+
 		$user = new User($doc);
 		return $user->toArray();
 	}
@@ -66,17 +74,23 @@ class User extends EntityAbstract
 		$authToken = json_decode($authToken);
 		$authUser = json_decode($authUser);
 
-		$doc = array(
-			"email"=>$authUser->identity->email_address,
-			"name"=>"{$authUser->identity->first_name} {$authUser->identity->last_name}",
-			"services"=>array(
-				"basecamp" =>array(
-					"auth"=>$authToken,
-					"user"=>$authUser
+		// check and see if the user already exists
+		$doc = $this->fetchOne(["email"=>$authUser->identity->email_address]);
+
+		if(empty($doc)){
+			$doc = array(
+				"email"=>$authUser->identity->email_address,
+				"name"=>"{$authUser->identity->first_name} {$authUser->identity->last_name}",
+				"services"=>array(
+					"basecamp" =>array(
+						"auth"=>$authToken,
+						"user"=>$authUser
+						)
 					)
-				)
-			);
-		$users->insert($doc);
+				);
+			$users->insert($doc);
+		}
+		
 		$user = new User($doc);
 		return $user->toArray();
 

@@ -5,8 +5,15 @@
 
 namespace BlueRidge\Services;
 
-class Basecamp 
+class Basecamp  
 {
+	private $app;
+	protected $service;
+
+	public function __construct($app,$service){
+		$this->app = $app;
+		$this->service = $service;
+	}
 
 	public function getAuthToken ($authCode){
 		$url = "https://launchpad.37signals.com/authorization/token";
@@ -47,44 +54,60 @@ class Basecamp
 		return $authorization;
 	}
 
-	public function getToDos($user){
-		$endpoint = "todolists.json";
-		$accounts = $user['services']['basecamp']['user']['accounts'];
-		$this->access_token = $user['services']['basecamp']['auth']['access_token'];
+	public function getToDos(){
 
+		$toDos = array();
+		
+		// cache expire
+		$date = new \DateTime($user['services']['basecamp']['user']['expires_at']);
+		$expire = $date->getTimestamp();
 
-		//fetch all accounts
-		$bcx_accounts = array(); 
-		foreach ($accounts as $account) {
-			if($account['product']=='bcx'){
-				$bcx_accounts[] = $account;
-			}			
+		// get all todolists
+		$toDoListItems = $this->getToDoListItems();
+
+		foreach($toDoListItems as $toDoListItem){
+			$toDoList = $this->app->cache->get("todo-list-{$toDoListItem->id}");
+			if(empty($toDoList)){
+				$toDoList = $this->fetch($toDoListItem->url);
+				$this->app->cache->add("todo-list-{$toDoList->id}",$toDoList,false,$expire);
+			}	
+
+			$toDo = $this->app->cache->get("todo-list-{$toDoListItem->id}");			
+			foreach ($toDoList->todos->remaining as $toDoItem){
+
+				$toDo = $this->app->cache->get("todo-{$toDoItem->id}");
+				if(empty($toDo)){
+					$toDoItem->project = $toDoListItem->bucket->name;
+					$toDoItem->list = $toDoListItem->name;
+					$toDoItem->siteUrl=$this->getSiteUrl($toDoItem->url);
+					$toDo = $toDoItem;
+					$this->app->cache->add("todo-{$toDo->id}",$toDo,false,$expire);	
+				}
+				$toDos[]=$toDo;
+			}
 		}
-		// fetch todolists
-		$lists=array();
-		foreach ($bcx_accounts as $user_account) {
-			$list= $this->fetch("{$user_account['href']}/{$endpoint}");
-			if(!empty($list)){
-				$lists[]=$list;
-			}		
+		return $toDos;
+	}
+
+	protected function getToDoListItems(){
+		$endpoint = "todolists.json";
+		$toDoLists=array();
+		foreach ($this->service['user']['accounts'] as $account) {
+
+			if($account['product']=='bcx'){
+				
+				$toDoLists = $this->app->cache->get("todo-lists-{$account['id']}");
+				if($toDoLists===false){
+					$toDoLists= $this->fetch("{$account['href']}/{$endpoint}");
+					if($toDoLists!==null){
+						$this->app->cache->add("todo-lists-{$account['id']}",$toDoLists,false,$expire);
+					}
+				}
+			}
 		} 
 
-		// fetch todos
-		$todo_items = array();
-		foreach ($lists as $listitem) {
-			foreach ($listitem as $item) {
-				$todos = $this->fetch($item->url);
-				foreach($todos->todos->remaining as $todo){
-					$todo->project= $item->bucket->name;
-					$todo->list=$item->name;
-					$todo->siteUrl=$this->getSiteUrl($todo->url);
-					$todo_items[] = $todo;
-				}
-			}			
-		}
-
-		return $todo_items;
-	}
+		return $toDoLists;
+	}	
 	protected function getSiteUrl($url){
 		$points = ['/api/v1','.json'];
 		$siteUrl = str_replace($points,'',$url);
@@ -97,7 +120,7 @@ class Basecamp
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_USERAGENT, "BlueRidgeApp (api@blueridgeapp.com)");
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-			"Authorization: Bearer {$this->access_token}"));
+			"Authorization: Bearer {$this->service['auth']['access_token']}"));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$data=curl_exec($ch);
 		curl_close($ch);

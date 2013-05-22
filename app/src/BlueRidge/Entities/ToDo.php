@@ -70,40 +70,49 @@ class ToDo extends EntityAbstract
 	 */
 	public function fetch($userid){
 
-		$todos = array();
+		
 		$user = new User();
 		
 		// fetch user by email
 		$user = $user->init($this->app)->fetchOneById($userid);
+		//$todos = $this->app->cache->get($userid);
+
+		//if(empty($todos)){
+		//	$date = new \DateTime($user['services']['basecamp']['user']['expires_at']);
+		//	$expire = $date->getTimestamp();
 
 		// fetch the todo from the service and store them in cache
-		$basecamp = new Basecamp($this->app);
-		$todo_items= $basecamp->getTodos($user);
+			$basecamp = new Basecamp($this->app,$user['services']['basecamp']);
+			$todo_items= $basecamp->getTodos();
 
-		
-		foreach($todo_items as $key => $item){
-			$initPos = 0;
-			$todo = new Todo($item);
-			if(!empty($item->assignee)){
-				$todo->owner = $item->assignee->name;
-			}	
-			$todo->url = $item->siteUrl;
-			if(!empty($item->due_on)){
-				$initPos = 1;
-				$dueOn= new \DateTime($item->due_on);
-				$todo->dueDate=$dueOn->format('m/d/Y');
-				$todo->overDueBy = (int) $this->getOverdueBy($dueOn);
-			}
+			$todos = array();
+			foreach($todo_items as $key => $item){
+				$initPos = 0;
+				$todo = new Todo($item);
+				if(!empty($item->assignee)){
+					$todo->owner = $item->assignee->name;
+				}	
+				$todo->url = $item->siteUrl;
+				if(!empty($item->due_on)){
+					$initPos = 1;
+					$dueOn= new \DateTime($item->due_on);
+					$todo->dueDate=$dueOn->format('m/d/Y');
+					$todo->overDueBy = (int) $this->getOverdueBy($dueOn);
+				}
 
 			// sort order
-			$due_date[$key] = $todo->dueDate;
-			$position[$key] = $initPos;
-			$overdueBy[$key] = $todo->overDueBy;
+				$due_date[$key] = $todo->dueDate;
+				$position[$key] = $initPos;
+				$overdueBy[$key] = $todo->overDueBy;
 
-			$todos[]=$todo;
-		}
+				$todos[]=$todo;
+			}
 
-		array_multisort($overdueBy,SORT_DESC,$position,SORT_DESC,$due_date,SORT_ASC,$todos);
+			array_multisort($overdueBy,SORT_DESC,$position,SORT_DESC,$due_date,SORT_ASC,$todos);
+
+		//	$this->app->cache->add($userid,$todos,false,$expire);
+		//}
+
 		return $todos;	
 	}
 
