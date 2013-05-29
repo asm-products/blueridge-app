@@ -9,10 +9,14 @@ class Basecamp
 {
 	private $app;
 	protected $service;
+	protected $expire;
 
 	public function __construct($app,$service){
 		$this->app = $app;
 		$this->service = $service;
+		// set cache expire
+		$date = new \DateTime($service['user']['expires_at']);
+		$this->expire = $date->getTimestamp();
 	}
 
 	public function getAuthToken ($authCode){
@@ -57,10 +61,7 @@ class Basecamp
 	public function getToDos(){
 
 		$toDos = array();
-		
-		// cache expire
-		$date = new \DateTime($user['services']['basecamp']['user']['expires_at']);
-		$expire = $date->getTimestamp();
+
 
 		// get all todolists
 		$toDoListItems = $this->getToDoListItems();
@@ -69,10 +70,9 @@ class Basecamp
 			$toDoList = $this->app->cache->get("todo-list-{$toDoListItem->id}");
 			if(empty($toDoList)){
 				$toDoList = $this->fetch($toDoListItem->url);
-				$this->app->cache->add("todo-list-{$toDoList->id}",$toDoList,false,$expire);
+				$this->app->cache->add("todo-list-{$toDoList->id}",$toDoList,false,$this->expire);
 			}	
-
-			$toDo = $this->app->cache->get("todo-list-{$toDoListItem->id}");			
+			
 			foreach ($toDoList->todos->remaining as $toDoItem){
 
 				$toDo = $this->app->cache->get("todo-{$toDoItem->id}");
@@ -81,7 +81,7 @@ class Basecamp
 					$toDoItem->list = $toDoListItem->name;
 					$toDoItem->siteUrl=$this->getSiteUrl($toDoItem->url);
 					$toDo = $toDoItem;
-					$this->app->cache->add("todo-{$toDo->id}",$toDo,false,$expire);	
+					$this->app->cache->add("todo-{$toDo->id}",$toDo,false,$this->expire);	
 				}
 				$toDos[]=$toDo;
 			}
@@ -100,19 +100,21 @@ class Basecamp
 				if($toDoLists===false){
 					$toDoLists= $this->fetch("{$account['href']}/{$endpoint}");
 					if($toDoLists!==null){
-						$this->app->cache->add("todo-lists-{$account['id']}",$toDoLists,false,$expire);
+						$this->app->cache->add("todo-lists-{$account['id']}",$toDoLists,false,$this->expire);
 					}
 				}
 			}
 		} 
 
 		return $toDoLists;
-	}	
+	}
+
 	protected function getSiteUrl($url){
 		$points = ['/api/v1','.json'];
 		$siteUrl = str_replace($points,'',$url);
 		return $siteUrl;
 	}
+	
 	protected function fetch($url){
 
 		$ch = curl_init();

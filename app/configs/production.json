@@ -7,6 +7,9 @@
   "service": {
     "basecamp": {
       "userAgent": "BlueRidgeApp (api@blueridgeapp.com)"
+    },
+    "blueridgeapp": {
+      "url": "http://dev-api.blueridgeapp.com"
     }
   },
   "cache": {
@@ -15,5 +18,5 @@
   },
   "debug": false,
   "log_enabled": false,
-  "templates_path":"../app/views"
+  "templates_path": "../app/views"
 }

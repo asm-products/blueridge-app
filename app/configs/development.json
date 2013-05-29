@@ -7,6 +7,9 @@
   "service": {
     "basecamp": {
       "userAgent": "BlueRidgeApp (api@blueridgeapp.com)"
+    },
+    "blueridgeapp":{
+      "url":"http://dev-api.blueridgeapp.com"
     }
   },
   "cache": {

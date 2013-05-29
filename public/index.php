@@ -38,9 +38,6 @@ $app->get('/basecamp/',function() use ($app){
 		$user->init($app);
 
 		$currentUser=$user->create($authToken,$authUser);
-		//var_dump($user);
-		//var_dump($currentUser);
-		//exit();
 		$url = "/todos/{$currentUser['id']}";
 		$app->redirect($url);		
 	}else{
