@@ -9,15 +9,8 @@
 	<link rel="stylesheet" href="/css/bootstrap-responsive.min.css"/>
 </head>
 <body>
-	<div id="wrap">
-		<div class="container-narrow">
-			<div class="masthead">
-				<h3 class="muted"><a href="/">BlueRidge</a></h3>
-			</div>
-			<hr>
-			<div ng-view></div>
-		</div>
-		<div id="push"></div>
+	<div id="wrap">	
+		<div ng-view></div>
 	</div>
 	<div id="footer">
 		<div class="container">
