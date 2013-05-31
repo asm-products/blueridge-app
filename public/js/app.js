@@ -1,13 +1,18 @@
 'use strict';
 angular.module('blueRidge', ['blueRidge.services']).
-config(['$routeProvider','$locationProvider', function($routeProvider,$locationProvider) {
+config(['$routeProvider',function($routeProvider) {
 	$routeProvider.when('/', {
-		//templateUrl: 'views/home.html', 
-		controller: 'ToDoCtrl'
-	});	
+		templateUrl: 'views/home.html', 
+		controller: 'HomeCtrl'
+	});
+		
 	$routeProvider.when('/todos', {
 		templateUrl: 'views/todos.html', 
 		controller: 'ToDoCtrl'
+	});
+	$routeProvider.when('/login', {
+		templateUrl: 'views/login.html', 
+		controller: 'LoginCtrl'
 	});
 	$routeProvider.when('/people', {
 		templateUrl: 'views/people.html', 
@@ -16,5 +21,4 @@ config(['$routeProvider','$locationProvider', function($routeProvider,$locationP
 	$routeProvider.otherwise({
 		redirectTo: '/'
 	});
-	$locationProvider.html5Mode(true);
 }]);

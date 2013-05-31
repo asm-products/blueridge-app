@@ -15,7 +15,7 @@ $app = new Slim();
 $app->add(new Init());
 
 $app->get('/',function() use ($app){
-	$app->render('home.php');
+	$app->render('app.php');
 });
 
 $app->get('/auth/',function() use ($app){
@@ -38,7 +38,7 @@ $app->get('/basecamp/',function() use ($app){
 		$user->init($app);
 
 		$currentUser=$user->create($authToken,$authUser);
-		$url = "/todos/{$currentUser['id']}";
+		$url = "/#/todos/{$currentUser['id']}";
 		$app->redirect($url);		
 	}else{
 		//redirect with a fail 500 Error
