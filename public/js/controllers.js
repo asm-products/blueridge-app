@@ -1,11 +1,11 @@
 'use strict';
 /* Controllers */
-function HomeCtrl($scope, Project) {
+/*function LoginCtrl($scope, User) {
 	//$scope.members = Project.findUser();
 	//console.log($scope);
-}
-function ToDosController($scope, ToDos){
-	$scope.todos = ToDos.query();
+}*/
+function ToDosController($scope,$routeParams,ToDos){
+	$scope.todos = ToDos.query({user_id:$routeParams.userId});
 	console.log($scope.todos);
 }
 
@@ -16,8 +16,4 @@ function PeopleCtrl($scope, Project) {
 function UsersCtrl($scope, Users) {
 	//$scope.members = Project.findUser();
 	//console.log($scope.members);
-}
-function LoginCtrl($scope, Project) {
-	//$scope.members = Project.findUser();
-	//console.log($scope);
 }
