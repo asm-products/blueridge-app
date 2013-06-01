@@ -38,7 +38,7 @@ $app->get('/basecamp/',function() use ($app){
 		$user->init($app);
 
 		$currentUser=$user->create($authToken,$authUser);
-		$url = "/app/#/todos/{$currentUser['id']}";
+		$url = "/#/todos/{$currentUser['id']}";
 		$app->redirect($url);		
 	}else{
 		//redirect with a fail 500 Error
@@ -46,26 +46,4 @@ $app->get('/basecamp/',function() use ($app){
 	}
 
 });
-
-/*
-$app->get('/login/',function() use ($app){
-	$app->render('login.php');
-});
-$app->post('/login/',function() use ($app){
-	//login user
-	//$app->render('login.php');
-});
-$app->get('/todos/:userid/',function($userid=null) use ($app){
-	if(!empty($userid)){
-		$todo = new ToDo();
-		$todo->init($app);
-		$todos=$todo->fetch($userid);
-	}
-	$app->render('todos.php',array("todos"=>$todos));
-});
-$app->get('/people/',function() use ($app){
-	$app->render('people.php');
-});
-*/
-
 $app->run();
