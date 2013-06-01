@@ -2,9 +2,9 @@
 
 /* Services */
 angular.module('blueRidge.services', ['ngResource']).
-factory('Project', function($resource) {
-
-//$scope.Users = $resource("http://localhost/users/:id",{id:'@id'});
-  var Project = $resource('http://dev-api.blueridgeapp.com/todos/:id/',{id: '@id' });
-  return Project;
+factory('ToDos', function($resource) {
+	//var url = 'http://dev-api.blueridgeapp.com/todos/?user_id=5197a7887f95f2c5a6000000';
+	return $resource('/data/todos.json', {}, {
+		query: {method:'GET', isArray:true}
+	});
 });
