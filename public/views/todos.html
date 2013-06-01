@@ -7,16 +7,22 @@
     <li class="active"><a href="#/todos">To-Dos</a></li>
     <li><a href="#/people">People</a></li>
   </ul> 
-  <table>
-    <thead>
+  <table class="table table-hover">
+    <thead>     
       <tr>
-        <th>Todos</th>
-      </tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Owner</th>
+        <th>Project / List</th>
+      <tr>    
     </thead>
     <tbody>
       <tr ng-repeat="todo in todos">
-        <td>{{todo.item}}</td>
-      </tr>
+        <td>{{todo.dueDate}}</td>
+        <td><a href="{{todo.url}}">{{todo.content}}</a></td>
+        <td>{{todo.owner}}</td>
+        <td>{{todo.project}} / {{todo.list}}</td>
+        </tr>
     </tbody>
   </table>
 </div>
