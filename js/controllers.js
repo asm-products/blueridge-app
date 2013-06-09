@@ -6,14 +6,12 @@ function HomeCtrl($scope,$location,Auth){
 		$location.path('/dash');
 	}
 }
-function DashCtrl($scope,$location,Auth,User){
-	
+function DashCtrl($scope,$location,Auth,User){	
 
 	if (!Auth.isLoggedIn()) {
 		$location.path('/');
 	}
 	$scope.user = User.get();
-	
 }
 function SignInCtrl($scope,$location,Auth,User){
 	

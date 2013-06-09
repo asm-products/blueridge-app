@@ -3,16 +3,15 @@ angular.module('blueRidge.services', ['ngResource','ngCookies'])
 .factory('ToDos', function($resource,$cookieStore) {
 	var userId = $cookieStore.get('blueridge');
 	var url = 'http://api.blueridgeapp.com/todos';
-	//var url ='/data/todos.json';
 	var ToDos = $resource(url,{user_id:userId},{
 		query : {method:'GET', isArray:true}
 	});
 	return ToDos;
 })
-.factory('User', function($resource) {
+.factory('User', function($resource,$cookieStore) {
 	var userId = $cookieStore.get('blueridge');
-	//var url = 'http://dev-api.blueridgeapp.com/users/:id';
-	var url='/data/user.json';
+	var url = 'http://api.blueridgeapp.com/users/'+userId;
+	//var url='/data/user.json';
 	return $resource(url);
 })
 .factory('Auth',function($resource,$cookieStore){
