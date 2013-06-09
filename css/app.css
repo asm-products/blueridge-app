@@ -49,6 +49,9 @@ body {
 .container-narrow > hr {
   margin: 30px 0;
 }
+.masthead{
+  margin-top:-1em;
+}
 
 .marketing {
   margin: 60px 0;
@@ -80,3 +83,8 @@ body {
   margin-bottom: 15px;
   padding: 7px 9px;
 }
+body { padding-top: 6em; }
+@media screen and (max-width: 767px) {
+    body { padding-top: 0px; }
+}
+.navbar .container { height: 4em; margin-top:1em;  }

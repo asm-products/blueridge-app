@@ -7,8 +7,29 @@
 		<h1>Basecamp To-Dos Made Easy.</h1>
 		<p class="lead">Tired of getting lost in a sea of To-Do items, To-Do lists, and Projects?<br>We are too. So we built this and <em>got our lives back</em>.</p>
 		<p><b>Try it now for free.</b></p>
-		<p><a class="btn btn-large btn-success" href="/auth/">Connect to Basecamp</a></p>
-		<p>Already have an account? <a href="#/login">Sign in Here</a></p>
+		<p><a class="btn btn-large btn-success" href="/auth">Connect to Basecamp</a></p>
+		
+		<div ng-controller="SignInCtrl">
+			<p>Already have an account? <a href="#"ng-click="open()">Sign in Here</a></p>
+			<form modal="shouldBeOpen" close="close()" options="opts">
+				<div class="modal-header">
+					<h2 class="form-signin-heading">Please sign in</h2>
+				</div>
+				<div class="modal-body">
+					<label for="userEmail">Email Address</label>
+					<input id="userEmail" type="email" class="email" required placeholder="Email address" ng-model="user.email">
+					<label for="userPassword">Password</label>
+					<input id="userPassword" type="password"  required placeholder="Password" ng-model="user.passwd">
+					<!--<label class="checkbox">
+						<input type="checkbox" value="remember-me" ng-model="auth.remember"> Remember me
+					</label>-->
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" type="submit" ng-click="login(user)">Sign in</button>
+					<button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+				</div>
+			</form>
+		</div>
 	</div>
 	<hr>
 	<div class="row-fluid marketing">
