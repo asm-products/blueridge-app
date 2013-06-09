@@ -1,11 +1,21 @@
 'use strict';
 /* Controllers */
 
-
-function DashCtrl($rootScope,$scope,Auth,ToDos,User){
+function HomeCtrl($scope,$location,Auth){
+	if (Auth.isLoggedIn()) {
+		$location.path('/dash');
+	}
 }
+function DashCtrl($scope,$location,Auth,User){
+	
 
-function SignInCtrl($scope,Auth,User){
+	if (!Auth.isLoggedIn()) {
+		$location.path('/');
+	}
+	$scope.user = User.get();
+	
+}
+function SignInCtrl($scope,$location,Auth,User){
 	
 	$scope.open = function () {
 		$scope.shouldBeOpen = true;
@@ -19,47 +29,33 @@ function SignInCtrl($scope,Auth,User){
 		backdropFade: true,
 		dialogFade:true
 	};
-
-	//
-	$scope.user={};
-	$scope.login = function(user) {
-		$scope.user= angular.copy(user);
-		console.log(user);
-		Auth.login({
-			username: $scope.username,
-			password: $scope.password,
-			rememberme: $scope.rememberme
-		},
-		function(res) {
-			$location.path('/');
-		},
-		function(err) {
-			$rootScope.error = "Failed to login";
-		});
-		
+	$scope.signin = function(user) {
+		$scope.signedIn=Auth.authorize(user);
+		if($scope.signedIn){
+			$location.path('/dash');
+		}
 	}; 
-
 }
-function ToDoCtrl($rootScope,$scope,Auth,ToDos,User){
-	/*
-	$scope.todos = ToDos.query({user_id:$routeParams.userId});
-	$scope.user = User.get({id:$routeParams.userId});
-	console.log($scope.user);
-	*/
+function ToDoCtrl($scope,Auth,ToDos,User){	
+	if (!Auth.isLoggedIn()) {
+		$location.path('/');
+	}
+	$scope.todos = ToDos.query();
+	$scope.user = User.get();
 }
 
-function MeCtrl($rootScope,$scope,Auth,User){
+function MeCtrl($scope,Auth,User){
+	if (!Auth.isLoggedIn()) {
+		$location.path('/');
+	}
 	$scope.user = User.get();
 }
 
 
-function PeopleCtrl($rootScope,$scope,Auth,User) {
-	//$scope.members = Project.findMembers();
-	//console.log($scope.members);
+function PeopleCtrl($scope,Auth,User) {
+	if (!Auth.isLoggedIn()) {
+		$location.path('/');
+	}
+	$scope.user = User.get();
+
 }
-/*
-function UsersCtrl($scope, Users) {
-	//$scope.members = Project.findUser();
-	//console.log($scope.members);
-}
-*/
