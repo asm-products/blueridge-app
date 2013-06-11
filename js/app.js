@@ -1,31 +1,37 @@
 'use strict';
-angular.module('blueRidge', ['blueRidge.services','ui.bootstrap'])
+var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','ui.bootstrap'])
 .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-	$routeProvider.when('/', {
+	$routeProvider.
+	when('/', {
 		templateUrl: 'views/home.html',
-		controller: 'HomeCtrl',		
-	});
-	$routeProvider.when('/dash', {
+		//controller: 'HomeCtrl',		
+	})
+	.when('/dash', {
 		templateUrl: 'views/dash.html', 
 		controller: 'DashCtrl'
-	});
-
-	$routeProvider.when('/todos', {
+	})
+	.when('/todos', {
 		templateUrl: 'views/todos.html', 
 		controller: 'ToDoCtrl'
-	});
-	$routeProvider.when('/me', {
+	})
+	.when('/me', {
 		templateUrl: 'views/me.html', 
 		controller: 'MeCtrl'
-	});
-
-	$routeProvider.when('/people', {
+	})
+	.when('/people', {
 		templateUrl: 'views/people.html', 
 		controller: 'PeopleCtrl'
-	});
-	$routeProvider.otherwise({
+	})
+	.when('/basecamp', {
+		templateUrl: 'views/home.html', 
+		controller: 'BasecampCtrl'
+	})
+	.when('/connect', {
+		templateUrl: 'views/home.html', 
+		controller: 'ConnectCtrl'
+	})
+	.otherwise({
 		redirectTo: '/'
 	});
 	$locationProvider.html5Mode(true);
-	
 }]).run();

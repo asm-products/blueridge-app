@@ -1,5 +1,5 @@
 'use strict';
-angular.module('blueRidge.services', ['ngResource','ngCookies'])
+angular.module('blueRidgeApp.services', ['ngResource','ngCookies'])
 .factory('ToDos', function($resource,$cookieStore) {
 	var userId = $cookieStore.get('blueridge');
 	var url = 'http://api.blueridgeapp.com/todos';
@@ -10,7 +10,7 @@ angular.module('blueRidge.services', ['ngResource','ngCookies'])
 })
 .factory('User', function($resource,$cookieStore) {
 	var userId = $cookieStore.get('blueridge');
-	var url = 'http://api.blueridgeapp.com/users/'+userId;
+	var url = 'http://dev-api.blueridgeapp.com/users/'+userId;
 	//var url='/data/user.json';
 	return $resource(url);
 })
@@ -18,7 +18,20 @@ angular.module('blueRidge.services', ['ngResource','ngCookies'])
 	return {		
 		authorize:function(user){
 			//get the user and set a hashed key
-			$cookieStore.put('blueridge', '51af77e891b097bc17000000');
+			$cookieStore.put('blueridge', '51b50ee791b097df41000000');
+			return true;
+		},
+		isLoggedIn:function(){
+			// calculate the hashes
+			return $cookieStore.get('blueridge');
+		}
+	}
+})
+.factory('BaseAuth',function($resource,$cookieStore){
+	return {		
+		authorize:function(user){
+			//get the user and set a hashed key
+			$cookieStore.put('blueridge', '51b50ee791b097df41000000');
 			return true;
 		},
 		isLoggedIn:function(){
