@@ -4,7 +4,7 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 	$routeProvider.
 	when('/', {
 		templateUrl: 'views/home.html',
-		//controller: 'HomeCtrl',		
+		controller: 'HomeCtrl',		
 	})
 	.when('/dash', {
 		templateUrl: 'views/dash.html', 

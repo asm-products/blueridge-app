@@ -15,6 +15,18 @@ angular.module('blueRidgeApp.services', ['ngResource','ngCookies'])
 	return $resource(url);
 })
 .factory('Auth',function($resource,$cookieStore){
+
+	var authorize = function (user){
+		console.log('authorize user');
+	}
+
+	var getCode = function(){
+		apiurl = "http://dev-api.blueridgeapp.com/service/basecamp";
+	}
+	return {
+		authorize:authorize
+	}
+	/*
 	return {		
 		authorize:function(user){
 			//get the user and set a hashed key
@@ -26,17 +38,14 @@ angular.module('blueRidgeApp.services', ['ngResource','ngCookies'])
 			return $cookieStore.get('blueridge');
 		}
 	}
+	*/
 })
-.factory('BaseAuth',function($resource,$cookieStore){
-	return {		
-		authorize:function(user){
-			//get the user and set a hashed key
-			$cookieStore.put('blueridge', '51b50ee791b097df41000000');
-			return true;
-		},
-		isLoggedIn:function(){
-			// calculate the hashes
-			return $cookieStore.get('blueridge');
-		}
-	}
+.factory('Basecamp',function($resource,$cookieStore){
+
+	var Basecamp= $resource('/services.php',{},{
+		connect: {method:'GET'},
+		authorize:{method:'POST'}
+	});
+
+	return Basecamp;
 });

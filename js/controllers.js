@@ -1,9 +1,9 @@
 'use strict';
 angular.module('blueRidgeApp.controllers', [])
 .controller('HomeCtrl',function($scope,$location,Auth){
-	if (Auth.isLoggedIn()) {
+	/*if (Auth.isLoggedIn()) {
 		$location.path('/dash');
-	}
+	}*/
 })
 .controller('DashCtrl',function($scope,$location,Auth,User){	
 	if (!Auth.isLoggedIn()) {
@@ -52,15 +52,19 @@ angular.module('blueRidgeApp.controllers', [])
 	$scope.user = User.get();
 
 })
-.controller('ConnectCtrl',function($scope) {	
-	var url = "https://launchpad.37signals.com/authorization/new?client_id=cbc3f4cff1def7da310df4d74c7baaffa106772a&redirect_uri=http%3A%2F%2Fdev-www.blueridgeapp.com%2Fbasecamp&type=web_server"
-	window.location=url;
-
+.controller('ConnectCtrl',function($scope,Basecamp) {
+	var basecamp =  Basecamp.connect(function() {
+		window.location=basecamp.authUrl;
+	});
 })
-.controller('BasecampCtrl',function($scope,$location,Auth) {
+.controller('BasecampCtrl',function($scope,$location,Basecamp) {
+	var verificationCode = $location.search().code;
+	var basecamp = new Basecamp({code:verificationCode});
+	var authCode = basecamp.$authorize();
 
-	var params = $location.search();
-	console.log(params.code);
+	//console.log(basecamp.$save());
+
+	
 	//$location.path('/');
 	//-window.close();
 });
