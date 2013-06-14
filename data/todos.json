@@ -4,199 +4,89 @@
     "dueDate": "05/12/2013",
     "content": "Mockup the Me overview",
     "owner": "Sean Gerety",
-    "project": "Project Blue Ridge",
     "list": "Design Comps",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/42690988-mockup-the-me",
-    "overDueBy": 28
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/42690988-mockup-the-me",
+    "overDueBy": 33
   },
   {
     "id": 43873941,
     "dueDate": "05/18/2013",
     "content": "Ship alpha version",
     "owner": "Moses Ngone",
-    "project": "Project Blue Ridge",
     "list": "Application Stuff",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/43873941-ship-alpha-version",
-    "overDueBy": 22
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/43873941-ship-alpha-version",
+    "overDueBy": 27
   },
   {
     "id": 43887010,
     "dueDate": "05/21/2013",
     "content": "Paginate items",
     "owner": "Moses Ngone",
-    "project": "Project Blue Ridge",
     "list": "Application Stuff",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/43887010-paginate-items",
-    "overDueBy": 19
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/43887010-paginate-items",
+    "overDueBy": 24
   },
   {
     "id": 43900074,
     "dueDate": "05/24/2013",
     "content": "Do the people",
     "owner": "Moses Ngone",
-    "project": "Project Blue Ridge",
     "list": "Application Stuff",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/43900074-do-the-people",
-    "overDueBy": 16
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/43900074-do-the-people",
+    "overDueBy": 21
   },
   {
     "id": 43900149,
     "dueDate": "05/24/2013",
     "content": "Add the auto send mail on signup",
     "owner": "Moses Ngone",
-    "project": "Project Blue Ridge",
     "list": "Application Stuff",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/43900149-add-the-auto-send",
-    "overDueBy": 16
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/43900149-add-the-auto-send",
+    "overDueBy": 21
   },
   {
     "id": 43874048,
     "dueDate": "05/31/2013",
     "content": "Implement that user login stuff",
     "owner": "Moses Ngone",
-    "project": "Project Blue Ridge",
     "list": "Application Stuff",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/43874048-implement-that-user",
-    "overDueBy": 9
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/43874048-implement-that-user",
+    "overDueBy": 14
   },
   {
     "id": 43874706,
     "dueDate": "05/31/2013",
     "content": "Implement session management and refresh basecamp auth tokens",
     "owner": "Moses Ngone",
-    "project": "Project Blue Ridge",
     "list": "Application Stuff",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/43874706-implement-session",
-    "overDueBy": 9
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/43874706-implement-session",
+    "overDueBy": 14
   },
   {
     "id": 45633959,
     "dueDate": "06/07/2013",
     "content": "Obey E-tags",
     "owner": "Moses Ngone",
-    "project": "Project Blue Ridge",
     "list": "Application Stuff",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/45633959-obey-e-tags",
-    "overDueBy": 2
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/45633959-obey-e-tags",
+    "overDueBy": 7
   },
   {
     "id": 45633978,
     "dueDate": "06/07/2013",
     "content": "Add refresh functionality",
     "owner": "Moses Ngone",
-    "project": "Project Blue Ridge",
     "list": "Application Stuff",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/45633978-add-refresh",
-    "overDueBy": 2
-  },
-  {
-    "id": 17875130,
-    "dueDate": null,
-    "content": "Requirements: Solicit community for features they'd like to see on the site.",
-    "owner": "J Cornelius",
-    "project": "awdg.org",
-    "list": "AWDG.org relaunch",
-    "url": "https://basecamp.com/2011887/projects/1234160-awdg-org/todos/17875130-requirements",
-    "overDueBy": 0
-  },
-  {
-    "id": 17875473,
-    "dueDate": null,
-    "content": "Requirements: Setup wufoo/coffeecup form to gather features.",
-    "owner": "J Cornelius",
-    "project": "awdg.org",
-    "list": "AWDG.org relaunch",
-    "url": "https://basecamp.com/2011887/projects/1234160-awdg-org/todos/17875473-requirements-setup",
-    "overDueBy": 0
-  },
-  {
-    "id": 20050614,
-    "dueDate": null,
-    "content": "Refactor: Add documentation to existing code.",
-    "owner": "Moses Ngone",
-    "project": "awdg.org",
-    "list": "Development tasks ",
-    "url": "https://basecamp.com/2011887/projects/1234160-awdg-org/todos/20050614-refactor-add",
-    "overDueBy": 0
-  },
-  {
-    "id": 20050696,
-    "dueDate": null,
-    "content": "Connections: Add ability for user to connect their github account to profile.",
-    "owner": "Moses Ngone",
-    "project": "awdg.org",
-    "list": "Development tasks ",
-    "url": "https://basecamp.com/2011887/projects/1234160-awdg-org/todos/20050696-connections-add",
-    "overDueBy": 0
-  },
-  {
-    "id": 20050769,
-    "dueDate": null,
-    "content": "Connections: Add ability for user to connect their dribbble account to profile.",
-    "owner": "Moses Ngone",
-    "project": "awdg.org",
-    "list": "Development tasks ",
-    "url": "https://basecamp.com/2011887/projects/1234160-awdg-org/todos/20050769-connections-add",
-    "overDueBy": 0
-  },
-  {
-    "id": 20050821,
-    "dueDate": null,
-    "content": "Refactor: Add unit tests to existing code.",
-    "owner": "Moses Ngone",
-    "project": "awdg.org",
-    "list": "Development tasks ",
-    "url": "https://basecamp.com/2011887/projects/1234160-awdg-org/todos/20050821-refactor-add-unit",
-    "overDueBy": 0
-  },
-  {
-    "id": 20050855,
-    "dueDate": null,
-    "content": "Auth: Add ability to login with twitter. ",
-    "owner": null,
-    "project": "awdg.org",
-    "list": "Development tasks ",
-    "url": "https://basecamp.com/2011887/projects/1234160-awdg-org/todos/20050855-auth-add-ability-to",
-    "overDueBy": 0
-  },
-  {
-    "id": 20050883,
-    "dueDate": null,
-    "content": "Auth: Add ability to login with facebook.",
-    "owner": null,
-    "project": "awdg.org",
-    "list": "Development tasks ",
-    "url": "https://basecamp.com/2011887/projects/1234160-awdg-org/todos/20050883-auth-add-ability-to",
-    "overDueBy": 0
-  },
-  {
-    "id": 20051106,
-    "dueDate": null,
-    "content": "Payment: Add ability to process payments with Stripe.",
-    "owner": null,
-    "project": "awdg.org",
-    "list": "Development tasks ",
-    "url": "https://basecamp.com/2011887/projects/1234160-awdg-org/todos/20051106-payment-add-ability",
-    "overDueBy": 0
-  },
-  {
-    "id": 22640098,
-    "dueDate": null,
-    "content": "Remove existing WebAfternoon models ",
-    "owner": null,
-    "project": "awdg.org",
-    "list": "Development tasks ",
-    "url": "https://basecamp.com/2011887/projects/1234160-awdg-org/todos/22640098-remove-existing",
-    "overDueBy": 0
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/45633978-add-refresh",
+    "overDueBy": 7
   },
   {
     "id": 42690942,
     "dueDate": null,
     "content": "Design overall aesthetic and branding",
     "owner": "Jason Ottinger",
-    "project": "Project Blue Ridge",
     "list": "Design Comps",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/42690942-design-overall",
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/42690942-design-overall",
     "overDueBy": 0
   },
   {
@@ -204,9 +94,8 @@
     "dueDate": null,
     "content": "Integrate payments with Stripe",
     "owner": "Moses Ngone",
-    "project": "Project Blue Ridge",
     "list": "Application Stuff",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/42692751-integrate-payments",
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/42692751-integrate-payments",
     "overDueBy": 0
   },
   {
@@ -214,9 +103,8 @@
     "dueDate": null,
     "content": "Adding todos from other todo services",
     "owner": null,
-    "project": "Project Blue Ridge",
     "list": "Ideas",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/43294779-adding-todos-from",
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/43294779-adding-todos-from",
     "overDueBy": 0
   },
   {
@@ -224,9 +112,8 @@
     "dueDate": null,
     "content": "Agile todos by creating a doing status",
     "owner": null,
-    "project": "Project Blue Ridge",
     "list": "Ideas",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/43294872-agile-todos-by",
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/43294872-agile-todos-by",
     "overDueBy": 0
   },
   {
@@ -234,9 +121,35 @@
     "dueDate": null,
     "content": "Implement Proxima Nova",
     "owner": "J Cornelius",
-    "project": "Project Blue Ridge",
     "list": "Design Comps",
-    "url": "https://basecamp.com/2011887/projects/2665504-project-blue-ridge/todos/43887261-implement-proxima",
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/43887261-implement-proxima",
+    "overDueBy": 0
+  },
+  {
+    "id": 46516252,
+    "dueDate": null,
+    "content": "Mock data objects",
+    "owner": "Moses Ngone",
+    "list": "Application Stuff",
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/46516252-mock-data-objects",
+    "overDueBy": 0
+  },
+  {
+    "id": 46516400,
+    "dueDate": null,
+    "content": "Change basecamp oauth request from php to angular",
+    "owner": "Moses Ngone",
+    "list": "Application Stuff",
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/46516400-change-basecamp",
+    "overDueBy": 0
+  },
+  {
+    "id": 46516473,
+    "dueDate": null,
+    "content": "Compile for client side (obsfucate)",
+    "owner": "Moses Ngone",
+    "list": "Application Stuff",
+    "url": "https://basecamp.com/2011887/projects/2665504-blue-ridge-app/todos/46516473-compile-for-client",
     "overDueBy": 0
   }
 ]

@@ -1,14 +1,14 @@
 'use strict';
-var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','ui.bootstrap'])
+var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','ui.bootstrap','restangular'])
 .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 	$routeProvider.
 	when('/', {
 		templateUrl: 'views/home.html',
 		controller: 'HomeCtrl',		
 	})
-	.when('/dash', {
-		templateUrl: 'views/dash.html', 
-		controller: 'DashCtrl'
+	.when('/settings', {
+		templateUrl: 'views/settings.html', 
+		controller: 'SettingsCtrl'
 	})
 	.when('/todos', {
 		templateUrl: 'views/todos.html', 

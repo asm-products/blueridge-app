@@ -1,11 +1,11 @@
 'use strict';
 angular.module('blueRidgeApp.controllers', [])
 .controller('HomeCtrl',function($scope,$location,Auth){
-	/*if (Auth.isLoggedIn()) {
-		$location.path('/dash');
-	}*/
+	if (Auth.isLoggedIn()) {
+		$location.path('/me');
+	}
 })
-.controller('DashCtrl',function($scope,$location,Auth,User){	
+.controller('SettingsCtrl',function($scope,$location,Auth,User,Basecamp){	
 	if (!Auth.isLoggedIn()) {
 		$location.path('/');
 	}
@@ -57,12 +57,21 @@ angular.module('blueRidgeApp.controllers', [])
 		window.location=basecamp.authUrl;
 	});
 })
-.controller('BasecampCtrl',function($scope,$location,Basecamp) {
-	var verificationCode = $location.search().code;
-	var basecamp = new Basecamp({code:verificationCode});
-	var authCode = basecamp.$authorize();
+.controller('BasecampCtrl',function($scope,$location,Auth,Basecamp) {
+	var code = $location.search().code;
+	Auth.authorize();
+	$location.path('/');
 
-	//console.log(basecamp.$save());
+	//window.location='http://dev-api.blueridgeapp.com/auth-test.php?code='+code;
+
+	/*$scope.authCode = function(){
+		Basecamp.authorize({code:verificationCode});
+	}*/
+
+	//var basecamp = new Basecamp({code:verificationCode});
+	//var authCode = basecamp.$authorize();
+
+	//console.log($scope.authCode);
 
 	
 	//$location.path('/');

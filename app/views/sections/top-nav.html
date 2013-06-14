@@ -13,9 +13,8 @@
 					<li><a href="/people">People</a></li>
 				</ul>
 				<ul class="dropdown nav pull-right" ng-class='{open: open}'>
-					<li><a class="dropdown-toggle" data-toggle="dropdown" ng-click='open=!open'>{{user.name}} <span class="caret"></span></a></li>
+					<li><a class="dropdown-toggle" data-toggle="dropdown" ng-click='open=!open'><i class="icon-user"></i> {{user.name}} <span class="caret"></span></a></li>
 					<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
-						<li><a tabindex="-1" href="/me">Profile</a></li>
 						<li><a tabindex="-1" href="/settings">Settings</a></li>	
 					</ul>
 				</ul>
