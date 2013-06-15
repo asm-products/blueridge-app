@@ -23,21 +23,6 @@ $app->get('/api',function() use ($app){
 	echo 'api hello';
 });
 
-
-$app->post('/api/users',function() use ($app){
-	$authToken = $app->request()->post('authToken');
-	$auth = $app->request()->post('authorization');
-	$user = new User();
-	$user->init($app);
-	$service = $app->request()->post('service');
-	$user=$user->create($authToken,$auth)->toArray();
-
-	// Add the user todos and people to jobs
-	
-	$resource = json_encode($user);
-	echo $resource;
-});
-
 $app->get('/api/providers/:name', function ($name) use ($app) {
 	
 	if(isset($app->services->$name)){
@@ -51,7 +36,7 @@ $app->get('/api/providers/:name', function ($name) use ($app) {
 	echo json_encode($collection);
 });
 
-$app->post('/api/providers/:name', function ($name) use ($app) {
+$app->post('/api/users', function () use ($app) {
 
 
 	echo file_get_contents('../data/auth.json');
@@ -60,9 +45,10 @@ $app->post('/api/providers/:name', function ($name) use ($app) {
 	 */
 	/*
 	$code = $app->request()->post('code');
+	$providerName = $app->request()->post('provider');
 
-	if(isset($app->services->$name)){
-		$providerName  = "\\BlueRidge\\Providers\\{$app->services->$name->provider}";
+	if(isset($app->services->$provider)){
+		$providerName  = "\\BlueRidge\\Providers\\{$app->services->$providerName->provider}";
 	}else{
 		return ;
 	}
