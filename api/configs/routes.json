@@ -1,11 +1,4 @@
 {
-  "home": {
-    "entity": "Doc",
-    "methods": [
-      "GET",
-      "POST"
-    ]
-  },
   "todos": {
     "entity": "ToDo",
     "methods": [

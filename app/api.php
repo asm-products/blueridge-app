@@ -53,9 +53,12 @@ $app->get('/api/providers/:name', function ($name) use ($app) {
 
 $app->post('/api/providers/:name', function ($name) use ($app) {
 
+
+	echo file_get_contents('../data/auth.json');
 	/**
 	 * @todo validate for Ajax requests
 	 */
+	/*
 	$code = $app->request()->post('code');
 
 	if(isset($app->services->$name)){
@@ -74,7 +77,8 @@ $app->post('/api/providers/:name', function ($name) use ($app) {
 	$service_properties = ['services'=>["{$name}"=>['auth'=>$auth]],'projects'=>$projects->projects];
 	$properties = array_merge($me,$service_properties);
 	$resource=$user->create($properties)->toArray();
-	echo json_encode($resource);		
+	echo json_encode($resource);
+	*/		
 });
 
 $app->get('/api/:resource(/:id)', function ($resource,$id = null) use ($app) {

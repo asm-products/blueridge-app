@@ -57,10 +57,11 @@ angular.module('blueRidgeApp.controllers', [])
 		window.location=provider.authUrl;
 	});
 })
-.controller('BasecampCtrl',function($scope,$location,Restangular,ServiceRestangular) {
+.controller('BasecampCtrl',function($scope,$location,Restangular) {
 	var code = $location.search().code;
 
-	var providers= ServiceRestangular.all('').customPOST("", {}, {}, {code:code}).then(function(user){
+	//change the post to a 
+	var providers= Restangular.one('providers','basecamp').customPOST("", {}, {}, {code:code}).then(function(user){
 		console.log(user);
 	});
 	

@@ -34,5 +34,5 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 		redirectTo: '/'
 	});
 	$locationProvider.html5Mode(true);
-	RestangularProvider.setBaseUrl("http://dev-api.blueridgeapp.com");
+	RestangularProvider.setBaseUrl("/api");
 }]).run();

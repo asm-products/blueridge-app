@@ -29,9 +29,4 @@ angular.module('blueRidgeApp.services', ['ngResource','ngCookies'])
 		}
 	}
 	
-})
-.factory('ServiceRestangular', function(Restangular) {
-	return Restangular.withConfig(function(RestangularConfigurer) {
-		RestangularConfigurer.setBaseUrl('http://dev-www.blueridgeapp.com/services.php');
-	});
 });

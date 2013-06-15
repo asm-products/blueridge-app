@@ -90,22 +90,15 @@ class Init extends Middleware
     protected function setResource(){
 
         $path = $this->app->request()->getPath();
-        list($separator,$root,$base) = explode('/', $path) + array(
-          null,
-          null,
-          );
+        list($separator,$root,$base) = explode('/', $path) + [null,null,null];
 
         $jsonRoutes= file_get_contents("../api/configs/routes.json");    
         $routes =json_decode($jsonRoutes); 
 
-        if($base ==''){
-            $base = 'home';
-        }
-
         if(!array_key_exists($base, $routes)){
-         return;
-     }
+           return;
+       }
 
-     return $resource = $routes->$base;
- }
+       return $resource = $routes->$base;
+   }
 }
