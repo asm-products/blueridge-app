@@ -12,6 +12,9 @@ angular.module('blueRidgeApp.services', ['ngCookies'])
 		},
 		currentUser:function(){
 			return $cookieStore.get('_blrdgapp');
+		},
+		logout:function(){
+			return $cookieStore.remove('_blrdgapp');
 		}
 	}
 	

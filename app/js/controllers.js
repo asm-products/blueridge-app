@@ -11,7 +11,11 @@ angular.module('blueRidgeApp.controllers', [])
 	}
 	$scope.user = User.get();
 })
-.controller('SignInCtrl',function($scope,$location,Auth,User){
+.controller('SignOutCtrl',function($scope,$location,Auth){	
+	Auth.logout();
+	$location.path('/');
+})
+.controller('SignInCtrl',function($scope,$location,Auth){
 
 	$scope.opts = {
 		backdropFade: true,
@@ -44,7 +48,7 @@ angular.module('blueRidgeApp.controllers', [])
 	if (!Auth.isLoggedIn()) {
 		$location.path('/');
 	}
-	
+
 	Restangular.one('users',Auth.currentUser()).get().then(function(user){
 		$scope.user = user;
 	});
@@ -67,8 +71,7 @@ angular.module('blueRidgeApp.controllers', [])
 	var providers= Restangular.all('users').customPOST("", {}, {}, {code:code,provider:'basecamp'}).then(function(user){
 		Auth.authorize(user);
 		$scope.user = user;
-		window.location='/';
-		//$location.path('/'); 
+		$location.path('/').search('code',null); 
 	},function() {
 		console.log("There was an error saving");
 	});
