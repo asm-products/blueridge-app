@@ -1,0 +1,41 @@
+{
+  "expires_at": "2013-06-01T14:03:52Z",
+  "accounts": [
+    {
+      "name": "mospired",
+      "href": "https://mosesngone.basecamphq.com",
+      "id": 1433808,
+      "product": "basecamp"
+    },
+    {
+      "name": "mospired",
+      "href": "https://mosesngone.campfirenow.com",
+      "id": 1922981,
+      "product": "campfire"
+    },
+    {
+      "name": "mospired",
+      "href": "https://basecamp.com/1940929/api/v1",
+      "id": 1940929,
+      "product": "bcx"
+    },
+    {
+      "name": "Nine Labs",
+      "href": "https://ninelabs.basecamphq.com",
+      "id": 657448,
+      "product": "basecamp"
+    },
+    {
+      "name": "Nine Labs",
+      "href": "https://basecamp.com/2011887/api/v1",
+      "id": 2011887,
+      "product": "bcx"
+    }
+  ],
+  "identity": {
+    "id": 1907954,
+    "last_name": "Ngone",
+    "email_address": "moses@mospired.com",
+    "first_name": "Moses"
+  }
+}

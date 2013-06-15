@@ -1,0 +1,36 @@
+{
+  "home": {
+    "entity": "Doc",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  "todos": {
+    "entity": "ToDo",
+    "methods": [
+      "GET"
+    ]
+  },
+  "users": {
+    "entity": "User",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  "auth": {
+    "entity": "Auth",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  "services": {
+    "entity": "Service",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  }
+}
