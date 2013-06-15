@@ -1,15 +1,14 @@
 <?php 
-$basecamp_connect= ['name'=>'basecamp','authUrl'=>''];
 
-$url = "http://dev-api.blueridgeapp.com/providers/basecamp";
-
+$app_env = getenv('APPLICATION_ENV');
+$env= ($app_env)?$app_env:"production";  
+$configs = getConfigs($env);
 
 if($_SERVER['REQUEST_METHOD']=='GET'){
-	echo file_get_contents($url);	
+	echo json_encode($configs->basecamp);
 }else if ($_SERVER['REQUEST_METHOD']=='POST'){
-
 	$params = ['code'=>$_POST['code']];
-	$ch = curl_init($url);
+	$ch = curl_init($configs->api);
 	$params = http_build_query($params);
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $params );
@@ -20,4 +19,10 @@ if($_SERVER['REQUEST_METHOD']=='GET'){
 	curl_close($ch);
 
 	echo $results;
+}
+function getConfigs($env){
+	$config_file = "../config.json";
+	$config_content= file_get_contents($config_file); 
+	$configs =json_decode($config_content); 
+	return $configs->$env;
 }

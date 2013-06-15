@@ -1,6 +1,6 @@
 'use strict';
 var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','ui.bootstrap','restangular'])
-.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+.config(['$routeProvider', '$locationProvider','RestangularProvider', function($routeProvider, $locationProvider,RestangularProvider) {
 	$routeProvider.
 	when('/', {
 		templateUrl: 'views/home.html',
@@ -34,4 +34,5 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 		redirectTo: '/'
 	});
 	$locationProvider.html5Mode(true);
+	RestangularProvider.setBaseUrl("http://dev-api.blueridgeapp.com");
 }]).run();

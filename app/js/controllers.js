@@ -28,7 +28,7 @@ angular.module('blueRidgeApp.controllers', [])
 	$scope.signin = function(user) {
 		$scope.signedIn=Auth.authorize(user);
 		if($scope.signedIn){
-			$location.path('/dash');
+			$location.path('/me');
 		}
 	}
 })
@@ -52,28 +52,45 @@ angular.module('blueRidgeApp.controllers', [])
 	$scope.user = User.get();
 
 })
-.controller('ConnectCtrl',function($scope,Basecamp) {
-	var basecamp =  Basecamp.connect(function() {
-		window.location=basecamp.authUrl;
+.controller('ConnectCtrl',function($scope,Restangular) {
+	Restangular.one('providers','basecamp').get().then(function(provider){
+		window.location=provider.authUrl;
 	});
 })
-.controller('BasecampCtrl',function($scope,$location,Auth,Basecamp) {
+.controller('BasecampCtrl',function($scope,$location,Restangular,ServiceRestangular) {
 	var code = $location.search().code;
-	Auth.authorize();
-	$location.path('/');
 
-	//window.location='http://dev-api.blueridgeapp.com/auth-test.php?code='+code;
-
-	/*$scope.authCode = function(){
-		Basecamp.authorize({code:verificationCode});
-	}*/
-
-	//var basecamp = new Basecamp({code:verificationCode});
-	//var authCode = basecamp.$authorize();
-
-	//console.log($scope.authCode);
-
+	var providers= ServiceRestangular.all('').customPOST("", {}, {}, {code:code}).then(function(user){
+		console.log(user);
+	});
 	
-	//$location.path('/');
-	//-window.close();
+	//providers.post({code:code}).then(function(user){
+	//	console.log(user);
+	//});
+
+	/*
+	Restangular.post('providers','basecamp',{code:code}).then(function(user) {
+		console.log(user);
+	}, function() {
+		console.log("There was an error saving");
+	});
+	*/
+
+	//console.log(code);
+
+	//create a todo
+	//var basecamp = new Basecamp();
+	//basecamp.code = code;
+	//var newuser = basecamp.$save();
+	//console.log(basecamp.$authorize());
+	//todo1.foo = 'bar';
+	//todo1.something = 123;
+	//todo1.$save();
+
+
+	//$scope.authCode = function(){
+	//	$scope.user=Basecamp.authorize({code:code});
+	//	Auth.authorize($scope.user);
+	//	$location.path('/');
+	//}
 });

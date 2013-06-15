@@ -1,0 +1,16 @@
+{
+  "production": {
+    "api":"http://api.blueridgeapp.com/providers/basecamp",
+    "basecamp": {
+      "name": "basecamp",
+      "authUrl": "https://launchpad.37signals.com/authorization/new?client_id=e391c424f7787e13c608bda67a22c2b121e50418&redirect_uri=http%3A%2F%2Fwww.blueridgeapp.com%2Fbasecamp&type=web_server"
+    }
+  },
+  "development": {
+    "api":"http://dev-api.blueridgeapp.com/providers/basecamp",
+    "basecamp": {
+      "name": "basecamp",
+      "authUrl": "https://launchpad.37signals.com/authorization/new?client_id=cbc3f4cff1def7da310df4d74c7baaffa106772a&redirect_uri=http%3A%2F%2Fdev-www.blueridgeapp.com%2Fbasecamp&type=web_server"
+    }
+  }
+}
