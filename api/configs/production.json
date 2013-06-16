@@ -1,0 +1,24 @@
+{
+  "database": {
+    "name": "blueridge",
+    "host": "ds029638.mongolab.com",
+    "port": "29638",
+    "user": "sterling",
+    "passwd":"gscellC6405"
+  },
+  "service": {
+    "basecamp": {
+      "userAgent": "BlueRidgeApp (api@blueridgeapp.com)",
+      "client_id": "e391c424f7787e13c608bda67a22c2b121e50418",
+      "client_secret": "c0d00cc97adda78505784d56c3f2eae158db63aa",
+      "redirect_url": "http://www.blueridgeapp.com/basecamp"
+    }
+  },
+  "cache": {
+    "host": "localhost",
+    "port": 11211
+  },
+  "debug": false,
+  "log_enabled": true,
+  "templates_path": "../app/views"
+}

@@ -11,7 +11,11 @@ angular.module('blueRidgeApp.controllers', [])
 	}
 	$scope.user = User.get();
 })
-.controller('SignInCtrl',function($scope,$location,Auth,User){
+.controller('SignOutCtrl',function($scope,$location,Auth){	
+	Auth.logout();
+	$location.path('/');
+})
+.controller('SignInCtrl',function($scope,$location,Auth){
 
 	$scope.opts = {
 		backdropFade: true,
@@ -37,13 +41,18 @@ angular.module('blueRidgeApp.controllers', [])
 		$location.path('/');
 	}
 	$scope.todos = ToDos.query();
-	$scope.user = User.get();
+	console.log(User.get());
+	//$scope.user = User.get();
 })
-.controller('MeCtrl',function($scope,$location,Auth,User){
+.controller('MeCtrl',function($scope,$location,Auth,Restangular){
 	if (!Auth.isLoggedIn()) {
 		$location.path('/');
 	}
-	$scope.user = User.get();
+
+	Restangular.one('users',Auth.currentUser()).get().then(function(user){
+		$scope.user = user;
+	});
+	
 })
 .controller('PeopleCtrl',function($scope,$location,Auth,User) {
 	if (!Auth.isLoggedIn()) {
@@ -57,40 +66,13 @@ angular.module('blueRidgeApp.controllers', [])
 		window.location=provider.authUrl;
 	});
 })
-.controller('BasecampCtrl',function($scope,$location,Restangular,ServiceRestangular) {
+.controller('BasecampCtrl',function($scope,$location,Restangular,Auth) {
 	var code = $location.search().code;
-
-	var providers= ServiceRestangular.all('').customPOST("", {}, {}, {code:code}).then(function(user){
-		console.log(user);
-	});
-	
-	//providers.post({code:code}).then(function(user){
-	//	console.log(user);
-	//});
-
-	/*
-	Restangular.post('providers','basecamp',{code:code}).then(function(user) {
-		console.log(user);
-	}, function() {
+	var providers= Restangular.all('users').customPOST("", {}, {}, {code:code,provider:'basecamp'}).then(function(user){
+		Auth.authorize(user);
+		$scope.user = user;
+		$location.path('/').search('code',null); 
+	},function() {
 		console.log("There was an error saving");
 	});
-	*/
-
-	//console.log(code);
-
-	//create a todo
-	//var basecamp = new Basecamp();
-	//basecamp.code = code;
-	//var newuser = basecamp.$save();
-	//console.log(basecamp.$authorize());
-	//todo1.foo = 'bar';
-	//todo1.something = 123;
-	//todo1.$save();
-
-
-	//$scope.authCode = function(){
-	//	$scope.user=Basecamp.authorize({code:code});
-	//	Auth.authorize($scope.user);
-	//	$location.path('/');
-	//}
 });

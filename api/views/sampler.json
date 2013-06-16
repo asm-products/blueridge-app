@@ -1,0 +1,175 @@
+{
+  "id": 3453781,
+  "name": "Development tasks ",
+  "description": null,
+  "created_at": "2012-10-31T19:51:12.000-04:00",
+  "updated_at": "2012-11-27T10:53:42.000-05:00",
+  "completed": false,
+  "position": 1,
+  "count": 8,
+  "todos": [
+    {
+      "id": 20050614,
+      "todolist_id": 3453781,
+      "content": "Refactor: Add documentation to existing code.",
+      "completed": false,
+      "created_at": "2012-10-31T19:52:04.000-04:00",
+      "updated_at": "2012-10-31T19:56:16.000-04:00",
+      "comments_count": 0,
+      "due_on": null,
+      "due_at": null,
+      "creator": {
+        "id": 2588690,
+        "name": "Moses Ngone",
+        "avatar_url": "http://dge9rmgqjs8m1.cloudfront.net/global/2191250897c01aca34ce9168111c247809184be41857066771d911527163a76ad69402da3a8e4c9cc5ff63cac4af4fa1edcb0f55a1727ef3e62063dc7bc74326cf1aa165bf978a9261009ec3393f2d3f/avatar.gif?r=3"
+      },
+      "assignee": {
+        "id": 2588690,
+        "type": "Person",
+        "name": "Moses Ngone"
+      },
+      "url": "https://basecamp.com/2011887/api/v1/projects/1234160-awdg-org/todos/20050614-refactor-add.json"
+    },
+    {
+      "id": 20050696,
+      "todolist_id": 3453781,
+      "position": 2,
+      "content": "Connections: Add ability for user to connect their github account to profile.",
+      "completed": false,
+      "created_at": "2012-10-31T19:53:11.000-04:00",
+      "updated_at": "2012-10-31T19:56:22.000-04:00",
+      "comments_count": 0,
+      "due_on": null,
+      "due_at": null,
+      "creator": {
+        "id": 2588690,
+        "name": "Moses Ngone",
+        "avatar_url": "http://dge9rmgqjs8m1.cloudfront.net/global/2191250897c01aca34ce9168111c247809184be41857066771d911527163a76ad69402da3a8e4c9cc5ff63cac4af4fa1edcb0f55a1727ef3e62063dc7bc74326cf1aa165bf978a9261009ec3393f2d3f/avatar.gif?r=3"
+      },
+      "assignee": {
+        "id": 2588690,
+        "type": "Person",
+        "name": "Moses Ngone"
+      },
+      "url": "https://basecamp.com/2011887/api/v1/projects/1234160-awdg-org/todos/20050696-connections-add.json"
+    },
+    {
+      "id": 20050769,
+      "todolist_id": 3453781,
+      "position": 3,
+      "content": "Connections: Add ability for user to connect their dribbble account to profile.",
+      "completed": false,
+      "created_at": "2012-10-31T19:53:55.000-04:00",
+      "updated_at": "2012-10-31T19:56:27.000-04:00",
+      "comments_count": 0,
+      "due_on": null,
+      "due_at": null,
+      "creator": {
+        "id": 2588690,
+        "name": "Moses Ngone",
+        "avatar_url": "http://dge9rmgqjs8m1.cloudfront.net/global/2191250897c01aca34ce9168111c247809184be41857066771d911527163a76ad69402da3a8e4c9cc5ff63cac4af4fa1edcb0f55a1727ef3e62063dc7bc74326cf1aa165bf978a9261009ec3393f2d3f/avatar.gif?r=3"
+      },
+      "assignee": {
+        "id": 2588690,
+        "type": "Person",
+        "name": "Moses Ngone"
+      },
+      "url": "https://basecamp.com/2011887/api/v1/projects/1234160-awdg-org/todos/20050769-connections-add.json"
+    },
+    {
+      "id": 20050821,
+      "todolist_id": 3453781,
+      "position": 4,
+      "content": "Refactor: Add unit tests to existing code.",
+      "completed": false,
+      "created_at": "2012-10-31T19:54:31.000-04:00",
+      "updated_at": "2012-10-31T19:56:31.000-04:00",
+      "comments_count": 0,
+      "due_on": null,
+      "due_at": null,
+      "creator": {
+        "id": 2588690,
+        "name": "Moses Ngone",
+        "avatar_url": "http://dge9rmgqjs8m1.cloudfront.net/global/2191250897c01aca34ce9168111c247809184be41857066771d911527163a76ad69402da3a8e4c9cc5ff63cac4af4fa1edcb0f55a1727ef3e62063dc7bc74326cf1aa165bf978a9261009ec3393f2d3f/avatar.gif?r=3"
+      },
+      "assignee": {
+        "id": 2588690,
+        "type": "Person",
+        "name": "Moses Ngone"
+      },
+      "url": "https://basecamp.com/2011887/api/v1/projects/1234160-awdg-org/todos/20050821-refactor-add-unit.json"
+    },
+    {
+      "id": 20050855,
+      "todolist_id": 3453781,
+      "position": 5,
+      "content": "Auth: Add ability to login with twitter. ",
+      "completed": false,
+      "created_at": "2012-10-31T19:54:59.000-04:00",
+      "updated_at": "2012-10-31T19:55:59.000-04:00",
+      "comments_count": 0,
+      "due_on": null,
+      "due_at": null,
+      "creator": {
+        "id": 2588690,
+        "name": "Moses Ngone",
+        "avatar_url": "http://dge9rmgqjs8m1.cloudfront.net/global/2191250897c01aca34ce9168111c247809184be41857066771d911527163a76ad69402da3a8e4c9cc5ff63cac4af4fa1edcb0f55a1727ef3e62063dc7bc74326cf1aa165bf978a9261009ec3393f2d3f/avatar.gif?r=3"
+      },
+      "url": "https://basecamp.com/2011887/api/v1/projects/1234160-awdg-org/todos/20050855-auth-add-ability-to.json"
+    },
+    {
+      "id": 20050883,
+      "todolist_id": 3453781,
+      "position": 6,
+      "content": "Auth: Add ability to login with facebook.",
+      "completed": false,
+      "created_at": "2012-10-31T19:55:16.000-04:00",
+      "updated_at": "2012-10-31T19:55:16.000-04:00",
+      "comments_count": 0,
+      "due_on": null,
+      "due_at": null,
+      "creator": {
+        "id": 2588690,
+        "name": "Moses Ngone",
+        "avatar_url": "http://dge9rmgqjs8m1.cloudfront.net/global/2191250897c01aca34ce9168111c247809184be41857066771d911527163a76ad69402da3a8e4c9cc5ff63cac4af4fa1edcb0f55a1727ef3e62063dc7bc74326cf1aa165bf978a9261009ec3393f2d3f/avatar.gif?r=3"
+      },
+      "url": "https://basecamp.com/2011887/api/v1/projects/1234160-awdg-org/todos/20050883-auth-add-ability-to.json"
+    },
+    {
+      "id": 20051106,
+      "todolist_id": 3453781,
+      "position": 7,
+      "content": "Payment: Add ability to process payments with Stripe.",
+      "completed": false,
+      "created_at": "2012-10-31T19:59:02.000-04:00",
+      "updated_at": "2012-11-01T11:09:41.000-04:00",
+      "comments_count": 2,
+      "due_on": null,
+      "due_at": null,
+      "creator": {
+        "id": 2588690,
+        "name": "Moses Ngone",
+        "avatar_url": "http://dge9rmgqjs8m1.cloudfront.net/global/2191250897c01aca34ce9168111c247809184be41857066771d911527163a76ad69402da3a8e4c9cc5ff63cac4af4fa1edcb0f55a1727ef3e62063dc7bc74326cf1aa165bf978a9261009ec3393f2d3f/avatar.gif?r=3"
+      },
+      "url": "https://basecamp.com/2011887/api/v1/projects/1234160-awdg-org/todos/20051106-payment-add-ability.json"
+    },
+    {
+      "id": 22640098,
+      "todolist_id": 3453781,
+      "position": 8,
+      "content": "Remove existing WebAfternoon models ",
+      "completed": false,
+      "created_at": "2012-11-27T10:53:42.000-05:00",
+      "updated_at": "2012-11-27T10:53:42.000-05:00",
+      "comments_count": 0,
+      "due_on": null,
+      "due_at": null,
+      "creator": {
+        "id": 2588690,
+        "name": "Moses Ngone",
+        "avatar_url": "http://dge9rmgqjs8m1.cloudfront.net/global/2191250897c01aca34ce9168111c247809184be41857066771d911527163a76ad69402da3a8e4c9cc5ff63cac4af4fa1edcb0f55a1727ef3e62063dc7bc74326cf1aa165bf978a9261009ec3393f2d3f/avatar.gif?r=3"
+      },
+      "url": "https://basecamp.com/2011887/api/v1/projects/1234160-awdg-org/todos/22640098-remove-existing.json"
+    }
+  ]
+}

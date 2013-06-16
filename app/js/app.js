@@ -10,6 +10,10 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 		templateUrl: 'views/settings.html', 
 		controller: 'SettingsCtrl'
 	})
+	.when('/signout', {
+		templateUrl: 'views/home.html',
+		controller: 'SignOutCtrl'
+	})
 	.when('/todos', {
 		templateUrl: 'views/todos.html', 
 		controller: 'ToDoCtrl'
@@ -34,5 +38,5 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 		redirectTo: '/'
 	});
 	$locationProvider.html5Mode(true);
-	RestangularProvider.setBaseUrl("http://dev-api.blueridgeapp.com");
+	RestangularProvider.setBaseUrl("/api");
 }]).run();
