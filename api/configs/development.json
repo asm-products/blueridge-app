@@ -20,6 +20,12 @@
     "host": "localhost",
     "port": 11211
   },
+  "mail": {
+    "host": "smtp.mandrillapp.com",
+    "port": 587,
+    "username": "mo@mospired.com",
+    "password": "7GWunUJtlG9oKo6umSmdKg"
+  },
   "debug": true,
   "log_enabled": true
 }
