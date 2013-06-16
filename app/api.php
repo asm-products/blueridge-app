@@ -25,8 +25,8 @@ $app->get('/api',function() use ($app){
 
 $app->get('/api/providers/:name', function ($name) use ($app) {
 	
-	if(isset($app->services->$name)){
-		$providerName  = "\\BlueRidge\\Providers\\{$app->services->$name->provider}";
+	if(isset($app->providers->$name)){
+		$providerName  = "\\BlueRidge\\Providers\\{$app->providers->$name->handler}";
 	}else{
 		return ;
 	}
@@ -36,35 +36,32 @@ $app->get('/api/providers/:name', function ($name) use ($app) {
 	echo json_encode($collection);
 });
 
-$app->post('/api/users', function () use ($app) {
+$app->post('/api/users', function () use ($app) {	
+	
+	$params = json_decode($app->request()->getBody());
+	$code = $params->code;
+	$providerName = $params->provider;
 
-
-	echo file_get_contents('../data/auth.json');
-	/**
-	 * @todo validate for Ajax requests
-	 */
-	/*
-	$code = $app->request()->post('code');
-	$providerName = $app->request()->post('provider');
-
-	if(isset($app->services->$provider)){
-		$providerName  = "\\BlueRidge\\Providers\\{$app->services->$providerName->provider}";
+	if(isset($app->providers->$providerName)){
+		$handler  = "\\BlueRidge\\Providers\\{$app->providers->$providerName->handler}";
 	}else{
 		return ;
 	}
 
-	$provider = new $providerName($app); 
+	$provider = new $handler($app); 
 	$token = $provider->authorize($code);
+
 	$auth = $provider->getAuthorization($token);
+	$accounts = $provider->getProjectAccounts($auth,$token);
 	$me= $provider->getMe($auth,$token);
-	$projects = $provider->getProjects($auth,$token);
 
 	$user = new User($app);
-	$service_properties = ['services'=>["{$name}"=>['auth'=>$auth]],'projects'=>$projects->projects];
+	$service_properties = ['providers'=>["{$providerName}"=>['auth'=>$auth]],'accounts'=>$accounts];
 	$properties = array_merge($me,$service_properties);
-	$resource=$user->create($properties)->toArray();
-	echo json_encode($resource);
-	*/		
+	$user->create($properties);
+	
+	echo (json_encode((object) ['key'=>$user->id]));
+	
 });
 
 $app->get('/api/:resource(/:id)', function ($resource,$id = null) use ($app) {
@@ -82,5 +79,9 @@ $app->get('/api/:resource(/:id)', function ($resource,$id = null) use ($app) {
 	echo $resource;
 	
 });
+$response = $app->response();
+$response['Content-Type'] = 'application/json';
+$response['X-Powered-By'] = 'Mospired';
+
 
 $app->run();

@@ -1,9 +1,8 @@
 <?php
-$url = "http://dev-api.blueridgeapp.com/providers/basecamp";
-$params = ['code'=>$_GET['code']];
+$url = "http://dev-www.blueridgeapp.com/api/users";
+$params = ['code'=>$_GET['code'],'provider'=>$_GET['provider']];
 
 $ch = curl_init($url);
-
 $params = http_build_query($params);
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $params );

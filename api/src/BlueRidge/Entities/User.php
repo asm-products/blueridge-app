@@ -38,10 +38,10 @@ class User extends \BlueRidge\ModelAbstract
 	protected $avatar;
 
 	/**
-	 * Projects
+	 * Account Projects
 	 * @var string
 	 */
-	protected $projects;
+	protected $accounts;
 
 	/**
 	 * Services
@@ -106,7 +106,7 @@ class User extends \BlueRidge\ModelAbstract
 
 	}
 	public function toArray(){
-		$item = ["id"=>$this->id,"name"=>$this->name,"email"=>$this->email,"avatar"=>$this->avatar,"url"=>$this->url,"projects"=>$this->projects];
+		$item = ["id"=>$this->id,"name"=>$this->name,"email"=>$this->email,"avatar"=>$this->avatar,"url"=>$this->url,"accounts"=>$this->accounts];
 		return $item;
 	}
 
