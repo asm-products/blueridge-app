@@ -29,7 +29,7 @@ class Init extends Middleware
         $appEnv= ($app_env)?$app_env:"production";  
         $configs = $this->getConfigs($appEnv); 
         
-        $appSettings = ["mode"=>$appEnv,"debug"=>$configs->debug,"log.level"=>$configs->log_enabled,"templates.path"=>$configs->templates_path];
+        $appSettings = ["mode"=>$appEnv,"debug"=>$configs->debug,"log.level"=>$configs->log_enabled];
         $this->app->config($appSettings);
         
         if($configs->database){
@@ -40,8 +40,8 @@ class Init extends Middleware
             $this->app->cache = $this->setCache($configs->cache);
         }
 
-        if($configs->services){
-            $this->app->services = $configs->services;
+        if($configs->providers){
+            $this->app->providers = $configs->providers;
         }
 
         $this->app->resource = $this->setResource();
@@ -62,9 +62,12 @@ class Init extends Middleware
      * Setup Database Adapter
      */
     protected function setDbAdapter($db){
+        $connection_url = "mongodb://{$db->host}:{$db->port}/{$db->name}";   
+        if(isset($db->user) && isset($db->passwd)){
+            $connection_url = "mongodb://{$db->user}:{$db->passwd}@{$db->host}:{$db->port}/{$db->name}";
+        }
 
-        $client= new \MongoClient("mongodb://{$db->user}:{$db->passwd}@{$db->host}:{$db->port}/{$db->name}");
-
+        $client= new \MongoClient($connection_url);
         return $client->selectDB($db->name);
     }
 
@@ -72,14 +75,8 @@ class Init extends Middleware
      * Setup Cache
      */
     protected function setCache(){
-       // return;
-        $memcache = new \Memcache;
-        $connection= $memcache->connect('localhost', 11211);
 
-        if(empty($connection)){
-            return;
-        }
-
+        $memcache = new \Memcache('localhost', 11211);
         return $memcache;
 
     }

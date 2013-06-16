@@ -39,4 +39,5 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 	});
 	$locationProvider.html5Mode(true);
 	RestangularProvider.setBaseUrl("/api");
+	RestangularProvider.setListTypeIsArray(false);
 }]).run();

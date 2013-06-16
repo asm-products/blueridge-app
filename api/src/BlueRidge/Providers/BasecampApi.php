@@ -18,7 +18,7 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 
 	public function __construct($app){
 		parent::__construct($app);
-		$this->setProperties($app->services->basecamp);
+		$this->setProperties($app->providers->basecamp);
 		return $this;
 	}
 
@@ -68,40 +68,28 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 	public function getMe($auth,$token){
 		$endpoint = "people/me.json";
 		$me = array();
-
-		foreach ($auth->accounts as $account) {	
-			$person= $this->getData("{$account['href']}/{$endpoint}",$token);
-			if(!empty($person)){
-				$me=['name'=>$person['name'],'email'=>$person['email_address'],'avatar'=>$person['avatar_url']];
-				return $me;
-			}
-		}
 		$me['name'] = "{$auth->identity['first_name']} {$auth->identity['last_name']}";
 		$me['email']= $auth->identity['email_address'];
 		return $me;
 	}
 
 
-	public function getProjects($auth,$token){
+	public function getProjectAccounts($auth,$token){
 		$endpoint="projects.json";
-		$projects=new \stdClass();
+		$accounts=array();
 
 		if(empty($auth)){
 			$auth= $this->getAuthorization($token);
 		}
-		
 
-		foreach ($auth->accounts as $account) {	
-			$accountProjects= $this->getData("{$account['href']}/{$endpoint}",$token);
-			if(!empty($accountProjects)){
-				foreach ($accountProjects as $project){
-					$project['account']=$account;
-					$project['selected']=false;
-					$projects->projects[]=$project;
-				}
+		foreach ($auth->accounts as $account) {
+			$projects= $this->getData("{$account['href']}/{$endpoint}",$token);		
+			if(!empty($projects)){
+				$account['projects'][]= $projects;
+				$accounts[]=$account;	
 			}
 		} 
-		return $projects;
+		return $accounts;
 	}
 
 

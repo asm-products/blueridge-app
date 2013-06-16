@@ -2,9 +2,8 @@
 angular.module('blueRidgeApp.services', ['ngCookies'])
 .factory('Auth',function($resource,$cookieStore){	
 	return {		
-		authorize:function(user){
-			//get the user and set a hashed key
-			$cookieStore.put('_blrdgapp', user.id);
+		authorize:function(auth){
+			$cookieStore.put('_blrdgapp', auth.key);
 			return true;
 		},
 		isLoggedIn:function(){
