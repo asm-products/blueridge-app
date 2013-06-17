@@ -66,11 +66,11 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 	}
 
 	public function getMe($auth,$token){
-		$endpoint = "people/me.json";
-		$me = array();
-		$me['name'] = "{$auth->identity['first_name']} {$auth->identity['last_name']}";
-		$me['email']= $auth->identity['email_address'];
-		return $me;
+		$endpoint = "people/me.json";		
+		return [
+		'name'=>"{$auth->identity['first_name']} {$auth->identity['last_name']}",
+		'email'=>$auth->identity['email_address']
+		];
 	}
 
 
@@ -85,7 +85,7 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		foreach ($auth->accounts as $account) {
 			$projects= $this->getData("{$account['href']}/{$endpoint}",$token);		
 			if(!empty($projects)){
-				$account['projects'][]= $projects;
+				$account['projects']= $projects;
 				$accounts[]=$account;	
 			}
 		} 

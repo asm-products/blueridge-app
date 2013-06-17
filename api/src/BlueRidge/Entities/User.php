@@ -38,16 +38,28 @@ class User extends \BlueRidge\ModelAbstract
 	protected $avatar;
 
 	/**
-	 * Account Projects
+	 * Authorization Key
+	 * @var string
+	 */
+	protected $key;
+
+	/**
+	 * Accounts
 	 * @var string
 	 */
 	protected $accounts;
 
 	/**
-	 * Services
+	 * Active Projects
 	 * @var string
 	 */
-	protected $services;
+	protected $activeProjects;
+
+	/**
+	 * Providers
+	 * @var string
+	 */
+	protected $providers;
 
 	public function fetch(Array $params=null){
 		$users = array();
@@ -92,7 +104,10 @@ class User extends \BlueRidge\ModelAbstract
 	}
 
 	public function create($properties){
-		
+		$pass= $this->getInitPassword();
+		$properties['password']=$pass;
+		$properties['key']=$this->setKey($pass);
+		$properties['activeProjects']=array();
 		$user = $this->update(["email"=>$properties['email']],$properties);
 		return $this->setProperties($user);
 
@@ -106,8 +121,21 @@ class User extends \BlueRidge\ModelAbstract
 
 	}
 	public function toArray(){
-		$item = ["id"=>$this->id,"name"=>$this->name,"email"=>$this->email,"avatar"=>$this->avatar,"url"=>$this->url,"accounts"=>$this->accounts];
+		$item = ["id"=>$this->id,"name"=>$this->name,"email"=>$this->email,'key'=>$this->key,"avatar"=>$this->avatar,"url"=>$this->url,"accounts"=>$this->accounts,"activeProjects"=>$this->activeProjects];
 		return $item;
 	}
+
+	private function getInitPassword() {
+		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";			
+		$password = substr( str_shuffle( $chars ), 0, 12 );
+		return $password;
+	}
+	private function setKey($password){
+		return $password;
+	}
+	private function getPassword($key){
+
+	}
+
 
 }

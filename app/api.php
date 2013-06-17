@@ -60,7 +60,7 @@ $app->post('/api/users', function () use ($app) {
 	$properties = array_merge($me,$service_properties);
 	$user->create($properties);
 	
-	echo (json_encode((object) ['key'=>$user->id]));
+	echo (json_encode((object) ['id'=>$user->id,'key'=>$user->key]));
 	
 });
 
