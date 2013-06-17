@@ -27,7 +27,7 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 		controller: 'PeopleCtrl'
 	})
 	.when('/basecamp', {
-		templateUrl: 'views/home.html', 
+		templateUrl: 'views/loading.html', 
 		controller: 'BasecampCtrl'
 	})
 	.when('/connect', {
