@@ -1,5 +1,46 @@
 <div class="container-fluid">
-  <div ng-include src="'views/sections/top-nav.html'"></div>
-  <h3 class="muted">Settings</h3>
-
-</div
+	<div ng-include src="'views/sections/top-nav.html'"></div>
+	<h2 class="muted">Settings</h2>
+	<div class="row-fluid">
+		<div class="span6">	
+			<form class="form-horizontal">
+				<fieldset>
+					<legend>Profile</legend>
+					<div class="control-group">
+						<label class="control-label" for="userName">Name</label>
+						<div class="controls">
+							<input type="text" id="userName" ng-model="user.name" >
+						</div>
+					</div>		
+					<div class="control-group">
+						<label class="control-label" for="userEmail">Email</label>
+						<div class="controls">
+							<input type="email" id="userEmail" ng-model="user.email" >
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="userPassword">Password</label>
+						<div class="controls">
+							<input type="password" id="userPassword" ng-model="user.password" >
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<button class="btn" type="submit" ng-click="update(user)">Save Changes</button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+		<div class="span6">
+			<h3>Accounts</h3>
+			<fieldset ng-repeat="account in user.accounts">
+				<legend>{{account.name}}</legend>
+				<label ng-repeat="project in account.projects" class="checkbox">
+					<input type="checkbox"	value="{{project.id}}"	ng-checked="project.selected"	ng-model="project.selected">
+					<span>{{project.name}}</span>
+				</label>
+			</fieldset>
+		</div>
+	</div>
+</div>
