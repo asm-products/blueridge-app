@@ -1,14 +1,23 @@
 'use strict';
-
-/* Services */
-angular.module('blueRidge.services', ['ngResource']).
-factory('Project', function($resource) {
-  var Project = $resource('https://api.mongolab.com/api/1/databases/angularjs/collections/:type',
-      { apiKey: '4f847ad3e4b08a2eed5f3b54' }, 
-      { 
-    	  'findMembers' : {method:'GET', params: {type: 'members'}, isArray:true},
-    	  'findTodos' : {method:'GET', params: {type: 'Todos'}, isArray:true},
-      });
-
-  return Project;
+angular.module('blueRidgeApp.services', ['ngCookies'])
+.factory('Auth',function($cookieStore){	
+	return {		
+		authorize:function(auth){
+			$cookieStore.put('_blrdgapp', auth);
+			return true;
+		},
+		isLoggedIn:function(){
+			return ($cookieStore.get('_blrdgapp'))?true:false;
+		},
+		currentUser:function(){
+			return $cookieStore.get('_blrdgapp');
+		},
+		logout:function(){
+			return $cookieStore.remove('_blrdgapp');
+		}
+	}
+	
+})
+.factory('User',function(user){
+	$scope.user=user;		
 });

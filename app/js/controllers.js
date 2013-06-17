@@ -1,11 +1,86 @@
 'use strict';
-/* Controllers */
-function ToDoCtrl($scope, Project) {
-	$scope.todos = Project.findTodos();
-	console.log($scope.todos);
-}
+angular.module('blueRidgeApp.controllers', [])
+.controller('HomeCtrl',function($scope,$location,Auth){
+	if (Auth.isLoggedIn()) {
+		$location.path('/me');
+	}
+})
+.controller('SettingsCtrl',function($scope,$location,Auth,Restangular){	
+	if (!Auth.isLoggedIn()) {
+		$location.path('/');
+	}
+	$scope.currentUser = Auth.currentUser().id;
+	Restangular.one('users',$scope.currentUser ).get().then(function(user){
+		$scope.user = user;	
+	});
+	$scope.selectedProjects = function () {
+		return $filter('filter')($scope.user.activeProjects, {checked: true});
+	};
 
-function PeopleCtrl($scope, Project) {
-	$scope.members = Project.findMembers();
-	console.log($scope.members);
-}
+})
+.controller('SignOutCtrl',function($scope,$location,Auth){	
+	Auth.logout();
+	$location.path('/');
+})
+.controller('SignInCtrl',function($scope,$location,Auth){
+
+	$scope.opts = {
+		backdropFade: true,
+		dialogFade:true
+	};
+	$scope.open = function() {
+		$scope.shouldBeOpen = true;
+	};
+
+	$scope.close = function() {
+		$scope.shouldBeOpen = false;
+	};
+
+	$scope.signin = function(user) {
+		$scope.signedIn=Auth.authorize(user);
+		if($scope.signedIn){
+			$location.path('/me');
+		}
+	}
+})
+.controller('ToDoCtrl',function($scope,$location,Auth,ToDos,User){	
+	if (!Auth.isLoggedIn()) {
+		$location.path('/');
+	}
+	$scope.todos = ToDos.get();
+	//console.log(User.get());
+	//$scope.user = User.get();
+})
+.controller('MeCtrl',function($scope,$location,Auth,Restangular){
+	if (!Auth.isLoggedIn()) {
+		$location.path('/');
+	}
+
+	Restangular.one('users',Auth.currentUser()).get().then(function(user){
+		$scope.user = user;
+	});
+	
+})
+.controller('PeopleCtrl',function($scope,$location,Auth,User) {
+	if (!Auth.isLoggedIn()) {
+		$location.path('/');
+	}
+	$scope.user = User.get();
+
+})
+.controller('ConnectCtrl',function($scope,Restangular) {
+	Restangular.one('providers','basecamp').get().then(function(provider){
+		window.location=provider.authUrl;
+	});
+})
+.controller('BasecampCtrl',function($scope,$location,Restangular,Auth) {
+	var code = $location.search().code;
+	var basecampUser = Restangular.all('users');
+	basecampUser.post({code:code,provider:'basecamp'}).then(function(data){
+		Auth.authorize(data);
+		$location.path('/settings').search('code',null); 
+	},function() {
+		console.log("There was an error saving");
+	});
+
+});
