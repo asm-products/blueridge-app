@@ -1,9 +1,9 @@
 'use strict';
 angular.module('blueRidgeApp.services', ['ngCookies'])
-.factory('Auth',function($resource,$cookieStore){	
+.factory('Auth',function($cookieStore){	
 	return {		
 		authorize:function(auth){
-			$cookieStore.put('_blrdgapp', auth.key);
+			$cookieStore.put('_blrdgapp', auth);
 			return true;
 		},
 		isLoggedIn:function(){
@@ -17,4 +17,7 @@ angular.module('blueRidgeApp.services', ['ngCookies'])
 		}
 	}
 	
+})
+.factory('User',function(user){
+	$scope.user=user;		
 });

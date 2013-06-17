@@ -9,9 +9,14 @@ angular.module('blueRidgeApp.controllers', [])
 	if (!Auth.isLoggedIn()) {
 		$location.path('/');
 	}
-	Restangular.one('users',Auth.currentUser()).get().then(function(user){
-		$scope.user = user;
+	$scope.currentUser = Auth.currentUser().id;
+	Restangular.one('users',$scope.currentUser ).get().then(function(user){
+		$scope.user = user;	
 	});
+	$scope.selectedProjects = function () {
+		return $filter('filter')($scope.user.activeProjects, {checked: true});
+	};
+
 })
 .controller('SignOutCtrl',function($scope,$location,Auth){	
 	Auth.logout();
@@ -42,8 +47,8 @@ angular.module('blueRidgeApp.controllers', [])
 	if (!Auth.isLoggedIn()) {
 		$location.path('/');
 	}
-	$scope.todos = ToDos.query();
-	console.log(User.get());
+	$scope.todos = ToDos.get();
+	//console.log(User.get());
 	//$scope.user = User.get();
 })
 .controller('MeCtrl',function($scope,$location,Auth,Restangular){
