@@ -16,15 +16,15 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 	})
 	.when('/todos', {
 		templateUrl: 'views/todos.html', 
-		controller: 'ToDoCtrl'
+		//controller: 'ToDoCtrl'
 	})
 	.when('/me', {
 		templateUrl: 'views/me.html', 
-		controller: 'MeCtrl'
+		//controller: 'MeCtrl'
 	})
 	.when('/people', {
 		templateUrl: 'views/people.html', 
-		controller: 'PeopleCtrl'
+		//controller: 'PeopleCtrl'
 	})
 	.when('/basecamp', {
 		templateUrl: 'views/loading.html', 

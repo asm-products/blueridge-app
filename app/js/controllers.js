@@ -1,25 +1,23 @@
 'use strict';
 angular.module('blueRidgeApp.controllers', [])
 .controller('HomeCtrl',function($scope,$location,Auth){
-	if (Auth.isLoggedIn()) {
+	if (Auth.isSignedIn()) {
 		$location.path('/me');
 	}
 })
-.controller('SettingsCtrl',function($scope,$location,Auth,Restangular){	
-	if (!Auth.isLoggedIn()) {
+.controller('SettingsCtrl',function($scope,$location,Restangular,Auth){	
+	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
-	$scope.currentUser = Auth.currentUser().id;
-	Restangular.one('users',$scope.currentUser ).get().then(function(user){
-		$scope.user = user;	
+
+	
+	Restangular.one('users',Auth.getProfileUser().id).get().then(function(user){
+		$scope.user = user;
 	});
-	$scope.selectedProjects = function () {
-		return $filter('filter')($scope.user.activeProjects, {checked: true});
-	};
 
 })
 .controller('SignOutCtrl',function($scope,$location,Auth){	
-	Auth.logout();
+	Auth.signOut();
 	$location.path('/');
 })
 .controller('SignInCtrl',function($scope,$location,Auth){
@@ -43,8 +41,8 @@ angular.module('blueRidgeApp.controllers', [])
 		}
 	}
 })
-.controller('ToDoCtrl',function($scope,$location,Auth,ToDos,User){	
-	if (!Auth.isLoggedIn()) {
+.controller('ToDoCtrl',function($scope,$location,Auth){	
+	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
 	$scope.todos = ToDos.get();
@@ -52,17 +50,17 @@ angular.module('blueRidgeApp.controllers', [])
 	//$scope.user = User.get();
 })
 .controller('MeCtrl',function($scope,$location,Auth,Restangular){
-	if (!Auth.isLoggedIn()) {
+	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
 
-	Restangular.one('users',Auth.currentUser()).get().then(function(user){
+/*	Restangular.one('users',Auth.profile().id).get().then(function(user){
 		$scope.user = user;
 	});
-	
+*/	
 })
 .controller('PeopleCtrl',function($scope,$location,Auth,User) {
-	if (!Auth.isLoggedIn()) {
+	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
 	$scope.user = User.get();
