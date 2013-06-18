@@ -46,10 +46,10 @@ class ToDo extends \BlueRidge\ModelAbstract
 	protected $owner;
 
 	/**
-	 * Project
+	 * Project Name
 	 * @var String
 	 */
-	//protected $project;
+	protected $projectName;
 
 	/**
 	 * List
@@ -93,7 +93,8 @@ class ToDo extends \BlueRidge\ModelAbstract
 		foreach($user->accounts as $account){
 			foreach($account['projects'] as $project){			
 				if(!empty($project['selected'])){
-					$activeProjects[] = ['id'=>$project['id'],'accountUrl'=>$account['href']];
+					$project['accountUrl']=$account['href'];
+					$activeProjects[] = $project;
 				}
 			}			
 		}
@@ -159,6 +160,7 @@ class ToDo extends \BlueRidge\ModelAbstract
 		"owner"=>$this->owner,
 		"list"=>$this->list,
 		"url"=>$this->url,
+		"projectName"=>$this->projectName,
 		"overDueBy"=>$this->overDueBy
 		];
 		return $item;

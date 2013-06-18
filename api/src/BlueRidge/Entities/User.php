@@ -44,12 +44,6 @@ class User extends \BlueRidge\ModelAbstract
 	protected $key;
 
 	/**
-	 * Providers Authorization
-	 * @var string
-	 */
-	protected $auth;
-
-	/**
 	 * Accounts
 	 * @var string
 	 */
@@ -112,11 +106,19 @@ class User extends \BlueRidge\ModelAbstract
 		return $this->setProperties($user);
 
 	}
-	public function update(Array $criteria, Array $doc){
+	public function update(Array $criteria, $doc, $single=false){
+		if(key($criteria)=='id'){
+			$criteria =['_id'=>new \MongoId($criteria['id'])];
+		}
 
 		$db = $this->app->database;
 		$users = new \MongoCollection($db,"Users");
 		$result = $users->findAndModify($criteria,['$set' => $doc],null,["new" => true,"upsert"=>true]);
+		
+		if($single === true){
+			return $this->setProperties($result);
+		}
+		
 		return $result;
 
 	}

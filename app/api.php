@@ -64,6 +64,14 @@ $app->post('/api/users', function () use ($app) {
 	
 });
 
+$app->put('/api/users/:id',function($id) use ($app){
+	$params = json_decode($app->request()->getBody());
+	$user=new User($app);
+	$user->update(["id"=>$params->id],$params,true);
+
+	//do a responce check
+});
+
 $app->get('/api/:resource(/:id)', function ($resource,$id = null) use ($app) {
 	
 	$entityName  = "\\BlueRidge\\Entities\\{$app->resource->entity}";

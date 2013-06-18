@@ -12,11 +12,8 @@ angular.module('blueRidgeApp.controllers', [])
 	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
 	$scope.user = blueRidgeUser.get();
 
-
 	$scope.update = function(user) {
-		console.log(user);
 		blueRidgeUser=user;
-		console.log(user);
 		blueRidgeUser.put();
 	}	
 })
@@ -49,24 +46,17 @@ angular.module('blueRidgeApp.controllers', [])
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
-	Restangular.one('users',Auth.getProfileUser().id).get().then(function(user){
-		$scope.user = user;
-		console.log(user);
-	});
+	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
+	$scope.user = blueRidgeUser.get();
 
-	//$scope.todos = ToDos.get();
-	//console.log(User.get());
-	//$scope.user = User.get();
+	var blueRidgeTodos = Restangular.all('todos');
+	$scope.todos = blueRidgeTodos.getList({user:Auth.getProfileUser().id});
+
 })
 .controller('MeCtrl',function($scope,$location,Auth,Restangular){
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
-	}
-
-/*	Restangular.one('users',Auth.profile().id).get().then(function(user){
-		$scope.user = user;
-	});
-*/	
+	}	
 })
 .controller('PeopleCtrl',function($scope,$location,Auth,User) {
 	if (!Auth.isSignedIn()) {

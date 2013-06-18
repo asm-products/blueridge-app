@@ -20,7 +20,7 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 	})
 	.when('/todos', {
 		templateUrl: 'views/todos.html', 
-		//controller: 'ToDoCtrl'
+		controller: 'ToDoCtrl'
 	})
 	.when('/me', {
 		templateUrl: 'views/me.html', 
@@ -43,5 +43,5 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 	});
 	$locationProvider.html5Mode(true);
 	RestangularProvider.setBaseUrl("/api");
-	RestangularProvider.setListTypeIsArray(false);
+	RestangularProvider.setListTypeIsArray(true);
 }]).run();
