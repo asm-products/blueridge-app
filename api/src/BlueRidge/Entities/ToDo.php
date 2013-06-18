@@ -88,13 +88,19 @@ class ToDo extends \BlueRidge\ModelAbstract
 		}
 
 		$valid_project = false;
-		$projects = $user->projects;
+		$accounts = $user->accounts;
 
-		foreach($projects as $project){
-			if($project['id'] == $params['project']){
-				$valid_project = true;
-				break;
-			}			
+
+
+		foreach($user->accounts as $account){
+
+			foreach($account['projects'] as $project){
+				if($project['id'] == $params['project']){
+					$valid_project = true;
+					break;
+				}
+			}
+			
 		}
 
 		if(!$valid_project){
@@ -102,8 +108,8 @@ class ToDo extends \BlueRidge\ModelAbstract
 		}
 
 		$basecamp = new BasecampApi($this->app);
-		$token =$user->services['basecamp']['auth']['token'];
-		$todoLists=$basecamp->getToDoLists($project,$token);
+		$token =$user->providers['basecamp']['auth']['token'];
+		$todoLists=$basecamp->getToDoLists($account,$project,$token);
 		$todos = $basecamp->getTodos($todoLists,$token);
 
 		return $this->organize($todos);

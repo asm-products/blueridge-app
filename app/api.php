@@ -71,10 +71,13 @@ $app->get('/api/:resource(/:id)', function ($resource,$id = null) use ($app) {
 	$entity= new $entityName($app);
 	if(!empty($id)){
 		$params=['id'=>$id,$app->request()->get()];
-		$collection = $entity->fetchOne($params)->toArray();
+		$entity->fetchOne($params);		
+
+		$collection = $entity->toArray();
 	}else{
 		$collection = $entity->fetch($app->request()->get());
 	}
+
 	$resource = json_encode($collection);
 	echo $resource;
 	
