@@ -10,6 +10,10 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 		templateUrl: 'views/settings.html', 
 		controller: 'SettingsCtrl'
 	})
+	.when('/init', {
+		templateUrl: 'views/sections/select-projects.html', 
+		controller: 'SettingsCtrl'
+	})
 	.when('/signout', {
 		templateUrl: 'views/home.html',
 		controller: 'SignOutCtrl'
