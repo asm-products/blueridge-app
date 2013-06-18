@@ -40,12 +40,12 @@
 					<input type="checkbox"	value="{{project.id}}"	ng-checked="project.selected"	ng-model="project.selected">
 					<span>{{project.name}}</span>
 				</label>
-				<div class="control-group">
-					<div class="controls">
-						<button class="btn" type="submit" ng-click="update(user)">Save Changes</button>
-					</div>
-				</div>
 			</fieldset>
+			<div class="control-group">
+				<div class="controls">
+					<button class="btn" type="submit" ng-click="update(user.accounts)">Save Changes</button>
+				</div>
+			</div>
 
 		</div>
 	</div>

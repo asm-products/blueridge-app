@@ -12,8 +12,8 @@ angular.module('blueRidgeApp.controllers', [])
 	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
 	$scope.user = blueRidgeUser.get();
 
-	$scope.update = function(user) {
-		blueRidgeUser=user;
+	$scope.update = function(accounts) {
+		blueRidgeUser.accounts=accounts;
 		blueRidgeUser.put();
 	}	
 })
