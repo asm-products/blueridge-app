@@ -113,11 +113,16 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		return $todos;
 	}
 
-	public function getToDoLists($account,$project,$token){
-		$endpoint = "projects/{$project['id']}/todolists.json";
-		$url = "{$account['href']}/$endpoint";
+	public function getToDoLists($activeProjects,$token){
+		$todoLists=array();
 
-		$todoLists = $this->getData($url,$token);
+		foreach ($activeProjects as $project) {
+			$endpoint = "projects/{$project['id']}/todolists.json";
+			$url = "{$project['accountUrl']}/$endpoint";						
+			$todoLists = array_merge($todoLists,$this->getData($url,$token));
+			
+		}
+
 		return $todoLists;
 	}
 
