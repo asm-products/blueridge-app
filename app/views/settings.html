@@ -40,9 +40,10 @@
 					<input type="checkbox"	value="{{project.id}}"	ng-checked="project.selected"	ng-model="project.selected">
 					<span>{{project.name}}</span>
 				</label>
-				<div class="well">
-					<pre><strong>selected with filter:</strong> {{account.projects | filter:{selected:true} | json}}</pre>
-					<pre><strong>all projects:</strong> {{account.projects | json}}</pre>
+				<div class="control-group">
+					<div class="controls">
+						<button class="btn" type="submit" ng-click="update(user)">Save Changes</button>
+					</div>
 				</div>
 			</fieldset>
 
