@@ -9,12 +9,16 @@ angular.module('blueRidgeApp.controllers', [])
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
+	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
+	$scope.user = blueRidgeUser.get();
 
-	
-	Restangular.one('users',Auth.getProfileUser().id).get().then(function(user){
-		$scope.user = user;
-	});
 
+	$scope.update = function(user) {
+		console.log(user);
+		blueRidgeUser=user;
+		console.log(user);
+		blueRidgeUser.put();
+	}	
 })
 .controller('SignOutCtrl',function($scope,$location,Auth){	
 	Auth.signOut();
@@ -41,11 +45,16 @@ angular.module('blueRidgeApp.controllers', [])
 		}
 	}
 })
-.controller('ToDoCtrl',function($scope,$location,Auth){	
+.controller('ToDoCtrl',function($scope,$location,Restangular,Auth){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
-	$scope.todos = ToDos.get();
+	Restangular.one('users',Auth.getProfileUser().id).get().then(function(user){
+		$scope.user = user;
+		console.log(user);
+	});
+
+	//$scope.todos = ToDos.get();
 	//console.log(User.get());
 	//$scope.user = User.get();
 })
@@ -74,8 +83,8 @@ angular.module('blueRidgeApp.controllers', [])
 .controller('BasecampCtrl',function($scope,$location,Restangular,Auth) {
 	var code = $location.search().code;
 	var basecampUser = Restangular.all('users');
-	basecampUser.post({code:code,provider:'basecamp'}).then(function(data){
-		Auth.authorize(data);
+	basecampUser.post({code:code,provider:'basecamp'}).then(function(auth){
+		Auth.authorize(auth);
 		$location.path('/settings').search('code',null); 
 	},function() {
 		console.log("There was an error saving");
