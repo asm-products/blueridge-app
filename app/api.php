@@ -58,7 +58,10 @@ $app->post('/api/users', function () use ($app) {
 	$user = new User($app);
 	$service_properties = ['providers'=>["{$providerName}"=>['auth'=>$auth]],'accounts'=>$accounts];
 	$properties = array_merge($me,$service_properties);
-	$user->create($properties);
+	$resource = $user->create($properties);
+	//if(empty($resource)){
+		
+	//}
 	
 	echo (json_encode((object) ['id'=>$user->id,'key'=>$user->key]));
 	
@@ -86,13 +89,15 @@ $app->get('/api/:resource(/:id)', function ($resource,$id = null) use ($app) {
 		$collection = $entity->fetch($app->request()->get());
 	}
 
+	if(empty($collection)){
+		$app->response()->status(404);
+	}
+
 	$resource = json_encode($collection);
 	echo $resource;
 	
 });
+
 $response = $app->response();
 $response['Content-Type'] = 'application/json';
-$response['X-Powered-By'] = 'Mospired';
-
-
 $app->run();

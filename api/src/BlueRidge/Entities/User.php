@@ -102,8 +102,16 @@ class User extends \BlueRidge\ModelAbstract
 		$pass= $this->getInitPassword();
 		$properties['password']=$pass;
 		$properties['key']=$this->setKey($pass);
-		$user = $this->update(["email"=>$properties['email']],$properties);
-		return $this->setProperties($user);
+		$result = $this->update(["email"=>$properties['email']],$properties);
+		
+		if(empty($result)){
+			return;
+		}
+		if(isset($result['error'])){
+			return $result;
+		}
+
+		return $this->setProperties($result);
 
 	}
 	public function update(Array $criteria, $doc, $single=false){
@@ -129,7 +137,7 @@ class User extends \BlueRidge\ModelAbstract
 
 	private function getInitPassword() {
 		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";			
-		$password = substr( str_shuffle( $chars ), 0, 12 );
+		$password = substr(str_shuffle( $chars ), 0, 12 );
 		return $password;
 	}
 	private function setKey($password){
