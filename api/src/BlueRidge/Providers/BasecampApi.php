@@ -69,7 +69,8 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		$endpoint = "people/me.json";		
 		return [
 		'name'=>"{$auth->identity['first_name']} {$auth->identity['last_name']}",
-		'email'=>$auth->identity['email_address']
+		'email'=>$auth->identity['email_address'],
+		'avatar'=>'http://placehold.it/96x96'
 		];
 	}
 
