@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "cf01214f7c80935fd561f6766d556e89",
+    "hash": "ef3bc769422414eb3adf51af68765101",
     "packages": [
         {
             "name": "phpmailer/phpmailer",
@@ -100,6 +100,52 @@
                 "router"
             ],
             "time": "2012-12-13 02:15:50"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "a2328cd69a43214b1b6d2671e99d315cdf37e04f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/a2328cd69a43214b1b6d2671e99d315cdf37e04f",
+                "reference": "a2328cd69a43214b1b6d2671e99d315cdf37e04f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "vierbergenlars/simpletest": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/Stripe/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "time": "2013-04-13 23:09:45"
         }
     ],
     "packages-dev": [
@@ -109,12 +155,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phingofficial/phing.git",
-                "reference": "1d76a264e15eaad29c817a59adee0b4fa1c763f1"
+                "reference": "b169a84dd41d9ba903dd32fc3696d18f6ad20d9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/1d76a264e15eaad29c817a59adee0b4fa1c763f1",
-                "reference": "1d76a264e15eaad29c817a59adee0b4fa1c763f1",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/b169a84dd41d9ba903dd32fc3696d18f6ad20d9a",
+                "reference": "b169a84dd41d9ba903dd32fc3696d18f6ad20d9a",
                 "shasum": ""
             },
             "require": {
@@ -153,7 +199,7 @@
                 "task",
                 "tool"
             ],
-            "time": "2013-06-05 08:25:51"
+            "time": "2013-06-17 14:40:12"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -566,6 +612,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "phpmailer/phpmailer": 20,
+        "stripe/stripe-php": 20,
         "phing/phing": 20
     },
     "platform": [
