@@ -122,7 +122,7 @@ class ToDo extends \BlueRidge\ModelAbstract
 			$todo = new Todo($this->app,$item);
 
 			if(!empty($item['assignee'])){
-				$todo->owner = $item['assignee']['name'];
+				$todo->owner = $item['assignee'];
 			}	
 			$todo->url = $item['siteUrl'];
 			if(!empty($item['due_on'])){

@@ -2,7 +2,7 @@
 angular.module('blueRidgeApp.controllers', [])
 .controller('HomeCtrl',function($scope,$location,Auth){
 	if (Auth.isSignedIn()) {
-		$location.path('/activity');
+		$location.path('/todos');
 	}
 })
 .controller('SettingsCtrl',function($scope,$location,Restangular,Auth){	
@@ -15,8 +15,8 @@ angular.module('blueRidgeApp.controllers', [])
 	$scope.updateAccounts = function(accounts) {
 		blueRidgeUser.accounts=accounts;
 		blueRidgeUser.put();
-		if($location.path()=='/accounts'){
-			$location.path('/activity');
+		if($location.path()=='/projects'){
+			$location.path('/todos');
 		}
 	}	
 })
@@ -89,7 +89,7 @@ angular.module('blueRidgeApp.controllers', [])
 	var basecampUser = Restangular.all('users');
 	basecampUser.post({code:code,provider:'basecamp'}).then(function(auth){
 		Auth.authorize(auth);
-		$location.path('/accounts').search('code',null); 
+		$location.path('/projects').search('code',null); 
 	},function() {
 		console.log("There was an error saving");
 	});
