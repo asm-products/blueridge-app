@@ -49,11 +49,6 @@ class User extends \BlueRidge\ModelAbstract
 	 */
 	protected $accounts;
 
-	/**
-	 * Active Projects
-	 * @var string
-	 */
-	protected $activeProjects;
 
 	/**
 	 * Providers
@@ -107,27 +102,42 @@ class User extends \BlueRidge\ModelAbstract
 		$pass= $this->getInitPassword();
 		$properties['password']=$pass;
 		$properties['key']=$this->setKey($pass);
-		$properties['activeProjects']=array();
-		$user = $this->update(["email"=>$properties['email']],$properties);
-		return $this->setProperties($user);
+		$result = $this->update(["email"=>$properties['email']],$properties);
+		
+		if(empty($result)){
+			return;
+		}
+		if(isset($result['error'])){
+			return $result;
+		}
+
+		return $this->setProperties($result);
 
 	}
-	public function update(Array $criteria, Array $doc){
+	public function update(Array $criteria, $doc, $single=false){
+		if(key($criteria)=='id'){
+			$criteria =['_id'=>new \MongoId($criteria['id'])];
+		}
 
 		$db = $this->app->database;
 		$users = new \MongoCollection($db,"Users");
 		$result = $users->findAndModify($criteria,['$set' => $doc],null,["new" => true,"upsert"=>true]);
+		
+		if($single === true){
+			return $this->setProperties($result);
+		}
+		
 		return $result;
 
 	}
 	public function toArray(){
-		$item = ["id"=>$this->id,"name"=>$this->name,"email"=>$this->email,'key'=>$this->key,"avatar"=>$this->avatar,"url"=>$this->url,"accounts"=>$this->accounts,"activeProjects"=>$this->activeProjects];
+		$item = ["id"=>$this->id,"name"=>$this->name,"email"=>$this->email,'key'=>$this->key,"avatar"=>$this->avatar,"url"=>$this->url,"accounts"=>$this->accounts];
 		return $item;
 	}
 
 	private function getInitPassword() {
 		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";			
-		$password = substr( str_shuffle( $chars ), 0, 12 );
+		$password = substr(str_shuffle( $chars ), 0, 12 );
 		return $password;
 	}
 	private function setKey($password){

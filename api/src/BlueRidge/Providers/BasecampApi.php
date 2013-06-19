@@ -69,7 +69,8 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		$endpoint = "people/me.json";		
 		return [
 		'name'=>"{$auth->identity['first_name']} {$auth->identity['last_name']}",
-		'email'=>$auth->identity['email_address']
+		'email'=>$auth->identity['email_address'],
+		'avatar'=>'http://placehold.it/96x96'
 		];
 	}
 
@@ -98,26 +99,34 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		return "{$properties->auth_url}?client_id={$properties->client_id}&redirect_uri={$redirect_uri}&type=web_server";
 	}
 
-
-
 	public function getToDos($todoLists,$token){
 		$todos = array();
+		
+		foreach($todoLists as $projectName => $lists){	
 
-		foreach($todoLists as $list){			
-			$todoList = $this->getData($list['url'],$token);
-			foreach ($todoList['todos']['remaining'] as $todo){				
-				$todo['list'] = $list['name'];
-				$todo['siteUrl']=$this->getSiteUrl($todo['url']);
-				$todos[]=$todo;
+			foreach ($lists as $list) {
+				$todoList = $this->getData($list['url'],$token);
+				foreach ($todoList['todos']['remaining'] as $todo){				
+					$todo['list'] = $list['name'];
+					$todo['projectName'] = $projectName;
+					$todo['siteUrl']=$this->getSiteUrl($todo['url']);
+					$todos[]=$todo;
+				}
 			}
+			
 		}
 		return $todos;
 	}
 
-	public function getToDoLists($project,$token){
-		$endpoint = "/projects/{$project['id']}/todolists.json";
-		$url = "{$project['account']['href']}/$endpoint";
-		$todoLists = $this->getData($url,$token);
+	public function getToDoLists($activeProjects,$token){
+		$todoLists=array();
+		$list= array();
+		foreach ($activeProjects as $project) {
+			$endpoint = "projects/{$project['id']}/todolists.json";
+			$url = "{$project['accountUrl']}/$endpoint";
+			$todoLists[$project['name']] = $this->getData($url,$token);
+		}
+
 		return $todoLists;
 	}
 

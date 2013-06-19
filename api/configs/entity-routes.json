@@ -12,15 +12,8 @@
       "POST"
     ]
   },
-  "auth": {
-    "entity": "Auth",
-    "methods": [
-      "GET",
-      "POST"
-    ]
-  },
-  "services": {
-    "entity": "Service",
+  "people": {
+    "entity": "Person",
     "methods": [
       "GET",
       "POST"

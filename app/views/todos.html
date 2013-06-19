@@ -1,21 +1,26 @@
 <div class="container-fluid">
   <div ng-include src="'views/sections/top-nav.html'"></div>
+  <div>
+    actions here
+  </div>
   <table class="table table-hover">
-    <thead>     
+    <thead>
       <tr>
         <th>Due Date</th>
         <th>Description</th>
         <th>Owner</th>
-        <th>Project / List</th>
-        <tr>    
-        </thead>
-        <tbody>
-          <tr ng-repeat="todo in todos">
-            <td>{{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="label">{{todo.overDueBy}} days</span></td>
-            <td><a href="{{todo.url}}">{{todo.content}}</a></td>
-            <td>{{todo.owner}}</td>
-            <td>{{todo.project}} / {{todo.list}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        <th>List</th>
+        <th>Project</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="todo in todos">
+        <td>{{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="label">{{todo.overDueBy}} days</span></td>
+        <td><a href="{{todo.url}}">{{todo.content}}</a></td>
+        <td>{{todo.owner}}</td>
+        <td>{{todo.list}}</td>
+        <td>{{todo.projectName}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

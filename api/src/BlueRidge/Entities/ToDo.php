@@ -46,10 +46,10 @@ class ToDo extends \BlueRidge\ModelAbstract
 	protected $owner;
 
 	/**
-	 * Project
+	 * Project Name
 	 * @var String
 	 */
-	//protected $project;
+	protected $projectName;
 
 	/**
 	 * List
@@ -87,26 +87,32 @@ class ToDo extends \BlueRidge\ModelAbstract
 			return;
 		}
 
-		$valid_project = false;
-		$projects = $user->projects;
+		$accounts = $user->accounts;
+		$activeProjects = array();
 
-		foreach($projects as $project){
-			if($project['id'] == $params['project']){
-				$valid_project = true;
-				break;
+		foreach($user->accounts as $account){
+			foreach($account['projects'] as $project){			
+				if(!empty($project['selected'])){
+					$project['accountUrl']=$account['href'];
+					$activeProjects[] = $project;
+				}
 			}			
 		}
 
-		if(!$valid_project){
+		if(empty($activeProjects)){
 			return;
 		}
 
 		$basecamp = new BasecampApi($this->app);
-		$token =$user->services['basecamp']['auth']['token'];
-		$todoLists=$basecamp->getToDoLists($project,$token);
+		$token =$user->providers['basecamp']['auth']['token'];
+		$todoLists=$basecamp->getToDoLists($activeProjects,$token);
 		$todos = $basecamp->getTodos($todoLists,$token);
 
-		return $this->organize($todos);
+		$collection = new \StdClass();
+		$collection->user = $user->toArray();
+		$collection->todos = $this->organize($todos);
+
+		return $collection;
 		
 	}
 	private function organize($todoItems){
@@ -158,6 +164,7 @@ class ToDo extends \BlueRidge\ModelAbstract
 		"owner"=>$this->owner,
 		"list"=>$this->list,
 		"url"=>$this->url,
+		"projectName"=>$this->projectName,
 		"overDueBy"=>$this->overDueBy
 		];
 		return $item;

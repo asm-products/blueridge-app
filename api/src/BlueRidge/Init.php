@@ -89,7 +89,7 @@ class Init extends Middleware
         $path = $this->app->request()->getPath();
         list($separator,$root,$base) = explode('/', $path) + [null,null,null];
 
-        $jsonRoutes= file_get_contents("../api/configs/routes.json");    
+        $jsonRoutes= file_get_contents("../api/configs/entity-routes.json");    
         $routes =json_decode($jsonRoutes); 
 
         if(!array_key_exists($base, $routes)){
