@@ -17,7 +17,7 @@
       <tr ng-repeat="todo in todos">
         <td>{{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="label">{{todo.overDueBy}} days</span></td>
         <td><a href="{{todo.url}}">{{todo.content}}</a></td>
-        <td>{{todo.owner}}</td>
+        <td>{{todo.owner.name}}</td>
         <td>{{todo.list}}</td>
         <td>{{todo.projectName}}</td>
       </tr>
