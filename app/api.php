@@ -79,6 +79,7 @@ $app->put('/api/users/:id',function($id) use ($app){
 $app->get('/api/:resource(/:id)', function ($resource,$id = null) use ($app) {
 	
 	$entityName  = "\\BlueRidge\\Entities\\{$app->resource->entity}";
+	$collection = new \StdClass();
 
 	$entity= new $entityName($app);
 	if(!empty($id)){
@@ -87,7 +88,7 @@ $app->get('/api/:resource(/:id)', function ($resource,$id = null) use ($app) {
 
 		$collection = $entity->toArray();
 	}else{
-		$collection = $entity->fetch($app->request()->get());
+		$collection->$resource = $entity->fetch($app->request()->get());
 	}
 
 	if(empty($collection)){

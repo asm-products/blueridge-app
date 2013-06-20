@@ -49,10 +49,11 @@ angular.module('blueRidgeApp.controllers', [])
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
+	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
+	$scope.user = blueRidgeUser.get();
 
 	var blueRidgeTodos = Restangular.all('todos');
 	blueRidgeTodos.getList({user:Auth.getProfileUser().id}).then(function(data){
-		$scope.user=data.user;
 		$scope.todos=data.todos;
 	});
 
