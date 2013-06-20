@@ -2,47 +2,68 @@
 	<div ng-include src="'views/sections/top-nav.html'"></div>
 	<div class="container-narrow">				
 		<h2> <img ng-src="{{user.avatar}}" class="img-circle" > <span class="muted">{{user.name}}</span></h2>
-		<div class="row-fluid">
-			<div class="span6 well" id="profile">
-				<fieldset>
-					<legend>Your Info</legend>
-					<div class="control-group">
+		<form class="clearfix sector">
+			<fieldset>
+				<legend>Your Info</legend>
+				<div class="row-fluid">
+					<div class="control-group span4">
 						<label class="control-label" for="userName">Name</label>
 						<div class="controls">
-							<input type="text" id="userName" ng-model="user.name" >
+							<input type="text" class="span11" id="userName" ng-model="user.name" >
 						</div>
-					</div>		
-					<div class="control-group">
+					</div>
+					<div class="control-group span4">
 						<label class="control-label" for="userEmail">Email</label>
 						<div class="controls">
-							<input type="email" id="userEmail" ng-model="user.email" >
+							<input type="email" class="span11" id="userEmail" ng-model="user.email" >
 						</div>
 					</div>
-					<div class="control-group">
+					<div class="control-group span4">
 						<label class="control-label" for="userPassword">Password</label>
 						<div class="controls">
-							<input type="password" id="userPassword" ng-model="user.password">
+							<input type="password" class="span11" id="userPassword" ng-model="user.password">
 						</div>
-					</div>
-				</fieldset>
-				<div class="control-group">
-					<div class="controls">
-						<button class="btn btn-success" type="submit" ng-click="update(user)">Update Profile</button>
-					</div>
+					</div>						
+				</div>					
+			</fieldset>
+			<div class="control-group pull-right">
+				<div class="controls">
+					<button class="btn btn-success" type="submit" ng-click="update(user)">Update Profile</button>
 				</div>
 			</div>
+		</form>
 
-			<div class="span6 well">
-				<fieldset>
-					<legend>Billing</legend>
-					<div class="control-group">
-						<div class="controls">
-							<button class="btn btn-info" type="submit" ng-click="update(user)">Add a Payment method</button>
-						</div>
-					</div>
-				</fieldset>
-				
+		<div id="billing" class="sector">
+			<fieldset>
+				<legend>Billing</legend>
+				<div class="control-group sector sub-sector">
+					<label class="radio">
+						<input name="" type="radio"	value="free" ng-model="user.plan">
+						<span><strong>Free</strong></span>
+						<div class="muted">Allows you to view one project.</div>
+					</label>
+				</div>
+				<div class="control-group sector">
+					<label class="radio">
+						<input type="radio"	value="solo" ng-model="user.plan">
+						<span><strong>Solo</strong></span>
+						<p class="muted">Allows you to view up to 5 projects for $4.95/mo</p>
+					</label>
+				</div>
+				<div class="control-group sector">
+					<label class="radio">
+						<input type="radio"	value="pro" ng-model="user.plan">
+						<span><strong>Pro</strong></span>
+						<p class="muted"> Allows you to view up to 20 projects for $14.95/mo</p>
+					</label>
+				</div>				
+			</fieldset>
+			<div class="control-group">
+				<div class="controls">
+					<button class="btn btn-info" type="submit" ng-click="update(user)">Add a Payment method</button>
+				</div>
 			</div>
 		</div>
 	</div>
+
 </div>
