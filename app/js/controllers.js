@@ -57,26 +57,12 @@ angular.module('blueRidgeApp.controllers', [])
 	});
 
 })
-.controller('ActivityCtrl',function($scope,$location,Auth,Restangular){
-	if (!Auth.isSignedIn()) {
-		$location.path('/');
-	}
-	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
-	$scope.user = blueRidgeUser.get();	
-})
 .controller('MeCtrl',function($scope,$location,Auth,Restangular){
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
 	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
 	$scope.user = blueRidgeUser.get();
-
-})
-.controller('PeopleCtrl',function($scope,$location,Auth,User) {
-	if (!Auth.isSignedIn()) {
-		$location.path('/');
-	}
-	$scope.user = User.get();
 
 })
 .controller('ConnectCtrl',function($scope,Restangular) {

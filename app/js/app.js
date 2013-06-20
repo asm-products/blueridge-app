@@ -17,11 +17,7 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 	.when('/projects', {
 		templateUrl: 'views/projects.html', 
 		controller: 'SettingsCtrl'
-	})	
-	.when('/billing', {
-		templateUrl: 'views/billing.html', 
-		//controller: 'SettingsCtrl'
-	})	
+	})		
 	.when('/signout', {
 		templateUrl: 'views/home.html',
 		controller: 'SignOutCtrl'

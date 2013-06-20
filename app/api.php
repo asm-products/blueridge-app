@@ -60,9 +60,10 @@ $app->post('/api/users', function () use ($app) {
 	$properties = array_merge($me,$service_properties);
 	$resource = $user->create($properties);
 	//if(empty($resource)){
-		
+
 	//}
 	
+	//$app->response()->status(201);
 	echo (json_encode((object) ['id'=>$user->id,'key'=>$user->key]));
 	
 });
