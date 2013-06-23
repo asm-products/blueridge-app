@@ -108,11 +108,11 @@ class ToDo extends \BlueRidge\ModelAbstract
 		$todoLists=$basecamp->getToDoLists($activeProjects,$token);
 		$todos = $basecamp->getTodos($todoLists,$token);
 
-		$collection = new \StdClass();
-		$collection->user = $user->toArray();
-		$collection->todos = $this->organize($todos);
+		//$collection = new \StdClass();
+		//$collection->user = $user->toArray();
+		//$collection->todos = $this->organize($todos);
 
-		return $collection;
+		return $this->organize($todos);
 		
 	}
 	private function organize($todoItems){

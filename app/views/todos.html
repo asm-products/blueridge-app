@@ -1,9 +1,7 @@
-<div class="container-fluid">
+<div class="container">
   <div ng-include src="'views/sections/top-nav.html'"></div>
-  <div>
-    actions here
-  </div>
-  <table class="table table-hover">
+  <!--<div loading-container="loading">-->
+  <table ng-table="tableParams" class="table">
     <thead>
       <tr>
         <th>Due Date</th>
@@ -16,7 +14,7 @@
     <tbody>
       <tr ng-repeat="todo in todos">
         <td><span ng-if="!todo.dueDate" class="label label-info" >none</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="label">{{todo.overDueBy}} days</span></td>
-        <td><a href="{{todo.url}}">{{todo.content}}</a></td>
+        <td><a ng-href="{{todo.url}}" target="_blank">{{todo.content}}</a></td>
         <td><span ng-if="!todo.owner.name" class="label label-important" > unassigned</span>{{todo.owner.name}}</td>
         <td>{{todo.list}}</td>
         <td>{{todo.projectName}}</td>
@@ -24,3 +22,4 @@
     </tbody>
   </table>
 </div>
+<!--</div>-->
