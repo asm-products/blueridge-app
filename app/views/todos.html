@@ -1,6 +1,7 @@
-<div class="container-fluid">
+<div class="container">
   <div ng-include src="'views/sections/top-nav.html'"></div>
-  <table class="table table-hover">
+  <!--<div loading-container="loading">-->
+  <table ng-table="tableParams" class="table">
     <thead>
       <tr>
         <th>Due Date</th>
@@ -21,3 +22,4 @@
     </tbody>
   </table>
 </div>
+<!--</div>-->

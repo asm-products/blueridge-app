@@ -16,7 +16,7 @@ angular.module('blueRidgeApp.controllers', [])
 		blueRidgeUser.accounts=accounts;
 		blueRidgeUser.put();
 		if($location.path()=='/projects'){
-			$location.path('/todos');
+			//$location.path('/todos');
 		}
 	}	
 })
@@ -45,17 +45,39 @@ angular.module('blueRidgeApp.controllers', [])
 		}
 	}
 })
-.controller('ToDoCtrl',function($scope,$location,Restangular,Auth){	
+.controller('ToDoCtrl',function($scope,$location,Restangular,Auth,ngTableParams){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
 	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
-	$scope.user = blueRidgeUser.get();
+    $scope.user = blueRidgeUser.get();
 
-	var blueRidgeTodos = Restangular.all('todos');
-	blueRidgeTodos.getList({user:Auth.getProfileUser().id}).then(function(data){
-		$scope.todos=data.todos;
-	});
+    var blueRidgeTodos = Restangular.all('todos');
+    blueRidgeTodos.getList({user:Auth.getProfileUser().id}).then(function(data){
+    	$scope.todos = data.todos;
+    });
+
+
+	/*$scope.tableParams = new ngTableParams({
+        page: 1,            // show first page
+        total: data.length, // length of data
+        count: 30           // count per page
+    });
+*/
+    // watch for changes of parameters
+   /* $scope.$watch('tableParams', function(params) {
+        // slice array data on pages
+        $scope.todos = data.slice(
+        	(params.page - 1) * params.count,
+        	params.page * params.count
+        	);
+    }, true);
+*/
+
+
+
+
+    
 
 })
 .controller('MeCtrl',function($scope,$location,Auth,Restangular){
