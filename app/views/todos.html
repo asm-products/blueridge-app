@@ -1,25 +1,14 @@
 <div class="container">
-  <div ng-include src="'views/sections/top-nav.html'"></div>
-  <!--<div loading-container="loading">-->
-  <table ng-table="tableParams" class="table">
-    <thead>
-      <tr>
-        <th>Due Date</th>
-        <th>Description</th>
-        <th>Owner</th>
-        <th>List</th>
-        <th>Project</th>
-      </tr>
-    </thead>
-    <tbody>
+  <div ng-include src="'views/sections/top-nav.html'"></div>  
+  <div loading-container="loading">
+    <table ng-table="tableParams" class="table">
       <tr ng-repeat="todo in todos">
-        <td><span ng-if="!todo.dueDate" class="label label-info" >none</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="label">{{todo.overDueBy}} days</span></td>
-        <td><a ng-href="{{todo.url}}" target="_blank">{{todo.content}}</a></td>
-        <td><span ng-if="!todo.owner.name" class="label label-important" > unassigned</span>{{todo.owner.name}}</td>
-        <td>{{todo.list}}</td>
-        <td>{{todo.projectName}}</td>
+        <td title="'Due Date'" filter="{ 'dueDate': 'text' }" sortable="dueDate" ><span ng-if="!todo.dueDate" class="label label-info" style="width:100px" >none</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="label">{{todo.overDueBy}} days</span></td>
+        <td title="'Description'" filter="{ 'content': 'text' }" sortable="content" ><a ng-href="{{todo.url}}" target="_blank">{{todo.content}}</a></td>
+        <td title="'Owner'" filter="{ 'owner.name': 'text' }" sortable="owner.name" ><span ng-if="!todo.owner.name" class="label label-important" > unassigned</span>{{todo.owner.name}}</td>
+        <td title="'List'" filter="{ 'list': 'text' }" sortable="list" >{{todo.list}}</td>
+        <td title="'Project'" filter="{ 'projectName': 'text' }" sortable="projectName" >{{todo.projectName}}</td>
       </tr>
-    </tbody>
-  </table>
+    </table>
+  </div>
 </div>
-<!--</div>-->
