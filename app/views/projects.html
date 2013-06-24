@@ -3,6 +3,9 @@
 	<div class="container-narrow">
 		<h2 class="muted">Projects</h2>
 		<p class="lead">Select one or more projects you would want us to awesomely organize</p>
+		<div ng-if="updated" class="alert alert-success">
+			Your accounts have been updated
+		</div>
 		<fieldset ng-repeat="account in user.accounts">
 			<legend>{{account.name}}</legend>
 			<label ng-repeat="project in account.projects" class="checkbox">
