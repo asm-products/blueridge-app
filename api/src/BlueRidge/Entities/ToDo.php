@@ -129,14 +129,14 @@ class ToDo extends \BlueRidge\ModelAbstract
 			}
 
 			// set initial order
-			//$due_date[$key] = $todo->dueDate;
-			//$position[$key] = $initPos;
-			//$overdueBy[$key] = $todo->overDueBy;
+			$due_date[$key] = $todo->dueDate;
+			$position[$key] = $initPos;
+			$overdueBy[$key] = $todo->overDueBy;
 
 			$todos[]=$todo->toArray();
 		}
 
-		//array_multisort($overdueBy,SORT_DESC,$position,SORT_DESC,$due_date,SORT_ASC,$todos);
+		array_multisort($overdueBy,SORT_DESC,$position,SORT_DESC,$due_date,SORT_ASC,$todos);
 		return $todos;	
 
 	}
