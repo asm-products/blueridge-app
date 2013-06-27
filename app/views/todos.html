@@ -3,7 +3,7 @@
   <div loading-container="loading">
     <table ng-table="tableParams" class="table">
       <tr ng-repeat="todo in todos">
-        <td title="'Due Date'" filter="{ 'dueDate': 'text' }" sortable="dueDate" ><span ng-if="!todo.dueDate" class="label label-info" style="width:100px" >none</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="label">{{todo.overDueBy}} days</span></td>
+        <td title="'Due Date'" filter="{ 'dueDate': 'text' }" sortable="overDueBy" ><span ng-if="!todo.dueDate" class="label label-info" style="width:100px" >none</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="label">{{todo.overDueBy}} days</span></td>
         <td title="'Description'" filter="{ 'content': 'text' }" sortable="content" ><a ng-href="{{todo.url}}" target="_blank">{{todo.content}}</a></td>
         <td title="'Owner'" filter="{ 'owner.name': 'text' }" sortable="owner.name" ><span ng-if="!todo.owner.name" class="label label-important" > unassigned</span>{{todo.owner.name}}</td>
         <td title="'List'" filter="{ 'list': 'text' }" sortable="list" >{{todo.list}}</td>
