@@ -108,11 +108,7 @@ class ToDo extends \BlueRidge\ModelAbstract
 		$todoLists=$basecamp->getToDoLists($activeProjects,$token);
 		$todos = $basecamp->getTodos($todoLists,$token);
 
-		$collection = new \StdClass();
-		$collection->user = $user->toArray();
-		$collection->todos = $this->organize($todos);
-
-		return $collection;
+		return $this->organize($todos);
 		
 	}
 	private function organize($todoItems){
@@ -122,7 +118,7 @@ class ToDo extends \BlueRidge\ModelAbstract
 			$todo = new Todo($this->app,$item);
 
 			if(!empty($item['assignee'])){
-				$todo->owner = $item['assignee']['name'];
+				$todo->owner = $item['assignee'];
 			}	
 			$todo->url = $item['siteUrl'];
 			if(!empty($item['due_on'])){
