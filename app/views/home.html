@@ -1,4 +1,4 @@
-<div class="container-narrow">
+<div class="container">
 	<div class="masthead">
 		<h2 class="muted">BlueRidge</h2>
 	</div>
@@ -9,7 +9,7 @@
 		<p><b>Try it now for free.</b></p>
 		<p><a class="btn btn-large btn-success" href="/connect">Connect to Basecamp</a></p>
 		
-		<div ng-controller="SignInCtrl">
+		<!--<div ng-controller="SignInCtrl">
 			<p>Already have an account? <a href="#"ng-click="open()">Sign in Here</a></p>
 			<form modal="shouldBeOpen" close="close()" options="opts">
 				<div class="modal-header">
@@ -26,22 +26,44 @@
 					<button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
 				</div>
 			</form>
-		</div>
+		</div>-->
 	</div>
 	<hr>
 	<div class="row-fluid marketing">
-		<div class="span6">
+		<div class="span4">
 			<h4>What does BlueRidge do?</h4>
 			<p>Simple. We connect to your Basecamp account, grab all the To-Do items in all the To-Do lists, across all your projects and show them to you in one sortable easy to read list. <a href="#">See a Screenshot</a></p>
 			<h4>How much does it cost?</h4>
 			<p>Only $10 a month. A fraction of what it&rsquo;s worth. You&rsquo;ll save that time in the first day using it. No hidden fees. No minimum terms. Cancel anytime.</p>
 		</div>
 
-		<div class="span6">
+		<div class="span4">
 			<h4>Why would I want it?</h4>
 			<p>Do you have a time machine? Neither do we. We were sick of losing time searching for To-Dos and sorting them in our heads. With BlueRidge, you can see everything at once. The way it should be.</p>               
 			<h4>What else does it do?</h4>
 			<p>Nothing. This isn&rsquo;t another To-Do list app or a replacement for Basecamp. But it does make using Basecamp a whole helluva lot nicer.</p>
 		</div>
+		<div class="span4">
+			<!-- Begin MailChimp Signup Form -->
+			<div id="mc_embed_signup">
+				<form action="http://ninelabs.us4.list-manage.com/subscribe/post?u=dd83e9925d042bbeb961ed" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+					<h2>Subscribe to our mailing list</h2>
+					<!--<div class="indicates-required"><span class="asterisk">*</span> indicates required</div>-->
+					<div class="mc-field-group">
+						<label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
+						</label>
+						<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+					</div>
+					<div id="mce-responses" class="clear">
+						<div class="response" id="mce-error-response" style="display:none"></div>
+						<div class="response" id="mce-success-response" style="display:none"></div>
+					</div>	<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button btn-success"></div>
+				</form>
+			</div>
+
+			<!--End mc_embed_signup-->
+
+		</div>
+
 	</div>
 </div>
