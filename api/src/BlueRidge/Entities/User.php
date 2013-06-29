@@ -103,6 +103,13 @@ class User extends \BlueRidge\ModelAbstract
 		return $this->setProperties($doc);
 
 	}
+	public function fetchSegment($segment){
+
+		// todos only
+			$todo = new ToDo($this->app);
+			$todos = $todo->fetchUserTodos($this);
+			return $todos;
+	}
 
 	public function create($properties){
 		$pass= $this->getInitPassword();

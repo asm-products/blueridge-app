@@ -5,16 +5,16 @@ angular.module('blueRidgeApp.controllers', [])
 		$location.path('/todos');
 	}
 })
-.controller('SettingsCtrl',function($scope,$location,Restangular,Auth){	
+.controller('ProjectCtrl',function($scope,$location,Restangular,Auth){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
 	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
 	$scope.user = blueRidgeUser.get();
-
+	$scope.updated = false;
+	
 	$scope.updateAccounts = function(accounts) {
 		blueRidgeUser.accounts=accounts;
-		$scope.updated = false;
 		blueRidgeUser.put().then(function(){
 			$scope.updated =true;
 		});
@@ -51,8 +51,6 @@ angular.module('blueRidgeApp.controllers', [])
 	}
 	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
 	$scope.user = blueRidgeUser.get();
-
-	var blueRidgeTodos = Restangular.all('todos');
 	$scope.loading = true;
 
 	$scope.tableParams = new ngTableParams({
@@ -64,7 +62,7 @@ angular.module('blueRidgeApp.controllers', [])
 		}
 	});
 
-	blueRidgeTodos.getList({user:Auth.getProfileUser().id}).then(function(result){
+	blueRidgeUser.all('todos').getList().then(function(result){
 		var data = result.todos;
 		$scope.todos = data;
 		$scope.tableParams.total = data.length;	

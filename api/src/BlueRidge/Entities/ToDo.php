@@ -87,6 +87,10 @@ class ToDo extends \BlueRidge\ModelAbstract
 			return;
 		}
 
+		return $this->fetchUserTodos($user);
+		
+	}
+	public function fetchUserTodos(User $user){
 		$accounts = $user->accounts;
 		$activeProjects = array();
 
@@ -109,8 +113,9 @@ class ToDo extends \BlueRidge\ModelAbstract
 		$todos = $basecamp->getTodos($todoLists,$token);
 
 		return $this->organize($todos);
-		
+
 	}
+
 	private function organize($todoItems){
 
 		foreach($todoItems as $key => $item){
