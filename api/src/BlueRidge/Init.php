@@ -44,7 +44,6 @@ class Init extends Middleware
             $this->app->providers = $configs->providers;
         }
 
-        $this->app->resource = $this->setResource();
     }
 
     /**
@@ -80,22 +79,4 @@ class Init extends Middleware
         return $memcache;
 
     }
-
-    /**
-     * Setup Routes and Requested Resource
-     */
-    protected function setResource(){
-
-        $path = $this->app->request()->getPath();
-        list($separator,$root,$base) = explode('/', $path) + [null,null,null];
-
-        $jsonRoutes= file_get_contents("../api/configs/entity-routes.json");    
-        $routes =json_decode($jsonRoutes); 
-
-        if(!array_key_exists($base, $routes)){
-           return;
-       }
-
-       return $resource = $routes->$base;
-   }
 }
