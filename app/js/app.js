@@ -16,7 +16,7 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 	})
 	.when('/projects', {
 		templateUrl: 'views/projects.html', 
-		controller: 'SettingsCtrl'
+		controller: 'ProjectCtrl'
 	})		
 	.when('/signout', {
 		templateUrl: 'views/home.html',
@@ -36,6 +36,5 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 	$locationProvider.html5Mode(true);
 	$dialogProvider.options({backdropClick: false, dialogFade: true});
 	RestangularProvider.setBaseUrl("/api");
-	RestangularProvider.setDefaultHttpFields({cache: true},{headers:{'User-Agent':'blueridgeapp'}});
 	RestangularProvider.setListTypeIsArray(false);
 }]).run();
