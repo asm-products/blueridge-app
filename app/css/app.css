@@ -49,9 +49,17 @@ body {
   margin: 1em 0;
   padding: 0;
 }
-#home .masthead h3 {
+#home .masthead {
   text-align: center;
 }
+#home .masthead h3#brand {
+  background-image: url('/img/badge_blue.png');
+  margin:1em auto 0;
+  height:125px;
+  text-indent: -9999em;
+  width:153px;
+}
+
 
 .form-signin {
   max-width: 300px;
