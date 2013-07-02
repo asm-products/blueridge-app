@@ -1,11 +1,8 @@
-<div class="container">
+<div id="app-projects" class="container app-container">
 	<div ng-include src="'views/sections/top-nav.html'"></div>
-	<div class="container-narrow">
+	<div class="panel">
 		<h2 class="muted">Projects</h2>
 		<p class="lead">Select one or more projects you would want us to awesomely organize</p>
-		<div ng-if="updated" class="alert alert-success">
-			Your accounts have been updated
-		</div>
 		<fieldset ng-repeat="account in user.accounts">
 			<legend>{{account.name}}</legend>
 			<label ng-repeat="project in account.projects" class="checkbox">
@@ -16,6 +13,10 @@
 		</fieldset>
 		<hr />
 		<div class="control-group">
+      <div ng-if="updated" class="alert alert-success">
+        Your accounts have been updated
+      </div>
+    
 			<div class="controls">
 				<button class="btn btn-large btn-success" type="submit" ng-click="updateAccounts(user.accounts)">Update Accounts</button>
 			</div>

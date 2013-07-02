@@ -1,10 +1,9 @@
 /* app css stylesheet */
 html,
 body {
+  background-color: #f5efe6;
   height: 100%;
-}
-.container {
-  width: auto;
+  font-family: "proxima-nova","Helvetica Neue",helvetica,arial,sans-serif;
 }
 .jumbotron {
   margin: 60px 0;
@@ -37,6 +36,23 @@ body {
   margin-top: 28px;
 }
 
+/**************************************************
+ * For the home page
+ */
+
+#home { text-shadow: 0 1px #fff; }
+#home hr {
+  border: 0;
+  border-top: 1px solid #ded7c8;
+  display: block;
+  height: 1px;
+  margin: 1em 0;
+  padding: 0;
+}
+#home .masthead h3 {
+  text-align: center;
+}
+
 .form-signin {
   max-width: 300px;
   padding: 19px 29px 29px;
@@ -61,7 +77,68 @@ body {
   margin-bottom: 15px;
   padding: 7px 9px;
 }
-body { padding-top: 7em; }
+
+/************************************************
+ * App Pages
+ */
+
+.app-container {
+  max-width:960px;
+}
+
+.app-navigation {
+  margin:2em 0 1em;
+}
+
+.app-navigation #brand {
+  border-right:1px solid rgb(222, 215, 200);
+  margin:0;
+  padding:8px 1em 8px 0;
+}
+
+
+.app-navigation a {
+  color:#7d7a75;
+}
+.app-navigation .nav>li>a:hover, .app-navigation .nav>li>a:focus {
+  background-color: #7d7a75;
+  color:#fff;
+}
+.app-navigation .nav .dropdown-toggle .caret {
+  border-top-color: #7d7a75;
+  border-bottom-color: #7d7a75;
+}
+.app-navigation .nav .dropdown-toggle:hover .caret, 
+.app-navigation .nav .dropdown-toggle:focus .caret {
+  border-top-color: #fff;
+  border-bottom-color: #fff;
+}
+.app-navigation .dropdown-menu>li>a:hover, 
+.app-navigation .dropdown-menu>li>a:focus, 
+.app-navigation .dropdown-submenu:hover>a, 
+.app-navigation .dropdown-submenu:focus>a {
+  color: #fff;
+  text-decoration: none;
+  background-color: #7d7a75;
+  background-image: none;
+}
+
+
+.panel {
+  background: #fff;
+  padding:1em 2em;
+  -webkit-box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+/************************************************
+ * Yadda yadda
+ */
+
 @media screen and (max-width: 767px) {
   body { padding-top: 0px; }
   .container-narrow > .masthead{
