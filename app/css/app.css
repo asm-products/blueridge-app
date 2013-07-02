@@ -123,7 +123,6 @@ body {
   background-image: none;
 }
 
-
 .panel {
   background: #fff;
   padding:1em 2em;
@@ -134,6 +133,18 @@ body {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+
+.app-todo-list-item {
+  border-top: 1px solid #ded7c8;
+}
+.app-todo-list-item > div {
+  padding:.5em;
+}
+.app-todo-list-item .secondary-data {
+  font-size: .9em;
+}
+
+
 
 /************************************************
  * Yadda yadda
