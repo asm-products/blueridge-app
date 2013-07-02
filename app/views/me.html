@@ -1,8 +1,8 @@
-<div class="container">
+<div id="app-profile" class="container app-container">
 	<div ng-include src="'views/sections/top-nav.html'"></div>
-	<div class="container-narrow">				
+	<div class="panel">				
 		<h2> <img ng-src="{{user.avatar}}" class="img-circle" > <span class="muted">{{user.name}}</span></h2>
-		<form class="clearfix sector">
+		<form class="clearfix">
 			<fieldset>
 				<legend>Your Info</legend>
 				<div class="row-fluid">
@@ -33,7 +33,7 @@
 			</div>
 		</form>
 
-		<div id="billing" class="sector">
+		<div id="billing" class="">
 			<fieldset>
 				<legend>Billing</legend>
 				<div class="control-group sector sub-sector">
