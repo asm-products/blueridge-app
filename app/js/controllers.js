@@ -45,7 +45,7 @@ angular.module('blueRidgeApp.controllers', [])
 		}
 	}
 })
-.controller('ToDoCtrl',function($scope,$location,$filter,Restangular,Auth,ngTableParams){	
+.controller('ToDoCtrl',function($scope,$location,$filter,Restangular,Auth){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
@@ -53,26 +53,10 @@ angular.module('blueRidgeApp.controllers', [])
 	$scope.user = blueRidgeUser.get();
 	$scope.loading = true;
 
-	$scope.tableParams = new ngTableParams({
-		page: 1,            
-		total: 0,           
-		count: 30,          
-		sorting: {
-			overDueBy: 'desc'     
-		}
-	});
-
 	blueRidgeUser.all('todos').getList().then(function(result){
-		var data = result.todos;
-		$scope.todos = data;
-		$scope.tableParams.total = data.length;	
-
-		$scope.$watch('tableParams', function(params) {
-			$scope.loading = false;	
-			var orderedData = params.sorting ? $filter('orderBy')(data, params.orderBy()) :data;
-			$scope.todos = orderedData.slice((params.page - 1) * params.count,params.page * params.count);
-		}, true);
-
+		var todos = result.todos;
+		$scope.todos = todos;
+		$scope.loading = false;
 	});
 
 })
