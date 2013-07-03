@@ -30,6 +30,9 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 		templateUrl: 'views/loading.html', 
 		controller: 'BasecampCtrl'
 	})
+  .when('/pricing', {
+    templateUrl: 'views/pricing.html'
+  })
 	.otherwise({
 		redirectTo: '/'
 	});
