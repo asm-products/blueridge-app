@@ -14,16 +14,6 @@ body {
   font-size: 72px;
   line-height: 1;
 }
-.jumbotron .lead {
-  font-weight:400;
-}
-
-.jumbotron .highlight {
-  background-color: #f7f7f7;
-  border: 1px solid #d7d7d7;
-  border-radius: 3px;
-  padding: 1.5em 1em .5em;
-}
 .jumbotron .btn {
   font-size: 21px;
   padding: 14px 24px;
@@ -51,8 +41,8 @@ body {
  * For the home page
  */
 
-#home { text-shadow: 0 1px #fff; }
-#home hr {
+body { text-shadow: 0 1px #fff; }
+.site hr {
   border: 0;
   border-top: 1px solid #ded7c8;
   display: block;
@@ -60,10 +50,10 @@ body {
   margin: 1em 0;
   padding: 0;
 }
-#home .masthead {
+.site .masthead {
   text-align: center;
 }
-#home .masthead h3#brand {
+.site .masthead h3#brand {
   background-image: url('/img/logo_gray_260x93.png');
   background-position: top left;
   background-repeat: no-repeat;
@@ -72,10 +62,45 @@ body {
   text-indent: -9999em;
   width:260px;
 }
-#home .jumbotron .well p {
-  color:#777;
-  font-size:1.3em;
-  margin:0 0 .5em;
+.site .highlight {
+  background-color: #f7f7f7;
+  border: 1px solid #d7d7d7;
+  border-radius: 3px;
+  padding: 1.5em 1em .5em;
+}
+.site .lead {
+  font-weight:400;
+}
+
+.site .plan-feature {
+  font-size:1.2em;
+  font-weight: 400;
+}
+.site .plan-feature .plan-qty {
+  background-color: #ded7c8;
+  border-radius: 50px;
+  font-size:1.5em;
+  padding:0 11px;
+}
+.site .plan-price {
+  font-size:2.5em;
+  font-weight: 400;
+  margin-top: 1em;
+}
+.site .plan-price sup {
+  color: #666;
+  font-size: .6em;
+  padding-right: 3px;
+  top: -0.3em;
+}
+.site .plan-price sub {
+  bottom:0;
+  color: #666;
+  font-size:.5em;
+} 
+.site-underaction {
+  margin-top:1em;
+  text-align:center;
 }
 
 .form-signin {
@@ -122,13 +147,16 @@ body {
   border-right:1px solid rgb(222, 215, 200);
   height:35px;
   margin:0;
-  padding:8px 1em 8px 0;
+  padding:0 0 2px;
   text-indent: -9999em;
   width:120px;
 }
 
 .app-navigation a {
   color:#7d7a75;
+}
+.app-navigation .nav { 
+  padding-top: 8px;
 }
 .app-navigation .nav>li>a:hover, .app-navigation .nav>li>a:focus {
   background-color: #7d7a75;
@@ -189,10 +217,6 @@ body {
   display:block;
   font-size:.9em;
 }
-
-.app-todo-owner {
-  text-align: right;
-}
 .app-solo-mute {
   background-color: rgb(238, 238, 238);
   border-radius:30px;
@@ -219,6 +243,12 @@ body {
 .app-solo-mute:hover .app-solo,
 .app-solo-mute:hover .app-mute {
   display: inline-block;
+}
+
+@media screen and (min-width: 768px) {
+  .btn-toolbar, .app-todo-owner {
+    text-align: right;
+  }
 }
 
 
