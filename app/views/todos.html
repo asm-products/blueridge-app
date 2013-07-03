@@ -18,11 +18,22 @@
     </div>
     <div class="app-todo-list-item row-fluid" ng-repeat="todo in todos">
       <div class="span2">
-        <span ng-if="!todo.dueDate" class="badge">None</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="badge badge-important">{{todo.overDueBy}} days ago</span>
+        <span ng-if="!todo.dueDate" class="badge">None</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="badge badge-important">{{todo.overDueBy}} days</span>
       </div>
-      <div class="span5" filter="{ 'content': 'text' }" sortable="content" ><a class="app-todo-title" ng-href="{{todo.url}}" target="_blank">{{todo.content}}</a></div>
-      <div class="span3 secondary-data" filter="{ 'owner.name': 'text' }" sortable="owner.name" ><span ng-if="!todo.owner.name" class="badge badge-important" >Unassigned</span><a ng-if="todo.owner.name" class="app-solo-mute" href=""><span>{{todo.owner.name}}</span> <i class="app-solo icon icon-white icon-eye-open" title="Solo"></i>&nbsp;<i class="app-mute icon icon-white icon-volume-off" title="Mute"></i></a></div>
-      <div class="span2 secondary-data" filter="{ 'list': 'text' }" sortable="list">{{todo.list}}<br>{{todo.projectName}}</div>
+      <div class="span7" filter="{ 'content': 'text' }" sortable="content">
+        <a class="app-todo-title" ng-href="{{todo.url}}" target="_blank">{{todo.content}}</a>
+        <span class="app-todo-meta">
+          <a class="app-todo-meta-list">{{todo.list}}</a> / <a class="app-todo-list-project">{{todo.projectName}}</a>
+        </span>
+      </div>
+      <div class="span3 app-todo-owner" filter="{ 'owner.name': 'text' }" sortable="owner.name">
+        <span ng-if="!todo.owner.name" class="badge badge-important" >Unassigned</span>
+        <a ng-if="todo.owner.name" class="app-solo-mute" href="">
+          <span>{{todo.owner.name}}</span> 
+          <i class="app-solo icon icon-white icon-eye-open" title="Solo"></i>
+          <i class="app-mute icon icon-white icon-volume-off" title="Mute"></i>
+        </a>
+      </div>
     </div>
   </div>
 </div>

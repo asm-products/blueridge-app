@@ -166,7 +166,14 @@ body {
 .app-todo-title:hover { 
   color:#1c5c76;
 }
+.app-todo-meta {
+  display:block;
+  font-size:.9em;
+}
 
+.app-todo-owner {
+  text-align: right;
+}
 .app-solo-mute {
   background-color: rgb(238, 238, 238);
   border-radius:30px;
@@ -179,7 +186,12 @@ body {
   display:none;
 }
 
-.app-solo-mute:hover { 
+.app-todo-meta a {
+  color:#888;
+  padding:1px 6px;
+}
+
+.app-solo-mute:hover, .app-todo-meta a:hover { 
   background-color:#777;
   border-radius:30px;
   color:#fff;
