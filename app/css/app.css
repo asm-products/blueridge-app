@@ -6,12 +6,23 @@ body {
   font-family: "proxima-nova","Helvetica Neue",helvetica,arial,sans-serif;
 }
 .jumbotron {
-  margin: 60px 0;
+  margin: 40px 0;
   text-align: center;
 }
 .jumbotron h1 {
+  color:#7d7a75;
   font-size: 72px;
   line-height: 1;
+}
+.jumbotron .lead {
+  font-weight:400;
+}
+
+.jumbotron .highlight {
+  background-color: #f7f7f7;
+  border: 1px solid #d7d7d7;
+  border-radius: 3px;
+  padding: 1.5em 1em .5em;
 }
 .jumbotron .btn {
   font-size: 21px;
@@ -53,11 +64,13 @@ body {
   text-align: center;
 }
 #home .masthead h3#brand {
-  background-image: url('/img/badge_gray.png');
+  background-image: url('/img/logo_gray_260x93.png');
+  background-position: top left;
+  background-repeat: no-repeat;
   margin:1em auto 0;
-  height:125px;
+  height:93px;
   text-indent: -9999em;
-  width:153px;
+  width:260px;
 }
 #home .jumbotron .well p {
   color:#777;
@@ -103,9 +116,15 @@ body {
 }
 
 .app-navigation #brand {
+  background-image: url('/img/logo_gray_small.png');
+  background-position: top left;
+  background-repeat: no-repeat;
   border-right:1px solid rgb(222, 215, 200);
+  height:35px;
   margin:0;
   padding:8px 1em 8px 0;
+  text-indent: -9999em;
+  width:120px;
 }
 
 .app-navigation a {
