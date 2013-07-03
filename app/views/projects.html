@@ -2,7 +2,7 @@
 	<div ng-include src="'views/sections/top-nav.html'"></div>
 	<div class="panel">
 		<h2 class="muted">Projects</h2>
-		<p class="lead">Select one or more projects you would want us to awesomely organize</p>
+		<p class="lead">Choose the projects you&rsquo;d like to get a better view of.</p>
 		<fieldset ng-repeat="account in user.accounts">
 			<legend>{{account.name}}</legend>
 			<label ng-repeat="project in account.projects" class="checkbox">
@@ -14,11 +14,11 @@
 		<hr />
 		<div class="control-group">
       <div ng-if="updated" class="alert alert-success">
-        Your accounts have been updated
+        <b>Done.</b> Now <a ng-href="/todos">go see your To Dos</a> like never before!
       </div>
     
 			<div class="controls">
-				<button class="btn btn-large btn-success" type="submit" ng-click="updateAccounts(user.accounts)">Update Accounts</button>
+				<button class="btn btn-large btn-success" type="submit" ng-click="updateAccounts(user.accounts)">Apply My Choices</button>
 			</div>
 		</div>
 	</div>

@@ -3,7 +3,7 @@
   <div loading-container="loading" class="panel">
     <div class="app-todo-controls row-fluid">
       <div class="span6">
-        <h2 class="muted">To Dos</h2>
+        <h2 class="muted">To-dos</h2>
       </div>
       <div class="span6" style="text-align:right">
         <div class="btn-toolbar pull-right">
@@ -18,11 +18,11 @@
     </div>
     <div class="app-todo-list-item row-fluid" ng-repeat="todo in todos">
       <div class="span2">
-        <span ng-if="!todo.dueDate" class="label">None</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="label label-important">{{todo.overDueBy}} days</span>
+        <span ng-if="!todo.dueDate" class="badge">None</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="badge badge-important">{{todo.overDueBy}} days ago</span>
       </div>
-      <div class="span6" title="'Description'" filter="{ 'content': 'text' }" sortable="content" ><a ng-href="{{todo.url}}" target="_blank">{{todo.content}}</a></div>
-      <div class="span2 secondary-data" title="'Owner'" filter="{ 'owner.name': 'text' }" sortable="owner.name" ><span ng-if="!todo.owner.name" class="label label-important" >Unassigned</span>{{todo.owner.name}}</div>
-      <div class="span2 secondary-data" title="'List'" filter="{ 'list': 'text' }" sortable="list" >{{todo.list}} <br> {{todo.projectName}}</div>
+      <div class="span5" filter="{ 'content': 'text' }" sortable="content" ><a class="app-todo-title" ng-href="{{todo.url}}" target="_blank">{{todo.content}}</a></div>
+      <div class="span3 secondary-data" filter="{ 'owner.name': 'text' }" sortable="owner.name" ><span ng-if="!todo.owner.name" class="badge badge-important" >Unassigned</span><a ng-if="todo.owner.name" class="app-solo-mute" href=""><span>{{todo.owner.name}}</span> <i class="app-solo icon icon-white icon-eye-open" title="Solo"></i>&nbsp;<i class="app-mute icon icon-white icon-volume-off" title="Mute"></i></a></div>
+      <div class="span2 secondary-data" filter="{ 'list': 'text' }" sortable="list">{{todo.list}}<br>{{todo.projectName}}</div>
     </div>
   </div>
 </div>

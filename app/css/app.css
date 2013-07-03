@@ -59,7 +59,11 @@ body {
   text-indent: -9999em;
   width:153px;
 }
-
+#home .jumbotron .well p {
+  color:#777;
+  font-size:1.3em;
+  margin:0 0 .5em;
+}
 
 .form-signin {
   max-width: 300px;
@@ -103,7 +107,6 @@ body {
   margin:0;
   padding:8px 1em 8px 0;
 }
-
 
 .app-navigation a {
   color:#7d7a75;
@@ -152,6 +155,40 @@ body {
   font-size: .9em;
 }
 
+/************************************************
+ * To Do
+ */
+
+.app-todo-title { 
+  color:#000;
+  font-size: 1.2em;
+}
+.app-todo-title:hover { 
+  color:#1c5c76;
+}
+
+.app-solo-mute {
+  background-color: rgb(238, 238, 238);
+  border-radius:30px;
+  color:#000;
+  padding:2px 8px;
+  text-decoration: none;
+}
+.app-solo-mute .app-solo,
+.app-solo-mute .app-mute {
+  display:none;
+}
+
+.app-solo-mute:hover { 
+  background-color:#777;
+  border-radius:30px;
+  color:#fff;
+  text-decoration:none;
+}
+.app-solo-mute:hover .app-solo,
+.app-solo-mute:hover .app-mute {
+  display: inline-block;
+}
 
 
 /************************************************
