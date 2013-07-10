@@ -190,8 +190,12 @@ body { text-shadow: 0 1px #fff; }
   padding-top: 8px;
 }
 .app-navigation .nav>li>a:hover, .app-navigation .nav>li>a:focus {
-  background-color: #7d7a75;
+  background-color: #08c;
   color:#fff;
+  text-shadow:none;
+}
+.app-navigation .active { 
+	text-shadow:none; 
 }
 .app-navigation .nav .dropdown-toggle .caret {
   border-top-color: #7d7a75;
@@ -221,6 +225,7 @@ body { text-shadow: 0 1px #fff; }
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  margin-bottom: 3em;
 }
 
 .app-todo-list-item {
