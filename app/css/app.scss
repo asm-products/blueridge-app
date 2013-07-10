@@ -1,51 +1,38 @@
 /* app css stylesheet */
-/* line 3, app.scss */
 html,
 body {
   background-color: #f5efe6;
   height: 100%;
   font-family: "proxima-nova","Helvetica Neue",helvetica,arial,sans-serif;
 }
-
-/* line 8, app.scss */
 .jumbotron {
   margin: 40px 0;
   text-align: center;
+  h1 {
+  	color:#7d7a75;
+  	font-size: 72px;
+  	line-height: 1;
+	}
+  .btn {
+	  font-size: 21px;
+	  padding: 14px 24px;
+  }
 }
-/* line 11, app.scss */
-.jumbotron h1 {
-  color: #7d7a75;
-  font-size: 72px;
-  line-height: 1;
-}
-/* line 16, app.scss */
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
-}
-
-/* line 21, app.scss */
 .container-narrow {
   margin: 0 auto;
   max-width: 680px;
 }
-
-/* line 25, app.scss */
 .container-narrow > hr {
   margin: 30px 0;
 }
-
 /*
 .container-narrow > .masthead{
   margin-top:-3.5em;
 }
 */
-/* line 33, app.scss */
 .marketing {
   margin: 60px 0;
 }
-
-/* line 36, app.scss */
 .marketing p + h4 {
   margin-top: 28px;
 }
@@ -53,12 +40,8 @@ body {
 /**************************************************
  * For the home page
  */
-/* line 44, app.scss */
-body {
-  text-shadow: 0 1px #fff;
-}
 
-/* line 45, app.scss */
+body { text-shadow: 0 1px #fff; }
 .site hr {
   border: 0;
   border-top: 1px solid #ded7c8;
@@ -67,108 +50,81 @@ body {
   margin: 1em 0;
   padding: 0;
 }
-
-/* line 53, app.scss */
 .site .masthead {
   text-align: center;
 }
-
-/* line 56, app.scss */
 .site .masthead h3#brand a {
-  background-image: url("/img/logo_gray_260x93.png");
+  background-image: url('/img/logo_gray_260x93.png');
   background-position: top left;
   background-repeat: no-repeat;
-  display: block;
-  margin: 1em auto 0;
-  height: 93px;
+  display:block;
+  margin:1em auto 0;
+  height:93px;
   text-indent: -9999em;
-  width: 260px;
+  width:260px;
 }
-
-/* line 66, app.scss */
 .site .highlight {
   background-color: #f7f7f7;
   border: 1px solid #d7d7d7;
   border-radius: 3px;
   padding: 1.5em 1em .5em;
 }
-
-/* line 72, app.scss */
 .site .lead {
-  font-weight: 400;
+  font-weight:400;
 }
 
-/* line 76, app.scss */
 .site .plan-feature {
-  font-size: 1.2em;
+  font-size:1.2em;
   font-weight: 400;
 }
-
-/* line 80, app.scss */
 .site .plan-feature .plan-qty {
   background-color: #ded7c8;
   border-radius: 50px;
-  font-size: 1.5em;
-  padding: 0 11px;
+  font-size:1.5em;
+  padding:0 11px;
 }
-
-/* line 86, app.scss */
 .site .plan-price {
-  font-size: 2.5em;
+  font-size:2.5em;
   font-weight: 400;
   margin-top: 1em;
 }
-
-/* line 91, app.scss */
 .site .plan-price sup {
   color: #666;
   font-size: .6em;
   padding-right: 3px;
   top: -0.3em;
 }
-
-/* line 97, app.scss */
 .site .plan-price sub {
-  bottom: 0;
+  bottom:0;
   color: #666;
-  font-size: .5em;
-}
+  font-size:.5em;
+} 
 
-/* line 103, app.scss */
 .site-preview {
-  margin-bottom: 4em;
+  margin-bottom: 4em; 
 }
-
-/* line 106, app.scss */
 .site-preview h3 {
   text-align: center;
 }
 
-/* line 111, app.scss */
-.site-underaction {
-  margin-top: 1em;
-  text-align: center;
-}
 
-/* line 115, app.scss */
+.site-underaction {
+  margin-top:1em;
+  text-align:center;
+}
 .site footer {
   border-top: 1px solid #ded7c8;
   padding-top: 1em;
-  margin-top: 3em;
+  margin-top:3em;
 }
-
-/* line 120, app.scss */
 .site footer a {
-  color: #444;
+  color:#444;
   text-decoration: underline;
 }
-
-/* line 124, app.scss */
 .site footer a:hover {
-  color: #000;
+  color:#000;
 }
 
-/* line 128, app.scss */
 .form-signin {
   max-width: 300px;
   padding: 19px 29px 29px;
@@ -178,18 +134,14 @@ body {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
 }
-
-/* line 142, app.scss */
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
   margin-bottom: 10px;
 }
-
-/* line 146, app.scss */
 .form-signin input[type="text"],
 .form-signin input[type="password"] {
   font-size: 16px;
@@ -201,92 +153,73 @@ body {
 /************************************************
  * App Pages
  */
-/* line 157, app.scss */
+
 .app-container {
-  max-width: 960px;
+  max-width:960px;
 }
 
-/* line 161, app.scss */
 .app-navigation {
-  margin: 2em 0 1em;
+  margin:2em 0 1em;
 }
 
-/* line 165, app.scss */
 .app-navigation #brand {
-  background-image: url("/img/logo_gray_small.png");
+  background-image: url('/img/logo_gray_small.png');
   background-position: top left;
   background-repeat: no-repeat;
-  border-right: 1px solid #ded7c8;
-  height: 35px;
-  margin: 0;
-  padding: 0 0 2px;
+  border-right:1px solid rgb(222, 215, 200);
+  height:35px;
+  margin:0;
+  padding:0 0 2px;
   text-indent: -9999em;
-  width: 120px;
+  width:120px;
 }
 
-/* line 177, app.scss */
 .app-navigation a {
-  color: #7d7a75;
+  color:#7d7a75;
 }
-
-/* line 180, app.scss */
-.app-navigation .nav {
+.app-navigation .nav { 
   padding-top: 8px;
 }
-
-/* line 183, app.scss */
-.app-navigation .nav > li > a:hover, .app-navigation .nav > li > a:focus {
+.app-navigation .nav>li>a:hover, .app-navigation .nav>li>a:focus {
   background-color: #7d7a75;
-  color: #fff;
+  color:#fff;
 }
-
-/* line 187, app.scss */
 .app-navigation .nav .dropdown-toggle .caret {
   border-top-color: #7d7a75;
   border-bottom-color: #7d7a75;
 }
-
-/* line 192, app.scss */
-.app-navigation .nav .dropdown-toggle:hover .caret,
+.app-navigation .nav .dropdown-toggle:hover .caret, 
 .app-navigation .nav .dropdown-toggle:focus .caret {
   border-top-color: #fff;
   border-bottom-color: #fff;
 }
-
-/* line 199, app.scss */
-.app-navigation .dropdown-menu > li > a:hover,
-.app-navigation .dropdown-menu > li > a:focus,
-.app-navigation .dropdown-submenu:hover > a,
-.app-navigation .dropdown-submenu:focus > a {
+.app-navigation .dropdown-menu>li>a:hover, 
+.app-navigation .dropdown-menu>li>a:focus, 
+.app-navigation .dropdown-submenu:hover>a, 
+.app-navigation .dropdown-submenu:focus>a {
   color: #fff;
   text-decoration: none;
   background-color: #7d7a75;
   background-image: none;
 }
 
-/* line 206, app.scss */
 .panel {
   background: #fff;
-  padding: 1em 2em;
-  -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  padding:1em 2em;
+  -webkit-box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: 0 0 6px rgba(0,0,0,0.3);
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
 
-/* line 217, app.scss */
 .app-todo-list-item {
   border-top: 1px solid #ded7c8;
 }
-
-/* line 220, app.scss */
 .app-todo-list-item > div {
-  padding: .5em;
+  padding:.5em;
 }
-
-/* line 223, app.scss */
 .app-todo-list-item .secondary-data {
   font-size: .9em;
 }
@@ -294,113 +227,90 @@ body {
 /************************************************
  * To Do
  */
-/* line 231, app.scss */
-.app-todo-title {
-  color: #000;
+
+.app-todo-title { 
+  color:#000;
   font-size: 1.2em;
 }
-
-/* line 235, app.scss */
-.app-todo-title:hover {
-  color: #1c5c76;
+.app-todo-title:hover { 
+  color:#1c5c76;
 }
-
-/* line 238, app.scss */
 .app-todo-meta {
-  display: block;
-  font-size: .9em;
+  display:block;
+  font-size:.9em;
 }
-
-/* line 242, app.scss */
 .app-solo-mute {
-  background-color: #eeeeee;
-  border-radius: 30px;
-  color: #000;
-  padding: 2px 8px;
+  background-color: rgb(238, 238, 238);
+  border-radius:30px;
+  color:#000;
+  padding:2px 8px;
   text-decoration: none;
 }
-
-/* line 250, app.scss */
 .app-solo-mute .app-solo,
 .app-solo-mute .app-mute {
-  display: none;
+  display:none;
 }
 
-/* line 254, app.scss */
 .app-todo-meta a {
-  color: #888;
-  padding: 1px 6px;
+  color:#888;
+  padding:1px 6px;
 }
 
-/* line 259, app.scss */
-.app-solo-mute:hover, .app-todo-meta a:hover {
-  background-color: #777;
-  border-radius: 30px;
-  color: #fff;
-  text-decoration: none;
+.app-solo-mute:hover, .app-todo-meta a:hover { 
+  background-color:#777;
+  border-radius:30px;
+  color:#fff;
+  text-decoration:none;
 }
-
-/* line 266, app.scss */
 .app-solo-mute:hover .app-solo,
 .app-solo-mute:hover .app-mute {
   display: inline-block;
 }
 
 @media screen and (min-width: 768px) {
-  /* line 271, app.scss */
   .btn-toolbar, .app-todo-owner {
     text-align: right;
   }
 }
+
+
 /************************************************
  * Yadda yadda
  */
+
 @media screen and (max-width: 767px) {
-  /* line 282, app.scss */
-  body {
-    padding-top: 0px;
-  }
-
-  /* line 283, app.scss */
-  .container-narrow > .masthead {
-    margin-top: 0em;
+  body { padding-top: 0px; }
+  .container-narrow > .masthead{
+    margin-top:0em;
   }
 }
-/* line 287, app.scss */
-.navbar .nav {
-  margin: 20px 10px 20px 0;
-}
-
-/* line 288, app.scss */
-.sector {
-  padding: 1em;
+.navbar .nav { margin:20px 10px 20px 0;  }
+.sector{
+  padding:1em;
   border: 1px solid #efefef;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
 
-/* line 299, app.scss */
-.sub-sector {
-  padding: 1em;
+}
+.sub-sector{
+  padding:1em;
   background-color: #fcfcfc;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
 }
 
-/* line 311, app.scss */
+
 .loading-container {
   position: relative;
 }
-
-/* line 314, app.scss */
 .loading-container .loading:before, .loading-container .loading:after {
   content: " ";
   position: absolute;
@@ -411,16 +321,12 @@ body {
   min-height: 50px;
   min-width: 50px;
 }
-
-/* line 324, app.scss */
 .loading-container .loading:before {
   background-color: white;
   opacity: 0.8;
 }
-
-/* line 328, app.scss */
 .loading-container .loading:after {
-  background-image: url("/img/preloader.gif");
+  background-image: url('/img/preloader.gif');
   background-position: center center;
   background-repeat: no-repeat;
 }
