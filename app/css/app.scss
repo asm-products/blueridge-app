@@ -8,15 +8,15 @@ body {
 .jumbotron {
   margin: 40px 0;
   text-align: center;
-}
-.jumbotron h1 {
-  color:#7d7a75;
-  font-size: 72px;
-  line-height: 1;
-}
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
+  h1 {
+  	color:#7d7a75;
+  	font-size: 72px;
+  	line-height: 1;
+	}
+  .btn {
+	  font-size: 21px;
+	  padding: 14px 24px;
+  }
 }
 .container-narrow {
   margin: 0 auto;
@@ -53,10 +53,11 @@ body { text-shadow: 0 1px #fff; }
 .site .masthead {
   text-align: center;
 }
-.site .masthead h3#brand {
+.site .masthead h3#brand a {
   background-image: url('/img/logo_gray_260x93.png');
   background-position: top left;
   background-repeat: no-repeat;
+  display:block;
   margin:1em auto 0;
   height:93px;
   text-indent: -9999em;
@@ -72,15 +73,24 @@ body { text-shadow: 0 1px #fff; }
   font-weight:400;
 }
 
-.site .plan-feature {
-  font-size:1.2em;
-  font-weight: 400;
-}
-.site .plan-feature .plan-qty {
-  background-color: #ded7c8;
-  border-radius: 50px;
-  font-size:1.5em;
-  padding:0 11px;
+.site {
+	.plan-feature {
+  		font-size:1.2em;
+  		font-weight: 400;
+  		.plan-qty {
+		  background-color: #ded7c8;
+		  border-radius: 50px;
+		  font-size:1.5em;
+		  padding:0 11px;
+		}
+	}
+	.site-sublinks a {
+		display: inline-block;
+		margin-right:10px;
+	}
+	footer {
+		margin-bottom: 2em;
+	}
 }
 .site .plan-price {
   font-size:2.5em;
@@ -98,9 +108,30 @@ body { text-shadow: 0 1px #fff; }
   color: #666;
   font-size:.5em;
 } 
+
+.site-preview {
+  margin-bottom: 4em; 
+}
+.site-preview h3 {
+  text-align: center;
+}
+
+
 .site-underaction {
   margin-top:1em;
   text-align:center;
+}
+.site footer {
+  border-top: 1px solid #ded7c8;
+  padding-top: 1em;
+  margin-top:3em;
+}
+.site footer a {
+  color:#444;
+  text-decoration: underline;
+}
+.site footer a:hover {
+  color:#000;
 }
 
 .form-signin {

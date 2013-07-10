@@ -33,6 +33,12 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
   .when('/pricing', {
     templateUrl: 'views/pricing.html'
   })
+  .when('/preview', {
+    templateUrl: 'views/preview.html'
+  })
+  .when('/privacy', {
+    templateUrl: 'views/privacy.html'
+  })
 	.otherwise({
 		redirectTo: '/'
 	});
