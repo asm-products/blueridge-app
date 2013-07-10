@@ -73,15 +73,24 @@ body { text-shadow: 0 1px #fff; }
   font-weight:400;
 }
 
-.site .plan-feature {
-  font-size:1.2em;
-  font-weight: 400;
-}
-.site .plan-feature .plan-qty {
-  background-color: #ded7c8;
-  border-radius: 50px;
-  font-size:1.5em;
-  padding:0 11px;
+.site {
+	.plan-feature {
+  		font-size:1.2em;
+  		font-weight: 400;
+  		.plan-qty {
+		  background-color: #ded7c8;
+		  border-radius: 50px;
+		  font-size:1.5em;
+		  padding:0 11px;
+		}
+	}
+	.site-sublinks a {
+		display: inline-block;
+		margin-right:10px;
+	}
+	footer {
+		margin-bottom: 2em;
+	}
 }
 .site .plan-price {
   font-size:2.5em;

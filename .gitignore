@@ -5,3 +5,5 @@ vendor/*
 composer.lock
 
 *.css
+
+*.scssc
