@@ -1,39 +1,41 @@
-<div class="container">
+<div id="app-profile" class="container app-container">
 	<div ng-include src="'views/sections/top-nav.html'"></div>
-	<div class="container-narrow">				
-		<h2> <img ng-src="{{user.avatar}}" class="img-circle" > <span class="muted">{{user.name}}</span></h2>
-		<form class="clearfix sector">
+	<div class="panel">				
+		<h2><img ng-src="{{user.avatar}}" class="img-circle" > <span class="muted">{{user.name}}</span></h2>
+		<form class="form-horizontal">
 			<fieldset>
 				<legend>Your Info</legend>
-				<div class="row-fluid">
-					<div class="control-group span4">
-						<label class="control-label" for="userName">Name</label>
-						<div class="controls">
-							<input type="text" class="span11" id="userName" ng-model="user.name" >
-						</div>
+				<div class="control-group">
+					<label class="control-label" for="userName">Name</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="userName" ng-model="user.name" >
 					</div>
-					<div class="control-group span4">
-						<label class="control-label" for="userEmail">Email</label>
-						<div class="controls">
-							<input type="email" class="span11" id="userEmail" ng-model="user.email" >
-						</div>
+        </div>
+				<div class="control-group">
+					<label class="control-label" for="userEmail">Email</label>
+					<div class="controls">
+						<input type="email" class="input-xlarge" id="userEmail" ng-model="user.email" >
 					</div>
-					<div class="control-group span4">
-						<label class="control-label" for="userPassword">Password</label>
-						<div class="controls">
-							<input type="password" class="span11" id="userPassword" ng-model="user.password">
-						</div>
-					</div>						
-				</div>					
-			</fieldset>
-			<div class="control-group pull-right">
-				<div class="controls">
-					<button class="btn btn-success" type="submit" ng-click="update(user)">Update Profile</button>
 				</div>
+				<div class="control-group">
+					<label class="control-label" for="userPassword">Password</label>
+					<div class="controls">
+						<input type="password" class="input-xlarge" id="userPassword" ng-model="user.password">
+					</div>
+				</div>
+        <div class="control-group">
+          <label class="control-label" for="userConfirmPassword">Confirm Password</label>
+          <div class="controls">
+            <input type="password" class="input-xlarge" id="userConfirmPassword" ng-model="user.confirm-password">
+          </div>
+        </div>
+			</fieldset>
+			<div class="form-actions">
+					<button class="btn btn-success" type="submit" ng-click="update(user)">Update Profile</button>
 			</div>
 		</form>
 
-		<div id="billing" class="sector">
+		<div id="billing" class="">
 			<fieldset>
 				<legend>Billing</legend>
 				<div class="control-group sector sub-sector">

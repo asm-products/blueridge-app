@@ -1,10 +1,10 @@
 'use strict';
-var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','blueRidgeApp.directives','ui.bootstrap','restangular','ngTable'])
+var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','blueRidgeApp.directives','ui.bootstrap','restangular'])
 .config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider', function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider) {
 	$routeProvider.
 	when('/', {
 		templateUrl: 'views/home.html',
-		controller: 'HomeCtrl',		
+		controller: 'HomeCtrl'
 	})
 	.when('/todos', {
 		templateUrl: 'views/todos.html', 
@@ -16,7 +16,7 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 	})
 	.when('/projects', {
 		templateUrl: 'views/projects.html', 
-		controller: 'SettingsCtrl'
+		controller: 'ProjectCtrl'
 	})		
 	.when('/signout', {
 		templateUrl: 'views/home.html',
@@ -30,12 +30,20 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 		templateUrl: 'views/loading.html', 
 		controller: 'BasecampCtrl'
 	})
+  .when('/pricing', {
+    templateUrl: 'views/pricing.html'
+  })
+  .when('/preview', {
+    templateUrl: 'views/preview.html'
+  })
+  .when('/privacy', {
+    templateUrl: 'views/privacy.html'
+  })
 	.otherwise({
 		redirectTo: '/'
 	});
 	$locationProvider.html5Mode(true);
 	$dialogProvider.options({backdropClick: false, dialogFade: true});
 	RestangularProvider.setBaseUrl("/api");
-	RestangularProvider.setDefaultHttpFields({cache: true},{headers:{'User-Agent':'blueridgeapp'}});
 	RestangularProvider.setListTypeIsArray(false);
 }]).run();

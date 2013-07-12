@@ -1,14 +1,25 @@
-<div class="container">
-  <div ng-include src="'views/sections/top-nav.html'"></div>  
-  <div loading-container="loading">
-    <table ng-table="tableParams" class="table">
-      <tr ng-repeat="todo in todos">
-        <td title="'Due Date'" filter="{ 'dueDate': 'text' }" sortable="overDueBy" ><span ng-if="!todo.dueDate" class="label label-info" style="width:100px" >none</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="label">{{todo.overDueBy}} days</span></td>
-        <td title="'Description'" filter="{ 'content': 'text' }" sortable="content" ><a ng-href="{{todo.url}}" target="_blank">{{todo.content}}</a></td>
-        <td title="'Owner'" filter="{ 'owner.name': 'text' }" sortable="owner.name" ><span ng-if="!todo.owner.name" class="label label-important" > unassigned</span>{{todo.owner.name}}</td>
-        <td title="'List'" filter="{ 'list': 'text' }" sortable="list" >{{todo.list}}</td>
-        <td title="'Project'" filter="{ 'projectName': 'text' }" sortable="projectName" >{{todo.projectName}}</td>
-      </tr>
-    </table>
+<div id="app-todos" class="container app-container">
+  <div ng-include src="'views/sections/top-nav.html'"></div>
+  <div loading-container="loading" class="panel">
+    <div class="app-todo-controls row-fluid">
+      <div class="span6">
+        <h2 class="muted">To-dos</h2>
+      </div>
+    </div>
+    <div class="app-todo-list-item row-fluid" ng-repeat="todo in todos">
+      <div class="span3">
+        <span ng-if="!todo.dueDate" class="badge">None</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="app-alert-warning">{{todo.overDueBy}} days</span>
+      </div>
+      <div class="span6" filter="{ 'content': 'text' }" sortable="content">
+        <a class="app-todo-title" ng-href="{{todo.url}}" target="_blank">{{todo.content}}</a>
+        <span class="app-todo-meta">
+          {{todo.list}} / {{todo.projectName}}
+        </span>
+      </div>
+      <div class="span3 app-todo-owner" filter="{ 'owner.name': 'text' }" sortable="owner.name">
+        <span ng-if="!todo.owner.name" class="app-alert-warning">Unassigned</span>
+        <span ng-if="todo.owner.name" class="app-assignee-name">{{todo.owner.name}}</span>
+      </div>
+    </div>
   </div>
 </div>

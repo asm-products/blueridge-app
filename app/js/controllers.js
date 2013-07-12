@@ -5,16 +5,16 @@ angular.module('blueRidgeApp.controllers', [])
 		$location.path('/todos');
 	}
 })
-.controller('SettingsCtrl',function($scope,$location,Restangular,Auth){	
+.controller('ProjectCtrl',function($scope,$location,Restangular,Auth){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
 	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
 	$scope.user = blueRidgeUser.get();
-
+	$scope.updated = false;
+	
 	$scope.updateAccounts = function(accounts) {
 		blueRidgeUser.accounts=accounts;
-		$scope.updated = false;
 		blueRidgeUser.put().then(function(){
 			$scope.updated =true;
 		});
@@ -45,36 +45,18 @@ angular.module('blueRidgeApp.controllers', [])
 		}
 	}
 })
-.controller('ToDoCtrl',function($scope,$location,$filter,Restangular,Auth,ngTableParams){	
+.controller('ToDoCtrl',function($scope,$location,$filter,Restangular,Auth){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
 	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
 	$scope.user = blueRidgeUser.get();
-
-	var blueRidgeTodos = Restangular.all('todos');
 	$scope.loading = true;
 
-	$scope.tableParams = new ngTableParams({
-		page: 1,            
-		total: 0,           
-		count: 30,          
-		sorting: {
-			overDueBy: 'desc'     
-		}
-	});
-
-	blueRidgeTodos.getList({user:Auth.getProfileUser().id}).then(function(result){
-		var data = result.todos;
-		$scope.todos = data;
-		$scope.tableParams.total = data.length;	
-
-		$scope.$watch('tableParams', function(params) {
-			$scope.loading = false;	
-			var orderedData = params.sorting ? $filter('orderBy')(data, params.orderBy()) :data;
-			$scope.todos = orderedData.slice((params.page - 1) * params.count,params.page * params.count);
-		}, true);
-
+	blueRidgeUser.all('todos').getList().then(function(result){
+		var todos = result.todos;
+		$scope.todos = todos;
+		$scope.loading = false;
 	});
 
 })

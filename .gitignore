@@ -3,3 +3,7 @@ logs/*
 .DS_Store
 vendor/*
 composer.lock
+
+*.css
+
+*.scssc
