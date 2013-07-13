@@ -17,8 +17,10 @@ module.exports = function(grunt) {
       ]
     },
 
-    clean: [ '<%= dest.build %>','<%= dest.publish %>' ],
-    
+    clean:{
+      build:[ '<%= dest.build %>'],
+      publish:[ '<%= dest.publish %>' ]
+    },
     concat: {
       options: {
         separator: ';',
@@ -31,12 +33,12 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
       },
       dist: {
-        src: ['module.prefix','src/scripts/*.js','module.suffix'],        
-        dest: '<%= dest.build %>/js/<%= pkg.name %>.js'
+        src: ['module.prefix','<%= dest.build %>/js/*.js','module.suffix'],        
+        dest: '<%= dest.build %>/bin/<%= pkg.name %>.js'
       },      
       libs:{
        src: ['<%= vendor.js %>'],
-       dest: '<%= dest.build %>/js/libs.js'
+       dest: '<%= dest.build %>/bin/libs.js'
      }
    },
    ngmin: {
@@ -90,8 +92,7 @@ module.exports = function(grunt) {
       },
       publish: {
         files: [
-        {expand: true, cwd:'<%= dest.build %>/img/', src: ['**'], dest: '<%= dest.publish %>/img/'},
-        {expand: true, cwd:'<%= dest.build %>/views/', src: ['**'], dest: '<%= dest.publish %>/views/'},
+        {expand: true, cwd:'<%= dest.build %>/', src: ['css/**','img/*','views/**'], dest: '<%= dest.publish %>/'},
         {expand: true, cwd:'<%= dest.build %>/',src: ['index.html'], dest: '<%= dest.publish %>/'}
         ]
       }
@@ -119,8 +120,10 @@ grunt.loadNpmTasks('grunt-contrib-concat');
 grunt.loadNpmTasks('grunt-contrib-compass');
 
 grunt.registerTask('test', ['jshint', 'qunit']);
-grunt.registerTask('default', ['jshint','clean','compass','copy','ngmin','concat','uglify']);
-grunt.registerTask('quick-build', ['clean','compass','copy:build','ngmin']);
+grunt.registerTask('default', ['build']);
+grunt.registerTask('build', ['jshint','clean','compass','copy:build','ngmin']);
+grunt.registerTask('publish', ['build','copy:publish','concat','uglify']);
+
 
 
 };
