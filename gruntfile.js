@@ -1,25 +1,28 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    dest:{
+    dir:{
       publish:'pub',
-      build:'build'
+      build:'app/build',
+      src:'app/src',
+      api:'api',
+      vendor:'app/vendor'
     },
     vendor: {
       js: [
-      'vendor/jquery/jquery.min.js',   
-      'vendor/angular/angular.min.js',
-      'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
-      'vendor/angular-cookies/angular-cookies.min.js',
-      'vendor/angular-resource/angular-resource.min.js',
-      'vendor/restangular/dist/restangular.min.js',
-      'vendor/underscore/underscore-min.js'
+      '<%= dir.vendor %>/jquery/jquery.min.js',   
+      '<%= dir.vendor %>/angular/angular.min.js',
+      '<%= dir.vendor %>/angular-bootstrap/ui-bootstrap-tpls.min.js',
+      '<%= dir.vendor %>/angular-cookies/angular-cookies.min.js',
+      '<%= dir.vendor %>/angular-resource/angular-resource.min.js',
+      '<%= dir.vendor %>/restangular/dist/restangular.min.js',
+      '<%= dir.vendor %>/underscore/underscore-min.js'
       ]
     },
 
     clean:{
-      build:[ '<%= dest.build %>'],
-      publish:[ '<%= dest.publish %>' ]
+      build:[ '<%= dir.build %>'],
+      publish:[ '<%= dir.publish %>' ]
     },
     concat: {
       options: {
@@ -33,21 +36,21 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
       },
       dist: {
-        src: ['module.prefix','<%= dest.build %>/js/*.js','module.suffix'],        
-        dest: '<%= dest.build %>/bin/<%= pkg.name %>.js'
+        src: ['module.prefix','<%= dir.build %>/js/*.js','module.suffix'],        
+        dest: '<%= dir.build %>/bin/<%= pkg.name %>.js'
       },      
       libs:{
        src: ['<%= vendor.js %>'],
-       dest: '<%= dest.build %>/bin/libs.js'
+       dest: '<%= dir.build %>/bin/libs.js'
      }
    },
    ngmin: {
     dist: {
       files: [{
         expand: true,
-        cwd: 'src/scripts/',
+        cwd: '<%= dir.src %>/scripts/',
         src: '*.js',
-        dest: '<%= dest.build %>/js'
+        dest: '<%= dir.build %>/js'
       }]
     }
   },
@@ -57,8 +60,8 @@ module.exports = function(grunt) {
     },
     dist: {
       files: {
-        '<%= dest.publish %>/js/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>'],
-        '<%= dest.publish %>/js/libs.min.js': ['<%= concat.libs.dest %>']
+        '<%= dir.publish %>/js/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>'],
+        '<%= dir.publish %>/js/libs.min.js': ['<%= concat.libs.dest %>']
       }
     }
   },
@@ -66,7 +69,7 @@ module.exports = function(grunt) {
     files: ['test/**/*.html']
   },
   jshint: {
-    files: ['gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+    files: ['gruntfile.js', '<%= dir.src %>/**/*.js', 'test/**/*.js'],
     options: {
         // options here to override JSHint defaults
         globals: {
@@ -84,24 +87,24 @@ module.exports = function(grunt) {
     copy: {
       build: {
         files: [
-        {expand: true, cwd:'src/images/', src: ['**'], dest: '<%= dest.build %>/img/'},
-        {expand: true, cwd:'src/views/', src: ['**'], dest: '<%= dest.build %>/views/'},
-        {expand: true, cwd:'src',src: ['index.html'], dest: '<%= dest.build %>/'},
-        {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dest.build %>/libs',filter: 'isFile'}
+        {expand: true, cwd:'<%= dir.src %>', src: ['images/**','views/**'], dest: '<%= dir.build %>'},
+        {expand: true, cwd:'<%= dir.src %>',src: ['index.html'], dest: '<%= dir.build %>/'},
+        {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'}
         ]
       },
       publish: {
         files: [
-        {expand: true, cwd:'<%= dest.build %>/', src: ['css/**','img/*','views/**'], dest: '<%= dest.publish %>/'},
-        {expand: true, cwd:'<%= dest.build %>/',src: ['index.html'], dest: '<%= dest.publish %>/'}
+        {expand: true, cwd:'<%= dir.build %>/', src: ['css/**','images/*','views/**'], dest: '<%= dir.publish %>/'},
+        {expand: true, cwd:'<%= dir.build %>/',src: ['index.html'], dest: '<%= dir.publish %>/'},
+        {expand: true, cwd:'<%= dir.api %>',src: ['api.php'], dest: '<%= dir.publish %>/'},
         ]
       }
     },
     compass: {
       dist: {
         options: {
-          sassDir: 'src/sass',
-          cssDir: '<%= dest.build %>/css',
+          sassDir: '<%= dir.src %>/sass',
+          cssDir: '<%= dir.build %>/css',
           environment: 'production',
           raw: "preferred_syntax = :scss\n"
         }
