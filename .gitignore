@@ -1,9 +1,4 @@
-logs/*
-!.gitkeep
 .DS_Store
 vendor/*
-composer.lock
-
-*.css
-
+node_modules/*
 *.scssc

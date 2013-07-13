@@ -1,4 +1,3 @@
-'use strict';
 angular.module('blueRidgeApp.services', ['ngCookies'])
 .factory('Auth',function($cookieStore){	
 	return {		
@@ -15,6 +14,5 @@ angular.module('blueRidgeApp.services', ['ngCookies'])
 		getProfileUser:function(){
 			return $cookieStore.get('_blrdgapp');
 		}		
-	}
-	
+	};
 });

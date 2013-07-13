@@ -1,5 +1,5 @@
-angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','blueRidgeApp.directives','ui.bootstrap','restangular'])
-.config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider', function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider) {
+angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','blueRidgeApp.directives','restangular'])
+.config(['$routeProvider', '$locationProvider','RestangularProvider', function($routeProvider, $locationProvider,RestangularProvider) {
     $routeProvider.
     when('/', {
         templateUrl: 'views/site/home.html',
@@ -42,7 +42,6 @@ angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.service
         redirectTo: '/'
     });
     $locationProvider.html5Mode(true);
-    $dialogProvider.options({backdropClick: false, dialogFade: true});
     RestangularProvider.setBaseUrl('/api');
     RestangularProvider.setListTypeIsArray(false);
 }]).run();

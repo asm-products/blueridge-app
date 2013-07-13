@@ -1,11 +1,10 @@
-'use strict';
 angular.module('blueRidgeApp.controllers', [])
 .controller('HomeCtrl',function($scope,$location,Auth){
 	if (Auth.isSignedIn()) {
 		$location.path('/todos');
 	}
 })
-.controller('SettingsCtrl',function($scope,$location,Restangular,Auth){	
+.controller('SettingsCtrl',function($scope,$location,Restangular,Auth){
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
@@ -18,7 +17,7 @@ angular.module('blueRidgeApp.controllers', [])
 		blueRidgeUser.put().then(function(){
 			$scope.updated =true;
 		});
-	}	
+	};
 })
 .controller('SignOutCtrl',function($scope,$location,Auth){	
 	Auth.signOut();
@@ -43,7 +42,7 @@ angular.module('blueRidgeApp.controllers', [])
 		if($scope.signedIn){
 			$location.path('/activity');
 		}
-	}
+	};
 })
 .controller('ToDoCtrl',function($scope,$location,$filter,Restangular,Auth,ngTableParams){	
 	if (!Auth.isSignedIn()) {
