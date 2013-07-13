@@ -1,0 +1,7 @@
+{
+  "database": {
+    "adapter": "mongo",
+    "host": "localhost",
+    "port": "27017"
+  }
+}

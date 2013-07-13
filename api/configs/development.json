@@ -1,0 +1,31 @@
+{
+  "database": {
+    "name": "blueridge",
+    "host": "localhost",
+    "port": 27017
+  },
+  "providers": {
+    "basecamp": {
+      "name": "basecamp",
+      "handler": "BasecampApi",
+      "userAgent": "BlueRidgeApp (mo@mospired.com)",
+      "client_id": "cbc3f4cff1def7da310df4d74c7baaffa106772a",
+      "client_secret": "41ffa461186d66b1876d526ecab677d92df0533a",
+      "redirect_uri": "http://dev.blueridgeapp.com/basecamp",
+      "auth_url": "https://launchpad.37signals.com/authorization/new",
+      "token_url": "https://launchpad.37signals.com/authorization/token"
+    }
+  },
+  "cache": {
+    "host": "localhost",
+    "port": 11211
+  },
+  "mail": {
+    "host": "smtp.mandrillapp.com",
+    "port": 587,
+    "username": "mo@mospired.com",
+    "password": "7GWunUJtlG9oKo6umSmdKg"
+  },
+  "debug": true,
+  "log_enabled": true
+}
