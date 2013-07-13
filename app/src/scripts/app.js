@@ -1,6 +1,5 @@
-angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','blueRidgeApp.directives','restangular'])
-.config(['$routeProvider', '$locationProvider','RestangularProvider', function($routeProvider, $locationProvider,RestangularProvider) {
-    $routeProvider.
+var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','blueRidgeApp.directives','ui.bootstrap','restangular'])
+.config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider', function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider) {    $routeProvider.
     when('/', {
         templateUrl: 'views/site/home.html',
         controller: 'HomeCtrl'

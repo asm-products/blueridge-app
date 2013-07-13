@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     vendor: {
       js: [
       '<%= dir.vendor %>/jquery/jquery.min.js',   
-      '<%= dir.vendor %>/angular/angular.min.js',
+      '<%= dir.vendor %>/angular.min/index.js',
       '<%= dir.vendor %>/angular-bootstrap/ui-bootstrap-tpls.min.js',
       '<%= dir.vendor %>/angular-cookies/angular-cookies.min.js',
       '<%= dir.vendor %>/angular-resource/angular-resource.min.js',
@@ -87,14 +87,14 @@ module.exports = function(grunt) {
     copy: {
       build: {
         files: [
-        {expand: true, cwd:'<%= dir.src %>', src: ['images/**','views/**'], dest: '<%= dir.build %>'},
+        {expand: true, cwd:'<%= dir.src %>', src: ['img/**','views/**'], dest: '<%= dir.build %>'},
         {expand: true, cwd:'<%= dir.src %>',src: ['index.html'], dest: '<%= dir.build %>/'},
         {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'}
         ]
       },
       publish: {
         files: [
-        {expand: true, cwd:'<%= dir.build %>/', src: ['css/**','images/*','views/**'], dest: '<%= dir.publish %>/'},
+        {expand: true, cwd:'<%= dir.build %>/', src: ['css/**','img/*','views/**'], dest: '<%= dir.publish %>/'},
         {expand: true, cwd:'<%= dir.build %>/',src: ['index.html'], dest: '<%= dir.publish %>/'},
         {expand: true, cwd:'<%= dir.api %>',src: ['api.php'], dest: '<%= dir.publish %>/'},
         ]
