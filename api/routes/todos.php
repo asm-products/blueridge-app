@@ -1,6 +1,7 @@
 <?php
 /**
  * Todos
+ * @deprecated
  */
 
 use \BlueRidge\Entities\ToDo;
