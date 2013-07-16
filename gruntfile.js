@@ -89,7 +89,8 @@ module.exports = function(grunt) {
         files: [
         {expand: true, cwd:'<%= dir.src %>', src: ['img/**','views/**'], dest: '<%= dir.build %>'},
         {expand: true, cwd:'<%= dir.src %>',src: ['index.html'], dest: '<%= dir.build %>/'},
-        {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'}
+        {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'},
+        {expand: true, cwd:'<%= dir.api %>',src: ['api.php'], dest: '<%= dir.build %>/'},
         ]
       },
       publish: {
@@ -104,6 +105,14 @@ module.exports = function(grunt) {
       dist: {
         options: {
           sassDir: '<%= dir.src %>/sass',
+          cssDir: '<%= dir.build %>/css',
+          environment: 'production',
+          raw: "preferred_syntax = :scss\n"
+        }
+      },
+      libs: {
+        options: {
+          sassDir: '<%= dir.vendor %>/bootstrap-sass/lib',
           cssDir: '<%= dir.build %>/css',
           environment: 'production',
           raw: "preferred_syntax = :scss\n"
