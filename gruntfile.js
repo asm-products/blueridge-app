@@ -81,8 +81,13 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint', 'qunit']
+      options: {
+        livereload: true,
+      },
+      css: {
+        files: ['<%= dir.src %>/sass/*.scss'],
+        tasks: ['compass','copy:publish'],
+      },
     },
     copy: {
       build: {
@@ -135,6 +140,7 @@ grunt.registerTask('test', ['jshint', 'qunit']);
 grunt.registerTask('default', ['build']);
 grunt.registerTask('build', ['jshint','clean','compass','copy:build','ngmin']);
 grunt.registerTask('publish', ['build','copy:publish','concat','uglify']);
+grunt.registerTask('develop', ['publish','watch']);
 
 
 
