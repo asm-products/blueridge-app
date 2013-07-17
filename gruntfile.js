@@ -86,7 +86,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: ['<%= dir.src %>/**/*.*'],
-        tasks: ['build'],
+        tasks: ['publish'],
       },
     },
     copy: {
