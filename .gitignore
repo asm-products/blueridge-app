@@ -3,5 +3,5 @@
 node_modules/*
 *.scssc
 *.sublime-*
-app/build/*
-pub/*
+/app/build/*
+/pub/*
