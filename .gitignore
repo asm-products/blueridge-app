@@ -1,9 +1,8 @@
 .DS_Store
+.vagrant
 **/vendor/*
 node_modules/*
+bower_modules/*
 *.scssc
 *.sublime-*
-app/build/*
-pub/*
-
-/api/composer.lock
+*.lock
