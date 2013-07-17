@@ -3,8 +3,7 @@
 node_modules/*
 *.scssc
 *.sublime-*
-<<<<<<< HEAD
-=======
 app/build/*
 pub/*
->>>>>>> 642fc0fa5c7d9f0f50f740950eddca86a51e6f3e
+
+/api/composer.lock
