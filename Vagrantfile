@@ -6,9 +6,9 @@ Vagrant.configure("2") do |config|
   config.vm.box = "devbox"
   config.vm.box_url = "http://static.techeffe.net/vagrant/ubuntu-12.04.2-server-amd64-dist.box"
 
-  config.vm.synced_folder "../", "/var/www/blueridgeapp"
-  config.vm.synced_folder "conf.d", "/etc/apache2/sites-available"
-  config.vm.synced_folder "logs", "/var/log/apache2"
+  config.vm.synced_folder "./", "/var/www/blueridgeapp"
+  config.vm.synced_folder "devbox/conf.d", "/etc/apache2/sites-available"
+  config.vm.synced_folder "devbox/logs", "/var/log/apache2"
 
 
 
@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 27017, host: 27017
 
   config.vm.provision :chef_solo do |chef|
-    chef.cookbooks_path = "cookbooks"    
+    chef.cookbooks_path = "devbox/cookbooks"    
     chef.add_recipe "mospired"
     chef.json = {
       "app" => {
