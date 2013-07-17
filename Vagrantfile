@@ -2,7 +2,6 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |v|
     v.name = "blueridge"
   end
-
   config.vm.box = "devbox"
   config.vm.box_url = "http://static.techeffe.net/vagrant/ubuntu-12.04.2-server-amd64-dist.box"
 
