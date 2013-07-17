@@ -2,6 +2,9 @@
 html,
 body {
   background-color: #f5efe6;
+  background-image: url('/img/background_pattern.png');
+  background-position: 0 0;
+  background-repeat: repeat;
   height: 100%;
   font-family: "proxima-nova","Helvetica Neue",helvetica,arial,sans-serif;
 }
@@ -164,7 +167,7 @@ body { text-shadow: 0 1px #fff; }
  */
 
 .app-container {
-  max-width:600px;
+  max-width:960px;
 }
 
 .app-navigation {
@@ -180,13 +183,12 @@ body { text-shadow: 0 1px #fff; }
     text-indent: -9999em;
     width:120px;
   }
-}
-
-.app-navigation a {
-  color:#7d7a75;
-}
-.app-navigation .nav { 
-  padding-top: 8px;
+  a {
+  	color:#7d7a75;
+	}
+	.nav { 
+  	padding-top: 8px;
+  }
 }
 .app-navigation .nav>li>a:hover, .app-navigation .nav>li>a:focus {
   background-color:rgb(51,101,154);
@@ -228,13 +230,15 @@ body { text-shadow: 0 1px #fff; }
 }
 
 .app-todo-list-item {
-  border-top: 1px solid #ded7c8;
-}
-.app-todo-list-item > div {
-  padding:.5em;
-}
-.app-todo-list-item .secondary-data {
-  font-size: .9em;
+  border-top: 1px solid #ddd;
+  padding: .5em 0;
+
+	&> div {
+  	padding:.5em;
+	}
+	.secondary-data {
+  	font-size: .9em;
+	}
 }
 
 /************************************************
@@ -244,9 +248,9 @@ body { text-shadow: 0 1px #fff; }
 .app-todo-title { 
   color:#000;
   font-size: 1.2em;
-}
-.app-todo-title:hover { 
-  color:#1c5c76;
+	&:hover { 
+  	color:#1c5c76;
+  }
 }
 .app-todo-meta {
   display:block;
@@ -254,6 +258,7 @@ body { text-shadow: 0 1px #fff; }
 }
 .app-alert-warning {
   color:#c00;
+  font-weight: bold;
 }
 
 .app-assignee-name {
