@@ -2,7 +2,9 @@
 /**
  * BlueRidge App Api
  */
-require '../api/vendor/autoload.php';
+
+
+require '../vendor/autoload.php';
 
 use \Slim\Slim;
 use \BlueRidge\Init;

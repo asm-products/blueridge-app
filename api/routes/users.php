@@ -3,12 +3,13 @@
  * Users
  */
 use \BlueRidge\Entities\User;
+use \BlueRidge\Crew\Mailman;
+use \BlueRidge\Crew\Butler;
 
 /**
  * Get User
  */
 $app->get('/api/users(/:id(/:segment))', function ($id = null,$segment = null) use ($app) {
-
 	
 	$collection = new \StdClass();
 	$user= new User($app);
@@ -65,10 +66,14 @@ $app->post('/api/users', function () use ($app) {
 	//$app->response()->status(201);
 	echo (json_encode((object) ['id'=>$user->id,'init'=>true]));
 
+	// set access 
+
 	// send email
 	/**
 	 * hi new user your password is ..wasup`
 	 */
+	$mailman = Mailman::send($app, $user,'welcome');
+
 	
 });
 
