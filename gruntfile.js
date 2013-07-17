@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     dir:{
       publish:'pub',
-      build:'app/build',
+      build:'build',
       src:'app/src',
       api:'api',
       vendor:'app/vendor'
@@ -84,10 +84,11 @@ module.exports = function(grunt) {
       options: {
         livereload: true,
       },
-      css: {
-        files: ['<%= dir.src %>/sass/*.scss'z],
-        tasks: ['compass','copy:publish'],
+      dist: {
+        files: ['<%= dir.src %>/*'],
+        tasks: ['jshint','clean','compass','copy','ngmin','concat','uglify'],
       },
+
     },
     copy: {
       build: {
