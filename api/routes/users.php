@@ -3,6 +3,8 @@
  * Users
  */
 use \BlueRidge\Entities\User;
+use \BlueRidge\Crew\Mailman;
+use \BlueRidge\Crew\Butler;
 
 /**
  * Get User
@@ -65,10 +67,14 @@ $app->post('/api/users', function () use ($app) {
 	//$app->response()->status(201);
 	echo (json_encode((object) ['id'=>$user->id,'init'=>true]));
 
+	// set access 
+
 	// send email
 	/**
 	 * hi new user your password is ..wasup`
 	 */
+	$mailman = Mailman::send($app->mailbox, $user,'welcome');
+
 	
 });
 

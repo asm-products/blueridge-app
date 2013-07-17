@@ -44,6 +44,10 @@ class Init extends Middleware
             $this->app->providers = $configs->providers;
         }
 
+        if($configs->mail){
+            $this->app->mailbox = $this->setMailBox($configs->mail);
+        }
+
     }
 
     /**
@@ -77,6 +81,15 @@ class Init extends Middleware
 
         $memcache = new \Memcache('localhost', 11211);
         return $memcache;
+
+    }
+
+    /**
+     *  Setup Mail
+     */
+    protected function setMailBox($mailbox){
+
+        return $transport = new \Mandrill($mailbox->api_key);
 
     }
 }

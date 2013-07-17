@@ -41,7 +41,7 @@ class User extends \BlueRidge\ModelAbstract
 	 * Authorization Key
 	 * @var string
 	 */
-	protected $key;
+	protected $password;
 
 	/**
 	 * Accounts
@@ -112,9 +112,8 @@ class User extends \BlueRidge\ModelAbstract
 	}
 
 	public function create($properties){
-		$pass= $this->getInitPassword();
-		$properties['password']=$pass;
-		$properties['key']=$this->setKey($pass);
+	
+		$properties['password']=hash_hmac("sha256", $this->getInitPassword(), $properties['email']);
 		$result = $this->update(["email"=>$properties['email']],$properties);
 		
 		if(empty($result)){
@@ -144,21 +143,16 @@ class User extends \BlueRidge\ModelAbstract
 
 	}
 	public function toArray(){
-		$item = ["id"=>$this->id,"name"=>$this->name,"email"=>$this->email,'key'=>$this->key,"avatar"=>$this->avatar,"url"=>$this->url,"accounts"=>$this->accounts,'plan'=>$this->plan];
+		$item = ["id"=>$this->id,"name"=>$this->name,"email"=>$this->email,'password'=>$this->password,"avatar"=>$this->avatar,"url"=>$this->url,"accounts"=>$this->accounts,'plan'=>$this->plan];
 		return $item;
 	}
 
 	private function getInitPassword() {
-		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";			
+		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&";			
 		$password = substr(str_shuffle( $chars ), 0, 12 );
 		return $password;
 	}
-	private function setKey($password){
-		return $password;
-	}
-	private function getPassword($key){
-
-	}
+	
 
 
 }
