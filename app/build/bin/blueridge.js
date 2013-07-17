@@ -1,4 +1,4 @@
-/*! blueridge 13-07-2013 */
+/*! blueridge 16-07-2013 */
 (function ( window, angular, undefined ) {
 ;var blueRidgeApp = angular.module('blueRidgeApp', [
     'blueRidgeApp.controllers',
