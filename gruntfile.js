@@ -21,8 +21,24 @@ module.exports = function(grunt) {
     },
 
     clean:{
-      build:[ '<%= dir.build %>'],
-      publish:[ '<%= dir.publish %>' ]
+      build:[ 
+      '<%= dir.build %>/css',
+      '<%= dir.build %>/img',
+      '<%= dir.build %>/bin',
+      '<%= dir.build %>/js',
+      '<%= dir.build %>/libs',
+      '<%= dir.build %>/views',
+      '<%= dir.build %>/*.html',
+      '<%= dir.build %>/*.php'
+      ],
+      publish:[ 
+      '<%= dir.publish %>/css',
+      '<%= dir.publish %>/js',
+      '<%= dir.publish %>/img',
+      '<%= dir.publish %>/views',
+      '<%= dir.publish %>/*.html',
+      '<%= dir.publish %>/*.php'
+       ]
     },
     concat: {
       options: {

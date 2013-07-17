@@ -5,6 +5,4 @@ node_modules/*
 bower_modules/*
 *.scssc
 *.sublime-*
-build/*
-pub/*
 *.lock
