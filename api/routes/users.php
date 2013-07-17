@@ -10,7 +10,6 @@ use \BlueRidge\Crew\Butler;
  * Get User
  */
 $app->get('/api/users(/:id(/:segment))', function ($id = null,$segment = null) use ($app) {
-
 	
 	$collection = new \StdClass();
 	$user= new User($app);
@@ -73,7 +72,7 @@ $app->post('/api/users', function () use ($app) {
 	/**
 	 * hi new user your password is ..wasup`
 	 */
-	$mailman = Mailman::send($app->mailbox, $user,'welcome');
+	$mailman = Mailman::send($app, $user,'welcome');
 
 	
 });

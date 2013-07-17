@@ -7,7 +7,9 @@ namespace BlueRidge\Crew;
 
 class Mailman 
 {
-    public static function send($mailbox,$user,$template){
+    public static function send($app,$user,$template){
+        $templates= $app->config('templates.path');
+
         try {
             $message = array(
                 'html' => '<p>Welcome to BlueRidge</p>',
@@ -36,8 +38,8 @@ class Mailman
                 );
             $async = false;
             $ip_pool = 'Main Pool';
-            return $mailbox->messages->send($message, $async, $ip_pool);
-        
+            return $app->mailbox->messages->send($message, $async, $ip_pool);
+
 
         } catch(Mandrill_Error $e) {
             echo 'A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage();
