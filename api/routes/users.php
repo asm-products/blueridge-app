@@ -63,7 +63,12 @@ $app->post('/api/users', function () use ($app) {
 	//}
 	
 	//$app->response()->status(201);
-	echo (json_encode((object) ['id'=>$user->id,'key'=>$user->key]));
+	echo (json_encode((object) ['id'=>$user->id,'init'=>true]));
+
+	// send email
+	/**
+	 * hi new user your password is ..wasup`
+	 */
 	
 });
 
