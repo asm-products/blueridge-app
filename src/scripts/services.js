@@ -3,6 +3,7 @@ angular.module('blueRidgeApp.services', ['ngCookies'])
 	return {		
 		authorize:function(auth){
 			$cookieStore.put('_blrdgapp', auth);
+			$cookieStore.put('_blrdgapp_init', auth.init);
 			return true;
 		},
 		signOut:function(){
@@ -13,6 +14,12 @@ angular.module('blueRidgeApp.services', ['ngCookies'])
 		},
 		getProfileUser:function(){
 			return $cookieStore.get('_blrdgapp');
-		}		
+		},
+		isInit:function(){
+			return ($cookieStore.get('_blrdgapp_init'))?true:false;
+		},
+		removeInit:function(){
+			return $cookieStore.remove('_blrdgapp_init');
+		}
 	};
 });
