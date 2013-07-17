@@ -9,7 +9,8 @@
     "entity": "User",
     "methods": [
       "GET",
-      "POST"
+      "POST",
+      "PUT"
     ]
   },
   "people": {
