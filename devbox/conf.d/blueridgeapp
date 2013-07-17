@@ -2,7 +2,6 @@
 ServerName dev.blueridgeapp.com
 DocumentRoot "/var/www/blueridgeapp/pub"
 SetEnv APPLICATION_ENV development
-
 <Directory "/var/www/blueridgeapp/pub">
 Options Indexes FollowSymLinks
 Order deny,allow
@@ -14,7 +13,9 @@ RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^.*$ - [NC,L]
 RewriteRule ^api(.*)?$ api.php [NC,L]
-RewriteRule ^.*$ index.html [NC,L]
+RewriteRule ^.*$ index.html [NC]
 </Directory>
+
+php_admin_value error_log "/var/log/apache2/php_error.log"
 
 </VirtualHost>
