@@ -84,9 +84,9 @@ module.exports = function(grunt) {
       options: {
         livereload: true,
       },
-      css: {
-        files: ['<%= dir.src %>/sass/*.scss'],
-        tasks: ['compass','copy:publish'],
+      dist: {
+        files: ['<%= dir.src %>/**/*.*'],
+        tasks: ['build'],
       },
     },
     copy: {
