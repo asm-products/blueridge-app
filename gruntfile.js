@@ -100,16 +100,31 @@ module.exports = function(grunt) {
       options: {
         livereload: true,
       },
-      dist: {
-        files: ['<%= dir.src %>/*'],
-        tasks: ['jshint','clean','compass','copy','ngmin','concat','uglify'],
+      css: {
+        files: ['<%= dir.src %>/sass/*.scss'],
+        tasks: ['compass','copy:publish'],
       },
-
+      img: {
+        files: ['<%= dir.src %>/img/*'],
+        tasks: ['copy'],
+      },
+      fonts: {
+        files: ['<%= dir.src %>/fonts/*'],
+        tasks: ['copy'],
+      },
+      views: {
+        files: ['<%= dir.src %>/views/**/*.html'],
+        tasks: ['copy'],
+      },
+      scripts: {
+        files: ['<%= dir.src %>/scripts/*.js'],
+        tasks: ['ngmin','concat','uglify'],
+      },
     },
     copy: {
       build: {
         files: [
-        {expand: true, cwd:'<%= dir.src %>', src: ['img/**','views/**'], dest: '<%= dir.build %>'},
+        {expand: true, cwd:'<%= dir.src %>', src: ['img/**','views/**','fonts/**'], dest: '<%= dir.build %>'},
         {expand: true, cwd:'<%= dir.src %>',src: ['index.html'], dest: '<%= dir.build %>/'},
         {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'},
         {expand: true, cwd:'<%= dir.api %>',src: ['api.php'], dest: '<%= dir.build %>/'},
@@ -117,7 +132,7 @@ module.exports = function(grunt) {
       },
       publish: {
         files: [
-        {expand: true, cwd:'<%= dir.build %>/', src: ['css/**','img/*','views/**'], dest: '<%= dir.publish %>/'},
+        {expand: true, cwd:'<%= dir.build %>/', src: ['img/*','views/**','fonts/**','css/**'], dest: '<%= dir.publish %>/'},
         {expand: true, cwd:'<%= dir.build %>/',src: ['index.html'], dest: '<%= dir.publish %>/'},
         {expand: true, cwd:'<%= dir.api %>',src: ['api.php'], dest: '<%= dir.publish %>/'},
         ]
@@ -155,10 +170,6 @@ grunt.loadNpmTasks('grunt-contrib-compass');
 
 grunt.registerTask('test', ['jshint', 'qunit']);
 grunt.registerTask('default', ['build']);
-grunt.registerTask('build', ['jshint','clean','compass','copy:build','ngmin']);
-grunt.registerTask('publish', ['build','copy:publish','concat','uglify']);
-grunt.registerTask('develop', ['publish','watch']);
-
-
+grunt.registerTask('build', ['jshint','clean','compass','copy:build','ngmin','copy:publish','concat','uglify']);
 
 };
