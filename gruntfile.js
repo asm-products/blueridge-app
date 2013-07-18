@@ -144,7 +144,7 @@ module.exports = function(grunt) {
     compass: {
       dist: {
         options: {
-          sassDir: '<%= dir.src %>/sass/app',
+          sassDir: '<%= dir.src %>/sass',
           cssDir: '<%= dir.build %>/css',
           environment: 'production',
           raw: "preferred_syntax = :scss\n"
