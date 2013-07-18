@@ -1,5 +1,5 @@
 /* app stylesheet */
-@import "colors";
+@import "layout","typography","colors","responsive";
 
 html,
 body {
@@ -11,19 +11,23 @@ body {
   height: 100%;
   font-family: "proxima-nova","Helvetica Neue",helvetica,arial,sans-serif;
 }
-.jumbotron {
+
+h1#tagline {
+	color: $masthead_text;
+	line-height: 1;
+	text-align: center;
+}
+
+
+.billboard {
   margin: 40px 0;
   text-align: center;
-  h1 {
-    color: $masthead_text;
-    font-size: 72px;
-    line-height: 1;
-  }
   .btn {
     font-size: 21px;
     padding: 14px 24px;
   }
 }
+
 .container-narrow {
   margin: 0 auto;
   max-width: 680px;
@@ -285,23 +289,11 @@ body { text-shadow: 0 1px #fff; }
   display: inline-block;
 }
 
-@media screen and (min-width: 768px) {
-  .btn-toolbar, .app-todo-owner {
-    text-align: right;
-  }
-}
-
 
 /************************************************
  * Yadda yadda
  */
 
-@media screen and (max-width: 767px) {
-  body { padding-top: 0px; }
-  .container-narrow > .masthead{
-    margin-top: 0em;
-  }
-}
 .navbar .nav { margin: 20px 10px 20px 0;  }
 .sector{
   padding: 1em;

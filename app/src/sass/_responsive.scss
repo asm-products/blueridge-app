@@ -1,0 +1,30 @@
+// Responsive
+
+$narrow-width: 30em;
+$medium-width: 48em;
+$large-width:  62em;
+
+@mixin at-breakpoint($breakpoint-width) {
+  @media only screen and (max-width: $breakpoint-width) {
+    @content;
+  }
+}
+
+@include at-breakpoint($narrow-width) {
+	@include headings-narrow;
+	.btn-toolbar, .app-todo-owner {
+    text-align: right;
+  }
+}
+
+@include at-breakpoint($medium-width) {
+  @include headings-medium;
+  .container-narrow > .masthead{
+    margin-top: 0em;
+  }
+}
+ 
+@include at-breakpoint($large-width) {
+  @include headings-large;
+  @include layout-large;
+}
