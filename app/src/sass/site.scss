@@ -1,7 +1,16 @@
 // Site Styles
-@import "colors","layout","typography","responsive";
+@import "responsive","colors","layout","typography";
+
+.container-narrow {
+  margin: 0 auto;
+  max-width: 680px;
+  & > hr {
+  	margin: 3em 0;
+  }
+}
 
 .masthead {
+	border-bottom:1px solid $site_border_color;
   text-align: center;
 	h3#brand a {
   	background-image: url('/img/logo_brown_208x73.png');
@@ -17,49 +26,55 @@
 
 .billboard {
   margin: 3em 0;
+  @include breakpoint(small)  { margin:2em 0; }
   text-align: center;
-  h1 {
+  .headline {
 		color: $masthead_text;
+		font-size: 2.5em;
+		@include breakpoint(large)  { font-size:5em; }
+		@include breakpoint(medium) { font-size:3.5em; }
+		@include breakpoint(small)  { font-size:2em; }
 		line-height: 1;
 	}
-  .btn {
-    font-size: 1.5em;
-    padding: .5em 1em;
-  }
-}
-
-.container-narrow {
-  margin: 0 auto;
-  max-width: 680px;
-  & > hr {
-  	margin: 3em 0;
-  }
-}
-
-.marketing {
-  margin: 4em 0;
-	p + h4 {
-  	margin-top: 2em;
+	.tagline {
+		margin:2em 0;
+		p { 
+			font-size: 1.5em;
+			font-weight: 400;
+			line-height: 1.35em;
+			padding:0;
+			margin:0;
+			@include breakpoint(small)  { 
+				font-size:1em; 
+				padding:0 1.5em 1em;
+			}
+		}
 	}
-}
-
-hr {
-  border: 0;
-  border-top: 1px solid #ded7c8;
-  display: block;
-  height: 1px;
-  margin: 1em 0;
-  padding: 0;
 }
 
 .highlight {
-  background-color: #f7f7f7;
-  border: 1px solid #d7d7d7;
+  background-color: $highlight_background_color;
+  border: 1px solid $site_border_color;
   border-radius: 3px;
   padding: 1.5em 1em .5em;
+  .btn {
+    font-size: 1.5em;
+    padding: .5em 1em;
+		@include breakpoint(small)  { 
+			font-size:1.2em;
+		}
+  }
 }
-.lead {
-  font-weight: 400;
+.pitchpoint {
+	margin-bottom:2em;
+}
+
+.priceblock {
+	@include breakpoint(small)  { 
+		border-bottom: 1px solid $site_border_color;
+		margin-bottom:2em;
+		padding-bottom:2em;
+	}
 }
 
 .plan-feature {
@@ -74,7 +89,7 @@ hr {
 }
 
 .plan-price {
-  font-size: 2.5em;
+  font-size: .75em;
   font-weight: 400;
   margin-top: 1em;
 	sup {
@@ -97,24 +112,38 @@ hr {
   }
 }
 
-.site-sublinks a {
-  display: inline-block;
-  margin-right: 10px;
-}
-.site-underaction {
-	margin-top: 1em;
-  text-align: center;
-}
 footer {
-  border-top: 1px solid #ded7c8;
+  border-top:1px solid $site_border_color;
+  clear:both;
   padding-top: 1em;
   margin: 3em 0;
+  @include breakpoint(small)  {
+  	margin-bottom: 1.5em;
+  }
 	a {
   	color: #444;
   	text-decoration: underline;
 		&:hover {
   		color: #000;
   	}
+  }
+  .site-sublinks a {
+  	display: inline-block;
+  	margin-right: 10px;
+  	@include breakpoint(small)  { 
+  		padding: .5em 0;
+  		margin:.2em 0;
+  		text-align: center;
+  		width:23%;
+  	}
+  }
+  .site-copyright {
+  	text-align: right;
+  	@include breakpoint(small)  {
+			font-size:.8em;
+			margin:2em 0 0;
+			text-align: center;
+		}
   }
 }
 

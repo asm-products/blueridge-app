@@ -1,6 +1,23 @@
 // Responsive
 
-$narrow-width: 30em;
+@mixin breakpoint($point) {
+  @if $point == huge {
+    @media (max-width: 1600px) { @content; }
+  }
+  @else if $point == large {
+    @media (max-width: 1250px) { @content; }
+  }
+  @else if $point == medium {
+    @media (max-width: 650px)  { @content; }
+  }
+  @else if $point == small {
+    @media (max-width: 320px)  { @content; }
+  }
+}
+
+
+/*
+$narrow-width: 320px;
 $medium-width: 48em;
 $large-width:  62em;
 
@@ -28,3 +45,6 @@ $large-width:  62em;
   @include headings-large;
   @include layout-large;
 }
+*/
+
+

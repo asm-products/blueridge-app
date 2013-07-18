@@ -1,17 +1,5 @@
 /* app stylesheet */
-@import "colors","layout","typography","responsive";
-
-
-
-/**************************************************
- * For the home page
- */
-
-
-
-/************************************************
- * App Pages
- */
+@import "responsive","colors","layout","typography";
 
 .app-container {
   max-width: 960px;
