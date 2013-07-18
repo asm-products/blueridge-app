@@ -14,7 +14,8 @@ class Init extends Middleware
      * Call
      * Middleware call
      */
-    public function call(){
+    public function call()
+    {
 
         $this->setApplicationEnvironment();    
         $this->next->call();
@@ -23,7 +24,8 @@ class Init extends Middleware
     /**
      * Setup Application
      */
-    protected function setApplicationEnvironment(){ 
+    protected function setApplicationEnvironment()
+    { 
 
         $app_env = getenv('APPLICATION_ENV');
         $appEnv= ($app_env)?$app_env:"production";  
@@ -53,7 +55,8 @@ class Init extends Middleware
     /**
      * Get Application Settings
      */
-    protected function getConfigs($appEnv){
+    protected function getConfigs($appEnv)
+    {
 
         $config_file = "../api/configs/{$appEnv}.json";
         $config_content= file_get_contents($config_file); 
@@ -64,7 +67,8 @@ class Init extends Middleware
     /**
      * Setup Database Adapter
      */
-    protected function setDbAdapter($db){
+    protected function setDbAdapter($db)
+    {
         $connection_url = "mongodb://{$db->host}:{$db->port}/{$db->name}";   
         if(isset($db->user) && isset($db->passwd)){
             $connection_url = "mongodb://{$db->user}:{$db->passwd}@{$db->host}:{$db->port}/{$db->name}";
@@ -77,7 +81,8 @@ class Init extends Middleware
     /**
      * Setup Cache
      */
-    protected function setCache(){
+    protected function setCache()
+    {
 
         $memcache = new \Memcache('localhost', 11211);
         return $memcache;
@@ -87,7 +92,8 @@ class Init extends Middleware
     /**
      *  Setup Mail
      */
-    protected function setMailBox($mailbox){
+    protected function setMailBox($mailbox)
+    {
 
         return $transport = new \Mandrill($mailbox->api_key);
 
