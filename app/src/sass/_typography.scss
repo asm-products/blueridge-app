@@ -4,7 +4,7 @@
 h1 { font-size: 1.5em }
 h2 { font-size: 1.25em }
 h3 { font-size: 1.125em }
-h1#tagline {
+.billboard h1 {
 	font-size: 2.5em;
 }
 
@@ -13,7 +13,7 @@ h1#tagline {
 	h1 { font-size: 1.5em }
   h2 { font-size: 1.25em }
   h3 { font-size: 1.15em }
-	h1#tagline {
+	.billboard h1 {
 		font-size: 3em;
 	}
 }
@@ -23,7 +23,7 @@ h1#tagline {
   h1 { font-size: 1.75em }
   h2 { font-size: 1.5em }
   h3 { font-size: 1.25em }
-  h1#tagline {
+  .billboard h1 {
   	font-size: 4em;
   }
 }
@@ -33,7 +33,7 @@ h1#tagline {
   h1 { font-size: 2em }
   h2 { font-size: 1.75em }
   h3 { font-size: 1.5em }
-  h1#tagline {
+  .billboard h1 {
   	font-size: 5em;
   }
 }
