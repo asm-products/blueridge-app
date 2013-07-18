@@ -23,6 +23,7 @@ module.exports = function(grunt) {
     clean:{
       build:[ 
       '<%= dir.build %>/css',
+      '<%= dir.build %>/fonts',
       '<%= dir.build %>/img',
       '<%= dir.build %>/bin',
       '<%= dir.build %>/js',
@@ -33,12 +34,13 @@ module.exports = function(grunt) {
       ],
       publish:[ 
       '<%= dir.publish %>/css',
+      '<%= dir.publish %>/fonts',
       '<%= dir.publish %>/js',
       '<%= dir.publish %>/img',
       '<%= dir.publish %>/views',
       '<%= dir.publish %>/*.html',
       '<%= dir.publish %>/*.php'
-       ]
+      ]
     },
     concat: {
       options: {
@@ -101,7 +103,7 @@ module.exports = function(grunt) {
         livereload: true,
       },
       css: {
-        files: ['<%= dir.src %>/sass/*.scss'],
+        files: ['<%= dir.src %>/sass/**/*.scss'],
         tasks: ['compass','copy:publish'],
       },
       img: {
@@ -109,7 +111,7 @@ module.exports = function(grunt) {
         tasks: ['copy'],
       },
       fonts: {
-        files: ['<%= dir.src %>/fonts/*'],
+        files: ['<%= dir.src %>/fonts/*','<%= dir.src %>/sass/**/{*.eot,*.svg,*ttf,*woff,*.otf}'],
         tasks: ['copy'],
       },
       views: {
@@ -125,23 +127,24 @@ module.exports = function(grunt) {
       build: {
         files: [
         {expand: true, cwd:'<%= dir.src %>', src: ['img/**','views/**','fonts/**'], dest: '<%= dir.build %>'},
-        {expand: true, cwd:'<%= dir.src %>',src: ['index.html'], dest: '<%= dir.build %>/'},
+        {expand: true, flatten:true,src: ['<%= dir.src %>/sass/**/{*.eot,*.svg,*ttf,*woff,*.otf}'], dest: '<%= dir.build %>/fonts',filter: 'isFile'},
+        {expand: true, cwd:'<%= dir.src %>',src: ['*.html'], dest: '<%= dir.build %>/'},
         {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'},
         {expand: true, cwd:'<%= dir.api %>',src: ['api.php'], dest: '<%= dir.build %>/'},
         ]
       },
       publish: {
         files: [
-        {expand: true, cwd:'<%= dir.build %>/', src: ['img/*','views/**','fonts/**','css/**'], dest: '<%= dir.publish %>/'},
-        {expand: true, cwd:'<%= dir.build %>/',src: ['index.html'], dest: '<%= dir.publish %>/'},
-        {expand: true, cwd:'<%= dir.api %>',src: ['api.php'], dest: '<%= dir.publish %>/'},
+        {expand: true, cwd:'<%= dir.build %>/', src: ['img/*','views/**','fonts/**'], dest: '<%= dir.publish %>/'},
+        {expand: true, flatten:true ,src: '<%= dir.build %>/css/**/*.css', dest: '<%= dir.publish %>/css',filter: 'isFile'},
+        {expand: true, cwd:'<%= dir.build %>/',src: ['*.html','*.php'], dest: '<%= dir.publish %>/'},
         ]
       }
     },
     compass: {
       dist: {
         options: {
-          sassDir: '<%= dir.src %>/sass',
+          sassDir: '<%= dir.src %>/sass/app',
           cssDir: '<%= dir.build %>/css',
           environment: 'production',
           raw: "preferred_syntax = :scss\n"
@@ -149,7 +152,7 @@ module.exports = function(grunt) {
       },
       libs: {
         options: {
-          sassDir: '<%= dir.vendor %>/bootstrap-sass/lib',
+          sassDir: '<%= dir.src %>/sass/lib',
           cssDir: '<%= dir.build %>/css',
           environment: 'production',
           raw: "preferred_syntax = :scss\n"
