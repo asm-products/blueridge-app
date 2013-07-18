@@ -1,1 +1,12 @@
 /** Layout **/
+
+// Small Defaults
+body {
+  margin: 0;
+  padding: 0 2em;
+}
+
+// Medium-sized Screens
+@mixin layout-large {
+  body { padding: 0; }
+}
