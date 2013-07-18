@@ -9,9 +9,9 @@ angular.module('blueRidgeApp.controllers', [])
 		$location.path('/');
 	}
 	$scope.firstTime=false;
-	if (Auth.isInit()) {
+	/*if (Auth.isInit()) {
 		$scope.firstTime=true;
-	}
+	}*/
 	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
 	$scope.user = blueRidgeUser.get();
 	$scope.updated = false;
@@ -19,8 +19,9 @@ angular.module('blueRidgeApp.controllers', [])
 	$scope.updateAccounts = function(accounts) {
 		blueRidgeUser.accounts=accounts;
 		blueRidgeUser.put().then(function(){
-			$scope.firstTime=false;
-			$location.path('/todos');
+			$scope.updated = true;
+			//$scope.firstTime=false;
+			//$location.path('/todos');
 		});
 	};
 })
