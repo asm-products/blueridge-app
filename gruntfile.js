@@ -122,6 +122,10 @@ module.exports = function(grunt) {
         files: ['<%= dir.src %>/scripts/*.js'],
         tasks: ['ngmin','concat','uglify'],
       },
+      core: {
+        files: ['<%= dir.src %>/*.html'],
+        tasks: ['copy'],
+      },
     },
     copy: {
       build: {
