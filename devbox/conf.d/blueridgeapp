@@ -13,6 +13,7 @@ RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^.*$ - [NC,L]
 RewriteRule ^api(.*)?$ api.php [NC,L]
+RewriteRule ^app(.*)?$ app.html [NC,L]
 RewriteRule ^.*$ index.html [NC]
 </Directory>
 

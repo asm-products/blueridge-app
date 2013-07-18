@@ -3,8 +3,6 @@
  * Users
  */
 use \BlueRidge\Entities\User;
-use \BlueRidge\Crew\Mailman;
-use \BlueRidge\Crew\Butler;
 
 /**
  * Get User
@@ -59,20 +57,13 @@ $app->post('/api/users', function () use ($app) {
 	$service_properties = ['providers'=>["{$providerName}"=>['auth'=>$auth]],'accounts'=>$accounts];
 	$properties = array_merge($me,$service_properties);
 	$resource = $user->create($properties);
-	//if(empty($resource)){
 
-	//}
-	
-	//$app->response()->status(201);
-	echo (json_encode((object) ['id'=>$user->id,'init'=>true]));
+	echo (json_encode((object) ['id'=>$user->id,'init'=>true,'access'=>true]));
 
-	// set access 
+	$access = doorman_welcome();
+	$user->update(["id"=>$user->id],['key'=>$access['key']],true);
 
-	// send email
-	/**
-	 * hi new user your password is ..wasup`
-	 */
-	$mailman = Mailman::send($app, $user,'welcome');
+	$mailman = \postman_send($app, $user,'welcome',['password'=>$access['pass']]);
 
 	
 });
