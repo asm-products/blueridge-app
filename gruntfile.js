@@ -135,7 +135,7 @@ module.exports = function(grunt) {
       },
       publish: {
         files: [
-        {expand: true, cwd:'<%= dir.build %>/', src: ['img/*','views/**','fonts/**'], dest: '<%= dir.publish %>/'},
+        {expand: true, cwd:'<%= dir.build %>/', src: ['img/**','views/**','fonts/**'], dest: '<%= dir.publish %>/'},
         {expand: true, flatten:true ,src: '<%= dir.build %>/css/**/*.css', dest: '<%= dir.publish %>/css',filter: 'isFile'},
         {expand: true, cwd:'<%= dir.build %>/',src: ['*.html','*.php'], dest: '<%= dir.publish %>/'},
         ]
