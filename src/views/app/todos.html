@@ -8,7 +8,7 @@
     </div>
     <div class="app-todo-list-item row-fluid" ng-repeat="todo in todos">
       <div class="span3">
-        <span ng-if="!todo.dueDate" class="badge">None</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="app-alert-warning">{{todo.overDueBy}} days</span>
+        <span ng-if="!todo.dueDate" class="app-alert-warning">None</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="app-alert-warning">{{todo.overDueBy}} days</span>
       </div>
       <div class="span6" filter="{ 'content': 'text' }" sortable="content">
         <a class="app-todo-title" ng-href="{{todo.url}}" target="_blank">{{todo.content}}</a>
