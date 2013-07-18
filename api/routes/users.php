@@ -4,7 +4,7 @@
  */
 use \BlueRidge\Entities\User;
 use \BlueRidge\Crew\Mailman;
-use \BlueRidge\Crew\Butler;
+use \BlueRidge\Crew\Doorman;
 
 /**
  * Get User
@@ -67,6 +67,7 @@ $app->post('/api/users', function () use ($app) {
 	echo (json_encode((object) ['id'=>$user->id,'init'=>true]));
 
 	// set access 
+	$doorman = Doorman::open();
 
 	// send email
 	/**

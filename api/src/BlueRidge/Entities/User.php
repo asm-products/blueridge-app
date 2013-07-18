@@ -147,11 +147,7 @@ class User extends \BlueRidge\ModelAbstract
 		return $item;
 	}
 
-	private function getInitPassword() {
-		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&";			
-		$password = substr(str_shuffle( $chars ), 0, 12 );
-		return $password;
-	}
+	
 	
 
 
