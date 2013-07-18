@@ -1,0 +1,39 @@
+// Typography
+
+// Small Default
+h1 { font-size: 1.5em }
+h2 { font-size: 1.25em }
+h3 { font-size: 1.125em }
+.billboard h1 {
+	font-size: 2.5em;
+}
+
+// Narrow-sized Screens
+@mixin headings-narrow {
+	h1 { font-size: 1.5em }
+  h2 { font-size: 1.25em }
+  h3 { font-size: 1.15em }
+	.billboard h1 {
+		font-size: 3em;
+	}
+}
+
+// Medium-sized Screens
+@mixin headings-medium {
+  h1 { font-size: 1.75em }
+  h2 { font-size: 1.5em }
+  h3 { font-size: 1.25em }
+  .billboard h1 {
+  	font-size: 4em;
+  }
+}
+ 
+// Large-sized Screens    
+@mixin headings-large {
+  h1 { font-size: 2em }
+  h2 { font-size: 1.75em }
+  h3 { font-size: 1.5em }
+  .billboard h1 {
+  	font-size: 5em;
+  }
+}
