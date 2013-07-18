@@ -9,7 +9,6 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "devbox/conf.d", "/etc/apache2/sites-available"
   config.vm.synced_folder "devbox/logs", "/var/log/apache2"
 
-
   config.vm.network :public_network
   config.vm.network :forwarded_port, guest: 80, host: 8080
   config.vm.network :forwarded_port, guest: 27017, host: 27017

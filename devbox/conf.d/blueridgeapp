@@ -1,5 +1,6 @@
 <VirtualHost *:80>
 ServerName dev.blueridgeapp.com
+ServerAlias *.xip.io
 DocumentRoot "/var/www/blueridgeapp/pub"
 SetEnv APPLICATION_ENV development
 <Directory "/var/www/blueridgeapp/pub">
