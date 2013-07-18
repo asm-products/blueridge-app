@@ -68,7 +68,8 @@ class ToDo extends \BlueRidge\ModelAbstract
 	 * Fetch
 	 * @return Array
 	 */
-	public function fetch($params){
+	public function fetch($params)
+	{
 
 		// loop through params 
 		if(isset($params['user'])){
@@ -90,7 +91,9 @@ class ToDo extends \BlueRidge\ModelAbstract
 		return $this->fetchUserTodos($user);
 		
 	}
-	public function fetchUserTodos(User $user){
+	
+	public function fetchUserTodos(User $user)
+	{
 		$accounts = $user->accounts;
 		$activeProjects = array();
 
@@ -116,7 +119,8 @@ class ToDo extends \BlueRidge\ModelAbstract
 
 	}
 
-	private function organize($todoItems){
+	private function organize($todoItems)
+	{
 
 		foreach($todoItems as $key => $item){
 			$initPos = 0;
@@ -146,7 +150,8 @@ class ToDo extends \BlueRidge\ModelAbstract
 
 	}
 
-	private function getOverdueBy($dueDate){
+	private function getOverdueBy($dueDate)
+	{
 		$now = new \DateTime('now');
 
 		if($dueDate > $now){
@@ -157,7 +162,9 @@ class ToDo extends \BlueRidge\ModelAbstract
 		return $interval->format('%a');
 
 	}
-	protected function toArray(){
+
+	protected function toArray()
+	{
 		$item = [
 		"id"=>$this->id,
 		"dueDate"=>$this->dueDate,
