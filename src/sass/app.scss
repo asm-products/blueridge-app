@@ -7,6 +7,7 @@ body {
   background-image: url('/img/background_pattern.png');
   background-position: 0 0;
   background-repeat: repeat;
+  border-top: 2px solid $top_stripe;
   height: 100%;
   font-family: "proxima-nova","Helvetica Neue",helvetica,arial,sans-serif;
 }
@@ -14,7 +15,7 @@ body {
   margin: 40px 0;
   text-align: center;
   h1 {
-    color: #7d7a75;
+    color: $masthead_text;
     font-size: 72px;
     line-height: 1;
   }
@@ -55,14 +56,14 @@ body { text-shadow: 0 1px #fff; }
   text-align: center;
 }
 .site .masthead h3#brand a {
-  background-image: url('/img/logo_gray_260x93.png');
+  background-image: url('/img/logo_brown_208x73.png');
   background-position: top left;
   background-repeat: no-repeat;
   display: block;
   margin: 1em auto 0;
-  height: 93px;
+  height: 73px;
   text-indent: -9999em;
-  width: 260px;
+  width: 208px;
 }
 .site .highlight {
   background-color: #f7f7f7;

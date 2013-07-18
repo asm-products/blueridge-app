@@ -7,13 +7,8 @@
       <ul class="dropdown nav nav-pills" ng-class='{open: open}'>
         <li><a ng-href="/todos">To-dos</a></li>
         <li><a ng-href="/projects">Projects</a></li>
-        <li class="pull-right"><a class="dropdown-toggle" data-toggle="dropdown" ng-click='open=!open'>{{user.name}} <span class="caret"></span></a>
-          <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
-            <li><a tabindex="-1" ng-href="/me"><i class="icon-user"></i> Profile</a></li>
-            <li class="divider"></li>
-            <li><a tabindex="-1" ng-href="/signout">Signout</a></li>  
-          </ul>
-        </li>
+        <li class="pull-right"><a tabindex="-1" ng-href="/signout">Signout</a></li>
+        <li class="pull-right"><a ng-href="/me">Profile</a></li>
       </ul>
     </div>
   </div>
