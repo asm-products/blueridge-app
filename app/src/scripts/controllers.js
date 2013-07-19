@@ -20,8 +20,7 @@ angular.module('blueRidgeApp.controllers', [])
 		blueRidgeUser.accounts=accounts;
 		blueRidgeUser.put().then(function(){
 			$scope.updated = true;
-			//$scope.firstTime=false;
-			//$location.path('/todos');
+			$location.path('/app/todos');
 		});
 	};
 })
