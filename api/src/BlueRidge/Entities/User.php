@@ -110,11 +110,17 @@ class User extends \BlueRidge\ModelAbstract
 
 	public function fetchSegment($segment)
 	{
-
-		// todos only
-		$todo = new Todo($this->app);
-		$todos = $todo->fetchUserTodos($this);
-		return $todos;
+		$data = null;
+		switch ($segment) {
+			case 'todos':
+			$todo = new Todo($this->app);
+			$data = $todo->fetchUserTodos($this);
+			break;
+			case 'accounts':
+			$data = $this->accounts;
+			break;			
+		}
+		return $data;
 	}
 
 	public function create($properties)
@@ -152,7 +158,13 @@ class User extends \BlueRidge\ModelAbstract
 
 	public function toArray()
 	{
-		$item = ["id"=>$this->id,"name"=>$this->name,"email"=>$this->email,'key'=>$this->key,"avatar"=>$this->avatar,"url"=>$this->url,"accounts"=>$this->accounts,'plan'=>$this->plan];
+		$item = [
+		"id"=>$this->id,
+		"name"=>$this->name,
+		"email"=>$this->email,
+		"key"=>$this->key,
+		"avatar"=>$this->avatar,
+		];
 		return $item;
 	}
 }
