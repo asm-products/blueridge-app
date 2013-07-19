@@ -33,7 +33,7 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
         templateUrl: '/views/app/signout.html',
         controller: 'SignOutCtrl'
     })
-    .when('/basecamp', {
+    .when('/app/basecamp', {
         templateUrl: '/views/app/init.html',
         controller: 'BasecampCtrl'
     })
