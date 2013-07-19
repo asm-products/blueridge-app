@@ -4,23 +4,27 @@ angular.module('blueRidgeApp.controllers', [])
 		$location.path('/app/todos');
 	}
 })
-.controller('ProjectCtrl',function($scope,$location,Restangular,Auth){	
+.controller('ProjectCtrl',function($scope,$location,$filter,Restangular,Auth){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
-	$scope.firstTime=false;
-	/*if (Auth.isInit()) {
-		$scope.firstTime=true;
-	}*/
-	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
-	$scope.user = blueRidgeUser.get();
-	$scope.updated = false;
-	
+	$scope.noob=Auth.isNoob();
+
+	$scope.loading = true;
+	blueRidgeUser= Restangular.one('users',Auth.getProfileUser().id);
+
+	blueRidgeUser.getList('accounts').then(function(result){
+		$scope.accounts = result.accounts;
+		$scope.loading = false;
+
+	});
+
 	$scope.updateAccounts = function(accounts) {
 		blueRidgeUser.accounts=accounts;
 		blueRidgeUser.put().then(function(){
 			$scope.updated = true;
 			$location.path('/app/todos');
+			Auth.promoteNoob();
 		});
 	};
 })
@@ -77,7 +81,7 @@ angular.module('blueRidgeApp.controllers', [])
 		window.location=provider.authUrl;
 	});
 })
-.controller('BasecampCtrl',function($scope,$location,Restangular,Auth) {
+.controller('BasecampCtrl',function($scope,$location,$filter,Restangular,Auth) {
 	var code = $location.search().code;
 	var basecampUser = Restangular.all('users');
 	basecampUser.post({code:code,provider:'basecamp'}).then(function(auth){

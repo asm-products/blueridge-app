@@ -1,16 +1,16 @@
 <?php
 /**
- * ToDo
+ * Todo
  */
 
 namespace BlueRidge\Entities;
 
 use BlueRidge\Providers\BasecampApi;
 
-class ToDo extends \BlueRidge\ModelAbstract
+class Todo extends \BlueRidge\ModelAbstract
 {
 	/**
-	 * ToDo Id
+	 * Todo Id
 	 * @var String
 	 */
 	protected $id;
@@ -112,7 +112,7 @@ class ToDo extends \BlueRidge\ModelAbstract
 
 		$basecamp = new BasecampApi($this->app);
 		$token =$user->providers['basecamp']['auth']['token'];
-		$todoLists=$basecamp->getToDoLists($activeProjects,$token);
+		$todoLists=$basecamp->getTodoLists($activeProjects,$token);
 		$todos = $basecamp->getTodos($todoLists,$token);
 
 		return $this->organize($todos);
