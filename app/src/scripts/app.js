@@ -1,15 +1,11 @@
-var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','blueRidgeApp.directives','ui.bootstrap','restangular'])
-.config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider', function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider) {    $routeProvider.
+var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','blueRidgeApp.directives','ui.bootstrap','restangular']);
+blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider', function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider) {$routeProvider.
     when('/', {
         templateUrl: '/views/site/home.html',
         controller: 'HomeCtrl'
     })
-    .when('/signout', {
-        templateUrl: '/views/site/home.html',
-        controller: 'SignOutCtrl'
-    })
     .when('/connect', {
-        templateUrl: '/views/site/home.html',
+        templateUrl: '/views/site/connect.html',
         controller: 'ConnectCtrl'
     })
     .when('/pricing', {
@@ -33,6 +29,10 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
         templateUrl: '/views/app/projects.html',
         controller: 'ProjectCtrl'
     })
+    .when('/app/signout', {
+        templateUrl: '/views/app/signout.html',
+        controller: 'SignOutCtrl'
+    })
     .when('/basecamp', {
         templateUrl: '/views/app/init.html',
         controller: 'BasecampCtrl'
@@ -43,4 +43,18 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
     $locationProvider.html5Mode(true);
     RestangularProvider.setBaseUrl('/api');
     RestangularProvider.setListTypeIsArray(false);
-}]).run();
+}]);
+blueRidgeApp.run(function($rootScope,$location) {
+    $rootScope.$on('$routeChangeSuccess', function(ev,data) {
+        var path = window.location.pathname.split( '/' );
+        $rootScope.groupName='site';
+
+        if(path[1]=='app'){
+            $rootScope.groupName='app';
+        }
+
+        $rootScope.isActive = function(route) {
+            return route === $location.path();
+        };
+    });
+});
