@@ -66,8 +66,8 @@ module.exports = function(grunt) {
     dist: {
       files: [{
         expand: true,
-        cwd: '<%= dir.src %>/scripts/',
-        src: '/**/*.js',
+        cwd: '<%= dir.src %>/scripts',
+        src: '**/*.js',
         dest: '<%= dir.build %>/js'
       }]
     }
