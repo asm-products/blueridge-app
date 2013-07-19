@@ -45,10 +45,9 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
     RestangularProvider.setListTypeIsArray(false);
 }]);
 blueRidgeApp.run(function($rootScope,$location) {
-    $rootScope.$on('$routeChangeSuccess', function(ev,data) {
+    $rootScope.$on('$routeChangeStart', function(ev,data) {
         var path = window.location.pathname.split( '/' );
         $rootScope.groupName='site';
-
         if(path[1]=='app'){
             $rootScope.groupName='app';
         }
