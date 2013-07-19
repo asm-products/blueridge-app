@@ -50,8 +50,10 @@ $app->post('/api/users', function () use ($app) {
 	$token = $provider->authorize($code);
 
 	$auth = $provider->getAuthorization($token);
-	$accounts = $provider->getProjectAccounts($auth,$token);
 	$me= $provider->getMe($auth,$token);
+
+	$accounts = $provider->getProjectAccounts($auth,$token);
+
 
 	$user = new User($app);
 	$service_properties = ['providers'=>["{$providerName}"=>['auth'=>$auth]],'accounts'=>$accounts];
