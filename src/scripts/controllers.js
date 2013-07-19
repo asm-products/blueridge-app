@@ -4,7 +4,7 @@ angular.module('blueRidgeApp.controllers', [])
 		$location.path('/app/todos');
 	}
 })
-.controller('ProjectCtrl',function($scope,$location,Restangular,Auth){	
+.controller('ProjectCtrl',function($scope,$location,$filter,Restangular,Auth){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
@@ -12,10 +12,17 @@ angular.module('blueRidgeApp.controllers', [])
 	/*if (Auth.isInit()) {
 		$scope.firstTime=true;
 	}*/
-	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
-	$scope.user = blueRidgeUser.get();
-	$scope.updated = false;
+	$scope.loading = true;
 	
+	blueRidgeUser= Restangular.one('users',Auth.getProfileUser().id);
+	
+	blueRidgeUser.getList('accounts').then(function(result){
+		$scope.accounts = result.accounts;
+		$scope.loading = false;
+
+	});
+
+
 	$scope.updateAccounts = function(accounts) {
 		blueRidgeUser.accounts=accounts;
 		blueRidgeUser.put().then(function(){
