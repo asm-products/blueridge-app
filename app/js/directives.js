@@ -1,4 +1,5 @@
-angular.module('blueRidge.directives', ['ui.bootstrap.dialog'])
+'use strict';
+angular.module('blueRidgeApp.directives', ['ui.bootstrap.dialog'])
 .directive('modal', ['$parse', '$dialog', function($parse, $dialog) {
   return {
     restrict: 'EA',
@@ -8,8 +9,6 @@ angular.module('blueRidge.directives', ['ui.bootstrap.dialog'])
       var shownExpr = attrs.modal || attrs.show;
       var setClosed;
 
-      // Create a dialog with the template as the contents of the directive
-      // Add the current scope as the resolve in order to make the directive scope as a dialog controller scope
       opts = angular.extend(opts, {
         template: elm.html(), 
         resolve: { $scope: function() { return scope; } }
@@ -44,4 +43,17 @@ angular.module('blueRidge.directives', ['ui.bootstrap.dialog'])
       });
     }
   };
-}]);
+}])
+.directive('loadingContainer', function () {
+  return {
+    restrict: 'A',
+    scope: false,
+    link: function(scope, element, attrs) {
+      var loadingLayer = $('<div class="loading"></div>').appendTo(element);
+      $(element).addClass('loading-container');
+      scope.$watch(attrs.loadingContainer, function(value) {
+        loadingLayer.toggle(value);
+      });
+    }
+  };
+})

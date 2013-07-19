@@ -1,35 +1,23 @@
 'use strict';
-var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','ui.bootstrap','restangular'])
+var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','blueRidgeApp.directives','ui.bootstrap','restangular'])
 .config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider', function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider) {
 	$routeProvider.
 	when('/', {
 		templateUrl: 'views/home.html',
-		controller: 'HomeCtrl',		
-	})
-	.when('/activity', {
-		templateUrl: 'views/activity.html', 
-		controller: 'ActivityCtrl'
+		controller: 'HomeCtrl'
 	})
 	.when('/todos', {
 		templateUrl: 'views/todos.html', 
 		controller: 'ToDoCtrl'
-	})	
-	.when('/people', {
-		templateUrl: 'views/people.html', 
-		//controller: 'PeopleCtrl'
 	})
 	.when('/me', {
 		templateUrl: 'views/me.html', 
 		controller: 'MeCtrl'
 	})
-	.when('/accounts', {
-		templateUrl: 'views/accounts.html', 
-		controller: 'SettingsCtrl'
-	})	
-	.when('/billing', {
-		templateUrl: 'views/billing.html', 
-		//controller: 'SettingsCtrl'
-	})	
+	.when('/projects', {
+		templateUrl: 'views/projects.html', 
+		controller: 'ProjectCtrl'
+	})		
 	.when('/signout', {
 		templateUrl: 'views/home.html',
 		controller: 'SignOutCtrl'
@@ -42,12 +30,20 @@ var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','b
 		templateUrl: 'views/loading.html', 
 		controller: 'BasecampCtrl'
 	})
+  .when('/pricing', {
+    templateUrl: 'views/pricing.html'
+  })
+  .when('/preview', {
+    templateUrl: 'views/preview.html'
+  })
+  .when('/privacy', {
+    templateUrl: 'views/privacy.html'
+  })
 	.otherwise({
 		redirectTo: '/'
 	});
 	$locationProvider.html5Mode(true);
 	$dialogProvider.options({backdropClick: false, dialogFade: true});
 	RestangularProvider.setBaseUrl("/api");
-	RestangularProvider.setDefaultHttpFields({cache: true},{headers:{'User-Agent':'blueridgeapp'}});
 	RestangularProvider.setListTypeIsArray(false);
 }]).run();

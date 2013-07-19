@@ -1,22 +1,20 @@
-<div class="navbar navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-			<h1 class="brand">BlueRidge</h1>
-				<ul class="nav">
-					<li><a href="/activity">Activity</a></li>
-					<li><a href="/todos">To-Dos</a></li>
-					<li><a href="/people">People</a></li>
-				</ul>
-				<ul class="dropdown nav pull-right" ng-class='{open: open}'>
-					<li><a class="dropdown-toggle" data-toggle="dropdown" ng-click='open=!open'><i class="icon-user"></i> {{user.name}} <span class="caret"></span></a></li>
-					<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
-						<li><a tabindex="-1" href="/me">Profile</a></li>
-						<li><a tabindex="-1" href="/accounts">Accounts</a></li>
-						<li><a tabindex="-1" href="/billing">Billing</a></li>	
-					</ul>
-					<li><a tabindex="-1" href="/signout">Sign Out</a></li>	
-				</ul>
-
-		</div>
-	</div>
+<div class="app-navigation">
+  <div class="row-fluid">
+    <div class="span2">
+      <h4 id="brand">Blue Ridge</h4>
+    </div>
+    <div class="span10">
+      <ul class="dropdown nav nav-pills" ng-class='{open: open}'>
+        <li><a ng-href="/todos">To-dos</a></li>
+        <li><a ng-href="/projects">Projects</a></li>
+        <li class="pull-right"><a class="dropdown-toggle" data-toggle="dropdown" ng-click='open=!open'>{{user.name}} <span class="caret"></span></a>
+          <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+            <li><a tabindex="-1" ng-href="/me"><i class="icon-user"></i> Profile</a></li>
+            <li class="divider"></li>
+            <li><a tabindex="-1" ng-href="/signout">Signout</a></li>  
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>

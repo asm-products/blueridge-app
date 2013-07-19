@@ -2,3 +2,8 @@ logs/*
 !.gitkeep
 .DS_Store
 vendor/*
+composer.lock
+
+*.css
+
+*.scssc

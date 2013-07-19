@@ -45,9 +45,15 @@ class User extends \BlueRidge\ModelAbstract
 
 	/**
 	 * Accounts
-	 * @var string
+	 * @var Array
 	 */
 	protected $accounts;
+
+	/**
+	 * Plan
+	 * @var string
+	 */
+	protected $plan='free';
 
 
 	/**
@@ -97,6 +103,13 @@ class User extends \BlueRidge\ModelAbstract
 		return $this->setProperties($doc);
 
 	}
+	public function fetchSegment($segment){
+
+		// todos only
+			$todo = new ToDo($this->app);
+			$todos = $todo->fetchUserTodos($this);
+			return $todos;
+	}
 
 	public function create($properties){
 		$pass= $this->getInitPassword();
@@ -131,7 +144,7 @@ class User extends \BlueRidge\ModelAbstract
 
 	}
 	public function toArray(){
-		$item = ["id"=>$this->id,"name"=>$this->name,"email"=>$this->email,'key'=>$this->key,"avatar"=>$this->avatar,"url"=>$this->url,"accounts"=>$this->accounts];
+		$item = ["id"=>$this->id,"name"=>$this->name,"email"=>$this->email,'key'=>$this->key,"avatar"=>$this->avatar,"url"=>$this->url,"accounts"=>$this->accounts,'plan'=>$this->plan];
 		return $item;
 	}
 

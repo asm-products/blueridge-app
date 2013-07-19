@@ -2,22 +2,22 @@
 angular.module('blueRidgeApp.controllers', [])
 .controller('HomeCtrl',function($scope,$location,Auth){
 	if (Auth.isSignedIn()) {
-		$location.path('/activity');
+		$location.path('/todos');
 	}
 })
-.controller('SettingsCtrl',function($scope,$location,Restangular,Auth){	
+.controller('ProjectCtrl',function($scope,$location,Restangular,Auth){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
 	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
 	$scope.user = blueRidgeUser.get();
-
+	$scope.updated = false;
+	
 	$scope.updateAccounts = function(accounts) {
 		blueRidgeUser.accounts=accounts;
-		blueRidgeUser.put();
-		if($location.path()=='/accounts'){
-			$location.path('/activity');
-		}
+		blueRidgeUser.put().then(function(){
+			$scope.updated =true;
+		});
 	}	
 })
 .controller('SignOutCtrl',function($scope,$location,Auth){	
@@ -45,24 +45,20 @@ angular.module('blueRidgeApp.controllers', [])
 		}
 	}
 })
-.controller('ToDoCtrl',function($scope,$location,Restangular,Auth){	
-	if (!Auth.isSignedIn()) {
-		$location.path('/');
-	}
-
-	var blueRidgeTodos = Restangular.all('todos');
-	blueRidgeTodos.getList({user:Auth.getProfileUser().id}).then(function(data){
-		$scope.user=data.user;
-		$scope.todos=data.todos;
-	});
-
-})
-.controller('ActivityCtrl',function($scope,$location,Auth,Restangular){
+.controller('ToDoCtrl',function($scope,$location,$filter,Restangular,Auth){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
 	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
-	$scope.user = blueRidgeUser.get();	
+	$scope.user = blueRidgeUser.get();
+	$scope.loading = true;
+
+	blueRidgeUser.all('todos').getList().then(function(result){
+		var todos = result.todos;
+		$scope.todos = todos;
+		$scope.loading = false;
+	});
+
 })
 .controller('MeCtrl',function($scope,$location,Auth,Restangular){
 	if (!Auth.isSignedIn()) {
@@ -70,13 +66,6 @@ angular.module('blueRidgeApp.controllers', [])
 	}
 	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
 	$scope.user = blueRidgeUser.get();
-
-})
-.controller('PeopleCtrl',function($scope,$location,Auth,User) {
-	if (!Auth.isSignedIn()) {
-		$location.path('/');
-	}
-	$scope.user = User.get();
 
 })
 .controller('ConnectCtrl',function($scope,Restangular) {
@@ -89,7 +78,7 @@ angular.module('blueRidgeApp.controllers', [])
 	var basecampUser = Restangular.all('users');
 	basecampUser.post({code:code,provider:'basecamp'}).then(function(auth){
 		Auth.authorize(auth);
-		$location.path('/accounts').search('code',null); 
+		$location.path('/projects').search('code',null); 
 	},function() {
 		console.log("There was an error saving");
 	});
