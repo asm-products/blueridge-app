@@ -84,7 +84,7 @@ angular.module('blueRidgeApp.controllers', [])
 		Auth.authorize(auth);
 		$location.path('/app/projects').search('code',null); 
 	},function() {
-		console.log("There was an error saving");
+		console.log("There was an error saving account");
 	});
 
 });
