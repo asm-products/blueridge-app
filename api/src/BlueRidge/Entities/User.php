@@ -112,7 +112,7 @@ class User extends \BlueRidge\ModelAbstract
 	{
 
 		// todos only
-		$todo = new ToDo($this->app);
+		$todo = new Todo($this->app);
 		$todos = $todo->fetchUserTodos($this);
 		return $todos;
 	}
