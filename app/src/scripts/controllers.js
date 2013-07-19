@@ -20,8 +20,7 @@ angular.module('blueRidgeApp.controllers', [])
 		blueRidgeUser.accounts=accounts;
 		blueRidgeUser.put().then(function(){
 			$scope.updated = true;
-			//$scope.firstTime=false;
-			//$location.path('/todos');
+			$location.path('/app/todos');
 		});
 	};
 })
@@ -85,7 +84,7 @@ angular.module('blueRidgeApp.controllers', [])
 		Auth.authorize(auth);
 		$location.path('/app/projects').search('code',null); 
 	},function() {
-		console.log("There was an error saving");
+		console.log("There was an error saving account");
 	});
 
 });

@@ -54,7 +54,7 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
       },
       dist: {
-        src: ['module.prefix','<%= dir.build %>/js/*.js','module.suffix'],        
+        src: ['module.prefix','<%= dir.build %>/js/**/*.js','module.suffix'],        
         dest: '<%= dir.build %>/bin/<%= pkg.name %>.js'
       },      
       libs:{
@@ -66,8 +66,8 @@ module.exports = function(grunt) {
     dist: {
       files: [{
         expand: true,
-        cwd: '<%= dir.src %>/scripts/',
-        src: '*.js',
+        cwd: '<%= dir.src %>/scripts',
+        src: '**/*.js',
         dest: '<%= dir.build %>/js'
       }]
     }
@@ -107,24 +107,20 @@ module.exports = function(grunt) {
         tasks: ['compass','copy:publish'],
       },
       img: {
-        files: ['<%= dir.src %>/img/*'],
+        files: ['<%= dir.src %>/img/**/*'],
         tasks: ['copy'],
       },
       fonts: {
         files: ['<%= dir.src %>/fonts/*','<%= dir.src %>/sass/**/{*.eot,*.svg,*ttf,*woff,*.otf}'],
         tasks: ['copy'],
       },
-      views: {
-        files: ['<%= dir.src %>/views/**/*.html'],
+      html: {
+        files: ['<%= dir.src %>/**/*.html'],
         tasks: ['copy'],
       },
       scripts: {
         files: ['<%= dir.src %>/scripts/*.js'],
         tasks: ['ngmin','concat','uglify'],
-      },
-      core: {
-        files: ['<%= dir.src %>/*.html'],
-        tasks: ['copy'],
       },
     },
     copy: {
