@@ -7,10 +7,10 @@ Head over to [Wiki - Getting Started ](https://github.com/jcornelius/blueridgeap
 ## Workflow
 * git pull , and grunt to view the lastest changes from [upstream](https://github.com/jcornelius/blueridgeapp) * upstream is the main rep
      
-     # e.g For Mo and Sean
+     # e.g Sean, Jason, Mo etc
      git pull upstream dev-master && grunt
 
-     # for J
+     # J 
      git pull origin dev-master && grunt
 
 
