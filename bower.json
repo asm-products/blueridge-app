@@ -11,7 +11,8 @@
     "angular.min": "https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js",
     "angular-cookies": "~1.0.7",
     "angular-bootstrap": "~0.4.0",
-    "font-awesome": "~3.2.1"
+    "font-awesome": "~3.2.1",
+    "angular-google-analytics": "latest"
   },
   "devDependencies": {
     "angular-mocks": "~1.0.7",
