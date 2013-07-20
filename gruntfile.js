@@ -11,10 +11,9 @@ module.exports = function(grunt) {
     vendor: {
       js: [
       '<%= dir.vendor %>/jquery/jquery.min.js',
-      '<%= dir.vendor %>/angular.min/index.js',
+      '<%= dir.vendor %>/angular-all-unstable/angular.min.js',
+      '<%= dir.vendor %>/angular-all-unstable/angular-cookies.min.js',
       '<%= dir.vendor %>/angular-bootstrap/ui-bootstrap-tpls.min.js',
-      '<%= dir.vendor %>/angular-cookies/angular-cookies.min.js',
-      '<%= dir.vendor %>/angular-resource/angular-resource.min.js',
       '<%= dir.vendor %>/restangular/dist/restangular.min.js',
       '<%= dir.vendor %>/underscore/underscore-min.js',
       '<%= dir.vendor %>/angular-google-analytics/src/angular-google-analytics.js',
