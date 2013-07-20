@@ -11,7 +11,7 @@ function postman_send($app,$user,$template,Array $params){
             'html' => "<h3>Welcome to BlueRidge</h3><p>Your password is {$params['password']}</p>",
             'text' => "Welcome to BlueRidge \n Your password is {$params['password']}",
             'subject' => 'Welcome to BlueRidge',
-            'from_email' => 'dev@blueridgeapp.com',
+            'from_email' => 'team@blueridgeapp.com',
             'from_name' => 'BlueRidge',
             'to' => array(
                 array(
@@ -19,7 +19,7 @@ function postman_send($app,$user,$template,Array $params){
                     'name' => $user->name
                     )
                 ),
-            'headers' => array('Reply-To' => 'dev@blueridgeapp.com'),
+            'headers' => array('Reply-To' => 'team@blueridgeapp.com'),
             'important' => false,
             'track_opens' => null,
             'track_clicks' => null,

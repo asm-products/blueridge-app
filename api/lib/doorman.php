@@ -18,6 +18,6 @@ function doorman_access()
 function doorman_pass()
 {
     $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&-_";           
-    $pass = substr(str_shuffle( $chars ), 0, 24 );
+    $pass = substr(str_shuffle( $chars ), 0, 10 );
     return $pass;
 }
