@@ -16,7 +16,8 @@ module.exports = function(grunt) {
       '<%= dir.vendor %>/angular-cookies/angular-cookies.min.js',
       '<%= dir.vendor %>/angular-resource/angular-resource.min.js',
       '<%= dir.vendor %>/restangular/dist/restangular.min.js',
-      '<%= dir.vendor %>/underscore/underscore-min.js'
+      '<%= dir.vendor %>/underscore/underscore-min.js',
+      '<%= dir.vendor %>/angular-google-analytics/src/angular-google-analytics.js',
       ]
     },
 
