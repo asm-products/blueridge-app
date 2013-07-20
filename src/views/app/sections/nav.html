@@ -1,11 +1,10 @@
-<div class="app-navigation navbar" ng-controller="NavCtrl">
+<div class="app-navigation">
   <div class="row-fluid">
-    <button class="nav-toggle btn btn-navbar" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
     <div class="span2">
       <h4 id="brand">Blue Ridge</h4>
     </div>
-    <div class="span10" collapse="isCollapsed">
-      <ul class="nav nav-pills"  ng-if="!noob">
+    <div class="span10">
+      <ul class="nav nav-pills" ng-if="!noob">
         <li ng-class="{active:isActive('/app/todos')}" ><a ng-href="/app/todos">To-dos</a></li>
         <li ng-class="{active:isActive('/app/projects')}"><a ng-href="/app/projects">Projects</a></li>
         <li class="pull-right ng-class:{active:isActive('/app/signout')};"><a tabindex="-1" ng-href="/app/signout">Signout</a></li>
