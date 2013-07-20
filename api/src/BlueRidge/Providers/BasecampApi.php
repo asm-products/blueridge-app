@@ -66,11 +66,14 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 	}
 
 	public function getMe($auth,$token){
-		$endpoint = "people/me.json";		
+		$endpoint = "people/me.json";
+		$url="{$auth->accounts[0]['href']}/{$endpoint}"; 
+		$whoami = $this->getData($url,$token);
+
 		return [
-		'name'=>"{$auth->identity['first_name']} {$auth->identity['last_name']}",
-		'email'=>$auth->identity['email_address'],
-		'avatar'=>'http://placehold.it/96x96'
+		'name'=>$whoami['name'],
+		'email'=>$whoami['email_address'],
+		'avatar'=>$whoami['avatar_url']
 		];
 	}
 
@@ -99,7 +102,7 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		return "{$properties->auth_url}?client_id={$properties->client_id}&redirect_uri={$redirect_uri}&type=web_server";
 	}
 
-	public function getToDos($todoLists,$token){
+	public function getTodos($todoLists,$token){
 		$todos = array();
 		
 		foreach($todoLists as $projectName => $lists){	
@@ -118,7 +121,7 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		return $todos;
 	}
 
-	public function getToDoLists($activeProjects,$token){
+	public function getTodoLists($activeProjects,$token){
 		$todoLists=array();
 		$list= array();
 		foreach ($activeProjects as $project) {

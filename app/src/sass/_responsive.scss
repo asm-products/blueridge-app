@@ -1,0 +1,50 @@
+// Responsive
+
+@mixin breakpoint($point) {
+  @if $point == huge {
+    @media (max-width: 1600px) { @content; }
+  }
+  @else if $point == large {
+    @media (max-width: 1250px) { @content; }
+  }
+  @else if $point == medium {
+    @media (max-width: 650px)  { @content; }
+  }
+  @else if $point == small {
+    @media (max-width: 320px)  { @content; }
+  }
+}
+
+
+/*
+$narrow-width: 320px;
+$medium-width: 48em;
+$large-width:  62em;
+
+@mixin at-breakpoint($breakpoint-width) {
+  @media only screen and (max-width: $breakpoint-width) {
+    @content;
+  }
+}
+
+@include at-breakpoint($narrow-width) {
+	@include headings-narrow;
+	.btn-toolbar, .app-todo-owner {
+    text-align: right;
+  }
+}
+
+@include at-breakpoint($medium-width) {
+  @include headings-medium;
+  .container-narrow > .masthead{
+    margin-top: 0em;
+  }
+}
+ 
+@include at-breakpoint($large-width) {
+  @include headings-large;
+  @include layout-large;
+}
+*/
+
+

@@ -1,0 +1,21 @@
+<div id="app-projects" class="container app-container">
+	<div ng-include src="'/views/app/sections/nav.html'"></div>
+	<div class="panel">
+		<h2 class="muted">Projects</h2>
+		<p class="lead">Choose the projects you&rsquo;d like to get a better view of.</p>
+		<fieldset ng-repeat="account in accounts">
+			<legend>{{account.name}}</legend>
+			<label ng-repeat="project in account.projects" class="checkbox">
+				<input type="checkbox"	value="{{project.id}}"	ng-checked="project.selected"	ng-model="project.selected">
+				<span><strong>{{project.name}}</strong></span>
+				<p class="muted">{{project.description}}</p>
+			</label>
+		</fieldset>
+		<hr />
+		<div class="control-group">
+			<div class="controls">
+				<button class="btn btn-large btn-success" type="submit" ng-click="updateAccounts(accounts)">Apply My Choices</button>
+			</div>
+		</div>
+	</div>
+</div>

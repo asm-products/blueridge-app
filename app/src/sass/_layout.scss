@@ -1,0 +1,21 @@
+/** Layout **/
+
+// Small Defaults
+body {
+  background-color: $background_color;
+  background-image: url('/img/background_pattern.png');
+  background-position: 0 0;
+  background-repeat: repeat;
+  border-top: 2px solid $top_stripe;
+  height: 100%;
+  font-family: "proxima-nova","Helvetica Neue",helvetica,arial,sans-serif;
+  margin: 0;
+  padding: 0 2em;
+  text-shadow: 0 1px #fff;
+}
+
+
+// Medium-sized Screens
+@mixin layout-large {
+  body { padding: 0; }
+}
