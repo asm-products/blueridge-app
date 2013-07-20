@@ -1,0 +1,26 @@
+<form id="profile" class="form-horizontal">
+    <fieldset>
+        <legend>Your Info</legend>
+        <div class="control-group">
+            <label class="control-label" for="userName">Name</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" id="userName" ng-model="user.name" >
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="userEmail">Email</label>
+            <div class="controls">
+                <input type="email" class="input-xlarge" id="userEmail" ng-model="user.email" >
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="userPassword">Password</label>
+            <div class="controls">
+                <input type="password" class="input-xlarge" id="userPassword" ng-model="user.password">
+            </div>
+        </div>
+    </fieldset>
+    <div class="form-actions">
+        <button class="btn btn-success" type="submit" ng-click="update(user)">Update Profile</button>
+    </div>
+</form>

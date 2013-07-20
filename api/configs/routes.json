@@ -1,15 +1,10 @@
 {
-  "todos": {
-    "entity": "ToDo",
-    "methods": [
-      "GET"
-    ]
-  },
   "users": {
     "entity": "User",
     "methods": [
       "GET",
-      "POST"
+      "POST",
+      "PUT"
     ]
   },
   "people": {

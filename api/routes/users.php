@@ -50,19 +50,23 @@ $app->post('/api/users', function () use ($app) {
 	$token = $provider->authorize($code);
 
 	$auth = $provider->getAuthorization($token);
-	$accounts = $provider->getProjectAccounts($auth,$token);
 	$me= $provider->getMe($auth,$token);
+
+	$accounts = $provider->getProjectAccounts($auth,$token);
+
 
 	$user = new User($app);
 	$service_properties = ['providers'=>["{$providerName}"=>['auth'=>$auth]],'accounts'=>$accounts];
 	$properties = array_merge($me,$service_properties);
 	$resource = $user->create($properties);
-	//if(empty($resource)){
 
-	//}
-	
-	//$app->response()->status(201);
-	echo (json_encode((object) ['id'=>$user->id,'key'=>$user->key]));
+	echo (json_encode((object) ['id'=>$user->id,'init'=>true,'access'=>true]));
+
+	$access = doorman_welcome();
+	$user->update(["id"=>$user->id],['key'=>$access['key']],true);
+
+	$mailman = \postman_send($app, $user,'welcome',['password'=>$access['pass']]);
+
 	
 });
 

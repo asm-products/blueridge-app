@@ -1,0 +1,25 @@
+<div id="app-todos" class="container app-container">
+  <div ng-include src="'/views/app/sections/nav.html'"></div>
+  <div loading-container="loading" class="panel">
+    <div class="app-todo-controls row-fluid">
+      <div class="span6">
+        <h2 class="muted">All To-dos</h2>
+      </div>
+    </div>
+    <div class="app-todo-list-item row-fluid" ng-repeat="todo in todos">
+      <div class="span3">
+        <span ng-if="!todo.dueDate" class="app-alert-warning">None</span> {{todo.dueDate}} <span ng-if="todo.overDueBy>0" class="app-alert-warning">{{todo.overDueBy}} days</span>
+      </div>
+      <div class="span6" filter="{ 'content': 'text' }" sortable="content">
+        <a class="app-todo-title" ng-href="{{todo.url}}" target="_blank">{{todo.content}}</a>
+        <span class="app-todo-meta">
+          {{todo.list}} | {{todo.projectName}}
+        </span>
+      </div>
+      <div class="span3 app-todo-owner" filter="{ 'owner.name': 'text' }" sortable="owner.name">
+        <span ng-if="!todo.owner.name" class="app-alert-warning">Unassigned</span>
+        <span ng-if="todo.owner.name" class="app-assignee-name">{{todo.owner.name}}</span>
+      </div>
+    </div>
+  </div>
+</div>

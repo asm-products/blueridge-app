@@ -1,0 +1,15 @@
+<div class="app-navigation">
+  <div class="row-fluid">
+    <div class="span2">
+      <h4 id="brand">Blue Ridge</h4>
+    </div>
+    <div class="span10">
+      <ul class="nav nav-pills" ng-if="!noob">
+        <li ng-class="{active:isActive('/app/todos')}" ><a ng-href="/app/todos">To-dos</a></li>
+        <li ng-class="{active:isActive('/app/projects')}"><a ng-href="/app/projects">Projects</a></li>
+        <li class="pull-right ng-class:{active:isActive('/app/signout')};"><a tabindex="-1" ng-href="/app/signout">Signout</a></li>
+        <li class="pull-right ng-class:{active:isActive('/app/me')};"><a ng-href="/app/me">Profile</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
