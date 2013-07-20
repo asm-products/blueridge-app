@@ -1,0 +1,22 @@
+
+h1 { 
+	font-size: 1.5em;
+	line-height: 1.35em;
+	@include breakpoint(huge)  { font-size:3em; }
+	@include breakpoint(large)  { font-size:2.5em; }
+	@include breakpoint(medium) { font-size:2em; }
+}
+h2 { 
+	font-size: 1.25em;
+	line-height: 1.35em;
+	@include breakpoint(huge)  { font-size:2.65em; }
+	@include breakpoint(large)  { font-size:2.25em; }
+	@include breakpoint(medium) { font-size:1.5em; }
+}
+h3 { 
+	font-size: 1em;
+	line-height: 1.2em;
+	@include breakpoint(huge)  { font-size:2em; }
+	@include breakpoint(large)  { font-size:1.5em; }
+	@include breakpoint(medium) { font-size:1.25em; }
+}

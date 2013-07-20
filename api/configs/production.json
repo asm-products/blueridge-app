@@ -11,9 +11,9 @@
       "name": "basecamp",
       "handler": "BasecampApi",
       "userAgent": "BlueRidgeApp (api@blueridgeapp.com)",
-      "client_id": "4262c5c129649aa17ddb7bae825e05c55aadaf6f",
-      "client_secret": "6685290db25e72824afaa3ce3ce44a400fb6ea87",
-      "redirect_uri": "http://blueridgeapp.com/basecamp",
+      "client_id": "e391c424f7787e13c608bda67a22c2b121e50418",
+      "client_secret": "c0d00cc97adda78505784d56c3f2eae158db63aa",
+      "redirect_uri": "https://blueridgeapp.com/app/basecamp",
       "auth_url": "https://launchpad.37signals.com/authorization/new",
       "token_url": "https://launchpad.37signals.com/authorization/token"
     }
@@ -23,10 +23,8 @@
     "port": 11211
   },
   "mail": {
-    "host": "smtp.mandrillapp.com",
-    "port": 587,
-    "username": "mo@mospired.com",
-    "password": "7GWunUJtlG9oKo6umSmdKg"
+    "name": "mandrillapp.com",
+    "api_key": "IgxS9suuhImK6ewUnfOxqg"
   },
   "debug": false,
   "log_enabled": true

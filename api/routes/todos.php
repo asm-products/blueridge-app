@@ -1,15 +1,16 @@
 <?php
 /**
  * Todos
+ * @deprecated
  */
 
-use \BlueRidge\Entities\ToDo;
+use \BlueRidge\Entities\Todo;
 
 $app->get('/api/todos(/:id(:/segment))', function ($id = null,$segment=null) use ($app) {
 
 	$collection = new \StdClass();
 
-	$todo= new ToDo($app);
+	$todo= new Todo($app);
 	if(!empty($id)){
 		$params=['id'=>$id,$app->request()->get()];
 		$todo->fetchOne($params);		
