@@ -4,6 +4,9 @@ angular.module('blueRidgeApp.controllers', [])
 		$location.path('/app/todos');
 	}
 })
+.controller('NavCtrl',function($scope){
+	$scope.isCollapsed = false;
+})
 .controller('ProjectCtrl',function($scope,$location,$filter,Restangular,Auth){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
