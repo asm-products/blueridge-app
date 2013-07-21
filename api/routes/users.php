@@ -60,13 +60,14 @@ $app->post('/api/users', function () use ($app) {
 	$properties = array_merge($me,$service_properties);
 	$resource = $user->create($properties);
 
-	echo (json_encode((object) ['id'=>$user->id,'init'=>true,'access'=>true]));
+	echo (json_encode((object) ['id'=>$user->id,'init'=>true,'authorized'=>true]));
 
 	$access = doorman_welcome();
 	$user->update(["id"=>$user->id],['key'=>$access['key']],true);
 
-	$mailman = \postman_send($app, $user,'welcome',['password'=>$access['pass']]);
-
+	
+	$mailman = \postman_send($app, $user,'welcome',['password'=>$access['pass']]);	
+	
 	
 });
 

@@ -10,9 +10,9 @@ function doorman_welcome()
     $key = password_hash($pass, PASSWORD_BCRYPT);
     return ['key'=>$key,'pass'=>$pass];
 }
-function doorman_access()
+function doorman_authorize($password,$key)
 {
-
+    return password_verify($password, $key); 
 }
 
 function doorman_pass()
