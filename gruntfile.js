@@ -17,6 +17,7 @@ module.exports = function(grunt) {
       '<%= dir.vendor %>/restangular/dist/restangular.min.js',
       '<%= dir.vendor %>/underscore/underscore-min.js',
       '<%= dir.vendor %>/angular-google-analytics/src/angular-google-analytics.js',
+      '<%= dir.vendor %>/js-base64/base64.min.js',
       ]
     },
 

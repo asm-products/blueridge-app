@@ -11,7 +11,8 @@
     "restangular": "~1.0.5",
     "underscore": "~1.5.1",
     "font-awesome": "~3.2.1",
-    "angular-google-analytics": "latest"
+    "angular-google-analytics": "latest",
+    "js-base64": "~2.1.2"
   },
   "devDependencies": {}
 }
