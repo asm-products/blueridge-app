@@ -17,6 +17,9 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
     .when('/privacy', {
         templateUrl: '/views/site/privacy.html'
     })
+    .when('/about', {
+        templateUrl: '/views/site/about.html'
+    })
     .when('/app/todos', {
         templateUrl: '/views/app/todos.html',
         controller: 'ToDoCtrl'
