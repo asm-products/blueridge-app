@@ -62,7 +62,8 @@ class User extends \BlueRidge\ModelAbstract
 	 */
 	protected $providers;
 
-	public function fetch(Array $params=null){
+	public function fetch(Array $params=null)
+	{
 		$users = array();
 		$db = $this->app->database;
 		$collection = new \MongoCollection($db,"Users");		
@@ -75,7 +76,8 @@ class User extends \BlueRidge\ModelAbstract
 		return $users;		
 	}
 	
-	public function fetchOne(Array $params=null){
+	public function fetchOne(Array $params=null)
+	{
 
 		if (isset($params['id'])){
 			return $this->fetchOneById($params['id']);
@@ -91,7 +93,9 @@ class User extends \BlueRidge\ModelAbstract
 
 		return $this->setProperties($doc);
 	}
-	public function fetchOneById($id){
+
+	public function fetchOneById($id)
+	{
 		$db = $this->app->database;
 		$users = new \MongoCollection($db,"Users");	
 		
@@ -103,18 +107,24 @@ class User extends \BlueRidge\ModelAbstract
 		return $this->setProperties($doc);
 
 	}
-	public function fetchSegment($segment){
 
-		// todos only
-			$todo = new ToDo($this->app);
-			$todos = $todo->fetchUserTodos($this);
-			return $todos;
+	public function fetchSegment($segment)
+	{
+		$data = null;
+		switch ($segment) {
+			case 'todos':
+			$todo = new Todo($this->app);
+			$data = $todo->fetchUserTodos($this);
+			break;
+			case 'accounts':
+			$data = $this->accounts;
+			break;			
+		}
+		return $data;
 	}
 
-	public function create($properties){
-		$pass= $this->getInitPassword();
-		$properties['password']=$pass;
-		$properties['key']=$this->setKey($pass);
+	public function create($properties)
+	{	
 		$result = $this->update(["email"=>$properties['email']],$properties);
 		
 		if(empty($result)){
@@ -127,7 +137,9 @@ class User extends \BlueRidge\ModelAbstract
 		return $this->setProperties($result);
 
 	}
-	public function update(Array $criteria, $doc, $single=false){
+
+	public function update(Array $criteria, $doc, $single=false)
+	{
 		if(key($criteria)=='id'){
 			$criteria =['_id'=>new \MongoId($criteria['id'])];
 		}
@@ -143,22 +155,16 @@ class User extends \BlueRidge\ModelAbstract
 		return $result;
 
 	}
-	public function toArray(){
-		$item = ["id"=>$this->id,"name"=>$this->name,"email"=>$this->email,'key'=>$this->key,"avatar"=>$this->avatar,"url"=>$this->url,"accounts"=>$this->accounts,'plan'=>$this->plan];
+
+	public function toArray()
+	{
+		$item = [
+		"id"=>$this->id,
+		"name"=>$this->name,
+		"email"=>$this->email,
+		"key"=>$this->key,
+		"avatar"=>$this->avatar,
+		];
 		return $item;
 	}
-
-	private function getInitPassword() {
-		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";			
-		$password = substr(str_shuffle( $chars ), 0, 12 );
-		return $password;
-	}
-	private function setKey($password){
-		return $password;
-	}
-	private function getPassword($key){
-
-	}
-
-
 }

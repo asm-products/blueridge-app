@@ -1,38 +1,29 @@
 BlueRidge
 ============
 
-## Overview
+### Getting started
+Head over to [Wiki - Getting Started ](https://github.com/jcornelius/blueridgeapp/wiki/Getting-Started) Page
 
-This dev box is a feature rich PHP, Node development env.
-It provides a quite good number of tools and libraries and provisioned by **Vagrant** via *Chef*.
-## Client
-	
- - Angularjs, Restangular, NgTables, Stripe, UI Bootstrap, POSH 
+### Workflow
+#### Updating your working copy with the latest.
 
-## Server
+git pull , and grunt to view the lastest changes from [upstream](https://github.com/jcornelius/blueridgeapp)
 
- - Apache 2, node.js
- - PHP (5.4), Composer, PHPUnit, xDebug
- - Memcached, MongoDB (10gen), SQLite
- - NFS, GhostScript, ImageMagick, Vim, Ruby (Gems: Compass, Less, SASS)
- - Composer, Slim,PHPMailer,Stripe
- 
- ## Getting Started.
+**upstream** *is the main repo*
+     
+          # e.g Sean, Jason, Mo etc
+          git pull upstream dev-master && grunt
 
- 1. [VirtualBox](http://www.virtualbox.com) version 4.2.12 works best as of this writing 4.2.14 fails
- 
- 2. [Vagrant](http://vagrantup.com) version 1.2.2 
+          # J 
+          git pull origin dev-master && grunt
+          
+ if you encounter pull errors, fix the conflicts, merge and commit the changes
 
- 3. Open a **Terminal**, cd to the devbox directory inside your working directory 
- 	' cd blueridgeapp/devbox '
 
- 4. Run `vagrant up` to provision it, should take a few minutes.
+#### Pushing up your code
 
- 5. ssh into the box `vagrant ssh` switch to root user and cd into the project root and fire off composer.
- 		
- 		$ sudo su
- 		$ cd /var/www/bluridgeapp
- 		$ composer update
-
- 6. exit out of the shell and add the site hosts entry to your hosts file (`sudo vim /etc/hosts`)
- 	`10.0.0.10 dev.blueridgeapp.com`
+          # everyone 
+          git push origin dev-master
+          
+          
+Everyone but J gets to create a pull request to have the code merged upstream

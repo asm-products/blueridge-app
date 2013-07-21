@@ -1,0 +1,172 @@
+// Site Styles
+@import "responsive","colors","layout","typography";
+
+.container-narrow {
+  margin: 0 auto;
+  max-width: 680px;
+  & > hr {
+  	margin: 3em 0;
+  }
+}
+
+.masthead {
+	border-bottom:1px solid $site_border_color;
+  text-align: center;
+	h3#brand a {
+  	background-image: url('/img/logo_brown_208x73.png');
+  	background-position: top left;
+  	background-repeat: no-repeat;
+  	display: block;
+  	margin: 1em auto 0;
+  	height: 73px;
+  	text-indent: -9999em;
+  	width: 208px;
+  }
+}
+
+.billboard {
+  margin: 3em 0;
+  @include breakpoint(small)  { margin:2em 0; }
+  text-align: center;
+  .headline {
+		color: $masthead_text;
+		font-size: 2.5em;
+		@include breakpoint(huge)  { font-size:5em; }
+		@include breakpoint(large)  { font-size:5em; }
+		@include breakpoint(medium) { font-size:3.5em; }
+		@include breakpoint(small)  { font-size:2em; }
+		line-height: 1;
+	}
+	.tagline {
+		margin:2em 0;
+		p { 
+			font-size: 1.5em;
+			font-weight: 400;
+			line-height: 1.35em;
+			padding:0;
+			margin:0;
+			@include breakpoint(small)  { 
+				font-size:1em; 
+				padding:0 1.5em 1em;
+			}
+		}
+	}
+}
+
+.highlight {
+  background-color: $highlight_background_color;
+  border: 1px solid $site_border_color;
+  border-radius: 3px;
+  padding: 1.5em 1em .5em;
+  .btn {
+    font-size: 1.5em;
+    padding: .5em 1em;
+		@include breakpoint(small)  { 
+			font-size:1.2em;
+		}
+  }
+}
+.pitchpoint {
+	margin-bottom:2em;
+}
+
+.priceblock {
+	@include breakpoint(small)  { 
+		border-bottom: 1px solid $site_border_color;
+		margin-bottom:2em;
+		padding-bottom:2em;
+	}
+}
+
+.plan-feature {
+	font-size: 1.2em;
+	font-weight: 400;
+	.plan-qty {
+		background-color: #ded7c8;
+		border-radius: 50px;
+		font-size: 1.5em;
+		padding: 0 11px;
+	}
+}
+
+.plan-price {
+  font-size: .75em;
+  font-weight: 400;
+  margin-top: 1em;
+	sup {
+  	color: #666;
+  	font-size: .6em;
+  	padding-right: 3px;
+  	top: -0.3em;
+	}
+	sub {
+  	bottom: 0;
+  	color: #666;
+  	font-size: .5em;
+	}
+}
+
+.site-preview {
+  margin-bottom: 4em; 
+	h3 {
+  	text-align: center;
+  }
+}
+
+footer {
+  border-top:1px solid $site_border_color;
+  clear:both;
+  padding-top: 1em;
+  margin: 3em 0;
+  @include breakpoint(small)  {
+  	margin-bottom: 1.5em;
+  }
+	a {
+  	color: #444;
+  	text-decoration: underline;
+		&:hover {
+  		color: #000;
+  	}
+  }
+  .site-sublinks a {
+  	display: inline-block;
+  	margin-right: 10px;
+  	@include breakpoint(small)  { 
+  		padding: .5em 0;
+  		margin:.2em 0;
+  		text-align: center;
+  		width:23%;
+  	}
+  }
+  .site-copyright {
+  	text-align: right;
+  	@include breakpoint(small)  {
+			font-size:.8em;
+			margin:2em 0 0;
+			text-align: center;
+		}
+  }
+}
+
+.form-signin {
+  max-width: 300px;
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+	.form-signin-heading, .checkbox {
+  	margin-bottom: 10px;
+	}
+	input[type="text"], input[type="password"] {
+  	font-size: 16px;
+  	height: auto;
+  	margin-bottom: 15px;
+  	padding: 7px 9px;
+  }
+}

@@ -1,9 +1,8 @@
-logs/*
-!.gitkeep
 .DS_Store
-vendor/*
-composer.lock
-
-*.css
-
+.vagrant
+**/vendor/*
+node_modules/*
+bower_modules/*
 *.scssc
+*.sublime-*
+*.lock

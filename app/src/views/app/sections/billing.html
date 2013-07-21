@@ -1,0 +1,31 @@
+<div id="billing" class="">
+    <fieldset>
+        <legend>Billing</legend>
+        <div class="control-group sector sub-sector">
+            <label class="radio">
+                <input name="" type="radio" value="free" ng-model="user.plan">
+                <span><strong>Free</strong></span>
+                <div class="muted">Allows you to view one project.</div>
+            </label>
+        </div>
+        <div class="control-group sector">
+            <label class="radio">
+                <input type="radio" value="solo" ng-model="user.plan">
+                <span><strong>Solo</strong></span>
+                <p class="muted">Allows you to view up to 5 projects for $4.95/mo</p>
+            </label>
+        </div>
+        <div class="control-group sector">
+            <label class="radio">
+                <input type="radio" value="pro" ng-model="user.plan">
+                <span><strong>Pro</strong></span>
+                <p class="muted"> Allows you to view up to 20 projects for $14.95/mo</p>
+            </label>
+        </div>              
+    </fieldset>
+    <div class="control-group">
+        <div class="controls">
+            <button class="btn btn-info" type="submit" ng-click="update(user)">Add a Payment method</button>
+        </div>
+    </div>
+</div>
