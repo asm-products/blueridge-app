@@ -1,6 +1,7 @@
 <div id="billing" ng-controller="SubscribeCtrl">
-    <div>
-        <h3>Your Subscription</h3>
+ <form>
+    <fieldset>
+        <legend>Your Subscription</legend>
         <div class="sector sub-sector">
             <h2>Free <span class="plan-price"><sup>$</sup>0.00<sub>/mo.</sub></span></h2>
             <p class="plan-feature">1 project at a time</p>
@@ -16,15 +17,10 @@
             <p class="plan-feature"> 20 projects at a time </p>
             <p>Working on a lot of projects at once? No problem&mdash;we&rsquo;ve got you covered.</p>
         </div>              
-    </div>
-    <form >
-        <div class="modal-header">
-            <h2 class="form-signin-heading">Subscribe</h2>
-        </div>
-        <div class="modal-body">
-          <script src="https://checkout.stripe.com/v2/checkout.js"></script>
-          <button class="btn btn-info" type="submit" ng-click="subscribe()">Subscribe</button>
-      </div>
-  </form>
+    </fieldset>    
+    
+    <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+    <button class="btn btn-info" type="submit">Subscribe</button>
+</form>
 
 </div>
