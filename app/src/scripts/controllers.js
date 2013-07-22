@@ -99,4 +99,27 @@ angular.module('blueRidgeApp.controllers', [])
 		console.log("There was an error saving account");
 	});
 
+})
+.controller('SubscribeCtrl',function($scope,$location,Auth,Restangular){
+	Restangular.one('services','cashier').get().then(function(cashier){
+		$scope.cashier=cashier;
+	});
+	$scope.subscribe = function(){
+		//console.log('subscribing');
+		var token = function(res){
+			var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+			$('form').append($input).submit();
+		};
+
+		StripeCheckout.open({
+			key:         $scope.cashier.key,
+			address:     false,
+			amount:      5000,
+			currency:    'usd',
+			name:        'Blueridge',
+			description: 'Todos',
+			token:       token
+		});
+		return false;
+	};
 });
