@@ -1,89 +1,115 @@
 /* app stylesheet */
+@import "responsive","colors","layout","typography","css3";
 @import "responsive","colors","layout","typography";
 
-.app-container {
-  max-width: 960px;
-}
+.app-container { padding:1em 0;}
 
 .app-navigation {
-  margin: 2em 0 1em;
+  margin:0 2em;
+	@include breakpoint(appnav){ 
+    margin:1em 1em 0;
+  }  
   #brand {
     background-image: url('/img/logo_gray_small.png');
     background-position: top left;
     background-repeat: no-repeat;
-    border-right: 1px solid rgb(222, 215, 200);
+    display: block;
+    float: left;
     height: 35px;
-    margin: 0;
+    margin: 6px 18px 0 0;
     padding: 0 0 2px;
     text-indent: -9999em;
-    width: 120px;
+    width: 100px;
+    @include breakpoint(medium){ 
+    	display: none;
+    }
   }
   a {
   	color: #7d7a75;
 	}
-	.nav { 
-  	padding-top: 8px;
+	.nav-toggle {
+  	display: none;
+  	float:right;
+  	@include breakpoint(appnav){ 
+  		display:none;
+  	}
   }
-}
-.app-navigation .nav>li>a:hover, .app-navigation .nav>li>a:focus {
-  background-color: rgb(51,101,154);
-  color: #fff;
-  text-shadow: none;
-}
-.app-navigation .active { 
-  text-shadow: none; 
-}
-.app-navigation .nav .dropdown-toggle .caret {
-  border-top-color: #7d7a75;
-  border-bottom-color: #7d7a75;
-}
-.app-navigation .nav .dropdown-toggle:hover .caret, 
-.app-navigation .nav .dropdown-toggle:focus .caret {
-  border-top-color: #fff;
-  border-bottom-color: #fff;
-}
-.app-navigation .dropdown-menu>li>a:hover, 
-.app-navigation .dropdown-menu>li>a:focus, 
-.app-navigation .dropdown-submenu:hover>a, 
-.app-navigation .dropdown-submenu:focus>a {
-  color: #fff;
-  text-decoration: none;
-  background-color: #7d7a75;
-  background-image: none;
+	.nav {
+  	padding-top: 8px;
+  	&>li>a:hover, &>li>a:focus {
+  		background-color: rgb(51,101,154);
+  		color: #fff;
+  		text-shadow: none;		
+  	}
+  	.active { 
+  		text-shadow: none; 
+		}
+		.signout {
+			float:right;
+		}
+  
+  	@include breakpoint(appnav){
+  		.signout { float:left; }
+  		li i { display:none; }
+  	}
+  }
+
+	.dropdown-menu>li>a:hover, 
+	.dropdown-menu>li>a:focus, 
+	.dropdown-submenu:hover>a, 
+	.dropdown-submenu:focus>a {
+  	color: #fff;
+  	text-decoration: none;
+  	background-color: #7d7a75;
+  	background-image: none;
+	}
 }
 
 .panel {
   background: #fff;
+  margin:1em 2em 3em;
   padding: 1em 2em;
-  -webkit-box-shadow: 0 0 6px rgba(0,0,0,0.3);
-  -moz-box-shadow: 0 0 6px rgba(0,0,0,0.3);
-  box-shadow: 0 0 6px rgba(0,0,0,0.3);
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  margin-bottom: 3em;
+  @include border-radius(3px);
+  @include box-shadow(0, 0, 6px, rgba(0,0,0,0.3));
+  @include breakpoint(medium){ 
+  	margin:0 1em 3em;
+  }
+}
+
+
+.project-row {
+	margin-bottom: 1em;
+	h4 { margin-bottom: 0; }
+	.project-description { 
+		color: $muted;
+		@include breakpoint(small){ 
+			display: none; 
+		}
+	}	
 }
 
 .app-todo-list-item {
   border-top: 1px solid #ddd;
   padding: .5em 0;
-
+  &:first-child {
+  	border:none;
+  }
 	&> div {
   	padding: .5em;
-	}
-	.secondary-data {
+  }
+  .secondary-data {
   	font-size: .9em;
-	}
+  }
 }
 
 /************************************************
  * To Do
  */
 
-.app-todo-title { 
+ .app-todo-title { 
   color: #000;
   font-size: 1.2em;
-	&:hover { 
+  &:hover { 
   	color: #1c5c76;
   }
 }
@@ -126,9 +152,10 @@
  * Yadda yadda
  */
 
-.navbar .nav { margin: 20px 10px 20px 0;  }
-.sector{
+ .navbar .nav { margin: 20px 10px 20px 0;  }
+ .sector{
   padding: 1em;
+  margin:1em 0;
   border: 1px solid #efefef;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;

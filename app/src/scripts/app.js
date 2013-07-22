@@ -1,5 +1,5 @@
-var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','blueRidgeApp.directives','ui.bootstrap','restangular']);
-blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider', function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider) {$routeProvider.
+var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','blueRidgeApp.directives','ui.bootstrap','restangular','angular-google-analytics']);
+blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider','AnalyticsProvider', function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider,AnalyticsProvider) {$routeProvider.
     when('/', {
         templateUrl: '/views/site/home.html',
         controller: 'HomeCtrl'
@@ -16,6 +16,9 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
     })
     .when('/privacy', {
         templateUrl: '/views/site/privacy.html'
+    })
+    .when('/about', {
+        templateUrl: '/views/site/about.html'
     })
     .when('/app/todos', {
         templateUrl: '/views/app/todos.html',
@@ -40,9 +43,15 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
     .otherwise({
         redirectTo: '/'
     });
+
     $locationProvider.html5Mode(true);
+
     RestangularProvider.setBaseUrl('/api');
     RestangularProvider.setListTypeIsArray(false);
+
+    AnalyticsProvider.setAccount('UA-31702803-4');
+    AnalyticsProvider.trackPages(true);
+    AnalyticsProvider.setDomainName('blueridgeapp.com');
 }]);
 blueRidgeApp.run(function($rootScope,$location) {
     $rootScope.$on('$routeChangeStart', function(ev,data) {

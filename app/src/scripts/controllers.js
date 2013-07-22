@@ -4,6 +4,9 @@ angular.module('blueRidgeApp.controllers', [])
 		$location.path('/app/todos');
 	}
 })
+.controller('NavCtrl',function($scope){
+	$scope.isCollapsed = false;
+})
 .controller('ProjectCtrl',function($scope,$location,$filter,Restangular,Auth){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
@@ -11,7 +14,7 @@ angular.module('blueRidgeApp.controllers', [])
 	$scope.noob=Auth.isNoob();
 
 	$scope.loading = true;
-	blueRidgeUser= Restangular.one('users',Auth.getProfileUser().id);
+	blueRidgeUser= Restangular.one('users',Auth.currentUser());
 
 	blueRidgeUser.getList('accounts').then(function(result){
 		$scope.accounts = result.accounts;
@@ -32,7 +35,7 @@ angular.module('blueRidgeApp.controllers', [])
 	Auth.signOut();
 	$location.path('/');
 })
-.controller('SignInCtrl',function($scope,$location,Auth){
+.controller('SignInCtrl',function($scope,$location,Restangular,Auth){
 
 	$scope.opts = {
 		backdropFade: true,
@@ -47,17 +50,22 @@ angular.module('blueRidgeApp.controllers', [])
 	};
 
 	$scope.signin = function(user) {
-		$scope.signedIn=Auth.authorize(user);
-		if($scope.signedIn){
+		blueRidgeAccess = Restangular.all('auth');
+		blueRidgeAccess.post(user).then(function(auth){
+			Auth.authorize(auth);
+			$scope.shouldBeOpen = false;
 			$location.path('/app/todos');
-		}
+		},function(auth) {
+			console.log(auth);
+			console.log("There was an error logging in");
+		});
 	};
 })
 .controller('ToDoCtrl',function($scope,$location,$filter,Restangular,Auth){	
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
-	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
+	var blueRidgeUser = Restangular.one('users',Auth.currentUser());
 	$scope.user = blueRidgeUser.get();
 	$scope.loading = true;
 
@@ -72,7 +80,7 @@ angular.module('blueRidgeApp.controllers', [])
 	if (!Auth.isSignedIn()) {
 		$location.path('/');
 	}
-	var blueRidgeUser = Restangular.one('users',Auth.getProfileUser().id);
+	var blueRidgeUser = Restangular.one('users',Auth.currentUser());
 	$scope.user = blueRidgeUser.get();
 
 })
@@ -91,4 +99,27 @@ angular.module('blueRidgeApp.controllers', [])
 		console.log("There was an error saving account");
 	});
 
+})
+.controller('SubscribeCtrl',function($scope,$location,Auth,Restangular){
+	Restangular.one('services','cashier').get().then(function(cashier){
+		$scope.cashier=cashier;
+	});
+	$scope.subscribe = function(){
+		//console.log('subscribing');
+		var token = function(res){
+			var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+			$('form').append($input).submit();
+		};
+
+		StripeCheckout.open({
+			key:         $scope.cashier.key,
+			address:     false,
+			amount:      5000,
+			currency:    'usd',
+			name:        'Blueridge',
+			description: 'Todos',
+			token:       token
+		});
+		return false;
+	};
 });
