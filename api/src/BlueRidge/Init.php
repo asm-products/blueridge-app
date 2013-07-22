@@ -46,8 +46,14 @@ class Init extends Middleware
             $this->app->providers = $configs->providers;
         }
 
-        if($configs->mail){
-            $this->app->mailbox = $this->setMailBox($configs->mail);
+
+
+        if($configs->services->mail){
+            $this->app->mailbox = $this->setMailBox($configs->services->mail);
+        }    
+
+        if($configs->services->payments){
+            $this->app->cashier = $configs->services->payments;
         }
 
     }
@@ -94,8 +100,6 @@ class Init extends Middleware
      */
     protected function setMailBox($mailbox)
     {
-
         return $transport = new \Mandrill($mailbox->api_key);
-
     }
 }

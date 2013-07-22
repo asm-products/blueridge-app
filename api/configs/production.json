@@ -23,10 +23,11 @@
     "port": 11211
   },
   "mail": {
-    "name": "mandrillapp.com",
+    "name": "mandrillapp",
     "api_key": "IgxS9suuhImK6ewUnfOxqg"
   },
-  "stripe": {
+  "payments": {
+    "name":"stripe",
     "secret_key": "sk_live_FttCclfXqcKEZ6UEzvRyELwJ",
     "publishable_key": "pk_live_5SzeUx1mRGBGmTdkRzn9xoGi"
   },
