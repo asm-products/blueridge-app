@@ -6,16 +6,17 @@ body {
   background-image: url('/img/background_pattern.png');
   background-position: 0 0;
   background-repeat: repeat;
-  border-top: 2px solid $top_stripe;
+  border-top: 3px solid $brand_blue;
   height: 100%;
   font-family: "proxima-nova","Helvetica Neue",helvetica,arial,sans-serif;
   margin: 0;
-  padding: 0 2em;
+  padding: 0;
   text-shadow: 0 1px #fff;
 }
 
-
-// Medium-sized Screens
-@mixin layout-large {
-  body { padding: 0; }
+.loading {
+	font-size: 2.5em;
+	margin:3em auto 0;
+	max-width:500px;
+	text-align: center;
 }
