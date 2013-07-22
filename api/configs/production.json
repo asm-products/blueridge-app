@@ -22,14 +22,16 @@
     "host": "localhost",
     "port": 11211
   },
-  "mail": {
-    "name": "mandrillapp",
-    "api_key": "IgxS9suuhImK6ewUnfOxqg"
-  },
-  "payments": {
-    "name":"stripe",
-    "secret_key": "sk_live_FttCclfXqcKEZ6UEzvRyELwJ",
-    "publishable_key": "pk_live_5SzeUx1mRGBGmTdkRzn9xoGi"
+  "services": {
+    "mail": {
+      "name": "mandrillapp",
+      "api_key": "IgxS9suuhImK6ewUnfOxqg"
+    },
+    "payments": {
+      "name": "stripe",
+      "secret_key": "sk_live_FttCclfXqcKEZ6UEzvRyELwJ",
+      "publishable_key": "pk_live_5SzeUx1mRGBGmTdkRzn9xoGi"
+    }
   },
   "debug": false,
   "log_enabled": true
