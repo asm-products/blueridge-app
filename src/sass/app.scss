@@ -20,8 +20,8 @@
   }
   a {
   	color: #7d7a75;
-	}
-	.nav { 
+  }
+  .nav { 
   	padding-top: 8px;
   }
 }
@@ -68,22 +68,22 @@
   border-top: 1px solid #ddd;
   padding: .5em 0;
 
-	&> div {
+  &> div {
   	padding: .5em;
-	}
-	.secondary-data {
+  }
+  .secondary-data {
   	font-size: .9em;
-	}
+  }
 }
 
 /************************************************
  * To Do
  */
 
-.app-todo-title { 
+ .app-todo-title { 
   color: #000;
   font-size: 1.2em;
-	&:hover { 
+  &:hover { 
   	color: #1c5c76;
   }
 }
@@ -126,9 +126,10 @@
  * Yadda yadda
  */
 
-.navbar .nav { margin: 20px 10px 20px 0;  }
-.sector{
+ .navbar .nav { margin: 20px 10px 20px 0;  }
+ .sector{
   padding: 1em;
+  margin:1em 0;
   border: 1px solid #efefef;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
