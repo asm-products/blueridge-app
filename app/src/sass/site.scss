@@ -1,5 +1,10 @@
 // Site Styles
-@import "responsive","colors","layout","typography";
+@import "responsive","colors","layout","typography","css3";
+body {
+	@include breakpoint(small){ 
+  	padding: 0 .75em; 
+  }
+}
 
 .container-narrow {
   margin: 0 auto;
