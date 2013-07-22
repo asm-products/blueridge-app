@@ -1,8 +1,11 @@
 <div id="app-projects" class="container app-container">
 	<div ng-include src="'/views/app/sections/nav.html'"></div>
 	<div class="panel">
-		<h2 ng-if="noob">Welcome to BlueRidge. Let's get started.</h2>
-		<p class="lead">Choose the projects you&rsquo;d like to get a better view of.</p>
+		<div ng-if="noob">
+			<h2>Welcome to BlueRidge. Let&rsquo;s get started.</h2>
+			<p class="lead">Choose the projects you&rsquo;d like to get a better view of.</p>
+		</div>
+		<p ng-if="!noob" class="lead">Choose which projects to view</p>
 		<div class="row-fluid"><div class="span12">
 			<fieldset ng-repeat="account in accounts">
 				<legend>{{account.name}}</legend>
