@@ -1,8 +1,10 @@
 /* app stylesheet */
 @import "responsive","colors","layout","typography","css3";
 
+.app-container { padding:1em 0;}
+
 .app-navigation {
-  margin: 1em 2em 0;
+  margin:0 2em;
 	@include breakpoint(appnav){ 
     margin:1em 1em 0;
   }  
@@ -64,7 +66,7 @@
 
 .panel {
   background: #fff;
-  margin:0 2em 3em;
+  margin:1em 2em 3em;
   padding: 1em 2em;
   @include border-radius(3px);
   @include box-shadow(0, 0, 6px, rgba(0,0,0,0.3));
@@ -73,8 +75,16 @@
   }
 }
 
-@include breakpoint(small){ 
-	.project-description { display: none; }
+
+.project-row {
+	margin-bottom: 1em;
+	h4 { margin-bottom: 0; }
+	.project-description { 
+		color: $muted;
+		@include breakpoint(small){ 
+			display: none; 
+		}
+	}	
 }
 
 .app-todo-list-item {
