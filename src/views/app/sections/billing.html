@@ -1,31 +1,26 @@
-<div id="billing" class="">
+<div id="billing" ng-controller="SubscribeCtrl">
+ <form>
     <fieldset>
-        <legend>Billing</legend>
-        <div class="control-group sector sub-sector">
-            <label class="radio">
-                <input name="" type="radio" value="free" ng-model="user.plan">
-                <span><strong>Free</strong></span>
-                <div class="muted">Allows you to view one project.</div>
-            </label>
+        <legend>Your Subscription</legend>
+        <div class="sector sub-sector">
+            <h2>Free <span class="plan-price"><sup>$</sup>0.00<sub>/mo.</sub></span></h2>
+            <p class="plan-feature">1 project at a time</p>
+            <p>You can choose which project you see whenever you like, as much as you like.</p>            
         </div>
-        <div class="control-group sector">
-            <label class="radio">
-                <input type="radio" value="solo" ng-model="user.plan">
-                <span><strong>Solo</strong></span>
-                <p class="muted">Allows you to view up to 5 projects for $4.95/mo</p>
-            </label>
+        <div class="sector sub-sector">
+            <h2>Solo <span class="plan-price"><sup>$</sup>7.95<sub>/mo.</sub></span></h2>
+            <p class="plan-feature">5 projects at a time</p>
+            <p>Great for freelancers. View To-dos from multiple projects at the same time.</p>
         </div>
-        <div class="control-group sector">
-            <label class="radio">
-                <input type="radio" value="pro" ng-model="user.plan">
-                <span><strong>Pro</strong></span>
-                <p class="muted"> Allows you to view up to 20 projects for $14.95/mo</p>
-            </label>
+        <div class="sector sub-sector">
+            <h2>Pro <span class="plan-price"><sup>$</sup>14.95<sub>/mo.</sub></span></h2>
+            <p class="plan-feature"> 20 projects at a time </p>
+            <p>Working on a lot of projects at once? No problem&mdash;we&rsquo;ve got you covered.</p>
         </div>              
-    </fieldset>
-    <div class="control-group">
-        <div class="controls">
-            <button class="btn btn-info" type="submit" ng-click="update(user)">Add a Payment method</button>
-        </div>
-    </div>
+    </fieldset>    
+    
+    <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+    <button class="btn btn-info" type="submit">Subscribe</button>
+</form>
+
 </div>
