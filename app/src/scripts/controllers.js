@@ -102,11 +102,10 @@ angular.module('blueRidgeApp.controllers', [])
 })
 .controller('SubscribeCtrl',function($scope,$location,Auth,Restangular){
 	Restangular.one('services','cashier').get().then(function(cashier){
-		console.log(cashier);
 		$scope.cashier=cashier;
 	});
 	$scope.subscribe = function(){
-		console.log('subscribing');
+		//console.log('subscribing');
 		var token = function(res){
 			var $input = $('<input type=hidden name=stripeToken />').val(res.id);
 			$('form').append($input).submit();
