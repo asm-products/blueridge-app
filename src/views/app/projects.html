@@ -3,13 +3,13 @@
 	<div class="panel">
 		<div ng-if="noob">
 			<h2>Welcome to BlueRidge. Let&rsquo;s get started.</h2>
-			<p class="lead">Choose the projects you&rsquo;d like to get a better view of.</p>
+			<p class="lead">Choose the projects you&rsquo;d like to get a better view of.<br>We&rsquo;ll grab all the To-dos and sort them for you.</p>
 		</div>
-		<p ng-if="!noob" class="lead">Choose which projects to view</p>
+		<p ng-if="!noob" class="lead">Choose which projects to view:</p>
 		<div class="row-fluid"><div class="span12">
 			<fieldset ng-repeat="account in accounts">
 				<legend>{{account.name}}</legend>
-				<label ng-repeat="project in account.projects" class="checkbox">
+				<label ng-repeat="project in account.projects" class="checkbox project-row">
 					<input type="checkbox" value="{{project.id}}" ng-checked="project.selected" ng-model="project.selected">
 					<h4>{{project.name}}</h4>
 					<p class="project-description">{{project.description}}</p>
