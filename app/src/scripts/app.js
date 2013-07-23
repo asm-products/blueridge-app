@@ -6,7 +6,7 @@ var blueRidgeApp = angular.module('blueRidgeApp', [
     'restangular',
     'angular-google-analytics'
     ]);
-blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider','AnalyticsProvider', function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider,AnalyticsProvider) {
+blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider','AnalyticsProvider',function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider,AnalyticsProvider) {
     $routeProvider.
     when('/', {
         templateUrl: '/views/site/home.html',
