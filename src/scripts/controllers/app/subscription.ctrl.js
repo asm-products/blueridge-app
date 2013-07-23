@@ -10,6 +10,10 @@ angular.module('blueRidgeApp')
         $scope.alerts.splice(index, 1);
     };
 
+     $scope.close=function(){
+        $scope.shouldBeOpen = false;
+    };
+
     $scope.open=function(){
         $scope.shouldBeOpen = true;
         Stripe.setPublishableKey($scope.cashier.key);
@@ -30,7 +34,7 @@ angular.module('blueRidgeApp')
             Stripe.card.createToken(subscriber, $scope.subscribe);
 
         }else{
-            $scope.alerts.push({ type: 'error', msg: 'Oh snap! Double check on you payment info and try submitting again.' });
+            $scope.alerts.push({ type: 'error', msg: 'Oh snap! Double check your card details and try submitting again.' });
         }
 
     };
