@@ -1,5 +1,13 @@
-var blueRidgeApp = angular.module('blueRidgeApp', ['blueRidgeApp.controllers','blueRidgeApp.services','blueRidgeApp.directives','ui.bootstrap','restangular','angular-google-analytics']);
-blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider','AnalyticsProvider', function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider,AnalyticsProvider) {$routeProvider.
+var blueRidgeApp = angular.module('blueRidgeApp', [
+    'blueRidgeApp.controllers',
+    'blueRidgeApp.services',
+    'blueRidgeApp.directives',
+    'ui.bootstrap',
+    'restangular',
+    'angular-google-analytics'
+    ]);
+blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider','AnalyticsProvider', function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider,AnalyticsProvider) {
+    $routeProvider.
     when('/', {
         templateUrl: '/views/site/home.html',
         controller: 'HomeCtrl'

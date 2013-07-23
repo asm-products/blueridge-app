@@ -14,6 +14,7 @@ $app->setName('blueridgeapi');
 $app->add(new Init());
 
 require "../api/routes/providers.php";
+require "../api/routes/services.php";
 require "../api/routes/users.php";
 require "../api/routes/auth.php";
 
