@@ -1,6 +1,7 @@
 var blueRidgeApp = angular.module('blueRidgeApp', [
     'blueRidgeApp.services',
     'blueRidgeApp.directives',
+    'Payment',
     'ui.bootstrap',
     'restangular',
     'angular-google-analytics'

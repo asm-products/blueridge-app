@@ -26,13 +26,13 @@
             <div class="controls">
                 <div class="span8">
                     <label for="cc">Card Number:</label>
-                    <input id="cc" pattern="\d*" class="input-large" type="text" maxlength="16" required placeholder="**** **** **** ****" ng-model="card.number"> 
+                    <input id="cc" pattern="\d*" class="input-large" type="text" maxlength="20" name="number" required placeholder="**** **** **** ****" ng-model="card.number" format-card-number card-number restrict-numeric /> 
                 </div>
             </div>
             <div class="controls controls-row">
                 <div class="span3">
                     <label>Expires</label>
-                    <input  class="input-mini" type="text"required placeholder="MM" maxlength="2" pattern="\d*" ng-model="card.exp_month"> / 
+                    <input  class="input-mini" type="text"required placeholder="MM" maxlength="2" pattern="\d*" ng-model="card.expiry"> / 
                     <input  class="input-mini" type="text"required placeholder="YYYY" maxlength="4" pattern="\d*" ng-model="card.exp_year">
                 </div>
                 <div class="span3">
@@ -49,7 +49,7 @@
             
         </div>
         <div class="modal-footer">
-            <button class="btn btn-info" type="submit" ng-click="createToken(card)">Subscribe</button>
+            <button class="btn btn-info" type="submit" ng-click="makePayment(card)">Subscribe</button>
         </div>
     </form>
 </div>
