@@ -1,5 +1,4 @@
 var blueRidgeApp = angular.module('blueRidgeApp', [
-    'blueRidgeApp.controllers',
     'blueRidgeApp.services',
     'blueRidgeApp.directives',
     'ui.bootstrap',
@@ -32,9 +31,9 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
         templateUrl: '/views/app/todos.html',
         controller: 'ToDoCtrl'
     })
-    .when('/app/me', {
-        templateUrl: '/views/app/me.html',
-        controller: 'MeCtrl'
+    .when('/app/profile', {
+        templateUrl: '/views/app/profile.html',
+        controller: 'ProfileCtrl'
     })
     .when('/app/projects', {
         templateUrl: '/views/app/projects.html',
