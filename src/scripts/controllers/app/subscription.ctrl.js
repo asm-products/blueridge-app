@@ -1,5 +1,5 @@
 angular.module('blueRidgeApp')
-.controller('SubscriptionCtrl',function($scope,$location,Auth,Restangular){
+.controller('SubscriptionCtrl',function($scope,$location,Auth,Restangular,PaymentHelpers){
     Restangular.one('services','cashier').get().then(function(cashier){
         $scope.cashier=cashier;
     });
@@ -17,16 +17,26 @@ angular.module('blueRidgeApp')
     };
 
     $scope.makePayment = function(card){
-        console.log(card);
-        //Stripe.card.createToken(card, $scope.subscribe);
+
+        //if(typeof myVar != 'undefined'){
+            var expiry = PaymentHelpers.cardExpiryVal(card.expiry);
+            var subscriber = {
+                name:card.name,
+                number:card.number,
+                exp_month:expiry.month,
+                exp_year:expiry.year
+            }
+            Stripe.card.createToken(subscriber, $scope.subscribe);
+
+        //}else{
+         //   $scope.alerts.push({ type: 'error', msg: 'Oh snap! Double check on you payment info and try submitting again.' });
+        //}
+
     };
 
     $scope.subscribe = function(status, response){
-
-        console.log(status);
         if (response.error) {
-            console.log(response.error); 
-            //$scope.alerts.push({ type: 'error', msg: response});
+            $scope.alerts.push({ type: 'error', msg: response.error });
         } else {
             console.log(response);
         }

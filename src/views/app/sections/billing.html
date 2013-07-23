@@ -18,11 +18,12 @@
     <button class="btn btn-info" type="submit" ng-click="open()">Subscribe</button>
 
 
-    <form modal="shouldBeOpen" close="close()" options="opts">
+    <form modal="shouldBeOpen" close="close()" options="opts" autocomplete="on">
         <div class="modal-header">
             <h2 class="form-signin-heading">Payment Info</h2>
         </div>
         <div class="modal-body">
+            <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
             <div class="controls">
                 <div class="span8">
                     <label for="cc">Card Number:</label>
@@ -32,12 +33,11 @@
             <div class="controls controls-row">
                 <div class="span3">
                     <label>Expires</label>
-                    <input  class="input-mini" type="text"required placeholder="MM" maxlength="2" pattern="\d*" ng-model="card.expiry"> / 
-                    <input  class="input-mini" type="text"required placeholder="YYYY" maxlength="4" pattern="\d*" ng-model="card.exp_year">
+                    <input  class="input-mini" type="text"required placeholder="MM / YY" maxlength="9" pattern="\d*" ng-model="card.expiry" format-card-expiry card-expiry restrict-numeric>
                 </div>
                 <div class="span3">
                     <label for="cvc">Card Code</label>
-                    <input id="cvc" pattern="\d*" class="input-mini" type="text" maxlength="4" required placeholder="CVC" ng-model="card.cvc">
+                    <input id="cvc" pattern="\d*" class="input-mini" type="text" maxlength="4" required placeholder="CVC"  ng-model="card.cvc" format-card-cvc card-cvc restrict-numeric autocomplete="off"/>
                 </div>
             </div>
             <div class="controls">
