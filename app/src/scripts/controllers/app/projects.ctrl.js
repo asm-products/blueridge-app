@@ -1,5 +1,5 @@
 angular.module('blueRidgeApp')
-.controller('ProjectCtrl',function($scope,$location,$filter,Restangular,Auth){  
+.controller('ProjectsCtrl',function($scope,$location,$filter,Restangular,Auth){  
     if (!Auth.isSignedIn()) {
         $location.path('/');
     }

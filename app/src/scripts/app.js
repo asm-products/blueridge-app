@@ -29,7 +29,7 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
     })
     .when('/app/todos', {
         templateUrl: '/views/app/todos.html',
-        controller: 'ToDoCtrl'
+        controller: 'TodosCtrl'
     })
     .when('/app/profile', {
         templateUrl: '/views/app/profile.html',
@@ -37,7 +37,7 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
     })
     .when('/app/projects', {
         templateUrl: '/views/app/projects.html',
-        controller: 'ProjectCtrl'
+        controller: 'ProjectsCtrl'
     })
     .when('/app/signout', {
         templateUrl: '/views/app/signout.html',
