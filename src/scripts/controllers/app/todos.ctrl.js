@@ -1,5 +1,5 @@
 angular.module('blueRidgeApp')
-.controller('ToDoCtrl',function($scope,$location,$filter,Restangular,Auth){ 
+.controller('TodosCtrl',function($scope,$location,$filter,Restangular,Auth){ 
     if (!Auth.isSignedIn()) {
         $location.path('/');
     }
