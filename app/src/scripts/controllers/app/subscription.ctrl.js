@@ -18,8 +18,9 @@ angular.module('blueRidgeApp')
 
     $scope.makePayment = function(card){
 
-        //if(typeof myVar != 'undefined'){
+        if(typeof card != 'undefined'){
             var expiry = PaymentHelpers.cardExpiryVal(card.expiry);
+
             var subscriber = {
                 name:card.name,
                 number:card.number,
@@ -28,16 +29,17 @@ angular.module('blueRidgeApp')
             }
             Stripe.card.createToken(subscriber, $scope.subscribe);
 
-        //}else{
-         //   $scope.alerts.push({ type: 'error', msg: 'Oh snap! Double check on you payment info and try submitting again.' });
-        //}
+        }else{
+            $scope.alerts.push({ type: 'error', msg: 'Oh snap! Double check on you payment info and try submitting again.' });
+        }
 
     };
 
     $scope.subscribe = function(status, response){
         if (response.error) {
-            $scope.alerts.push({ type: 'error', msg: response.error });
+            $scope.alerts.push({ type: 'error', msg: 'Oh my! '+response.error.message });
         } else {
+
             console.log(response);
         }
     };
