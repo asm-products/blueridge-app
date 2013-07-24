@@ -66,7 +66,7 @@ $app->post('/api/users', function () use ($app) {
 	$user->update(["id"=>$user->id],['key'=>$access['key']],true);
 
 	
-	$mailman = \postman_send($app, $user,'welcome',['password'=>$access['pass']]);	
+	$mailman = \postman_send($app, $user,['password'=>$access['pass']]);	
 	
 	
 });
