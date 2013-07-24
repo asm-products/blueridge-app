@@ -12,6 +12,10 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
         templateUrl: '/views/site/home.html',
         controller: 'HomeCtrl'
     })
+    .when('/signin', {
+        templateUrl: '/views/site/signin.html',
+        controller: 'SignInCtrl'
+    })
     .when('/connect', {
         templateUrl: '/views/site/connect.html',
         controller: 'ConnectCtrl'
