@@ -59,6 +59,13 @@ body {
 	}
 }
 
+.sign-in-link {
+	margin-top: 1em;
+	a {
+		font-weight: 600;
+	}
+}
+
 .highlight {
   background-color: $highlight_background_color;
   border: 1px solid $site_border_color;
@@ -143,22 +150,35 @@ footer {
   		color: #000;
   	}
   }
-  .site-sublinks a {
-  	display: inline-block;
-  	margin-right: 10px;
-  	@include breakpoint(medium)  { 
+  .site-sublinks {
+  	text-align: center;
+  	a {
+  		display: inline-block;
+  		//text-align: center;
   		padding: .5em 0;
   		margin: .2em 0;
-  		text-align: center;
-  		width:19.193%;
+  		text-decoration: none;
+  		width:13.664%;
+  		span {
+  			text-decoration: underline;
+  		}
   	}
+  	@include breakpoint(sitefooter)  {
+  		a{
+  			margin:.2em 3%;
+  			width:auto;
+  		}
+  		i {
+				display: none;
+			}
+		}
   }
   .site-copyright {
-  	text-align: right;
+  	margin:1em 0 0;
+  	text-align: center;
   	@include breakpoint(medium)  {
 			font-size:.9em;
-			margin:2em 0 0;
-			text-align: center;
+			margin-top:1em;
 		}
   }
 }
