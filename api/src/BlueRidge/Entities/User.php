@@ -50,10 +50,10 @@ class User extends \BlueRidge\ModelAbstract
 	protected $accounts;
 
 	/**
-	 * Plan
-	 * @var string
+	 * Subscription
+	 * @var array
 	 */
-	protected $plan='free';
+	protected $subscription;
 
 
 	/**

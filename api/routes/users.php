@@ -66,12 +66,12 @@ $app->post('/api/users', function () use ($app) {
 	$user->update(["id"=>$user->id],['key'=>$access['key']],true);
 
 	
-	$mailman = \postman_send($app, $user,'welcome',['password'=>$access['pass']]);	
+	$mailman = \postman_send($app, $user,['password'=>$access['pass']]);	
 	
 	
 });
 
-$app->put('/api/users/:id',function($id) use ($app){
+$app->put('/api/users/:id(/:segment)',function($id,$segment=null) use ($app){
 	$params = json_decode($app->request()->getBody());
 	$user=new User($app);
 	$user->update(["id"=>$params->id],$params,true);
