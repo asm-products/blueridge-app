@@ -25,7 +25,7 @@
     }
   }
   a {
-  	color: #7d7a75;
+  	color: $app_nav_link_color;
 	}
 	.nav-toggle {
   	display: none;
@@ -67,15 +67,14 @@
 
 .panel {
   background: #fff;
-  margin:1em 2em 3em;
+  margin:1em 0 2em;
   padding: 1em 2em;
   @include border-radius(3px);
   @include box-shadow(0, 0, 6px, rgba(0,0,0,0.3));
   @include breakpoint(medium){ 
-  	margin:0 1em 3em;
+  	margin:0 1em 1em;
   }
 }
-
 
 .project-row {
 	margin-bottom: 1em;
@@ -198,4 +197,21 @@
   background-image: url('/img/preloader.gif');
   background-position: center center;
   background-repeat: no-repeat;
+}
+
+
+footer { 
+	@extend .container;
+	text-align: center;
+	a {
+		color: $app_nav_link_color;
+	}
+	.support-links a, .support-links a:hover {
+		display: inline-block;
+		margin: 1em;
+		text-decoration: none;
+		span {
+			text-decoration: underline;
+		}
+	}
 }
