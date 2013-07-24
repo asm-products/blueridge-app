@@ -15,9 +15,13 @@ module.exports = function(grunt) {
       '<%= dir.vendor %>/angular-all-unstable/angular-cookies.min.js',
       '<%= dir.vendor %>/angular-bootstrap/ui-bootstrap-tpls.min.js',
       '<%= dir.vendor %>/restangular/dist/restangular.min.js',
-      '<%= dir.vendor %>/underscore/underscore-min.js',
-      '<%= dir.vendor %>/angular-google-analytics/src/angular-google-analytics.js',
       '<%= dir.vendor %>/js-base64/base64.min.js',
+      '<%= dir.vendor %>/underscore/underscore-min.js',
+      ],
+      nomin:[
+      '<%= dir.vendor %>/angular-jquery.payment/lib/jquery.payment.js',
+      '<%= dir.vendor %>/angular-jquery.payment/lib/angular-jquery.payment.js',
+      '<%= dir.vendor %>/angular-google-analytics/src/angular-google-analytics.js',
       ]
     },
 
@@ -61,6 +65,10 @@ module.exports = function(grunt) {
       libs:{
        src: ['<%= vendor.js %>'],
        dest: '<%= dir.build %>/bin/libs.js'
+     },
+     libs_nomin:{
+       src: ['<%= vendor.nomin %>'],
+       dest: '<%= dir.build %>/bin/libs.nomin.js'
      }
    },
    ngmin: {
@@ -80,7 +88,7 @@ module.exports = function(grunt) {
     dist: {
       files: {
         '<%= dir.publish %>/js/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>'],
-        '<%= dir.publish %>/js/libs.min.js': ['<%= concat.libs.dest %>']
+        '<%= dir.publish %>/js/libs.min.js': ['<%= concat.libs.dest %>','<%= concat.libs_nomin.dest %>']
       }
     }
   },
@@ -120,7 +128,7 @@ module.exports = function(grunt) {
         tasks: ['copy'],
       },
       scripts: {
-        files: ['<%= dir.src %>/scripts/*.js'],
+        files: ['<%= dir.src %>/scripts/**/.js'],
         tasks: ['ngmin','concat','uglify'],
       },
     },
@@ -131,6 +139,7 @@ module.exports = function(grunt) {
         {expand: true, flatten:true,src: ['<%= dir.src %>/sass/**/{*.eot,*.svg,*ttf,*woff,*.otf}'], dest: '<%= dir.build %>/fonts',filter: 'isFile'},
         {expand: true, cwd:'<%= dir.src %>',src: ['*.html'], dest: '<%= dir.build %>/'},
         {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'},
+        {expand: true, flatten:true ,src: '<%= vendor.nomin %>', dest: '<%= dir.build %>/libs',filter: 'isFile'},
         {expand: true, cwd:'<%= dir.api %>',src: ['api.php'], dest: '<%= dir.build %>/'},
         ]
       },

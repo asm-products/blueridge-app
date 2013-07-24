@@ -71,7 +71,7 @@ $app->post('/api/users', function () use ($app) {
 	
 });
 
-$app->put('/api/users/:id',function($id) use ($app){
+$app->put('/api/users/:id(/:segment)',function($id,$segment=null) use ($app){
 	$params = json_decode($app->request()->getBody());
 	$user=new User($app);
 	$user->update(["id"=>$params->id],$params,true);
