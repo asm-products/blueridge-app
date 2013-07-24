@@ -1,18 +1,9 @@
 angular.module('blueRidgeApp')
 .controller('SignInCtrl',function($scope,$location,Restangular,Auth){
-
-    $scope.opts = {
-        backdropFade: true,
-        dialogFade:true
+    $scope.alerts = [];
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
     };
-    $scope.open = function() {
-        $scope.shouldBeOpen = true;
-    };
-
-    $scope.close = function() {
-        $scope.shouldBeOpen = false;
-    };
-
     $scope.signin = function(user) {
         blueRidgeAccess = Restangular.all('auth');
         blueRidgeAccess.post(user).then(function(auth){
@@ -20,8 +11,7 @@ angular.module('blueRidgeApp')
             $scope.shouldBeOpen = false;
             $location.path('/app/todos');
         },function(auth) {
-            console.log(auth);
-            console.log("There was an error logging in");
-        });
+          $scope.alerts.push({type: 'error', msg: "Oh No! That didn't work. Please double check you email and password"});
+      });
     };
 });
