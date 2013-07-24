@@ -10,6 +10,9 @@
   @else if $point == medium {
     @media (max-width: 650px)  { @content; }
   }
+  @else if $point == sitefooter {
+  	@media (max-width: 610px)  { @content; }
+  }
   @else if $point == appnav {
     @media (max-width: 410px)  { @content; }
   }
