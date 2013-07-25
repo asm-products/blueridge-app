@@ -21,22 +21,22 @@ angular.module('blueRidgeApp')
         Stripe.setPublishableKey(stripe.key);
     });
 
+    
+
 
     $scope.setPlan = function(plan){
         switch (plan){
             case 'solo': case 'pro':
-            subscribe = true;
+            canSubscribe = true;
             break;
             default:
-            subscribe = false;
+            canSubscribe = false;
         }
         $scope.card= {'plan':plan,'name':$scope.user.name};
-        $scope.subscribe=subscribe;
-    }
+        $scope.canSubscribe=canSubscribe;
+    };
 
-    $scope.makePayment = function(card){
-        console.log($scope.user);
-
+    $scope.createPayment = function(card){
         var expiry = PaymentHelpers.cardExpiryVal(card.expiry);
         var subscriber = {
             name:card.name,
@@ -45,15 +45,22 @@ angular.module('blueRidgeApp')
             exp_year:expiry.year
         };
 
-        Stripe.card.createToken(subscriber, $scope.subscribe);
+        Stripe.card.createToken(subscriber,$scope.subscribe);
     };
 
-    $scope.subscribe = function(status, response){
+    $scope.subscribe =  function(status,response){
+
         if (response.error) {
             $scope.alerts.push({ type: 'error', msg: 'Oh my! '+response.error.message });
         } else {
-
+            var customer= {user:$scope.user.id, payment:response,plan:$scope.card.plan};
             console.log(response);
+            console.log(customer);
+
+            Restangular.all('subscriptions').post(customer).then(function(result){
+                console.log('hello');
+                console.log(data);
+            });
         }
 
     };
