@@ -28,7 +28,7 @@
     </div>
     <div class="span6">
         <form autocomplete="on" novalidate name="subscribeForm">            
-            <fieldset id="subscribeField" ng-disabled="!subscribe" >
+            <fieldset id="subscribeField" ng-disabled="!canSubscribe" >
                 <legend>Payment Info</legend> 
                 <input type="hidden" ng-model="card.plan" value="{{plan}}">             
                 <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
@@ -52,7 +52,7 @@
                 </div>                
             </fieldset>
             <div class="controls">
-                <button ng-disabled="!subscribeForm.$valid" class="btn btn-info" type="submit" ng-click="makePayment(card)">Subscribe</button>
+                <button ng-disabled="!subscribeForm.$valid" class="btn btn-info" type="submit" ng-click="createPayment(card)">Subscribe</button>
             </div>
         </form>
     </div>

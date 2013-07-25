@@ -14,6 +14,6 @@
     "psr-0": {
       "BlueRidge": "api/src/"
     },
-    "files": ["api/lib/doorman.php","api/lib/postman.php"]
+    "files": ["api/lib/doorman.php","api/lib/postman.php","api/lib/cashier.php"]
   }
 }
