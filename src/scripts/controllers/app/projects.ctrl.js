@@ -3,6 +3,7 @@ angular.module('blueRidgeApp')
     if (!Auth.isSignedIn()) {
         $location.path('/');
     }
+
     $scope.noob=Auth.isNoob();
 
     $scope.loading = true;
