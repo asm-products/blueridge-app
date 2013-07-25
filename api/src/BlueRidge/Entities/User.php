@@ -44,6 +44,12 @@ class User extends \BlueRidge\ModelAbstract
 	protected $key;
 
 	/**
+	 * Current Plan
+	 * @var array
+	 */
+	protected $plan='free';
+
+	/**
 	 * Accounts
 	 * @var Array
 	 */
@@ -164,6 +170,7 @@ class User extends \BlueRidge\ModelAbstract
 		"email"=>$this->email,
 		"key"=>$this->key,
 		"avatar"=>$this->avatar,
+		"plan"=>$this->plan
 		];
 		return $item;
 	}
