@@ -56,7 +56,7 @@ $app->post('/api/users', function () use ($app) {
 	$projects = $provider->getProjects($auth,$token);
 
 	$user = new User($app);
-	$service_properties = ['providers'=>["{$providerName}"=>['auth'=>$auth]],'accounts'=>$accounts,'projects'=>$projects];
+	$service_properties = ['providers'=>["{$providerName}"=>['auth'=>$auth]],'profile'=>['accounts'=>$accounts],'projects'=>$projects];
 	$properties = array_merge($me,$service_properties);
 
 	$existing_user = $user->fetchOne(['email'=>$me['email']]);
@@ -66,7 +66,8 @@ $app->post('/api/users', function () use ($app) {
 		
 		$access = doorman_welcome();
 
-		$properties['selected_projects']=[];
+		$properties['profile']['plan']='free';
+		$properties['profile']['projects']=[];
 		$properties['key']=$access['key'];
 
 		$user->create($properties);

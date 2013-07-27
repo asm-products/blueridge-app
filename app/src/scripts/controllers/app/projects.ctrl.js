@@ -9,10 +9,9 @@ angular.module('blueRidgeApp')
     $scope.loading = true;
     blueRidgeUser= Restangular.one('users',Auth.currentUser());
 
-    blueRidgeUser.getList('projects').then(function(result){
-        console.log(result);
+    blueRidgeUser.getList('projects').then(function(response){
 
-        $scope.projects = result.projects;
+        $scope.projects = response.projects;
         $scope.loading = false;
 
     });
@@ -27,5 +26,6 @@ angular.module('blueRidgeApp')
         //    Auth.promoteNoob();
         //});
 
-    };
+};
+
 });

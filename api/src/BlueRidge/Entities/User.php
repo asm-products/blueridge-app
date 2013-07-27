@@ -44,22 +44,18 @@ class User extends \BlueRidge\ModelAbstract
 	protected $key;
 
 	/**
-	 * Current Plan
-	 * @var array
-	 */
-	protected $plan='free';
-
-	/**
-	 * Accounts
+	 * Projects
 	 * @var Array
 	 */
-	protected $accounts;
+	protected $profile;
 
 	/**
 	 * Projects
 	 * @var Array
 	 */
 	protected $projects;
+
+
 
 	/**
 	 * Subscription
@@ -129,14 +125,15 @@ class User extends \BlueRidge\ModelAbstract
 			$data = $todo->fetchUserTodos($this);
 			break;
 			case 'accounts':
-			$data = ['accounts'=>$this->accounts];
+			$data = $this->profile['accounts'];
 			break;
 			case 'projects':
-			$data = ['list'=>$this->projects,'selected'=>$this->selected_projects];
+			$data = $this->fetchProjects();
 			break;		
 		}
 		return $data;
 	}
+
 
 	public function create($properties)
 	{
@@ -179,8 +176,29 @@ class User extends \BlueRidge\ModelAbstract
 		"email"=>$this->email,
 		"key"=>$this->key,
 		"avatar"=>$this->avatar,
-		"plan"=>$this->plan
+		"profile"=>$this->profile
 		];
 		return $item;
+	}
+	private function fetchProjects()
+	{
+		$items=array();
+		foreach($this->projects as $key => $project){
+			$selected = (in_array($project['id'], $this->profile['projects']))?true:false;
+			$item=$project;
+			$item['selected']=$selected;	
+			unset(
+				$item['url'],
+				$item['archived'],
+				$item['created_at'],
+				$item['updated_at'],
+				$item['last_event_at'],
+				$item['starred']
+				);
+
+			$items[]=$item;
+		}
+		
+		return $items;
 	}
 }
