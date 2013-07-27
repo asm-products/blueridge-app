@@ -59,7 +59,7 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
     $locationProvider.html5Mode(true);
 
     RestangularProvider.setBaseUrl('/api');
-    RestangularProvider.setListTypeIsArray(false);
+    /*RestangularProvider.setListTypeIsArray(false);*/
 
     AnalyticsProvider.setAccount('UA-31702803-4');
     AnalyticsProvider.trackPages(true);
