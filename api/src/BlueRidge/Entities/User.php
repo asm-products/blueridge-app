@@ -161,10 +161,19 @@ class User extends \BlueRidge\ModelAbstract
 
 	public function update(Array $properties)
 	{
-		
 		$users = new \MongoCollection($this->app->database,"Users");
-		$users->update(['_id'=>new \MongoId($this->id)],['$set' => $properties],["upsert"=>true]);
-		$user = $users->findOne();
+		$user = $users->findOne(array('_id' => new \MongoId($properties['id'])));
+		unset($properties['id']);
+
+		foreach($properties as $key => $property){
+			if(is_array($property)){
+				$segment = key($property);
+				$user[$key][$segment]=$property[$segment];
+			}else{
+				$user[$key]=$property;	
+			}
+		}
+		$users->save($user);
 		return $this->setProperties($user);
 	}
 

@@ -86,12 +86,10 @@ $app->post('/api/users', function () use ($app) {
 });
 
 $app->put('/api/users/:id(/:segment)',function($id,$segment=null) use ($app){
-	$params = json_decode($app->request()->getBody());
-	$user=new User($app,['id'=>$id]);
-
-
+	$params = json_decode($app->request()->getBody(),true);
+	$user=new User($app);
+	
 	$resource= $user->update($params);
-
 	if($resource){
 		$app->response()->status(200);
 	}else{

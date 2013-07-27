@@ -16,16 +16,21 @@ angular.module('blueRidgeApp')
 
     });
 
-    $scope.update= function(projects) {
-        console.log(projects);
-        //blueRidgeUser.projects=projects;
-        
-       // blueRidgeUser.put().then(function(){
-        //    $scope.updated = true;
-        //    $location.path('/app/todos');
-        //    Auth.promoteNoob();
-        //});
-
-};
-
+    $scope.update= function() {
+        var projects = $scope.projects;
+        var selected=[];
+        angular.forEach(projects,function(project){
+            if(project.selected){
+                selected.push(project.id);
+            }
+        });
+        blueRidgeUser.profile = {
+            projects:selected
+        };
+        blueRidgeUser.put().then(function(){
+            $scope.updated = true;
+            $location.path('/app/todos');
+            Auth.promoteNoob();
+        });
+    };
 });
