@@ -18,7 +18,7 @@ $app->post('/api/subscriptions', function () use ($app) {
         $customer = \cashier_subscribe($app,$user,$params);
 
         if (!empty($customer)){
-            app->response()->status(200);
+            $app->response()->status(200);
             $user->update(["id"=>$user->id],['plan'=>$params->plan,'subscription'=>$customer],true);    
             echo (json_encode((object) ['id'=>$user->id,'subscribed'=>true]));
         }else{

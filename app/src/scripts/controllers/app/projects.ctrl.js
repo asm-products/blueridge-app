@@ -9,18 +9,23 @@ angular.module('blueRidgeApp')
     $scope.loading = true;
     blueRidgeUser= Restangular.one('users',Auth.currentUser());
 
-    blueRidgeUser.getList('accounts').then(function(result){
-        $scope.accounts = result.accounts;
+    blueRidgeUser.getList('projects').then(function(result){
+        console.log(result);
+
+        $scope.projects = result.projects;
         $scope.loading = false;
 
     });
 
-    $scope.updateAccounts = function(accounts) {
-        blueRidgeUser.accounts=accounts;
-        blueRidgeUser.put().then(function(){
-            $scope.updated = true;
-            $location.path('/app/todos');
-            Auth.promoteNoob();
-        });
+    $scope.update= function(projects) {
+        console.log(projects);
+        //blueRidgeUser.projects=projects;
+        
+       // blueRidgeUser.put().then(function(){
+        //    $scope.updated = true;
+        //    $location.path('/app/todos');
+        //    Auth.promoteNoob();
+        //});
+
     };
 });

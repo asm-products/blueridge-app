@@ -94,16 +94,12 @@ class Todo extends \BlueRidge\ModelAbstract
 	
 	public function fetchUserTodos(User $user)
 	{
-		$accounts = $user->accounts;
 		$activeProjects = array();
 
-		foreach($user->accounts as $account){
-			foreach($account['projects'] as $project){			
-				if(!empty($project['selected'])){
-					$project['accountUrl']=$account['href'];
-					$activeProjects[] = $project;
-				}
-			}			
+		foreach($user->projects as $project){			
+			if(!empty($project['selected'])){
+				$activeProjects[] = $project;
+			}
 		}
 
 		if(empty($activeProjects)){

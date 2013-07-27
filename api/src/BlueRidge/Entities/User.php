@@ -56,6 +56,12 @@ class User extends \BlueRidge\ModelAbstract
 	protected $accounts;
 
 	/**
+	 * Projects
+	 * @var Array
+	 */
+	protected $projects;
+
+	/**
 	 * Subscription
 	 * @var array
 	 */
@@ -123,43 +129,46 @@ class User extends \BlueRidge\ModelAbstract
 			$data = $todo->fetchUserTodos($this);
 			break;
 			case 'accounts':
-			$data = $this->accounts;
-			break;			
+			$data = ['accounts'=>$this->accounts];
+			break;
+			case 'projects':
+			$data = ['list'=>$this->projects,'selected'=>$this->selected_projects];
+			break;		
 		}
 		return $data;
 	}
 
 	public function create($properties)
-	{	
-		$result = $this->update(["email"=>$properties['email']],$properties);
-		
-		if(empty($result)){
-			return;
-		}
-		if(isset($result['error'])){
-			return $result;
-		}
-
-		return $this->setProperties($result);
+	{
+		$users= new \MongoCollection($this->app->database,"Users");
+		$users->insert($properties);
+		return $this->setProperties($properties);
 
 	}
 
-	public function update(Array $criteria, $doc, $single=false)
+	/**
+	 * Refresh
+	 * Refresh User Data
+	 * This will always reset everything escept the keys
+	 */
+	public function refresh(Array $properties)
+	{	
+
+		$users = new \MongoCollection($this->app->database,"Users");
+		$users->update(['_id'=>new \MongoId($this->id)],['$set' => $properties]);
+		$user= $users->findOne();
+		return $this->setProperties($user);
+
+	}
+
+
+	public function update(Array $properties)
 	{
-		if(key($criteria)=='id'){
-			$criteria =['_id'=>new \MongoId($criteria['id'])];
-		}
-
-		$db = $this->app->database;
-		$users = new \MongoCollection($db,"Users");
-		$result = $users->findAndModify($criteria,['$set' => $doc],null,["new" => true,"upsert"=>true]);
 		
-		if($single === true){
-			return $this->setProperties($result);
-		}
-		
-		return $result;
-
+		$users = new \MongoCollection($this->app->database,"Users");
+		$users->update(['_id'=>new \MongoId($this->id)],['$set' => $properties],["upsert"=>true]);
+		$user = $users->findOne();
+		return $this->setProperties($user);
 	}
 
 	public function toArray()

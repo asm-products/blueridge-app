@@ -52,30 +52,50 @@ $app->post('/api/users', function () use ($app) {
 	$auth = $provider->getAuthorization($token);
 	$me= $provider->getMe($auth,$token);
 
-	$accounts = $provider->getProjectAccounts($auth,$token);
-
+	$accounts = $provider->getAccounts($auth,$token);
+	$projects = $provider->getProjects($auth,$token);
 
 	$user = new User($app);
-	$service_properties = ['providers'=>["{$providerName}"=>['auth'=>$auth]],'accounts'=>$accounts];
+	$service_properties = ['providers'=>["{$providerName}"=>['auth'=>$auth]],'accounts'=>$accounts,'projects'=>$projects];
 	$properties = array_merge($me,$service_properties);
-	$resource = $user->create($properties);
 
-	echo (json_encode((object) ['id'=>$user->id,'init'=>true,'authorized'=>true]));
+	$existing_user = $user->fetchOne(['email'=>$me['email']]);
+	
 
-	$access = doorman_welcome();
-	$user->update(["id"=>$user->id],['key'=>$access['key']],true);
+	if(empty($existing_user)){
+		
+		$access = doorman_welcome();
 
+		$properties['selected_projects']=[];
+		$properties['key']=$access['key'];
+
+		$user->create($properties);
+		echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'init'=>true]));
+		
+		
+		$mailman = \postman_send($app, $user,['password'=>$access['pass']]);
+
+	}else{
+
+		$user->refresh($service_properties);
+		echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'updated'=>true]));
+	}
 	
-	$mailman = \postman_send($app, $user,['password'=>$access['pass']]);	
-	
-	
+
 });
 
 $app->put('/api/users/:id(/:segment)',function($id,$segment=null) use ($app){
 	$params = json_decode($app->request()->getBody());
-	$user=new User($app);
-	$user->update(["id"=>$params->id],$params,true);
+	$user=new User($app,['id'=>$id]);
 
-	//do a responce check
+
+	$resource= $user->update($params);
+
+	if($resource){
+		$app->response()->status(200);
+	}else{
+		$app->response()->status(400);
+		echo (json_encode((object) ['error'=>'Update failed. Contact support']));
+	}
 });
 

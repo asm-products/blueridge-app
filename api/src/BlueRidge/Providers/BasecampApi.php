@@ -77,23 +77,42 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		];
 	}
 
+	public function getAccounts($auth,$token)
+	{
+		
+		if(empty($auth)){
+			$auth= $this->getAuthorization($token);
+		}
+		$accounts=array_column($auth->accounts,'name');
+		return ['basecamp'=>$accounts];
+	}
 
-	public function getProjectAccounts($auth,$token){
+	public function getProjects($auth,$token)
+	{
 		$endpoint="projects.json";
-		$accounts=array();
-
+		$projects=array();
 		if(empty($auth)){
 			$auth= $this->getAuthorization($token);
 		}
 
-		foreach ($auth->accounts as $account) {
-			$projects= $this->getData("{$account['href']}/{$endpoint}",$token);		
-			if(!empty($projects)){
-				$account['projects']= $projects;
-				$accounts[]=$account;	
+		$account_urls = array_column($auth->accounts,'href'); 
+		$index=0;
+		foreach ($account_urls as $url) {
+			$account_projects= $this->getData("{$url}/{$endpoint}",$token);		
+			if(!empty($account_projects)){
+				foreach($account_projects as $project){
+					$names[$index] = $project['name'];
+					$index++;
+					$projects[] = $project;
+				}
 			}
-		} 
-		return $accounts;
+		}
+		
+		if(!empty($projects)){
+			array_multisort($names,SORT_ASC,$projects);
+		}		
+		
+		return $projects;
 	}
 
 
@@ -126,7 +145,7 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		$list= array();
 		foreach ($activeProjects as $project) {
 			$endpoint = "projects/{$project['id']}/todolists.json";
-			$url = "{$project['accountUrl']}/$endpoint";
+			$url = "{$project['url']}/$endpoint";
 			$todoLists[$project['name']] = $this->getData($url,$token);
 		}
 
