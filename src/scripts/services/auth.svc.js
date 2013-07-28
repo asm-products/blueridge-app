@@ -1,4 +1,4 @@
-angular.module('blueRidgeApp.services', ['ngCookies'])
+angular.module('blueRidgeApp.services.auth', ['ngCookies'])
 .factory('Auth',function($cookieStore){	
 	return {		
 		authorize:function(auth){
