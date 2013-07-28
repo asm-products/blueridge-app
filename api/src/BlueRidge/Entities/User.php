@@ -187,6 +187,8 @@ class User extends \BlueRidge\ModelAbstract
 		"avatar"=>$this->avatar,
 		"profile"=>$this->profile
 		];
+		
+
 		return $item;
 	}
 	private function fetchProjects()
