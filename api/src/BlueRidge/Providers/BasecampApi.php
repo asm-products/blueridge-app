@@ -69,11 +69,12 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		$endpoint = "people/me.json";
 		$url="{$auth->accounts[0]['href']}/{$endpoint}"; 
 		$whoami = $this->getData($url,$token);
+		$avatar = parse_url($whoami['avatar_url']);
 
 		return [
 		'name'=>$whoami['name'],
 		'email'=>$whoami['email_address'],
-		'avatar'=>$whoami['avatar_url']
+		'avatar'=>"//{$avatar['host']}/{$avatar['path']}?{$avatar['query']}"
 		];
 	}
 
