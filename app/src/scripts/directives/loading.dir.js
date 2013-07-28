@@ -1,4 +1,4 @@
-angular.module('blueRidgeApp.directives', [])
+angular.module('blueRidgeApp.directives.loading', [])
 .directive('loadingContainer', function () {
   return {
     restrict: 'A',
