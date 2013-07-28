@@ -8,6 +8,9 @@ $app->post('/api/subscriptions', function () use ($app) {
 
     $params = json_decode($app->request()->getBody());
 
+    print_r($params);
+    exit();
+
     if(empty($params->user) || empty($params->payment) || empty($params->plan)){
         $app->response()->status(402);
         echo (json_encode((object) ['error'=>"Payment Required",'message'=>"Missing payment details"]));
