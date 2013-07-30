@@ -1,16 +1,20 @@
 var blueRidgeApp = angular.module('blueRidgeApp', [
-    'blueRidgeApp.controllers',
     'blueRidgeApp.services',
     'blueRidgeApp.directives',
+    'Payment',
     'ui.bootstrap',
     'restangular',
     'angular-google-analytics'
     ]);
-blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider','AnalyticsProvider', function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider,AnalyticsProvider) {
+blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','RestangularProvider','AnalyticsProvider',function($routeProvider, $locationProvider,$dialogProvider,RestangularProvider,AnalyticsProvider) {
     $routeProvider.
     when('/', {
         templateUrl: '/views/site/home.html',
         controller: 'HomeCtrl'
+    })
+    .when('/signin', {
+        templateUrl: '/views/site/signin.html',
+        controller: 'SignInCtrl'
     })
     .when('/connect', {
         templateUrl: '/views/site/connect.html',
@@ -30,15 +34,15 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
     })
     .when('/app/todos', {
         templateUrl: '/views/app/todos.html',
-        controller: 'ToDoCtrl'
+        controller: 'TodosCtrl'
     })
-    .when('/app/me', {
-        templateUrl: '/views/app/me.html',
-        controller: 'MeCtrl'
+    .when('/app/profile', {
+        templateUrl: '/views/app/profile.html',
+        controller: 'ProfileCtrl'
     })
     .when('/app/projects', {
         templateUrl: '/views/app/projects.html',
-        controller: 'ProjectCtrl'
+        controller: 'ProjectsCtrl'
     })
     .when('/app/signout', {
         templateUrl: '/views/app/signout.html',
