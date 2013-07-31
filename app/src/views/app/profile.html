@@ -2,93 +2,45 @@
 	<div ng-include src="'/views/app/sections/nav.html'"></div>
 	<div class="panel">				
 		<h2><img ng-src="{{user.avatar}}" class="img-circle" > <span class="muted">{{user.name}}</span></h2>
-<<<<<<< HEAD
-        <form id="profile">
-            <fieldset >
-                <legend>Your Info</legend>
-                <div class="sector sub-sector">
-                    <div class="control-group">
-                        <label class="control-label" for="userName">Name</label>
-                        <div class="controls">
-                            <input type="text" class="input-xlarge" id="userName" ng-model="user.name" >
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="userEmail">Email</label>
-                        <div class="controls">
-                            <input type="email" class="input-xlarge" id="userEmail" ng-model="user.email" >
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="userPassword">Password</label>
-                        <div class="controls">
-                            <input type="password" class="input-xlarge" id="userPassword" ng-model="user.password">
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-            <div>
-                <button class="btn btn-success" type="submit" ng-click="update(user)">Update Profile</button>
-            </div>
-        </form>
-        <div id="billing" class="row-fluid">
+        <div class="row-fluid">
             <div class="span6">
-                <legend>Your Subscription</legend>
-                <div class="sector sub-sector" ng-if="user.profile.plan==free">
+                <h3>Your Info</h3>
+                <form id="profile" class="well">
+                    <fieldset>
+                        <div class="control-group">
+                            <label class="control-label" for="userName">Name</label>
+                            <div class="controls">
+                                <input type="text" class="input-large" id="userName" ng-model="user.name" >
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="userEmail">Email</label>
+                            <div class="controls">
+                                <input type="email" class="input-large" id="userEmail" ng-model="user.email" >
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="userPassword">Password</label>
+                            <div class="controls">
+                                <input type="password" class="input-large" id="userPassword" ng-model="user.password">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div>
+                        <button class="btn btn-success" type="submit" ng-click="update(user)">Update Profile</button>
+                    </div>
+                </form>
+            </div>
+            <div class="span6">
+                <h3>Your Plan</h3>
+                <div class="well">
                     <h4>Free <span class="plan-price"><sup>$</sup>0.00<sub>/mo.</sub></span></h4>
                     <p class="plan-feature">1 project at a time</p>
                     <p>You can choose which project you see whenever you like, as much as you like.</p>
+                    <a href="{{billing}}" class="btn btn-primary">Change Plan</a>
                 </div>
-                <div class="sector sub-sector">
-                    <input type="radio" ng-model="plan" value="solo" ng-change="setPlan('solo')">
-                    <h4>Solo <span class="plan-price"><sup>$</sup>7.95<sub>/mo.</sub></span></h4>
-                    <p class="plan-feature">5 projects at a time</p>
-                    <p>Great for freelancers. View To-dos from multiple projects at the same time.</p>
-                </div>
-                <div class="sector sub-sector">
-                    <input type="radio" ng-model="plan" value="pro" ng-change="setPlan('pro')">
-                    <h4>Pro <span class="plan-price"><sup>$</sup>14.95<sub>/mo.</sub></span></h4>
-                    <p class="plan-feature"> 20 projects at a time </p>
-                    <p>Working on a lot of projects at once? No problem&mdash;we&rsquo;ve got you covered.</p>
-                </div>
-            </div>
-            <div class="span6">
-                <form autocomplete="on" novalidate name="subscribeForm" ng-submit="subscribe()">            
-                    <fieldset id="subscribeField" ng-disabled="!canSubscribe" >
-                        <legend>Payment Info</legend> 
-                        <input type="hidden" ng-model="card.plan" value="{{plan}}">             
-                        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-                        <div class="controls">                    
-                            <label for="card-name">Name on Card:</label>
-                            <input id="card-name" class="input-large" type="text" required ng-model="card.name">                    
-                        </div>
-                        <div class="controls">                    
-                            <label for="card-number">Card Number:</label>
-                            <input id="card-number" pattern="\d*" class="input-large" type="text" maxlength="20" required placeholder="**** **** **** ****" ng-model="card.number" format-card-number restrict-numeric />                     
-                        </div>
-                        <div class="controls controls-row-fluid">
-                            <div class="span3">
-                                <label for="card-expiry">Expires</label>
-                                <input  class="input-mini" id="card-expiry" type="text"required placeholder="MM / YY" maxlength="" pattern="\d*" ng-model="card.expiry" format-card-expiry restrict-numeric>
-                            </div>
-                            <div class="span3">
-                                <label for="card-cvc">Card Code</label>
-                                <input id="card-cvc" pattern="\d*" class="input-mini" type="text" maxlength="4" required placeholder="CVC"  ng-model="card.cvc" format-card-cvc restrict-numeric autocomplete="off"/>
-                            </div>                    
-                        </div>                
-                    </fieldset>
-                    <div class="controls">
-                        <tt>token = {{token}}</tt><br>
-                        <button ng-disabled="!subscribeForm.$valid" class="btn btn-info" type="submit">Subscribe</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
     <div ng-include src="'/views/app/sections/footer.html'"></div>
-=======
-		<div ng-include src="'/views/app/sections/yourInfo.html'"></div>
-	</div>
-	<div ng-include src="'/views/app/sections/footer.html'"></div>
->>>>>>> 63fa00df837d3736d2519ba4558f8bae33d2c499
 </div>
