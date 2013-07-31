@@ -66,10 +66,7 @@ $app->post('/api/users', function () use ($app) {
 		
 		$access = doorman_welcome();
 
-		$properties['profile']['plan']='free';
-		$properties['profile']['projects']=[];
 		$properties['key']=$access['key'];
-
 		$user->create($properties);
 		echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'init'=>true]));
 		

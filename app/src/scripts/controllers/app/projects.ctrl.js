@@ -10,7 +10,6 @@ angular.module('blueRidgeApp')
     blueRidgeUser= Restangular.one('users',Auth.currentUser());
 
     blueRidgeUser.getList('projects').then(function(response){
-
         $scope.projects = response.projects;
         $scope.loading = false;
 

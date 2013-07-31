@@ -12,6 +12,11 @@ class User extends \BlueRidge\ModelAbstract
 	 * @var string
 	 */
 	protected $id;
+	/**
+	 * Name
+	 * @var string
+	 */
+	protected $name;
 
 	/**
 	 * First Name
@@ -143,6 +148,8 @@ class User extends \BlueRidge\ModelAbstract
 
 	public function create($properties)
 	{
+		$properties['profile']['plan']='free';
+		$properties['profile']['projects']=[];
 		$users= new \MongoCollection($this->app->database,"Users");
 		$users->insert($properties);
 		return $this->setProperties($properties);
@@ -187,7 +194,8 @@ class User extends \BlueRidge\ModelAbstract
 	{
 		$item = [
 		"id"=>$this->id,
-		"name"=>['first'=>$this->firstName,'last'=>$this->lastName],
+		"name"=>$this->name,
+		"fullname"=>['first'=>$this->firstName,'last'=>$this->lastName],
 		"email"=>$this->email,
 		"key"=>$this->key,
 		"avatar"=>$this->avatar,
@@ -200,7 +208,9 @@ class User extends \BlueRidge\ModelAbstract
 	private function fetchProjects()
 	{
 		$items=array();
+		
 		foreach($this->projects as $key => $project){
+			
 			$selected = (in_array($project['id'], $this->profile['projects']))?true:false;
 			$item=$project;
 			$item['selected']=$selected;	
@@ -215,7 +225,6 @@ class User extends \BlueRidge\ModelAbstract
 
 			$items[]=$item;
 		}
-		
 		return $items;
 	}
 }

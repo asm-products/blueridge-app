@@ -27,7 +27,7 @@ function postman_send($app,$user,Array $params)
     $message = array(
         'from_email' => 'team@blueridgeapp.com',
         'from_name' => 'BlueRidge Team',
-        'to' => array(array('email' => $user->email,'name' => "{$user->firstName} {$user->lastName}")),
+        'to' => array(array('email' => $user->email,'name' => "{$user->name}")),
         'headers' => array('Reply-To' => 'team@blueridgeapp.com'),
         'important' => false,
         'inline_css' => true,
