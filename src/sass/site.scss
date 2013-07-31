@@ -59,6 +59,31 @@ body {
 	}
 }
 
+#signin {
+	h2 {
+		text-align: center;
+	}
+	form {
+		text-align: center;
+		fieldset{
+			margin: 2em auto;
+			text-align: left;	
+			width: 240px;
+			.control-group {
+				margin-bottom: 2em;
+			}
+			label {
+				font-size: 1.25em;
+				font-weight: bold;
+			}
+			input {
+				margin:0;
+				width: 240px;
+			}
+		}
+	}
+}
+
 .sign-in-link {
 	margin-top: 1em;
 	a {
