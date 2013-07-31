@@ -1,15 +1,25 @@
-$background_color: rgb(245, 239, 230);
-$brand_blue: #007AB7;
-$brand_green: rgb(60,193,90);
+$background_color: 	rgb(245, 239, 230);
+$brand_blue:       	rgb(  0, 122, 183);
+$brand_green:      	rgb( 60, 193, 90);
+$brand_brown:      	rgb(125, 122, 117);
+$brand_light_brown:	rgb(221, 215, 200);
+$brand_white:      	rgb(240, 240, 240);
+$muted: 						rgb(153, 153, 153);
 
-$link_color: rgb(20,20,20);
+$link_color: rgb(20, 20, 20);
 $link_hover_color: rgb(28, 92, 118);
 
-$masthead_text: rgb(124,122,117);
-$site_border_color: rgb(222, 215, 200);
+$masthead_text: $brand_brown;
+$site_border_color: $brand_light_brown;
 $site_border_color_alt: rgb(215, 215, 215);
 $highlight_background_color: rgb(247, 247, 247);
 
-$muted: rgb(153,153,153);
 
-$app_nav_link_color: rgb(125,122,117);
+//////////////////////////////////////////////////////
+// APP
+//////////////////////////////////////////////////////
+$app_nav_link_color:             	$brand_brown;
+$app_nav_pill_hover_background:  	$brand_blue;
+$app_nav_pill_hover_text:  				$brand_white;
+$app_nav_pill_active_background: 	$brand_light_brown;
+$app_nav_pill_active_text:       	$brand_brown;
