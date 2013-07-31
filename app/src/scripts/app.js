@@ -1,4 +1,5 @@
 var blueRidgeApp = angular.module('blueRidgeApp', [
+
     'blueRidgeApp.services.auth',
     'blueRidgeApp.directives.loading',
     'blueRidgeApp.directives.stripe',
