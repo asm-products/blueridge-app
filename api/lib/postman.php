@@ -10,13 +10,18 @@ function postman_send($app,$user,Array $params)
     $template_content = array(array(
         'name' => 'std_content',
         'content' => "
-        <h3 class=\"h3\">You are in.</h3>
+        <h3 class=\"h3\">Congratulations!</h3>
         <p><strong>Hi *|user_name|*</strong></p>
-        <p>Yes! it's that dramatic for us, we are glad to have you on board.</p>
-        <p>In connecting with basecamp, you signed up with the same email you use for basecamp and we cooked up a descent password to get you started.</p>
-        <p>Here are your credentials</p>
-        <p>Email: <code>*|user_email|*</code> <br>Password: <code>*|user_password|*</code></p>
-        <p> Thanks a bunch.<br>team@blueridgeapp.com<br><a href=\"https\:\/\/blueridgeapp.com\">https://blueridgeapp.com</a></p>"
+        <p>Welcome to BlueRidge. We're really glad to have you on board.</p>
+        <p>We created your BlueRidge account using the same email address you use for your Basecamp account. That keeps things simple for everyone. Feel free to change it to whatever you want, though. It's your account. ;)</p>
+    		<p>&nbsp;</p>
+    		<p><strong>Your BlueRidge account info:</strong><br>Email: <code>*|user_email|*</code> <br>Password: <code>*|user_password|*</code></p>
+    		<p><em>Keep your password safe. You'll need it to sign in again.</em></p>
+    		<p>&nbsp;</p>
+    		<p>We hope BlueRidge makes managing your to-dos easier, but if not, we're here to help. If you ever have any questions just email team@blueridgeapp.com and we'll reply as soon as humanly possible.</p>
+    		<p>&nbsp;</p>
+        <p>Thanks for using BlueRidge. We really appreciate it.</p>
+        <p>J and Mo<br>team@blueridgeapp.com<br><a href=\"https\:\/\/blueridgeapp.com\">https://blueridgeapp.com</a></p>"
         ));
 
     $message = array(
