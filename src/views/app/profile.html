@@ -1,7 +1,7 @@
 <div id="app-profile" class="container app-container">
 	<div ng-include src="'/views/app/sections/nav.html'"></div>
 	<div class="panel">				
-		<h2><img ng-src="{{user.avatar}}" class="img-circle" > <span class="muted">{{user.name.first}} {{user.name.last}}</span></h2>
+		<h2><img ng-src="{{user.avatar}}" class="img-circle" > <span class="muted">{{user.name}}</span></h2>
         <div class="row-fluid">
             <div class="span6">
                 <h3>Your Info</h3>
@@ -10,13 +10,13 @@
                         <div class="control-group">
                             <label class="control-label" for="firstname">First Name</label>
                             <div class="controls">
-                                <input type="text" class="input-large" id="firstname" ng-model="user.name.firstname" >
+                                <input type="text" class="input-large" id="firstname" ng-model="user.fullname.firstname" >
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="lastname">Last Name</label>
                             <div class="controls">
-                                <input type="text" class="input-large" id="lastname" ng-model="user.name.lastname" >
+                                <input type="text" class="input-large" id="lastname" ng-model="user.fullname.lastname" >
                             </div>
                         </div>
                         <div class="control-group">
