@@ -72,7 +72,8 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		$avatar = parse_url($whoami['avatar_url']);
 
 		return [
-		'name'=>$whoami['name'],
+		'firstName'=>$auth->identity['first_name'],
+		'lastName'=>$auth->identity['last_name'],
 		'email'=>$whoami['email_address'],
 		'avatar'=>"//{$avatar['host']}/{$avatar['path']}?{$avatar['query']}"
 		];

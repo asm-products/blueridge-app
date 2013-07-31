@@ -14,10 +14,16 @@ class User extends \BlueRidge\ModelAbstract
 	protected $id;
 
 	/**
+	 * First Name
+	 * @var string
+	 */
+	protected $firstName;
+
+	/**
 	 * User Name
 	 * @var string
 	 */
-	protected $name;
+	protected $lastName;
 
 	/**
 	 * User Email
@@ -181,7 +187,7 @@ class User extends \BlueRidge\ModelAbstract
 	{
 		$item = [
 		"id"=>$this->id,
-		"name"=>$this->name,
+		"name"=>['first'=>$this->firstName,'last'=>$this->lastName],
 		"email"=>$this->email,
 		"key"=>$this->key,
 		"avatar"=>$this->avatar,
