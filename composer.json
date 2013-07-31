@@ -3,7 +3,8 @@
     "slim/slim": "2.*",
     "stripe/stripe-php": "dev-master",
     "mandrill/mandrill": "1.0.*",
-    "ircmaxell/password-compat": "dev-master"
+    "ircmaxell/password-compat": "dev-master",
+    "rhumsaa/array_column": "~1.1"
   },
   "require-dev": {
     "phing/phing": "dev-master",
@@ -14,6 +15,10 @@
     "psr-0": {
       "BlueRidge": "api/src/"
     },
-    "files": ["api/lib/doorman.php","api/lib/postman.php"]
+    "files": [
+      "api/lib/doorman.php",
+      "api/lib/postman.php",
+      "api/lib/cashier.php"
+    ]
   }
 }

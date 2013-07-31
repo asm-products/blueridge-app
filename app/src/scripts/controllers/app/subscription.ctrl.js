@@ -30,7 +30,8 @@ angular.module('blueRidgeApp')
                 number:card.number,
                 exp_month:expiry.month,
                 exp_year:expiry.year
-            }
+            };
+            
             Stripe.card.createToken(subscriber, $scope.subscribe);
 
         }else{

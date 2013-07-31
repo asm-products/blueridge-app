@@ -8,7 +8,6 @@ angular.module('blueRidgeApp')
         blueRidgeAccess = Restangular.all('auth');
         blueRidgeAccess.post(user).then(function(auth){
             Auth.authorize(auth);
-            $scope.shouldBeOpen = false;
             $location.path('/app/todos');
         },function(auth) {
           $scope.alerts.push({type: 'error', msg: "Oh No! That didn't work. Please double check you email and password"});

@@ -3,19 +3,30 @@ angular.module('blueRidgeApp')
     if (!Auth.isSignedIn()) {
         $location.path('/');
     }
+
     $scope.noob=Auth.isNoob();
 
     $scope.loading = true;
     blueRidgeUser= Restangular.one('users',Auth.currentUser());
 
-    blueRidgeUser.getList('accounts').then(function(result){
-        $scope.accounts = result.accounts;
+    blueRidgeUser.getList('projects').then(function(response){
+
+        $scope.projects = response.projects;
         $scope.loading = false;
 
     });
 
-    $scope.updateAccounts = function(accounts) {
-        blueRidgeUser.accounts=accounts;
+    $scope.update= function() {
+        var projects = $scope.projects;
+        var selected=[];
+        angular.forEach(projects,function(project){
+            if(project.selected){
+                selected.push(project.id);
+            }
+        });
+        blueRidgeUser.profile = {
+            projects:selected
+        };
         blueRidgeUser.put().then(function(){
             $scope.updated = true;
             $location.path('/app/todos');

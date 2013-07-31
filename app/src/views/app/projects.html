@@ -7,18 +7,17 @@
 		</div>
 		<p ng-if="!noob" class="lead">Choose which projects to view:</p>
 		<div class="row-fluid"><div class="span12">
-			<fieldset ng-repeat="account in accounts">
-				<legend>{{account.name}}</legend>
-				<label ng-repeat="project in account.projects" class="checkbox project-row">
-					<input type="checkbox" value="{{project.id}}" ng-checked="project.selected" ng-model="project.selected">
+			<div>
+				<label ng-repeat="project in projects" class="checkbox project-row">
+					<input type="checkbox" ng-model="project.selected">
 					<h4>{{project.name}}</h4>
 					<p class="project-description">{{project.description}}</p>
+					<p>{{project.account}}</p>	
 				</label>
-			</fieldset>
-			<hr />
+			</div>
 			<div class="control-group">
 				<div class="controls">
-					<button class="btn btn-large btn-success" type="submit" ng-click="updateAccounts(accounts)">Apply My Choices</button>
+					<button class="btn btn-large btn-success" type="submit" ng-click="update()">Apply My Choices</button>
 				</div>
 			</div>
 		</div></div>

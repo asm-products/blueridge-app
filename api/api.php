@@ -17,6 +17,7 @@ require "../api/routes/providers.php";
 require "../api/routes/services.php";
 require "../api/routes/users.php";
 require "../api/routes/auth.php";
+require "../api/routes/subscriptions.php";
 
 $response = $app->response();
 $response['Content-Type'] = 'application/json';

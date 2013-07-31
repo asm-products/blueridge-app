@@ -14,10 +14,16 @@ class User extends \BlueRidge\ModelAbstract
 	protected $id;
 
 	/**
+	 * First Name
+	 * @var string
+	 */
+	protected $firstName;
+
+	/**
 	 * User Name
 	 * @var string
 	 */
-	protected $name;
+	protected $lastName;
 
 	/**
 	 * User Email
@@ -44,10 +50,18 @@ class User extends \BlueRidge\ModelAbstract
 	protected $key;
 
 	/**
-	 * Accounts
+	 * Projects
 	 * @var Array
 	 */
-	protected $accounts;
+	protected $profile;
+
+	/**
+	 * Projects
+	 * @var Array
+	 */
+	protected $projects;
+
+
 
 	/**
 	 * Subscription
@@ -117,54 +131,91 @@ class User extends \BlueRidge\ModelAbstract
 			$data = $todo->fetchUserTodos($this);
 			break;
 			case 'accounts':
-			$data = $this->accounts;
-			break;			
+			$data = $this->profile['accounts'];
+			break;
+			case 'projects':
+			$data = $this->fetchProjects();
+			break;		
 		}
 		return $data;
 	}
 
-	public function create($properties)
-	{	
-		$result = $this->update(["email"=>$properties['email']],$properties);
-		
-		if(empty($result)){
-			return;
-		}
-		if(isset($result['error'])){
-			return $result;
-		}
 
-		return $this->setProperties($result);
+	public function create($properties)
+	{
+		$users= new \MongoCollection($this->app->database,"Users");
+		$users->insert($properties);
+		return $this->setProperties($properties);
 
 	}
 
-	public function update(Array $criteria, $doc, $single=false)
+	/**
+	 * Refresh
+	 * Refresh User Data
+	 * This will always reset everything escept the keys
+	 */
+	public function refresh(Array $properties)
+	{	
+
+		$users = new \MongoCollection($this->app->database,"Users");
+		$users->update(['_id'=>new \MongoId($this->id)],['$set' => $properties]);
+		$user= $users->findOne();
+		return $this->setProperties($user);
+
+	}
+
+
+	public function update(Array $properties)
 	{
-		if(key($criteria)=='id'){
-			$criteria =['_id'=>new \MongoId($criteria['id'])];
-		}
+		$users = new \MongoCollection($this->app->database,"Users");
+		$user = $users->findOne(array('_id' => new \MongoId($properties['id'])));
+		unset($properties['id']);
 
-		$db = $this->app->database;
-		$users = new \MongoCollection($db,"Users");
-		$result = $users->findAndModify($criteria,['$set' => $doc],null,["new" => true,"upsert"=>true]);
-		
-		if($single === true){
-			return $this->setProperties($result);
+		foreach($properties as $key => $property){
+			if(is_array($property)){
+				$segment = key($property);
+				$user[$key][$segment]=$property[$segment];
+			}else{
+				$user[$key]=$property;	
+			}
 		}
-		
-		return $result;
-
+		$users->save($user);
+		return $this->setProperties($user);
 	}
 
 	public function toArray()
 	{
 		$item = [
 		"id"=>$this->id,
-		"name"=>$this->name,
+		"name"=>['first'=>$this->firstName,'last'=>$this->lastName],
 		"email"=>$this->email,
 		"key"=>$this->key,
 		"avatar"=>$this->avatar,
+		"profile"=>$this->profile
 		];
+		
+
 		return $item;
+	}
+	private function fetchProjects()
+	{
+		$items=array();
+		foreach($this->projects as $key => $project){
+			$selected = (in_array($project['id'], $this->profile['projects']))?true:false;
+			$item=$project;
+			$item['selected']=$selected;	
+			unset(
+				$item['url'],
+				$item['archived'],
+				$item['created_at'],
+				$item['updated_at'],
+				$item['last_event_at'],
+				$item['starred']
+				);
+
+			$items[]=$item;
+		}
+		
+		return $items;
 	}
 }
