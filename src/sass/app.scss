@@ -1,6 +1,5 @@
 /* app stylesheet */
 @import "responsive","colors","layout","typography","css3";
-@import "responsive","colors","layout","typography";
 
 .app-container { padding:1em 0;}
 
@@ -16,7 +15,7 @@
     display: block;
     float: left;
     height: 35px;
-    margin: 6px 18px 0 0;
+    margin: 6px 35px 0 0;
     padding: 0 0 2px;
     text-indent: -9999em;
     width: 100px;
@@ -34,14 +33,16 @@
   		display:none;
   	}
   }
-	.nav {
+	.nav-pills {
   	padding-top: 8px;
   	&>li>a:hover, &>li>a:focus {
-  		background-color: rgb(51,101,154);
-  		color: #fff;
+  		background-color: $app_nav_pill_hover_background;
+  		color: $app_nav_pill_hover_text;
   		text-shadow: none;		
   	}
-  	.active { 
+  	.active a { 
+  		background-color: $app_nav_pill_active_background;
+  		color: $app_nav_pill_active_text;
   		text-shadow: none; 
 		}
 		.signout {
@@ -53,16 +54,6 @@
   		li i { display:none; }
   	}
   }
-
-	.dropdown-menu>li>a:hover, 
-	.dropdown-menu>li>a:focus, 
-	.dropdown-submenu:hover>a, 
-	.dropdown-submenu:focus>a {
-  	color: #fff;
-  	text-decoration: none;
-  	background-color: #7d7a75;
-  	background-image: none;
-	}
 }
 
 .panel {
