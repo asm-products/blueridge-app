@@ -60,7 +60,7 @@ $app->post('/api/users', function () use ($app) {
 	$service_properties = [
 	'key'=>$access['key'],
 	'providers'=>["{$providerName}"=>['auth'=>$auth]],
-	'profile'=>['accounts'=>$accounts,'projects'=>[]],
+	'profile'=>['accounts'=>$accounts,'projects'=>[],'plan'=>'free'],
 	'projects'=>$projects
 	];
 

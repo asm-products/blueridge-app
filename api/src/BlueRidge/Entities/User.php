@@ -181,6 +181,10 @@ class User extends \BlueRidge\ModelAbstract
 		try{
 			$user['providers']=$properties['providers'];
 			$user['profile']['accounts']=$properties['profile']['accounts'];
+			
+			if(!empty($user['profile']['projects'])){
+				$properties['profile']['projects'] = $user['profile']['projects'];	
+			}
 
 			$this->collection->update(['_id'=>$user['_id']],['$set' => $properties]);
 			$user= $this->collection->findOne();
