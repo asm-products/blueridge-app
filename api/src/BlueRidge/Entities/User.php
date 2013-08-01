@@ -158,12 +158,15 @@ class User extends \BlueRidge\ModelAbstract
 	public function create($properties)
 	{
 		
-		$freshId = $properties['providers']['basecamp']['auth']->identity['id'];
-		$user = $this->collection->findOne(['providers.basecamp.auth.identity.id'=>$freshId]);
-		
-		if(!empty($user)){
-			return $this->refresh($properties,$user);
+		//$freshId = $properties['providers']['basecamp']['auth']->identity['id'];
+		$exists = $this->collection->count(['email'=>$properties['email']]);
+			
+		if(!empty($exists)){
+			return $this->refresh($properties);
 		}
+
+		
+
 		try{
 			$this->collection->insert($properties);
 			return ['status'=>201, 'resource'=>$this->setProperties($properties)];
@@ -176,20 +179,25 @@ class User extends \BlueRidge\ModelAbstract
 
 	}
 
-	public function refresh(Array $properties, Array $user)
+	public function refresh(Array $properties)
 	{	
+		
+
 		try{
-			$user['providers']=$properties['providers'];
-			$user['profile']['accounts']=$properties['profile']['accounts'];
+			$user = $this->collection->findOne(['email'=>$properties['email']]);
 			
 			if(!empty($user['profile']['projects'])){
 				$properties['profile']['projects'] = $user['profile']['projects'];	
 			}
 
-			$this->collection->update(['_id'=>$user['_id']],['$set' => $properties]);
-			$user= $this->collection->findOne();
 
-			return ['status'=>200, 'resource'=>$this->setProperties($user)];
+
+			$this->collection->update(['_id'=>$user['_id']],['$set' => $properties]);
+			$updated= $this->collection->findOne(['_id'=>$user['_id']]);
+
+			return ['status'=>200, 'resource'=>$this->setProperties($updated)];
+
+
 
 		}catch(\Exception $error){
 
@@ -207,7 +215,7 @@ class User extends \BlueRidge\ModelAbstract
 			foreach ($subset as $key => $property) {
 				$this->collection->update(['_id'=>new \MongoId($id)],['$set'=>["{$segment}.{$key}"=>$property]]);
 			}
-			$user = $this->collection->findOne(array('_id' => new \MongoId($id)));
+			$user = $this->collection->findOne(['_id' => new \MongoId($id)]);
 
 			return ['status'=>204, 'message'=>""];
 
@@ -236,6 +244,7 @@ class User extends \BlueRidge\ModelAbstract
 	private function fetchProjects()
 	{
 		$items=array();
+
 		foreach($this->projects as $key => $project){
 			
 			$selected = (in_array($project['id'], $this->profile['projects']))?true:false;
