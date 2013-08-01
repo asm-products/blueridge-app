@@ -5,7 +5,6 @@ angular.module('blueRidgeApp')
     }
 
     $scope.noob=Auth.isNoob();
-
     $scope.loading = true;
     blueRidgeUser= Restangular.one('users',Auth.currentUser());
 
