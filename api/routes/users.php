@@ -54,44 +54,42 @@ $app->post('/api/users', function () use ($app) {
 
 	$accounts = $provider->getAccounts($auth,$token);
 	$projects = $provider->getProjects($auth,$token);
+	$access = doorman_welcome();
 
 	$user = new User($app);
-	$service_properties = ['providers'=>["{$providerName}"=>['auth'=>$auth]],'profile'=>['accounts'=>$accounts],'projects'=>$projects];
+	$service_properties = [
+	'key'=>$access['key'],
+	'providers'=>["{$providerName}"=>['auth'=>$auth]],
+	'profile'=>['accounts'=>$accounts,'projects'=>[],'plan'=>'free'],
+	'projects'=>$projects
+	];
+
 	$properties = array_merge($me,$service_properties);
+	$response =$user->create($properties);
 
-	$existing_user = $user->fetchOne(['email'=>$me['email']]);
-	
-
-	if(empty($existing_user)){
-		
-		$access = doorman_welcome();
-
-		$properties['key']=$access['key'];
-		$user->create($properties);
-		echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'init'=>true]));
-		
-		
-		$mailman = \postman_send($app, $user,['password'=>$access['pass']]);
-
+	if($response['status'] == 500){
+		$app->response()->status(500);
+		echo (json_encode($response['message']));
 	}else{
-
-		$user->refresh($service_properties);
-		echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'updated'=>true]));
+		$app->response()->status($response['status']);
+		if ($response['status']==200){
+			echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'updated'=>true]));
+		}else{
+			echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'init'=>true]));	
+		}
 	}
 	
 
 });
 
-$app->put('/api/users/:id(/:segment)',function($id,$segment=null) use ($app){
+$app->put('/api/users/:id',function($id) use ($app){
 	$params = json_decode($app->request()->getBody(),true);
 	$user=new User($app);
+	unset($params['id']);
+	$response= $user->update($id,$params);
+
+	$app->response()->status($response['status']);	
+	echo (json_encode($response['message']));
 	
-	$resource= $user->update($params);
-	if($resource){
-		$app->response()->status(200);
-	}else{
-		$app->response()->status(400);
-		echo (json_encode((object) ['error'=>'Update failed. Contact support']));
-	}
 });
 
