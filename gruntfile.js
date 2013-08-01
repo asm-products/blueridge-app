@@ -6,6 +6,7 @@ module.exports = function(grunt) {
       build:'build',
       src:'app/src',
       api:'api',
+      ext:'ext',
       vendor:'app/vendor'
     },
     vendor: {
@@ -124,7 +125,7 @@ module.exports = function(grunt) {
         tasks: ['copy'],
       },
       html: {
-        files: ['<%= dir.src %>/**/*.html'],
+        files: ['<%= dir.src %>/**/*.html','<%= dir.src %>/**/*.php'],
         tasks: ['copy'],
       },
       scripts: {
@@ -137,9 +138,10 @@ module.exports = function(grunt) {
         files: [
         {expand: true, cwd:'<%= dir.src %>', src: ['img/**','views/**','fonts/**'], dest: '<%= dir.build %>'},
         {expand: true, flatten:true,src: ['<%= dir.src %>/sass/**/{*.eot,*.svg,*ttf,*woff,*.otf}'], dest: '<%= dir.build %>/fonts',filter: 'isFile'},
-        {expand: true, cwd:'<%= dir.src %>',src: ['*.html'], dest: '<%= dir.build %>/'},
+        {expand: true, cwd:'<%= dir.src %>',src: ['*.html','*.php'], dest: '<%= dir.build %>/'},
         {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'},
         {expand: true, flatten:true ,src: '<%= vendor.nomin %>', dest: '<%= dir.build %>/libs',filter: 'isFile'},
+        {expand: true, cwd:'<%= dir.ext %>',src: ['index.php'], dest: '<%= dir.build %>/ext/'},
         {expand: true, cwd:'<%= dir.api %>',src: ['api.php'], dest: '<%= dir.build %>/'},
         ]
       },
@@ -147,7 +149,7 @@ module.exports = function(grunt) {
         files: [
         {expand: true, cwd:'<%= dir.build %>/', src: ['img/**','views/**','fonts/**'], dest: '<%= dir.publish %>/'},
         {expand: true, flatten:true ,src: '<%= dir.build %>/css/**/*.css', dest: '<%= dir.publish %>/css',filter: 'isFile'},
-        {expand: true, cwd:'<%= dir.build %>/',src: ['*.html','*.php'], dest: '<%= dir.publish %>/'},
+        {expand: true, cwd:'<%= dir.build %>/',src: ['*.html','*.php','ext/*.php'], dest: '<%= dir.publish %>/'},
         ]
       }
     },
