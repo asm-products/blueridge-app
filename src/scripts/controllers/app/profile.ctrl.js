@@ -11,7 +11,6 @@ angular.module('blueRidgeApp')
     });
 
     $scope.getCurrentPlan = function (){
-
         if (typeof($scope.plan) != "undefined"){
             return '/views/app/sections/plan-'+$scope.plan+'.html';           
        }
