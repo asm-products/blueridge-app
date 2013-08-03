@@ -8,15 +8,12 @@ blueRidgeApp.directive('stripe', [function stripe() {
     },
     link: function ($scope, element, attrs) {
       element.on('click', function click() {
-
         StripeCheckout.open({
           key: $scope.settings.key,
           address: false,
-          amount: attrs.price,
           currency:'usd',
           name:'BlueRidge',
-          description: attrs.description,
-          panelLabel: 'Subscribe',
+          panelLabel: 'Add Card',
           token: function token(res) {
             $scope.callback({token: res});
           }
