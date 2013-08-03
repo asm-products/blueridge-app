@@ -68,11 +68,9 @@ class User extends \BlueRidge\ModelAbstract
 	 */
 	protected $projects;
 
-
-
 	/**
 	 * Subscription
-	 * @var array
+	 * @var Object
 	 */
 	protected $subscription;
 
@@ -149,23 +147,33 @@ class User extends \BlueRidge\ModelAbstract
 			break;
 			case 'projects':
 			$data = $this->fetchProjects();
+			break;
+			case 'subscription':
+			$data = $this->fetchSubscription();
 			break;		
 		}
 		return $data;
+	}
+
+	public function updateSegment($segment, Array $properties)
+	{
+		switch($segment){
+		 case 'subscription':
+		 $responce = $this->update
+
+		}
+
 	}
 
 
 	public function create($properties)
 	{
 		
-		//$freshId = $properties['providers']['basecamp']['auth']->identity['id'];
 		$exists = $this->collection->count(['email'=>$properties['email']]);
-			
+
 		if(!empty($exists)){
 			return $this->refresh($properties);
-		}
-
-		
+		}		
 
 		try{
 			$this->collection->insert($properties);
@@ -188,6 +196,9 @@ class User extends \BlueRidge\ModelAbstract
 			
 			if(!empty($user['profile']['projects'])){
 				$properties['profile']['projects'] = $user['profile']['projects'];	
+			}
+			if(!empty($user['subscription'])){
+				$properties['subscription'] = $user['subscription'];	
 			}
 
 
@@ -262,5 +273,28 @@ class User extends \BlueRidge\ModelAbstract
 			$items[]=$item;
 		}
 		return $items;
+	}
+	private function updateProjects()
+	{
+
+	}
+
+	
+	/**
+	 * Fetch Subscription
+	 */
+	private function fetchSubscription()
+	{
+		
+
+		$plan = $this->subscription['plan'];
+		$payment = (Object) $this->subscription['payment'];
+		//print_r($payment);
+
+		return ['plan'=>$plan,'payment'=>$payment];
+	}
+	private function updateSubscription()
+	{
+
 	}
 }
