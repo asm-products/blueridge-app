@@ -14,7 +14,6 @@
     "angular-google-analytics": "*",
     "js-base64": "~2.1.2",
     "angular-ui": "~0.4.0",
-    "angular-jquery.payment": "git@github.com:mosesngone/angular-jquery.payment.git"
   },
   "devDependencies": {}
 }

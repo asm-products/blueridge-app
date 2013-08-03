@@ -17,7 +17,7 @@ function cashier_subscribe($app,$user,$params)
         Stripe::setApiKey($app->cashier->secret_key);
 
         $customer = Stripe_Customer::create(array(
-          "card" => $params->payment->id,
+          "card" => $params->token,
           "plan" => $plan,
           "email" =>$user->email)
         );

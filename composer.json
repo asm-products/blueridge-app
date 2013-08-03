@@ -1,6 +1,7 @@
 {
   "require": {
     "slim/slim": "2.*",
+    "slim/extras": "dev-develop",
     "stripe/stripe-php": "dev-master",
     "mandrill/mandrill": "1.0.*",
     "ircmaxell/password-compat": "dev-master",
