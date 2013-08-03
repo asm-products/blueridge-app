@@ -1,0 +1,13 @@
+<div id="app-profile" class="container app-container">
+    <div ng-include src="'/views/app/sections/nav.html'"></div>
+    <div class="panel">             
+        <!--<h2><img ng-src="{{user.avatar}}"  class="img-circle" > <span class="muted">{{user.name}}</span></h2>-->
+        <h2 class="lead">Hey {{user.fullname.first}},</h2>
+        <p class="lead"> You are about to change your subscription to </p> 
+        <div ng-include src="'/views/app/sections/'+activity.plan+'.html'"></div>
+        <a class="btn btn-warning" ng-href="/app/profile">Cancel</a>
+        <button class="btn btn-info" type="submit" ng-click="changePlan('free')">Update Subscription</button>
+        <div>{{payment}}</div>
+    </div>
+    <div ng-include src="'/views/app/sections/footer.html'"></div>
+</div>

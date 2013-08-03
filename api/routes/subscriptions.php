@@ -19,7 +19,7 @@ $app->post('/api/subscriptions', function () use ($app) {
 
         if (!empty($customer)){
             $app->response()->status(200);
-            $user->update(["id"=>$user->id],['plan'=>$params->plan,'subscription'=>$customer]);    
+            $user->update($user->id,['profile'=>['plan'=>$params->plan,'subscription'=>$customer]]);    
             echo (json_encode((object) ['id'=>$user->id,'subscribed'=>true]));
         }else{
 

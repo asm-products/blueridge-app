@@ -33,13 +33,14 @@ blueRidgeApp.controller('ProfileCtrl',['$scope','$route','$location','Auth','Res
             plan:plan
         };
 
+        console.log(customer);
+
         Restangular.all('subscriptions').post(customer).then(
             function success (resource){
                 safeApply(function() {
                     $scope.wait = false;
                        //$location.url('/invoice/' + resource._id);
                 });
-
                 console.log('result from api');
                 console.log(resource);
             },

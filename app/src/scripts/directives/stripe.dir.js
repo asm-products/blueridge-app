@@ -8,6 +8,7 @@ blueRidgeApp.directive('stripe', [function stripe() {
     },
     link: function ($scope, element, attrs) {
       element.on('click', function click() {
+
         StripeCheckout.open({
           key: $scope.settings.key,
           address: false,
