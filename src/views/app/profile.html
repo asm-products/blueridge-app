@@ -37,21 +37,24 @@
                     <h4>Free <span class="plan-price"><sup>$</sup>0.00<sub>/mo.</sub></span></h4>
                     <p class="plan-feature">1 project at a time</p>
                     <p>You can choose which project you see whenever you like, as much as you like.</p>
-                    <button class="btn btn-info btn-purchase"  data-description="free" callback="makePayment(token)">Upgrade</button>
+                    <a ng-href="/app/cart/go-free" class="btn btn-info">Downgrade</a>
+                    <!--<button class="btn btn-info btn-purchase"  data-description="free" callback="makePayment(token)">Upgrade</button>-->
                 </div>
 
                 <div class="well">
                     <h4>Solo <span class="plan-price"><sup>$</sup>7.95<sub>/mo.</sub></span></h4>
                     <p class="plan-feature">5 projects at a time</p>
                     <p>Great for freelancers. View To-dos from multiple projects at the same time.</p>
-                    <button class="btn btn-info btn-purchase" stripe="stripe" data-description="Solo Plan $7.95" data-amount=795 callback="makePayment(token,'solo')">Upgrade</button>                    
+                    <a ng-href="/app/cart/go-solo" class="btn btn-info">Upgrade</a>
+                    <!--<button class="btn btn-info btn-purchase" stripe="stripe" data-description="Solo Plan $7.95" data-amount=795 callback="makePayment(token,'BR-Solo')">Upgrade</button>-->                    
                 </div>
 
                 <div class="well"> 
                     <h4>Pro <span class="plan-price"><sup>$</sup>14.95<sub>/mo.</sub></span></h4>
                     <p class="plan-feature"> 20 projects at a time </p>
                     <p>Working on a lot of projects at once? No problem&mdash;we&rsquo;ve got you covered.</p>
-                    <button class="btn btn-info btn-purchase" stripe="stripe" data-description="Pro Plan $14.95" data-amount=1495 callback="makePayment(token,'pro')">Upgrade</button>                            
+                    <a ng-href="/app/cart/go-pro" class="btn btn-info">Upgrade</a>
+                    <!--<button class="btn btn-info btn-purchase" stripe="stripe" data-description="Pro Plan $14.95" data-amount=1495 callback="makePayment(token,'BR-Pro')">Upgrade</button>-->                            
                 </div>    
             </div>
         </div>

@@ -42,6 +42,10 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
         templateUrl: '/views/app/projects.html',
         controller: 'ProjectsCtrl'
     })
+    .when('/app/cart/:plan', {
+        templateUrl: '/views/app/cart.html',
+        controller: 'CartCtrl'
+    })
     .when('/app/signout', {
         templateUrl: '/views/app/signout.html',
         controller: 'SignOutCtrl'
