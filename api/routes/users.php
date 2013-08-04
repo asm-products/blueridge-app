@@ -93,15 +93,7 @@ $app->put('/api/users/:id',function($id) use ($app){
 	$params = json_decode($app->request()->getBody(),true);
 	$user=new User($app);
 	unset($params['id']);
-	
-	list($segment,$subset) = each($params);
-	print_r($segment);
-	print_r($subset);
-	exit();
-
-	
 	$response= $user->update($id,$params);
-
 	$app->response()->status($response['status']);	
 	echo (json_encode($response['message']));
 	
