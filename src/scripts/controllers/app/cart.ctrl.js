@@ -16,10 +16,12 @@ blueRidgeApp.controller('CartCtrl',['$scope','$route','$routeParams','$location'
 
     var blueRidgeUserSubscription = Restangular.copy(blueRidgeUser);
 
-    $scope.subscription= blueRidgeUserSubscription.one('subscription').get();
+    var subscriber = blueRidgeUser.one('subscription').get().then(function(result){
+        $scope.subscription=result.subscription;    
+    });
 
     $scope.paymentMethodIsSet =function paymentMethodisSet (){        
-        if($scope.subscription.payment){
+        if(typeof $scope.subscription !== 'undefined' && $scope.subscription.payment){
             return true;
         }
         return false;
@@ -37,13 +39,13 @@ blueRidgeApp.controller('CartCtrl',['$scope','$route','$routeParams','$location'
 
     $scope.updateSubscription=function updateSubscription(plan){
 
-        blueRidgeUserSubscription.subscription = {
+        blueRidgeUser.subscription = {
             plan:plan,
             payment:$scope.subscription.payment
         };
 
-        blueRidgeUserSubscription.put().then(function(response){
-            console.log(response);
+        blueRidgeUser.put().then(function(response){
+            $location.path('/app/profile');
         });
     };
     
