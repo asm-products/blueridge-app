@@ -1,19 +1,25 @@
-angular.module('blueRidgeApp.directives.stripe', []).directive('stripeForm', ['$window',
-    function($window) {
-      var directive = { restrict: 'A' };
-      directive.link = function(scope, element, attributes) {
-        var form = angular.element(element);
-        form.bind('submit', function() {
-          var button = form.find('button');
-          button.prop('disabled', true);
-          $window.Stripe.createToken(form[0], function() {
-            var args = arguments;
-            scope.$apply(function() {
-              scope[attributes.stripeForm].apply(scope, args);
-          });
-            button.prop('disabled', false);
+blueRidgeApp.directive('stripe', [function stripe() {
+  return {
+    restrict: 'EAC',
+    scope: {
+      settings: '=stripe',
+      token: '=',
+      callback: '&',
+    },
+    link: function ($scope, element, attrs) {
+      element.on('click', function click() {
+        StripeCheckout.open({
+          key: $scope.settings.key,
+          address: false,
+          currency:'usd',
+          name:'BlueRidge',
+          panelLabel: 'Add Card',
+          token: function token(res) {
+            $scope.callback({token: res});
+          }
         });
+        return false;
       });
-    };
-    return directive;
+    }
+  };
 }]);

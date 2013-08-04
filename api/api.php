@@ -7,7 +7,9 @@
 require '../vendor/autoload.php';
 
 use \Slim\Slim;
+use \Slim\Extras\Middleware\CsrfGuard;
 use \BlueRidge\Init;
+
 
 $app = new Slim();
 $app->setName('blueridgeapi');

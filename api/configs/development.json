@@ -1,10 +1,8 @@
 {
   "database": {
     "name": "blueridge",
-    "host": "ds029638.mongolab.com",
-    "port": 29638,
-    "user": "sterling",
-    "passwd": "gscellC6405"
+    "host": "localhost",
+    "port": 27017
   },
   "providers": {
     "basecamp": {

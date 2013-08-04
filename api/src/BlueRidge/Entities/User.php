@@ -68,11 +68,9 @@ class User extends \BlueRidge\ModelAbstract
 	 */
 	protected $projects;
 
-
-
 	/**
 	 * Subscription
-	 * @var array
+	 * @var Object
 	 */
 	protected $subscription;
 
@@ -149,23 +147,22 @@ class User extends \BlueRidge\ModelAbstract
 			break;
 			case 'projects':
 			$data = $this->fetchProjects();
+			break;
+			case 'subscription':
+			$data = $this->fetchSubscription();
 			break;		
 		}
 		return $data;
 	}
 
-
 	public function create($properties)
 	{
 		
-		//$freshId = $properties['providers']['basecamp']['auth']->identity['id'];
 		$exists = $this->collection->count(['email'=>$properties['email']]);
-			
+
 		if(!empty($exists)){
 			return $this->refresh($properties);
-		}
-
-		
+		}		
 
 		try{
 			$this->collection->insert($properties);
@@ -189,6 +186,9 @@ class User extends \BlueRidge\ModelAbstract
 			if(!empty($user['profile']['projects'])){
 				$properties['profile']['projects'] = $user['profile']['projects'];	
 			}
+			if(!empty($user['subscription'])){
+				$properties['subscription'] = $user['subscription'];	
+			}
 
 
 
@@ -209,20 +209,16 @@ class User extends \BlueRidge\ModelAbstract
 
 	public function update($id,Array $properties)
 	{
-
-		try{
-			list($segment,$subset) = each($properties);
-			foreach ($subset as $key => $property) {
-				$this->collection->update(['_id'=>new \MongoId($id)],['$set'=>["{$segment}.{$key}"=>$property]]);
-			}
-			$user = $this->collection->findOne(['_id' => new \MongoId($id)]);
-
-			return ['status'=>204, 'message'=>""];
-
-		}catch(\Exception $error){
-
-			return ['status'=>500,'message'=>"Profile update failed"];
+		list($segment,$subset) = each($properties);
+		switch($segment){
+			case 'profile';
+			$result = $this->updateProfile($id,$subset);
+			break;
+			case 'subscription':
+			$result = $this->updateSubscription($id,$subset);
+			break;
 		}
+		return $result;
 
 	}
 
@@ -262,5 +258,83 @@ class User extends \BlueRidge\ModelAbstract
 			$items[]=$item;
 		}
 		return $items;
+	}
+	private function updateProfile($id,$profile)
+	{
+		try{
+			
+			foreach ($profile as $key => $property) {
+				$this->collection->update(['_id'=>new \MongoId($id)],['$set'=>["profile.{$key}"=>$property]]);
+			}
+			$user = $this->collection->findOne(['_id' => new \MongoId($id)]);
+
+			return ['status'=>204, 'message'=>""];
+
+		}catch(\Exception $error){
+
+			return ['status'=>500,'message'=>"Profile update failed"];
+		}
+
+	}
+
+	
+	/**
+	 * Fetch Subscription
+	 */
+	private function fetchSubscription()
+	{
+		$plan = $this->subscription['plan'];
+		$payment = (Object) $this->subscription['payment'];
+		return ['plan'=>$plan,'payment'=>$payment];
+	}
+	private function updateSubscription($id,$subscription)
+	{
+		//set the ammount 
+		switch($subscription['plan']){
+			case 'solo';
+			$amount=795;
+			break;
+			case 'pro';
+			$amount=1495;
+			break;
+		}
+
+		$user = $this->collection->findOne(['_id' => new \MongoId($id)]);
+
+		try{
+			\Stripe::setApiKey($this->app->cashier->secret_key);
+
+			if(empty($user['subscription']['customer_id'])){
+				
+				$customer = \Stripe_Customer::create(array(
+					"card" => $subscription['payment']['id'],
+					"plan" => $subscription['plan'],
+					"email" =>$user['email'])
+				);
+
+				$user['subscription']['customer_id']=$customer->id;
+				$user['subscription']['payment']=[
+				'card'=>$subscription['payment']['card'],
+				'plan'=>$subscription['payment']['plan']
+				];
+			}
+
+			\Stripe_Charge::create(array(
+				  "amount" => $amount,
+				  "currency" => "usd",
+				  "customer" => $user['subscription']['customer_id'])
+			);
+
+			$this->collection->update(['_id'=>new \MongoId($id)],['$set'=>["subscription"=>$user['subscription']]]);
+			return ['status'=>204, 'message'=>"Subscription updated successfully "];
+
+
+		}catch(\Error $e){
+
+			return ['status'=>500,'message'=>"Subscription update failed"];
+			error_log($e->getMessage());
+		}
+
+
 	}
 }

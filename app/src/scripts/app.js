@@ -1,8 +1,5 @@
 var blueRidgeApp = angular.module('blueRidgeApp', [
-
     'blueRidgeApp.services.auth',
-    'blueRidgeApp.directives.loading',
-    'blueRidgeApp.directives.stripe',
     'ui.bootstrap',
     'restangular',
     'angular-google-analytics'
@@ -44,6 +41,10 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
     .when('/app/projects', {
         templateUrl: '/views/app/projects.html',
         controller: 'ProjectsCtrl'
+    })
+    .when('/app/cart/:plan', {
+        templateUrl: '/views/app/cart.html',
+        controller: 'CartCtrl'
     })
     .when('/app/signout', {
         templateUrl: '/views/app/signout.html',

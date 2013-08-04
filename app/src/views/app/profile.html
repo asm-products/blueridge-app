@@ -32,8 +32,27 @@
                 </form>
             </div>
             <div class="span6">                
-                <h3>Your Plan</h3>
-                 <div ng-include src="getCurrentPlan()"></div>
+                <h3>Your Plan</h3>           
+                <div class="well">   
+                    <h4>Free <span class="plan-price"><sup>$</sup>0.00<sub>/mo.</sub></span></h4>
+                    <p class="plan-feature">1 project at a time</p>
+                    <p>You can choose which project you see whenever you like, as much as you like.</p>
+                    <a ng-href="/app/cart/free" class="btn btn-info">Downgrade</a>                    
+                </div>
+
+                <div class="well">
+                    <h4>Solo <span class="plan-price"><sup>$</sup>7.95<sub>/mo.</sub></span></h4>
+                    <p class="plan-feature">5 projects at a time</p>
+                    <p>Great for freelancers. View To-dos from multiple projects at the same time.</p>
+                    <a ng-href="/app/cart/solo" class="btn btn-info">Upgrade</a>                    
+                </div>
+
+                <div class="well"> 
+                    <h4>Pro <span class="plan-price"><sup>$</sup>14.95<sub>/mo.</sub></span></h4>
+                    <p class="plan-feature"> 20 projects at a time </p>
+                    <p>Working on a lot of projects at once? No problem&mdash;we&rsquo;ve got you covered.</p>
+                    <a ng-href="/app/cart/pro" class="btn btn-info">Upgrade</a>            
+                </div>    
             </div>
         </div>
     </div>

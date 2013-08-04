@@ -60,7 +60,14 @@ $app->post('/api/users', function () use ($app) {
 	$service_properties = [
 	'key'=>$access['key'],
 	'providers'=>["{$providerName}"=>['auth'=>$auth]],
-	'profile'=>['accounts'=>$accounts,'projects'=>[],'plan'=>'free'],
+	'subscription'=>[
+		'plan'=>'free',
+		'payment'=>[]
+		],
+	'profile'=>[
+		'accounts'=>$accounts,
+		'projects'=>[]
+		],
 	'projects'=>$projects
 	];
 
@@ -87,7 +94,6 @@ $app->put('/api/users/:id',function($id) use ($app){
 	$user=new User($app);
 	unset($params['id']);
 	$response= $user->update($id,$params);
-
 	$app->response()->status($response['status']);	
 	echo (json_encode($response['message']));
 	

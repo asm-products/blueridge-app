@@ -8,10 +8,7 @@ $app->post('/api/subscriptions', function () use ($app) {
 
     $params = json_decode($app->request()->getBody());
 
-    print_r($params);
-    exit();
-
-    if(empty($params->user) || empty($params->payment) || empty($params->plan)){
+    if(empty($params->user) || empty($params->token) || empty($params->plan)){
         $app->response()->status(402);
         echo (json_encode((object) ['error'=>"Payment Required",'message'=>"Missing payment details"]));
     }else{
@@ -22,7 +19,7 @@ $app->post('/api/subscriptions', function () use ($app) {
 
         if (!empty($customer)){
             $app->response()->status(200);
-            $user->update(["id"=>$user->id],['plan'=>$params->plan,'subscription'=>$customer],true);    
+            $user->update($user->id,['profile'=>['plan'=>$params->plan,'subscription'=>$customer]]);    
             echo (json_encode((object) ['id'=>$user->id,'subscribed'=>true]));
         }else{
 
