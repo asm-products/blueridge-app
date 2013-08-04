@@ -69,31 +69,53 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		$endpoint = "people/me.json";
 		$url="{$auth->accounts[0]['href']}/{$endpoint}"; 
 		$whoami = $this->getData($url,$token);
+		$avatar = parse_url($whoami['avatar_url']);
 
 		return [
 		'name'=>$whoami['name'],
+		'firstName'=>$auth->identity['first_name'],
+		'lastName'=>$auth->identity['last_name'],
 		'email'=>$whoami['email_address'],
-		'avatar'=>$whoami['avatar_url']
+		'avatar'=>"//{$avatar['host']}/{$avatar['path']}?{$avatar['query']}"
 		];
 	}
 
+	public function getAccounts($auth,$token)
+	{
+		
+		if(empty($auth)){
+			$auth= $this->getAuthorization($token);
+		}
+		$accounts=array_column($auth->accounts,'name');
+		return ['basecamp'=>$accounts];
+	}
 
-	public function getProjectAccounts($auth,$token){
+	public function getProjects($auth,$token)
+	{
 		$endpoint="projects.json";
-		$accounts=array();
-
+		$projects=array();
 		if(empty($auth)){
 			$auth= $this->getAuthorization($token);
 		}
 
-		foreach ($auth->accounts as $account) {
-			$projects= $this->getData("{$account['href']}/{$endpoint}",$token);		
-			if(!empty($projects)){
-				$account['projects']= $projects;
-				$accounts[]=$account;	
+		$account_urls = array_column($auth->accounts,'href'); 
+		$index=0;
+		foreach ($account_urls as $url) {
+			$account_projects= $this->getData("{$url}/{$endpoint}",$token);		
+			if(!empty($account_projects)){
+				foreach($account_projects as $project){
+					$names[$index] = $project['name'];
+					$index++;
+					$projects[] = $project;
+				}
 			}
-		} 
-		return $accounts;
+		}
+		
+		if(!empty($projects)){
+			array_multisort($names,SORT_ASC,$projects);
+		}		
+		
+		return $projects;
 	}
 
 
@@ -105,7 +127,9 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 	public function getTodos($todoLists,$token){
 		$todos = array();
 		
-		foreach($todoLists as $projectName => $lists){	
+
+
+		foreach($todoLists as $projectName => $lists){
 
 			foreach ($lists as $list) {
 				$todoList = $this->getData($list['url'],$token);
@@ -121,15 +145,17 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		return $todos;
 	}
 
-	public function getTodoLists($activeProjects,$token){
+	public function getTodoLists($profileProjects,$token){
 		$todoLists=array();
 		$list= array();
-		foreach ($activeProjects as $project) {
-			$endpoint = "projects/{$project['id']}/todolists.json";
-			$url = "{$project['accountUrl']}/$endpoint";
-			$todoLists[$project['name']] = $this->getData($url,$token);
+		foreach ($profileProjects as $project) {
+			$endpoint = "{$project['id']}/todolists.json";
+			$url = "{$project['url']}";
+			$base= pathinfo($url,PATHINFO_DIRNAME);
+			$todoLists[$project['name']] = $this->getData("{$base}/{$endpoint}",$token);
 		}
 
+		
 		return $todoLists;
 	}
 

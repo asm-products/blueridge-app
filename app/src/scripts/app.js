@@ -1,7 +1,8 @@
 var blueRidgeApp = angular.module('blueRidgeApp', [
-    'blueRidgeApp.services',
-    'blueRidgeApp.directives',
-    // 'Payment',
+
+    'blueRidgeApp.services.auth',
+    'blueRidgeApp.directives.loading',
+    'blueRidgeApp.directives.stripe',
     'ui.bootstrap',
     'restangular',
     'angular-google-analytics'
@@ -59,7 +60,6 @@ blueRidgeApp.config(['$routeProvider', '$locationProvider','$dialogProvider','Re
     $locationProvider.html5Mode(true);
 
     RestangularProvider.setBaseUrl('/api');
-    RestangularProvider.setListTypeIsArray(false);
 
     AnalyticsProvider.setAccount('UA-31702803-4');
     AnalyticsProvider.trackPages(true);

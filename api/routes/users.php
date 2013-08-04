@@ -52,30 +52,44 @@ $app->post('/api/users', function () use ($app) {
 	$auth = $provider->getAuthorization($token);
 	$me= $provider->getMe($auth,$token);
 
-	$accounts = $provider->getProjectAccounts($auth,$token);
-
+	$accounts = $provider->getAccounts($auth,$token);
+	$projects = $provider->getProjects($auth,$token);
+	$access = doorman_welcome();
 
 	$user = new User($app);
-	$service_properties = ['providers'=>["{$providerName}"=>['auth'=>$auth]],'accounts'=>$accounts];
+	$service_properties = [
+	'key'=>$access['key'],
+	'providers'=>["{$providerName}"=>['auth'=>$auth]],
+	'profile'=>['accounts'=>$accounts,'projects'=>[],'plan'=>'free'],
+	'projects'=>$projects
+	];
+
 	$properties = array_merge($me,$service_properties);
-	$resource = $user->create($properties);
+	$response =$user->create($properties);
 
-	echo (json_encode((object) ['id'=>$user->id,'init'=>true,'authorized'=>true]));
+	if($response['status'] == 500){
+		$app->response()->status(500);
+		echo (json_encode($response['message']));
+	}else{
+		$app->response()->status($response['status']);
+		if ($response['status']==200){
+			echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'updated'=>true]));
+		}else{
+			echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'init'=>true]));	
+		}
+	}
+	
 
-	$access = doorman_welcome();
-	$user->update(["id"=>$user->id],['key'=>$access['key']],true);
-
-	
-	$mailman = \postman_send($app, $user,['password'=>$access['pass']]);	
-	
-	
 });
 
-$app->put('/api/users/:id(/:segment)',function($id,$segment=null) use ($app){
-	$params = json_decode($app->request()->getBody());
+$app->put('/api/users/:id',function($id) use ($app){
+	$params = json_decode($app->request()->getBody(),true);
 	$user=new User($app);
-	$user->update(["id"=>$params->id],$params,true);
+	unset($params['id']);
+	$response= $user->update($id,$params);
 
-	//do a responce check
+	$app->response()->status($response['status']);	
+	echo (json_encode($response['message']));
+	
 });
 

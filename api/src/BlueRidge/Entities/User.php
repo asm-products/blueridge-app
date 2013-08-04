@@ -5,6 +5,8 @@
 
 namespace BlueRidge\Entities;
 
+use BlueRidge\Providers\BasecampApi;
+
 class User extends \BlueRidge\ModelAbstract
 {
 	/**
@@ -12,12 +14,23 @@ class User extends \BlueRidge\ModelAbstract
 	 * @var string
 	 */
 	protected $id;
+	/**
+	 * Name
+	 * @var string
+	 */
+	protected $name;
+
+	/**
+	 * First Name
+	 * @var string
+	 */
+	protected $firstName;
 
 	/**
 	 * User Name
 	 * @var string
 	 */
-	protected $name;
+	protected $lastName;
 
 	/**
 	 * User Email
@@ -44,10 +57,18 @@ class User extends \BlueRidge\ModelAbstract
 	protected $key;
 
 	/**
-	 * Accounts
+	 * Projects
 	 * @var Array
 	 */
-	protected $accounts;
+	protected $profile;
+
+	/**
+	 * Projects
+	 * @var Array
+	 */
+	protected $projects;
+
+
 
 	/**
 	 * Subscription
@@ -62,13 +83,25 @@ class User extends \BlueRidge\ModelAbstract
 	 */
 	protected $providers;
 
+
+	/**
+	 * Collection
+	 * @var Object
+	 */
+	protected $collection;
+
+
+	public function __construct($app,$properties=null)
+	{
+		parent::__construct($app,$properties);
+		$this->collection = new \MongoCollection($this->app->database,"Users");	
+
+	}
+
 	public function fetch(Array $params=null)
 	{
 		$users = array();
-		$db = $this->app->database;
-		$collection = new \MongoCollection($db,"Users");		
-		$cursor=$collection->find();
-
+		$cursor=$this->collection->find();
 		foreach ($cursor as $doc) {
 			$user = new User($this->app,$doc);
 			$users[] = $user->toArray();
@@ -83,10 +116,7 @@ class User extends \BlueRidge\ModelAbstract
 			return $this->fetchOneById($params['id']);
 		}		
 
-		$db = $this->app->database;
-		$users = new \MongoCollection($db,"Users");	
-
-		$doc=$users->findOne($params);
+		$doc=$this->collection->findOne($params);
 		if(empty($doc)){
 			return;
 		}
@@ -96,10 +126,8 @@ class User extends \BlueRidge\ModelAbstract
 
 	public function fetchOneById($id)
 	{
-		$db = $this->app->database;
-		$users = new \MongoCollection($db,"Users");	
 		
-		$doc=(object)$users->findOne(array('_id' => new \MongoId($id)));
+		$doc=(object)$this->collection->findOne(array('_id' => new \MongoId($id)));
 		if(empty($doc)){
 			return;
 		}
@@ -117,42 +145,84 @@ class User extends \BlueRidge\ModelAbstract
 			$data = $todo->fetchUserTodos($this);
 			break;
 			case 'accounts':
-			$data = $this->accounts;
-			break;			
+			$data = $this->profile['accounts']['basecamp'];
+			break;
+			case 'projects':
+			$data = $this->fetchProjects();
+			break;		
 		}
 		return $data;
 	}
 
+
 	public function create($properties)
-	{	
-		$result = $this->update(["email"=>$properties['email']],$properties);
+	{
 		
-		if(empty($result)){
-			return;
-		}
-		if(isset($result['error'])){
-			return $result;
+		//$freshId = $properties['providers']['basecamp']['auth']->identity['id'];
+		$exists = $this->collection->count(['email'=>$properties['email']]);
+			
+		if(!empty($exists)){
+			return $this->refresh($properties);
 		}
 
-		return $this->setProperties($result);
+		
+
+		try{
+			$this->collection->insert($properties);
+			return ['status'=>201, 'resource'=>$this->setProperties($properties)];
+
+		}catch(\Exception $error){
+			return ['status'=>500,'message'=>"User Creation failed"];
+		}
+		
+		return $this->setProperties($properties);
 
 	}
 
-	public function update(Array $criteria, $doc, $single=false)
-	{
-		if(key($criteria)=='id'){
-			$criteria =['_id'=>new \MongoId($criteria['id'])];
+	public function refresh(Array $properties)
+	{	
+		
+
+		try{
+			$user = $this->collection->findOne(['email'=>$properties['email']]);
+			
+			if(!empty($user['profile']['projects'])){
+				$properties['profile']['projects'] = $user['profile']['projects'];	
+			}
+
+
+
+			$this->collection->update(['_id'=>$user['_id']],['$set' => $properties]);
+			$updated= $this->collection->findOne(['_id'=>$user['_id']]);
+
+			return ['status'=>200, 'resource'=>$this->setProperties($updated)];
+
+
+
+		}catch(\Exception $error){
+
+			return ['status'=>500,'message'=>"User Update failed"];
 		}
 
-		$db = $this->app->database;
-		$users = new \MongoCollection($db,"Users");
-		$result = $users->findAndModify($criteria,['$set' => $doc],null,["new" => true,"upsert"=>true]);
-		
-		if($single === true){
-			return $this->setProperties($result);
+	}
+
+
+	public function update($id,Array $properties)
+	{
+
+		try{
+			list($segment,$subset) = each($properties);
+			foreach ($subset as $key => $property) {
+				$this->collection->update(['_id'=>new \MongoId($id)],['$set'=>["{$segment}.{$key}"=>$property]]);
+			}
+			$user = $this->collection->findOne(['_id' => new \MongoId($id)]);
+
+			return ['status'=>204, 'message'=>""];
+
+		}catch(\Exception $error){
+
+			return ['status'=>500,'message'=>"Profile update failed"];
 		}
-		
-		return $result;
 
 	}
 
@@ -161,10 +231,36 @@ class User extends \BlueRidge\ModelAbstract
 		$item = [
 		"id"=>$this->id,
 		"name"=>$this->name,
+		"fullname"=>['first'=>$this->firstName,'last'=>$this->lastName],
 		"email"=>$this->email,
 		"key"=>$this->key,
 		"avatar"=>$this->avatar,
+		"profile"=>$this->profile
 		];
+		
+
 		return $item;
+	}
+	private function fetchProjects()
+	{
+		$items=array();
+
+		foreach($this->projects as $key => $project){
+			
+			$selected = (in_array($project['id'], $this->profile['projects']))?true:false;
+			$item=$project;
+			$item['selected']=$selected;	
+			unset(
+				$item['url'],
+				$item['archived'],
+				$item['created_at'],
+				$item['updated_at'],
+				$item['last_event_at'],
+				$item['starred']
+				);
+
+			$items[]=$item;
+		}
+		return $items;
 	}
 }

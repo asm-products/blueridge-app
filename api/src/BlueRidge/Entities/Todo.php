@@ -94,25 +94,26 @@ class Todo extends \BlueRidge\ModelAbstract
 	
 	public function fetchUserTodos(User $user)
 	{
-		$accounts = $user->accounts;
-		$activeProjects = array();
-
-		foreach($user->accounts as $account){
-			foreach($account['projects'] as $project){			
-				if(!empty($project['selected'])){
-					$project['accountUrl']=$account['href'];
-					$activeProjects[] = $project;
-				}
-			}			
-		}
-
-		if(empty($activeProjects)){
+		// no project selected
+		if(empty($user->profile['projects'])){
 			return;
 		}
 
+		foreach($user->projects as $project){
+			if(in_array($project['id'], $user->profile['projects'])){
+				$profileProjects[] = $project;
+			}
+		}
+
+		// project mismatch with basecamp
+		if(empty($profileProjects)){
+			return;
+		}
+
+
 		$basecamp = new BasecampApi($this->app);
 		$token =$user->providers['basecamp']['auth']['token'];
-		$todoLists=$basecamp->getTodoLists($activeProjects,$token);
+		$todoLists=$basecamp->getTodoLists($profileProjects,$token);
 		$todos = $basecamp->getTodos($todoLists,$token);
 
 		return $this->organize($todos);
