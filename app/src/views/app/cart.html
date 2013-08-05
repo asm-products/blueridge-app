@@ -10,8 +10,9 @@
         </div>
         <button ng-if="!paymentMethodIsSet()" class="btn btn-mini btn-success btn-purchase" stripe="stripe" callback="addPayment(token)">Add Payment Method</button>
         <hr />
-        <a class="btn" ng-href="/app/profile">Cancel</a>
-        <button class="btn btn-info" type="submit" ng-disabled="!paymentMethodIsSet()" ng-click="updateSubscription(cart.plan)">Update</button>       
+        
+        <button class="btn btn-large btn-success" type="submit" ng-disabled="!paymentMethodIsSet()" ng-click="updateSubscription(cart.plan)">Change Plan</button>
+        <a class="btn btn-link" ng-href="/app/profile">Nevermind, cancel changes</a>
     </div>
     <div ng-include src="'/views/app/sections/footer.html'"></div>
 </div>

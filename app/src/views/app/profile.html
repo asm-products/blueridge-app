@@ -1,9 +1,9 @@
 <div id="app-profile" class="container app-container">
 	<div ng-include src="'/views/app/sections/nav.html'"></div>
-	<div class="panel">				
+	<div class="panel">
 		<h2><img ng-src="{{user.avatar}}" class="img-circle" > <span class="muted">{{user.name}}</span></h2>
         <div class="row-fluid">
-            <div class="span6">
+            <div class="span4">
                 <h3>Your Info</h3>
                 <form id="profile" class="well">
                     <fieldset>
@@ -25,34 +25,45 @@
                                 <input type="password" class="input-large" id="userPassword" ng-model="user.password">
                             </div>
                         </div>
+                        <div class="control-group">
+                            <label class="control-label" for="userPassword">Confirm Password</label>
+                            <div class="controls">
+                                <input type="password" class="input-large" id="userConfirmPassword" ng-model="user.password">
+                            </div>
+                        </div>
                     </fieldset>
                     <div>
                         <button class="btn btn-success" type="submit" ng-click="update(user)">Update Profile</button>
                     </div>
                 </form>
             </div>
-            <div class="span6">                
-                <h3>Your Plan</h3>           
-                <div class="well">   
-                    <h4>Free <span class="plan-price"><sup>$</sup>0.00<sub>/mo.</sub></span></h4>
-                    <p class="plan-feature">1 project at a time</p>
-                    <p>You can choose which project you see whenever you like, as much as you like.</p>
-                    <a ng-href="/app/cart/free" class="btn btn-info">Downgrade</a>                    
-                </div>
-
-                <div class="well">
-                    <h4>Solo <span class="plan-price"><sup>$</sup>7.95<sub>/mo.</sub></span></h4>
+            <div class="span8">
+                <h3>Your Plan</h3>
+                <div class="row-fluid">
+									<div class="span4 well">
+                    <h4>Pro </h4>
+                    <p class="plan-feature">20 projects at a time</p>
+                    <p class="plan-price"><sup>$</sup>14.95<sub>/mo.</sub></p>
+                    <a ng-href="/app/cart/pro" class="btn btn-info">Upgrade</a>
+                	</div>
+	                <div class="span4 well">
+                    <h4>Solo</h4>
                     <p class="plan-feature">5 projects at a time</p>
-                    <p>Great for freelancers. View To-dos from multiple projects at the same time.</p>
-                    <a ng-href="/app/cart/solo" class="btn btn-info">Upgrade</a>                    
+                    <p class="plan-price"><sup>$</sup>7.95<sub>/mo.</sub></p>
+                    <a ng-href="/app/cart/solo" class="btn btn-info">Upgrade</a>
+                	</div>
+                	<div class="span4 well">
+										<h4>Forever Free</h4>
+										<p class="plan-feature">1 project at a time</p>
+										<p class="plan-price"><sup>$</sup>0.00<sub>/mo.</sub></p>
+										<a ng-href="/app/cart/free" class="btn btn-info">Downgrade</a>
+                	</div>
                 </div>
-
-                <div class="well"> 
-                    <h4>Pro <span class="plan-price"><sup>$</sup>14.95<sub>/mo.</sub></span></h4>
-                    <p class="plan-feature"> 20 projects at a time </p>
-                    <p>Working on a lot of projects at once? No problem&mdash;we&rsquo;ve got you covered.</p>
-                    <a ng-href="/app/cart/pro" class="btn btn-info">Upgrade</a>            
-                </div>    
+                <div class="row-fluid">
+                	<div class="span12">
+                		<p>Hey! You can choose which projects you see whenever you like, as much as you like.</p>
+                	</div>
+                </div>
             </div>
         </div>
     </div>
