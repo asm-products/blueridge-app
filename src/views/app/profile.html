@@ -1,6 +1,6 @@
 <div id="app-profile" class="container app-container">
 	<div ng-include src="'/views/app/sections/nav.html'"></div>
-	<div class="panel">				
+	<div class="panel">	
 		<h2><img ng-src="{{user.avatar}}" class="img-circle" > <span class="muted">{{user.name}}</span></h2>
         <div class="row-fluid">
             <div class="span6">
@@ -37,7 +37,7 @@
                     <h4>Free <span class="plan-price"><sup>$</sup>0.00<sub>/mo.</sub></span></h4>
                     <p class="plan-feature">1 project at a time</p>
                     <p>You can choose which project you see whenever you like, as much as you like.</p>
-                    <button type="submit" class="btn btn-info" ng-click="changePlan('free')" ng-disabled="isCurrentPlan('free')" >Downgrade</button>                    
+                    <button type="submit" class="btn btn-info" ng-click="changePlan('free')" ng-if="!isCurrentPlan('free')" >Downgrade</button>                    
                 </div>
 
                 <div class="well ng-class:{muted: isCurrentPlan('solo')}">

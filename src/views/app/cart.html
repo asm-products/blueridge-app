@@ -4,14 +4,20 @@
         <h2 class="lead">Hey {{user.fullname.first}},</h2>
         <p class="lead"> You are about to change your subscription to </p> 
         <div ng-include src="'/views/app/sections/go-'+cart.plan+'.html'"></div>
-        <h5>Payment Method:</h5>
-        <div ng-if="paymentMethodIsSet()">            
-            <p><strong>{{subscription.payment.card.type}}</strong> ending in <strong>{{subscription.payment.card.last4}}</strong>, expires <strong>{{subscription.payment.card.exp_month}}/{{subscription.payment.card.exp_year}}</strong></p>            
+        
+        <div ng-if="needsPayment()">
+            <h5>Payment Method:</h5>
+            <div ng-if="paymentMethodIsSet()">            
+                <p><strong>{{subscription.payment.card.type}}</strong> ending in <strong>{{subscription.payment.card.last4}}</strong>, expires <strong>{{subscription.payment.card.exp_month}}/{{subscription.payment.card.exp_year}}</strong></p>            
+            </div>
+            <button ng-if="!paymentMethodIsSet()" class="btn btn-mini btn-success btn-purchase" stripe="stripe" callback="addPayment(token)">Add Payment Method</button>
         </div>
-        <button ng-if="!paymentMethodIsSet()" class="btn btn-mini btn-success btn-purchase" stripe="stripe" callback="addPayment(token)">Add Payment Method</button>
+
         <hr />
         <a class="btn" ng-href="/app/profile">Cancel</a>
-        <button class="btn btn-info" type="submit" ng-disabled="!paymentMethodIsSet()" ng-click="updateSubscription(cart.plan)">Update</button>       
+        <button class="btn btn-info" type="submit" ng-disabled="!paymentMethodIsSet()" ng-click="updateSubscription()">Update</button>       
     </div>
+
+    {{subscription}}
     <div ng-include src="'/views/app/sections/footer.html'"></div>
 </div>
