@@ -2,7 +2,7 @@ blueRidgeApp.controller('ProfileCtrl',['$scope','$location','Auth','Restangular'
     if (!Auth.isSignedIn()) {
         $location.path('/');
     }
-
+    $scope.subscription={};
     blueRidgeUser = Restangular.one('users',Auth.currentUser());
     $scope.user = blueRidgeUser.get();
 
@@ -14,7 +14,7 @@ blueRidgeApp.controller('ProfileCtrl',['$scope','$location','Auth','Restangular'
         $location.path('/app/cart/'+plan);
     };
     $scope.isCurrentPlan = function isCurrentPlan(plan){
-        if( $scope.subscription.plan == plan){
+        if($scope.subscription.plan == plan){
             return true;
         }
         return false;
