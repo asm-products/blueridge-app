@@ -9,22 +9,23 @@ blueRidgeApp.controller('CartCtrl',['$scope','$route','$routeParams','$location'
         }else{
             $scope.$apply(fn);
         }
-    };    
+    };
+
 
     blueRidgeUser = Restangular.one('users',Auth.currentUser());
     $scope.user = blueRidgeUser.get();
-
+    $scope.subscription = {};
+    
     var blueRidgeUserSubscription = Restangular.copy(blueRidgeUser);
-
     var subscriber = blueRidgeUser.one('subscription').get().then(function(result){
         $scope.subscription=result.subscription;    
     });
-
     $scope.paymentMethodIsSet =function paymentMethodisSet (){        
-        if(typeof $scope.subscription !== 'undefined' && $scope.subscription.payment){
-            return true;
+        
+        if(_.isEmpty($scope.subscription.payment)){
+            return false;
         }
-        return false;
+        return true;
     };
 
 
