@@ -22,6 +22,12 @@ body {
   }
 }
 
+.greeting-message {
+	border-bottom:1px solid $site_border_color;
+	padding:1.5em 0;
+	text-align: center;
+}
+
 .billboard {
   margin: 3em 0;
   @include breakpoint(small)  { margin:2em 0; }
