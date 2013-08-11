@@ -52,8 +52,8 @@ class Init extends Middleware
             $this->app->mailbox = $this->setMailBox($configs->services->mail);
         }    
 
-        if($configs->services->payments){
-            $this->app->cashier = $configs->services->payments;
+        if($configs->services->subscriber){
+            $this->app->subscriber = $configs->services->subscriber;
         }
 
     }

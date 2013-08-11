@@ -110,11 +110,11 @@ class Todo extends \BlueRidge\ModelAbstract
 			return;
 		}
 
+		$basecamp = new BasecampApi($this->app,$user->providers['basecamp']);
+		
 
-		$basecamp = new BasecampApi($this->app);
-		$token =$user->providers['basecamp']['auth']['token'];
-		$todoLists=$basecamp->getTodoLists($profileProjects,$token);
-		$todos = $basecamp->getTodos($todoLists,$token);
+		$todoLists=$basecamp->getTodoLists($profileProjects);
+		$todos = $basecamp->getTodos($todoLists);
 
 		return $this->organize($todos);
 

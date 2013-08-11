@@ -5,9 +5,11 @@
 
 namespace BlueRidge\Entities;
 
+use BlueRidge\ModelAbstract;
 use BlueRidge\Providers\BasecampApi;
+use BlueRidge\Utilities\Doorman;
 
-class User extends \BlueRidge\ModelAbstract
+class User extends ModelAbstract
 {
 	/**
 	 * User Id
@@ -70,7 +72,7 @@ class User extends \BlueRidge\ModelAbstract
 
 	/**
 	 * Subscription
-	 * @var Object
+	 * @var Array
 	 */
 	protected $subscription;
 
@@ -155,24 +157,27 @@ class User extends \BlueRidge\ModelAbstract
 		return $data;
 	}
 
-	public function create($properties)
+	public function create($provider)
 	{
-		
+		$properties = $this->prep($provider);
 		$exists = $this->collection->count(['email'=>$properties['email']]);
 
 		if(!empty($exists)){
-			return $this->refresh($properties);
-		}		
+
+			//return $this->refresh($properties);
+		}
+
+		$access = Doorman::Init();
 
 		try{
+			$properties['key']=$access['key'];
 			$this->collection->insert($properties);
-			return ['status'=>201, 'resource'=>$this->setProperties($properties)];
+			$user = $this->setProperties($properties);
+			return ['status'=>201, 'resource'=>$user,'access'=>$access];
 
 		}catch(\Exception $error){
 			return ['status'=>500,'message'=>"User Creation failed"];
 		}
-		
-		return $this->setProperties($properties);
 
 	}
 
@@ -237,6 +242,35 @@ class User extends \BlueRidge\ModelAbstract
 
 		return $item;
 	}
+
+	private function prep($provider)
+	{
+		$provider->getAuthorization();
+		$properties = $provider->getMe();
+		$properties['key']=(!empty($this->key))?$this->key:''; 
+		$properties['providers'][$provider->name]=$provider->getProperties();
+		$properties['projects']= $provider->getProjects();
+		$properties['profile']['accounts']=$provider->getAccounts();
+		$properties['profile']['projects']= (!empty($this->profile->projects))?$this->profile->projects:[];
+
+		if(empty($this->subscription)){
+			\Stripe::setApiKey($this->app->subscriber->secret_key);
+			$customer = \Stripe_Customer::create(["description" => $properties['name'],"email" =>$properties['email'],'plan'=>'br-free']);
+
+			$properties['subscription']=[
+			'customer_id'=>$customer->id,
+			'plan'=>['id'=>$customer->subscription->plan->id,'name'=>$customer->subscription->plan->name],
+			'cards'=>$customer->cards->data,
+			'status'=>$customer->subscription->status
+			];
+		}
+		
+		return $properties;
+	}
+
+	/**
+	 * Fetch Projects
+	 */
 	private function fetchProjects()
 	{
 		$items=array();
@@ -285,8 +319,13 @@ class User extends \BlueRidge\ModelAbstract
 	{
 		$plan = $this->subscription['plan'];
 		$payment = (Object) $this->subscription['payment'];
-		return ['plan'=>$plan,'payment'=>$payment];
+		return ['plan'=>$plan,'payment'=>$payment,'customer_id'=>$this->subscription['customer_id']];
 	}
+
+
+	/**
+	 * Update subsription
+	 */
 	private function updateSubscription($id,$subscription)
 	{
 		//set the ammount 
@@ -312,17 +351,18 @@ class User extends \BlueRidge\ModelAbstract
 					"email" =>$user['email'])
 				);
 
-				$user['subscription']['customer_id']=$customer->id;
-				$user['subscription']['payment']=[
-				'card'=>$subscription['payment']['card'],
-				'plan'=>$subscription['payment']['plan']
+				$user['subscription']=[
+				'customer_id'=>$customer->id,
+				'plan'=>$subscription['plan'],
+				'payment'=>[
+				'card'=>$subscription['payment']['card']]
 				];
 			}
 
 			\Stripe_Charge::create(array(
-				  "amount" => $amount,
-				  "currency" => "usd",
-				  "customer" => $user['subscription']['customer_id'])
+				"amount" => $amount,
+				"currency" => "usd",
+				"customer" => $user['subscription']['customer_id'])
 			);
 
 			$this->collection->update(['_id'=>new \MongoId($id)],['$set'=>["subscription"=>$user['subscription']]]);
