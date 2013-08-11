@@ -3,6 +3,7 @@
  * Users
  */
 use \BlueRidge\Entities\User;
+use \BlueRidge\Utilities\Postman;
 
 /**
  * Get User
@@ -45,34 +46,11 @@ $app->post('/api/users', function () use ($app) {
 	}else{
 		return ;
 	}
-
 	$provider = new $handler($app); 
-	$token = $provider->authorize($code);
-
-	$auth = $provider->getAuthorization($token);
-	$me= $provider->getMe($auth,$token);
-
-	$accounts = $provider->getAccounts($auth,$token);
-	$projects = $provider->getProjects($auth,$token);
-	$access = doorman_welcome();
+	$provider->authorize($code);
 
 	$user = new User($app);
-	$service_properties = [
-	'key'=>$access['key'],
-	'providers'=>["{$providerName}"=>['auth'=>$auth]],
-	'subscription'=>[
-		'plan'=>'free',
-		'payment'=>[]
-		],
-	'profile'=>[
-		'accounts'=>$accounts,
-		'projects'=>[]
-		],
-	'projects'=>$projects
-	];
-
-	$properties = array_merge($me,$service_properties);
-	$response =$user->create($properties);
+	$response= $user->create($provider);
 
 	if($response['status'] == 500){
 		$app->response()->status(500);
@@ -82,7 +60,10 @@ $app->post('/api/users', function () use ($app) {
 		if ($response['status']==200){
 			echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'updated'=>true]));
 		}else{
-			echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'init'=>true]));	
+			echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'init'=>true]));
+
+			// create a job que for postman
+			Postman::newUserMail($app,$response['resource'],$response['access']);
 		}
 	}
 	
