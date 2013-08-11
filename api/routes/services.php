@@ -2,10 +2,10 @@
 /**
  * Service
  */
-$app->get('/api/services/cashier', function () use ($app) {
+$app->get('/api/services/subscriber', function () use ($app) {
 
-    $cashier = new stdClass();
-    $cashier->name= $app->cashier->name;
-    $cashier->key = $app->cashier->publishable_key;
-    echo json_encode($cashier);
+    $subscriber = new stdClass();
+    $subscriber->name= $app->subscriber->name;
+    $subscriber->key = $app->subscriber->publishable_key;
+    echo json_encode($subscriber);
 });
