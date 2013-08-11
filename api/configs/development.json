@@ -25,7 +25,7 @@
       "name": "mandrillapp",
       "api_key": "IgxS9suuhImK6ewUnfOxqg"
     },
-    "payments": {
+    "ledger": {
       "name": "stripe",
       "secret_key": "sk_test_4vcuf4y5rna0k8NpRN6cuKK2",
       "publishable_key": "pk_test_1yJ4OqVTXyu42OI7wXT6TSnr"
