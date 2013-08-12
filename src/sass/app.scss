@@ -5,9 +5,9 @@
 
 .app-navigation {
   margin:0 2em;
-	@include breakpoint(appnav){ 
+	@include breakpoint(appnav){
     margin:1em 1em 0;
-  }  
+  }
   #brand {
     background-image: url('/img/logo_gray_small.png');
     background-position: top left;
@@ -19,7 +19,7 @@
     padding: 0 0 2px;
     text-indent: -9999em;
     width: 100px;
-    @include breakpoint(medium){ 
+    @include breakpoint(medium){
     	display: none;
     }
   }
@@ -29,7 +29,7 @@
 	.nav-toggle {
   	display: none;
   	float:right;
-  	@include breakpoint(appnav){ 
+  	@include breakpoint(appnav){
   		display:none;
   	}
   }
@@ -38,17 +38,17 @@
   	&>li>a:hover, &>li>a:focus {
   		background-color: $app_nav_pill_hover_background;
   		color: $app_nav_pill_hover_text;
-  		text-shadow: none;		
+  		text-shadow: none;
   	}
-  	.active a { 
+  	.active a {
   		background-color: $app_nav_pill_active_background;
   		color: $app_nav_pill_active_text;
-  		text-shadow: none; 
+  		text-shadow: none;
 		}
 		.signout {
 			float:right;
 		}
-  
+
   	@include breakpoint(appnav){
   		.signout { float:left; }
   		li i { display:none; }
@@ -64,7 +64,7 @@
   padding: 1em 2em;
   @include border-radius(3px);
   @include box-shadow(0, 0, 6px, rgba(0,0,0,0.3));
-  @include breakpoint(medium){ 
+  @include breakpoint(medium){
   	margin:0 1em 1em;
   }
 }
@@ -72,12 +72,12 @@
 .project-row {
 	margin-bottom: 1em;
 	h4 { margin-bottom: 0; }
-	.project-description { 
+	.project-description {
 		color: $muted;
-		@include breakpoint(small){ 
-			display: none; 
+		@include breakpoint(small){
+			display: none;
 		}
-	}	
+	}
 }
 
 .app-todo-list-item {
@@ -98,10 +98,10 @@
 // To Do
 /////////////////////////////////////////////////
 
- .app-todo-title { 
+ .app-todo-title {
   color: #000;
   font-size: 1.2em;
-  &:hover { 
+  &:hover {
   	color: #1c5c76;
   }
 }
@@ -128,7 +128,7 @@
   padding: 1px 6px;
 }
 
-.app-solo-mute:hover, .app-todo-meta a:hover { 
+.app-solo-mute:hover, .app-todo-meta a:hover {
   background-color: #777;
   border-radius: 30px;
   color: #fff;
@@ -193,4 +193,56 @@ footer {
 			text-decoration: underline;
 		}
 	}
+}
+
+@media print {
+
+	@mixin top-border() {
+		border: 2px solid #000 !important;
+	}
+
+	a[href]:after {
+     content:"" !important;
+  }
+
+	.app-navigation .nav {
+		display: none;
+	}
+
+	.app-todo-list-item {
+		@top-border;
+		clear: left;
+		margin:0;
+		padding:0;
+
+		&> div {
+			float: left !important;
+			padding:.75em 0 !important;
+			margin:0 !important;
+		}
+
+		.app-todo-duedate {
+			width: 20% !important;
+			.app-todo-overdue {
+				display:block;
+			}
+		}
+
+		.app-todo-content {
+			width:55% !important;
+		}
+
+		.app-todo-owner {
+			text-align: right !important;
+			width: 25% !important;
+			.app-assignee-name {
+				padding:0;
+			}
+		}
+	}
+
+ 	footer {
+ 		@top-border;
+ 	}
+
 }
