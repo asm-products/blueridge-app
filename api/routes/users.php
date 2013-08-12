@@ -3,6 +3,7 @@
  * Users
  */
 use \BlueRidge\Entities\User;
+use \BlueRidge\Utilities\Postman;
 
 /**
  * Get User
@@ -15,7 +16,7 @@ $app->get('/api/users(/:id(/:segment))', function ($id = null,$segment = null) u
 		$params=['id'=>$id,$app->request()->get()];
 
 		if(!empty($segment)){
-			$collection->$segment = $user->fetchOneById($id)->fetchSegment($segment);
+			$collection = $user->fetchOneById($id)->fetchSegment($segment);
 		}else{
 			$user->fetchOne($params);		
 			$collection = $user->toArray();
@@ -45,27 +46,11 @@ $app->post('/api/users', function () use ($app) {
 	}else{
 		return ;
 	}
-
 	$provider = new $handler($app); 
-	$token = $provider->authorize($code);
-
-	$auth = $provider->getAuthorization($token);
-	$me= $provider->getMe($auth,$token);
-
-	$accounts = $provider->getAccounts($auth,$token);
-	$projects = $provider->getProjects($auth,$token);
-	$access = doorman_welcome();
+	$provider->authorize($code);
 
 	$user = new User($app);
-	$service_properties = [
-	'key'=>$access['key'],
-	'providers'=>["{$providerName}"=>['auth'=>$auth]],
-	'profile'=>['accounts'=>$accounts,'projects'=>[],'plan'=>'free'],
-	'projects'=>$projects
-	];
-
-	$properties = array_merge($me,$service_properties);
-	$response =$user->create($properties);
+	$response= $user->create($provider);
 
 	if($response['status'] == 500){
 		$app->response()->status(500);
@@ -75,7 +60,10 @@ $app->post('/api/users', function () use ($app) {
 		if ($response['status']==200){
 			echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'updated'=>true]));
 		}else{
-			echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'init'=>true]));	
+			echo (json_encode((object) ['id'=>$user->id,'authorized'=>true,'init'=>true]));
+
+			// create a job que for postman
+			Postman::newUserMail($app,$response['resource'],$response['access']);
 		}
 	}
 	
@@ -87,7 +75,6 @@ $app->put('/api/users/:id',function($id) use ($app){
 	$user=new User($app);
 	unset($params['id']);
 	$response= $user->update($id,$params);
-
 	$app->response()->status($response['status']);	
 	echo (json_encode($response['message']));
 	

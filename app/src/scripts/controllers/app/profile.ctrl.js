@@ -1,19 +1,28 @@
-angular.module('blueRidgeApp')
-.controller('ProfileCtrl',function($rootScope,$scope,$location,Auth,Restangular){
+blueRidgeApp.controller('ProfileCtrl',['$scope','$location','Auth','Restangular',function ProfileCtrl($scope,$location,Auth,Restangular){
     if (!Auth.isSignedIn()) {
         $location.path('/');
     }
-
+    
     blueRidgeUser = Restangular.one('users',Auth.currentUser());
-    blueRidgeUser.get().then(function (user){
-        $scope.user = user;
-        $scope.plan = $scope.user.profile.plan;
+    $scope.user = blueRidgeUser.get();
+    $scope.subscription={
+        plan:{id:'',name:''},
+        cards:[]
+    };
+
+    blueRidgeUser.one('subscription').get().then(function(subscription){
+        $scope.subscription.plan=subscription.plan;
+        $scope.subscription.cards=subscription.cards;
     });
 
-    $scope.getCurrentPlan = function (){
-        if (typeof($scope.plan) != "undefined"){
-            return '/views/app/sections/plan-'+$scope.plan+'.html';           
-       }
-   };
+    $scope.changePlan = function changePlan(plan){
+        $location.path('/app/cart/'+plan);
+    };
+    $scope.isCurrentPlan = function isCurrentPlan(plan){
+        if($scope.subscription.plan.id == plan){
+            return true;
+        }
+        return false;
+    };
 
-});
+}]);

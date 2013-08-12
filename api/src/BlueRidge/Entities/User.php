@@ -5,9 +5,11 @@
 
 namespace BlueRidge\Entities;
 
+use BlueRidge\ModelAbstract;
 use BlueRidge\Providers\BasecampApi;
+use BlueRidge\Utilities\Doorman;
 
-class User extends \BlueRidge\ModelAbstract
+class User extends ModelAbstract
 {
 	/**
 	 * User Id
@@ -68,11 +70,9 @@ class User extends \BlueRidge\ModelAbstract
 	 */
 	protected $projects;
 
-
-
 	/**
 	 * Subscription
-	 * @var array
+	 * @var Array
 	 */
 	protected $subscription;
 
@@ -142,40 +142,42 @@ class User extends \BlueRidge\ModelAbstract
 		switch ($segment) {
 			case 'todos':
 			$todo = new Todo($this->app);
-			$data = $todo->fetchUserTodos($this);
+			$data['todos'] = $todo->fetchUserTodos($this);
 			break;
 			case 'accounts':
-			$data = $this->profile['accounts']['basecamp'];
+			$data['accounts'] = $this->profile['accounts']['basecamp'];
 			break;
 			case 'projects':
-			$data = $this->fetchProjects();
+			$data['projects'] = $this->fetchProjects();
+			break;
+			case 'subscription':
+			$data = $this->fetchSubscription();
 			break;		
 		}
 		return $data;
 	}
 
-
-	public function create($properties)
+	public function create($provider)
 	{
-		
-		//$freshId = $properties['providers']['basecamp']['auth']->identity['id'];
+		$properties = $this->prep($provider);
 		$exists = $this->collection->count(['email'=>$properties['email']]);
-			
+
 		if(!empty($exists)){
-			return $this->refresh($properties);
+
+			//return $this->refresh($properties);
 		}
 
-		
+		$access = Doorman::Init();
 
 		try{
+			$properties['key']=$access['key'];
 			$this->collection->insert($properties);
-			return ['status'=>201, 'resource'=>$this->setProperties($properties)];
+			$user = $this->setProperties($properties);
+			return ['status'=>201, 'resource'=>$user,'access'=>$access];
 
 		}catch(\Exception $error){
 			return ['status'=>500,'message'=>"User Creation failed"];
 		}
-		
-		return $this->setProperties($properties);
 
 	}
 
@@ -188,6 +190,9 @@ class User extends \BlueRidge\ModelAbstract
 			
 			if(!empty($user['profile']['projects'])){
 				$properties['profile']['projects'] = $user['profile']['projects'];	
+			}
+			if(!empty($user['subscription'])){
+				$properties['subscription'] = $user['subscription'];	
 			}
 
 
@@ -209,20 +214,16 @@ class User extends \BlueRidge\ModelAbstract
 
 	public function update($id,Array $properties)
 	{
-
-		try{
-			list($segment,$subset) = each($properties);
-			foreach ($subset as $key => $property) {
-				$this->collection->update(['_id'=>new \MongoId($id)],['$set'=>["{$segment}.{$key}"=>$property]]);
-			}
-			$user = $this->collection->findOne(['_id' => new \MongoId($id)]);
-
-			return ['status'=>204, 'message'=>""];
-
-		}catch(\Exception $error){
-
-			return ['status'=>500,'message'=>"Profile update failed"];
+		list($segment,$subset) = each($properties);
+		switch($segment){
+			case 'profile';
+			$result = $this->updateProfile($id,$subset);
+			break;
+			case 'subscription':
+			$result = $this->updateSubscription($id,$subset);
+			break;
 		}
+		return $result;
 
 	}
 
@@ -241,6 +242,35 @@ class User extends \BlueRidge\ModelAbstract
 
 		return $item;
 	}
+
+	private function prep($provider)
+	{
+		$provider->getAuthorization();
+		$properties = $provider->getMe();
+		$properties['key']=(!empty($this->key))?$this->key:''; 
+		$properties['providers'][$provider->name]=$provider->getProperties();
+		$properties['projects']= $provider->getProjects();
+		$properties['profile']['accounts']=$provider->getAccounts();
+		$properties['profile']['projects']= (!empty($this->profile->projects))?$this->profile->projects:[];
+
+		if(empty($this->subscription)){
+			\Stripe::setApiKey($this->app->subscriber->secret_key);
+			$customer = \Stripe_Customer::create(["description" => $properties['name'],"email" =>$properties['email'],'plan'=>'br-free']);
+
+			$properties['subscription']=[
+			'customer_id'=>$customer->id,
+			'plan'=>['id'=>$customer->subscription->plan->id,'name'=>$customer->subscription->plan->name],
+			'card'=>'',
+			'status'=>$customer->subscription->status
+			];
+		}
+		
+		return $properties;
+	}
+
+	/**
+	 * Fetch Projects
+	 */
 	private function fetchProjects()
 	{
 		$items=array();
@@ -262,5 +292,88 @@ class User extends \BlueRidge\ModelAbstract
 			$items[]=$item;
 		}
 		return $items;
+	}
+	private function updateProfile($id,$profile)
+	{
+		try{
+			
+			foreach ($profile as $key => $property) {
+				$this->collection->update(['_id'=>new \MongoId($id)],['$set'=>["profile.{$key}"=>$property]]);
+			}
+			$user = $this->collection->findOne(['_id' => new \MongoId($id)]);
+
+			return ['status'=>204, 'message'=>""];
+
+		}catch(\Exception $error){
+
+			return ['status'=>500,'message'=>"Profile update failed"];
+		}
+
+	}
+
+	
+	/**
+	 * Fetch Subscription
+	 */
+	private function fetchSubscription()
+	{
+		unset($this->subscription['card']['id']);
+		return [
+		'plan'=>$this->subscription['plan'],
+		'card'=>$this->subscription['card'],
+		'status'=>$this->subscription['status']
+		];
+	}
+
+
+	/**
+	 * Update subsription
+	 */
+	private function updateSubscription($id,$subscription)
+	{
+
+		
+
+		$user = $this->collection->findOne(['_id' => new \MongoId($id)]);
+
+		if($subscription['plan']=='br-free'){
+			$subscription['payment']=null;
+		}
+
+
+		try{
+			\Stripe::setApiKey($this->app->subscriber->secret_key);
+			$customer = \Stripe_Customer::retrieve($user['subscription']['customer_id']);
+			$customer->updateSubscription(array("plan" => $subscription['plan'], "prorate" => true,'card'=>$subscription['payment']));
+
+			$cards = $customer->cards->all(array('count'=>1));
+
+			$card = [
+			'id'=>$cards['data'][0]['id'],
+			'last4'=>$cards['data'][0]['last4'],
+			'exp_month'=>$cards['data'][0]['exp_month'],
+			'exp_year'=>$cards['data'][0]['exp_year'],
+			'type'=>$cards['data'][0]['type'],
+			];
+			
+
+
+			$plan=['id'=>$customer->subscription->plan->id,'name'=>$customer->subscription->plan->name];
+
+			$updated = ($subscription['plan']=='br-free')? ["subscription.plan"=>$plan]:["subscription.plan"=>$plan,"subscription.card"=>$card];
+			
+
+			$this->collection->update(['_id'=>new \MongoId($id)],['$set'=>$updated]);
+
+			return ['status'=>204, 'message'=>"Subscription updated successfully "];
+
+
+		}catch(\Error $e){
+
+			return ['status'=>500,'message'=>"Subscription update failed"];
+			error_log($e->getMessage());
+		}
+
+
 	}
 }

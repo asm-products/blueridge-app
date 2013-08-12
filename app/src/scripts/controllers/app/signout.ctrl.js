@@ -1,5 +1,5 @@
 angular.module('blueRidgeApp')
-.controller('SignOutCtrl',function($scope,$location,Auth){  
+.controller('SignOutCtrl',function($scope,$location,Auth){
     Auth.signOut();
-    $location.path('/signin');
+    $location.path('/signout');
 });

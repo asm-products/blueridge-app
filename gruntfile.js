@@ -19,8 +19,6 @@ module.exports = function(grunt) {
       '<%= dir.vendor %>/underscore/underscore-min.js',
       ],
       nomin:[
-      '<%= dir.vendor %>/angular-jquery.payment/lib/jquery.payment.js',
-      '<%= dir.vendor %>/angular-jquery.payment/lib/angular-jquery.payment.js',
       '<%= dir.vendor %>/angular-google-analytics/src/angular-google-analytics.js',
       ]
     },
@@ -124,7 +122,7 @@ module.exports = function(grunt) {
         tasks: ['copy'],
       },
       html: {
-        files: ['<%= dir.src %>/**/*.html'],
+        files: ['<%= dir.src %>/**/*.html','<%= dir.src %>/**/*.php'],
         tasks: ['copy'],
       },
       scripts: {
@@ -137,7 +135,7 @@ module.exports = function(grunt) {
         files: [
         {expand: true, cwd:'<%= dir.src %>', src: ['img/**','views/**','fonts/**'], dest: '<%= dir.build %>'},
         {expand: true, flatten:true,src: ['<%= dir.src %>/sass/**/{*.eot,*.svg,*ttf,*woff,*.otf}'], dest: '<%= dir.build %>/fonts',filter: 'isFile'},
-        {expand: true, cwd:'<%= dir.src %>',src: ['*.html'], dest: '<%= dir.build %>/'},
+        {expand: true, cwd:'<%= dir.src %>',src: ['*.html','*.php'], dest: '<%= dir.build %>/'},
         {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'},
         {expand: true, flatten:true ,src: '<%= vendor.nomin %>', dest: '<%= dir.build %>/libs',filter: 'isFile'},
         {expand: true, cwd:'<%= dir.api %>',src: ['api.php'], dest: '<%= dir.build %>/'},

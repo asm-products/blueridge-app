@@ -14,6 +14,14 @@ body {
   text-shadow: 0 1px #fff;
 }
 
+.container-narrow {
+  margin: 0 auto;
+  max-width: 680px;
+  & > hr {
+  	margin: 3em 0;
+  }
+}
+
 .loading {
 	margin: 3em auto 0;
 	max-width:500px;

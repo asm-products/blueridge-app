@@ -5,7 +5,9 @@
 
 namespace BlueRidge\Providers;
 
-class BasecampApi extends \BlueRidge\ModelAbstract
+use \BlueRidge\ModelAbstract;
+
+class BasecampApi extends ModelAbstract
 {
 
 	protected $name;
@@ -15,10 +17,16 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 	protected $redirect_uri;
 	protected $authUrl;
 	protected $tokenUrl;
+	protected $token;
+	protected $accounts =[];
+	protected $identity;
 
-	public function __construct($app){
+	public function __construct($app, $params = null){
 		parent::__construct($app);
 		$this->setProperties($app->providers->basecamp);
+		if(!empty($params)){
+			$this->setProperties($params);
+		}
 		return $this;
 	}
 
@@ -44,64 +52,53 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		'client_secret'=>$this->client_secret,
 		'code'=>$code
 		];
-
-		return $this->postData($this->tokenUrl,$params);
-		
+		$this->token = $this->postData($this->tokenUrl,$params);
+		return $this;		
 	}
-	public function getAuthorization($token){
+	public function getAuthorization(){
 		$endpoint="https://launchpad.37signals.com/authorization.json";
-		$authorized= $this->getData($endpoint,$token);
-		$auth = new \stdClass();
-		$auth->token=$token;
 
+		$authorized= $this->getData($endpoint,$this->token);
 		foreach ($authorized['accounts'] as $account) {
 			if($account['product'] =='bcx'){
-				$auth->accounts[] = $account;
+				$this->accounts[] = $account;
 			}
-		}
-		
-		$auth->identity = $authorized['identity'];
-		return $auth;
+		}		
+		$this->identity = $authorized['identity'];
+		return $this;
 
 	}
 
-	public function getMe($auth,$token){
+	public function getMe(){
 		$endpoint = "people/me.json";
-		$url="{$auth->accounts[0]['href']}/{$endpoint}"; 
-		$whoami = $this->getData($url,$token);
+		$url="{$this->accounts[0]['href']}/{$endpoint}"; 
+		$whoami = $this->getData($url,$this->token);
 		$avatar = parse_url($whoami['avatar_url']);
 
 		return [
 		'name'=>$whoami['name'],
-		'firstName'=>$auth->identity['first_name'],
-		'lastName'=>$auth->identity['last_name'],
+		'firstName'=>$this->identity['first_name'],
+		'lastName'=>$this->identity['last_name'],
 		'email'=>$whoami['email_address'],
 		'avatar'=>"//{$avatar['host']}/{$avatar['path']}?{$avatar['query']}"
 		];
 	}
 
-	public function getAccounts($auth,$token)
+	public function getAccounts()
 	{
-		
-		if(empty($auth)){
-			$auth= $this->getAuthorization($token);
-		}
-		$accounts=array_column($auth->accounts,'name');
+
+		$accounts=array_column($this->accounts,'name');
 		return ['basecamp'=>$accounts];
 	}
 
-	public function getProjects($auth,$token)
+	public function getProjects()
 	{
 		$endpoint="projects.json";
 		$projects=array();
-		if(empty($auth)){
-			$auth= $this->getAuthorization($token);
-		}
-
-		$account_urls = array_column($auth->accounts,'href'); 
+		$account_urls = array_column($this->accounts,'href'); 
 		$index=0;
 		foreach ($account_urls as $url) {
-			$account_projects= $this->getData("{$url}/{$endpoint}",$token);		
+			$account_projects= $this->getData("{$url}/{$endpoint}");		
 			if(!empty($account_projects)){
 				foreach($account_projects as $project){
 					$names[$index] = $project['name'];
@@ -124,7 +121,7 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		return "{$properties->auth_url}?client_id={$properties->client_id}&redirect_uri={$redirect_uri}&type=web_server";
 	}
 
-	public function getTodos($todoLists,$token){
+	public function getTodos($todoLists){
 		$todos = array();
 		
 
@@ -132,7 +129,7 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		foreach($todoLists as $projectName => $lists){
 
 			foreach ($lists as $list) {
-				$todoList = $this->getData($list['url'],$token);
+				$todoList = $this->getData($list['url']);
 				foreach ($todoList['todos']['remaining'] as $todo){				
 					$todo['list'] = $list['name'];
 					$todo['projectName'] = $projectName;
@@ -145,14 +142,14 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		return $todos;
 	}
 
-	public function getTodoLists($profileProjects,$token){
+	public function getTodoLists($profileProjects){
 		$todoLists=array();
 		$list= array();
 		foreach ($profileProjects as $project) {
 			$endpoint = "{$project['id']}/todolists.json";
 			$url = "{$project['url']}";
 			$base= pathinfo($url,PATHINFO_DIRNAME);
-			$todoLists[$project['name']] = $this->getData("{$base}/{$endpoint}",$token);
+			$todoLists[$project['name']] = $this->getData("{$base}/{$endpoint}");
 		}
 
 		
@@ -165,14 +162,14 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		return $siteUrl;
 	}
 
-	private function getData($url,$token){
+	private function getData($url){
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
-		if(!empty($token)){
-			curl_setopt($ch, CURLOPT_HTTPHEADER,["Authorization: Bearer {$token['access_token']}"]);
+		if(!empty($this->token)){
+			curl_setopt($ch, CURLOPT_HTTPHEADER,["Authorization: Bearer {$this->token['access_token']}"]);
 		}		
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$data=curl_exec($ch);
@@ -190,8 +187,8 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $params );
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
 		curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
-		if(!empty($token)){
-			curl_setopt($ch, CURLOPT_HTTPHEADER,["Authorization: Bearer {$token['access_token']}"]);
+		if(!empty($this->token)){
+			curl_setopt($ch, CURLOPT_HTTPHEADER,["Authorization: Bearer {$this->token['access_token']}"]);
 		}	
 		curl_setopt($ch, CURLOPT_HEADER,0);  
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER ,1); 
@@ -200,6 +197,16 @@ class BasecampApi extends \BlueRidge\ModelAbstract
 
 		return json_decode($data,true);
 
+	}
+	public function getProperties()
+	{
+		$item = [
+		"name"=>$this->name,
+		"token"=>$this->token,
+		"accounts"=>$this->accounts,
+		"identity"=>$this->identity
+		];
+		return $item;
 	}
 
 	public function toArray(){

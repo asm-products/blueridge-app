@@ -1,7 +1,8 @@
 <div id="signin" class="container-narrow">
   <div ng-include src="'/views/site/sections/header.html'"></div>
   <div class="greeting-message">
-  	<h3>Welcome back. You're looking good today.</h3>
+  	<h3>See you later, alligator.</h3>
+  	<p>Remember, you can take BlueRidge with you. It works great on mobile devices, too!</p>
   </div>
   <form method="post" action="">
   	<fieldset>
@@ -9,6 +10,8 @@
     	  <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
     	</div>
     	<div class="control-group">
+    		<h4 class="muted">Need to sign in again?</h4>
+    		<br>
 	  	  <label class="control-label" for="inputEmail">Email Address</label>
 	  	  <div class="controls">
 	  	    <input id="userEmail" type="email" placeholder="youare@wesome.com" ng-model="user.email" required>
