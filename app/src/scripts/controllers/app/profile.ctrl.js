@@ -7,12 +7,11 @@ blueRidgeApp.controller('ProfileCtrl',['$scope','$location','Auth','Restangular'
     $scope.user = blueRidgeUser.get();
     $scope.subscription={
         plan:{id:'',name:''},
-        cards:[]
+        card:''
     };
 
     blueRidgeUser.one('subscription').get().then(function(subscription){
-        $scope.subscription.plan=subscription.plan;
-        $scope.subscription.cards=subscription.cards;
+        $scope.subscription=subscription;
     });
 
     $scope.changePlan = function changePlan(plan){
