@@ -14,7 +14,16 @@ angular.module('blueRidgeApp')
 
     });
 
-    $scope.update= function() {
+    $scope.subscription={
+        plan:{id:'',name:''},
+        card:''
+    };
+
+    blueRidgeUser.one('subscription').get().then(function(subscription){
+        $scope.subscription=subscription;
+    });
+
+    $scope.update= function update() {
         var projects = $scope.projects;
         var selected=[];
         angular.forEach(projects,function(project){

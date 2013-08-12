@@ -3,6 +3,7 @@
  * Access
  */
 use \BlueRidge\Entities\User;
+use  \BlueRidge\Utilities\Doorman;
 
 $app->post('/api/auth', function () use ($app) {   
 
@@ -19,7 +20,7 @@ $app->post('/api/auth', function () use ($app) {
 
         $user = new User($app);
         $user->fetchOne(['email'=>$email]);
-        $authorization = doorman_authorize($password,$user->key);
+        $authorization = Doorman::authorize($password,$user->key);
 
         if (empty($authorization)){
             $app->response()->status(403);

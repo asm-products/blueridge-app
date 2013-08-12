@@ -168,9 +168,9 @@ class User extends ModelAbstract
 		}
 
 		$access = Doorman::Init();
+		$properties['key']=$access['key'];
 
-		try{
-			$properties['key']=$access['key'];
+		try{			
 			$this->collection->insert($properties);
 			$user = $this->setProperties($properties);
 			return ['status'=>201, 'resource'=>$user,'access'=>$access];
