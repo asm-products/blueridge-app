@@ -16,7 +16,7 @@ $app->get('/api/users(/:id(/:segment))', function ($id = null,$segment = null) u
 		$params=['id'=>$id,$app->request()->get()];
 
 		if(!empty($segment)){
-			$collection->$segment = $user->fetchOneById($id)->fetchSegment($segment);
+			$collection = $user->fetchOneById($id)->fetchSegment($segment);
 		}else{
 			$user->fetchOne($params);		
 			$collection = $user->toArray();

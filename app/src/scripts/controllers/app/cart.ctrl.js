@@ -1,8 +1,9 @@
-blueRidgeApp.controller('CartCtrl',['$scope','$route','$routeParams','$location','Auth','Restangular','$cookieStore',function ProfileCtrl($scope,$location,$route,$routeParams,Auth,Restangular,$cookieStore){
+blueRidgeApp.controller('CartCtrl',['$scope','$route','$location','Auth','Restangular',function ProfileCtrl($scope,$route,$location,Auth,Restangular){
     if (!Auth.isSignedIn()) {
         $location.path('/');
     }
-    $scope.cart = $route;
+    $scope.cart = $route.current.params;
+
     var safeApply = function safeApply(fn) {
         if($scope.$$phase || $scope.$root.$$phase){
             fn();
@@ -13,41 +14,57 @@ blueRidgeApp.controller('CartCtrl',['$scope','$route','$routeParams','$location'
 
 
     blueRidgeUser = Restangular.one('users',Auth.currentUser());
+
     $scope.user = blueRidgeUser.get();
-    $scope.subscription = {};
-    
-    var blueRidgeUserSubscription = Restangular.copy(blueRidgeUser);
-    var subscriber = blueRidgeUser.one('subscription').get().then(function(result){
-        $scope.subscription=result.subscription;    
+
+    $scope.subscription={
+        plan:{id:'',name:''},
+        cards:''
+    };
+    $scope.tokenid=null;
+
+    blueRidgeUser.one('subscription').get().then(function(subscription){
+        $scope.subscription=subscription;
     });
-    $scope.paymentMethodIsSet =function paymentMethodisSet (){        
-        
-        if(_.isEmpty($scope.subscription.payment)){
+
+    $scope.stripe = Restangular.one('services','subscriber').get();
+
+    $scope.addPayment = function addPayment(token) {
+        $scope.subscription.card=token.card;
+        $scope.tokenid=token.id;
+        $scope.$apply();
+    };
+
+    $scope.needsPayment = function needsPayment() {
+        if($scope.cart.plan == 'free')
+        {
             return false;
         }
         return true;
     };
 
+    $scope.paymentMethodIsSet =function paymentMethodisSet (){        
 
-    Restangular.one('services','cashier').get().then(function(stripe){
-        $scope.stripe = stripe;
-    });
-
-    $scope.addPayment = function addPayment(token) {
-        $scope.subscription={payment:token};
-        $scope.$apply();
+        if(_.isEmpty($scope.subscription.card)){
+            return false;
+        }
+        return true;
     };
 
-    $scope.updateSubscription=function updateSubscription(plan){
+    $scope.updateSubscription=function updateSubscription(){
 
         blueRidgeUser.subscription = {
-            plan:plan,
-            payment:$scope.subscription.payment
+            plan:'br-'+$scope.cart.plan,
+            payment: $scope.tokenid
         };
-
+        
         blueRidgeUser.put().then(function(response){
-            $location.path('/app/profile');
+            safeApply(function() {
+                $scope.wait = false;
+                $location.path('/app/profile');
+            });            
         });
+
     };
-    
+
 }]);

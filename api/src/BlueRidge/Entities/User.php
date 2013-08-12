@@ -142,13 +142,13 @@ class User extends ModelAbstract
 		switch ($segment) {
 			case 'todos':
 			$todo = new Todo($this->app);
-			$data = $todo->fetchUserTodos($this);
+			$data['todos'] = $todo->fetchUserTodos($this);
 			break;
 			case 'accounts':
-			$data = $this->profile['accounts']['basecamp'];
+			$data['accounts'] = $this->profile['accounts']['basecamp'];
 			break;
 			case 'projects':
-			$data = $this->fetchProjects();
+			$data['projects'] = $this->fetchProjects();
 			break;
 			case 'subscription':
 			$data = $this->fetchSubscription();
@@ -260,7 +260,7 @@ class User extends ModelAbstract
 			$properties['subscription']=[
 			'customer_id'=>$customer->id,
 			'plan'=>['id'=>$customer->subscription->plan->id,'name'=>$customer->subscription->plan->name],
-			'cards'=>$customer->cards->data,
+			'card'=>'',
 			'status'=>$customer->subscription->status
 			];
 		}
@@ -317,9 +317,12 @@ class User extends ModelAbstract
 	 */
 	private function fetchSubscription()
 	{
-		$plan = $this->subscription['plan'];
-		$payment = (Object) $this->subscription['payment'];
-		return ['plan'=>$plan,'payment'=>$payment,'customer_id'=>$this->subscription['customer_id']];
+		
+		return [
+		'plan'=>$this->subscription['plan'],
+		'card'=>$this->subscription['card'],
+		'status'=>$this->subscription['status']
+		];
 	}
 
 
@@ -328,44 +331,40 @@ class User extends ModelAbstract
 	 */
 	private function updateSubscription($id,$subscription)
 	{
-		//set the ammount 
-		switch($subscription['plan']){
-			case 'solo';
-			$amount=795;
-			break;
-			case 'pro';
-			$amount=1495;
-			break;
-		}
+
+		
 
 		$user = $this->collection->findOne(['_id' => new \MongoId($id)]);
 
+		if($subscription['plan']=='br-free'){
+			$subscription['payment']=null;
+		}
+
+
 		try{
-			\Stripe::setApiKey($this->app->cashier->secret_key);
+			\Stripe::setApiKey($this->app->subscriber->secret_key);
+			$customer = \Stripe_Customer::retrieve($user['subscription']['customer_id']);
+			$customer->updateSubscription(array("plan" => $subscription['plan'], "prorate" => true,'card'=>$subscription['payment']));
 
-			if(empty($user['subscription']['customer_id'])){
-				
-				$customer = \Stripe_Customer::create(array(
-					"card" => $subscription['payment']['id'],
-					"plan" => $subscription['plan'],
-					"email" =>$user['email'])
-				);
+			$cards = $customer->cards->all(array('count'=>1));
 
-				$user['subscription']=[
-				'customer_id'=>$customer->id,
-				'plan'=>$subscription['plan'],
-				'payment'=>[
-				'card'=>$subscription['payment']['card']]
-				];
-			}
+			$card = [
+			'id'=>$cards['data'][0]['id'],
+			'last4'=>$cards['data'][0]['last4'],
+			'exp_month'=>$cards['data'][0]['exp_month'],
+			'exp_year'=>$cards['data'][0]['exp_year'],
+			'type'=>$cards['data'][0]['type'],
+			];
+			
 
-			\Stripe_Charge::create(array(
-				"amount" => $amount,
-				"currency" => "usd",
-				"customer" => $user['subscription']['customer_id'])
-			);
 
-			$this->collection->update(['_id'=>new \MongoId($id)],['$set'=>["subscription"=>$user['subscription']]]);
+			$plan=['id'=>$customer->subscription->plan->id,'name'=>$customer->subscription->plan->name];
+
+			$updated = ($subscription['plan']=='br-free')? ["subscription.plan"=>$plan]:["subscription.plan"=>$plan,"subscription.card"=>$card];
+			
+
+			$this->collection->update(['_id'=>new \MongoId($id)],['$set'=>$updated]);
+
 			return ['status'=>204, 'message'=>"Subscription updated successfully "];
 
 
