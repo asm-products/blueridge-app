@@ -317,7 +317,7 @@ class User extends ModelAbstract
 	 */
 	private function fetchSubscription()
 	{
-		
+		unset($this->subscription['card']['id']);
 		return [
 		'plan'=>$this->subscription['plan'],
 		'card'=>$this->subscription['card'],
