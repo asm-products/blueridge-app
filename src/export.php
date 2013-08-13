@@ -2,7 +2,7 @@
 
 $protocol = (!empty($_SERVER['HTTPS']))?'https://':'http://';
 $base= $protocol.$_SERVER['SERVER_NAME'];
-if (empty($_COOKIE['_blrdgapp_j49']))
+if (empty($_COOKIE['_blrdgapp_a84']))
 {
 
     header("Location: ".$base);
