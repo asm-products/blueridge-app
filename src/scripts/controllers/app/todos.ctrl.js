@@ -13,4 +13,8 @@ angular.module('blueRidgeApp')
         $scope.loading = false;
     });
 
+    $scope.exportCSV = function exportCSV(){
+        window.location.href='/export';
+    };
+
 });
