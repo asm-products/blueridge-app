@@ -13,7 +13,7 @@
     "font-awesome": "~3.2.1",
     "angular-google-analytics": "*",
     "js-base64": "~2.1.2",
-    "angular-ui": "~0.4.0",
+    "angular-ui": "~0.4.0"
   },
   "devDependencies": {}
 }
