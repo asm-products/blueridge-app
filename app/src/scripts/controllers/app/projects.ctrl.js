@@ -18,7 +18,7 @@ angular.module('blueRidgeApp')
     $scope.subscription={
         plan:{id:'',name:''},
         card:''
-    }
+    };
     $scope.maxalert=false;
     $scope.max=1;
     blueRidgeUser.one('subscription').get().then(function(subscription){
@@ -31,17 +31,18 @@ angular.module('blueRidgeApp')
             case 'br-pro':
             message= "Wow! You've maxed out the Pro plan. If you really need to see more than 20 projects at once please let us know. Maybe we'll make a special plan for you. &#x263A";
             max = 20;
+            break;
             default:
             max = 1;
             message= "Slow down, sparky. You can only see one project at a time on the Free plan. Please upgrade to see more than one at a time.";
-        };
+        }
         $scope.max=max;
         $scope.maxmessage=message;
 
     });
 
     $scope.isMaxed= function isMaxed(){
-        if($scope.selectedCount == max){ 
+        if($scope.selectedCount == max){  
             return true;
         }
         return false;
@@ -57,7 +58,7 @@ angular.module('blueRidgeApp')
             $scope.selectedCount += (p.selected ? 1 : 0);
         });
 
-    }
+    };
 
     $scope.update= function update() {
         var projects = $scope.projects;
