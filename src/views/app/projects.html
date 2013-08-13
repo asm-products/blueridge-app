@@ -9,18 +9,34 @@
 		<div class="row-fluid"><div class="span12">
 			<div>
 				<label ng-repeat="project in projects" class="checkbox project-row">
-					<input type="checkbox" ng-model="project.selected">
+					<input type="checkbox" ng-model="project.selected" ng-change="checkChange(project)" ng-disabled="isMaxed() && !project.selected">
 					<h4>{{project.name}}</h4>
 					<p class="project-description">{{project.description}}</p>
-					<p>{{project.account}}</p>	
+					<p>{{project.account}}</p>
 				</label>
 			</div>
+
 			<div class="control-group">
 				<div class="controls">
 					<button class="btn btn-large btn-success" type="submit" ng-click="update()">Apply My Choices</button>
 				</div>
 			</div>
-		</div></div>
+		</div>
 	</div>
-	<div ng-include src="'/views/app/sections/footer.html'"></div>
+</div>
+<div modal="shouldBeOpen" close="close()" options="opts">
+	<div class="modal-header">
+		<h3>Hey!</h3>
+	</div>
+	<div class="modal-body">
+		<ul>
+			<li ng-repeat="item in items">{{maxmessage}}</li>
+		</ul>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+	</div>
+</div>
+
+<div ng-include src="'/views/app/sections/footer.html'"></div>
 </div>
