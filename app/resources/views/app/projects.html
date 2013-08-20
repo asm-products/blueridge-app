@@ -1,5 +1,5 @@
 <div id="app-projects" class="container app-container">
-	{% include "app/sections/nav.html" %}
+	{% if !noob %}{% include "app/sections/nav.html" %}{% endif %}
 	<div class="panel">
 		{% if noob %}
 		<div class="noob-message">
