@@ -7,7 +7,7 @@ $app->get('/',function() use ($app){
 });
 
 $app->get('/(:route/)',function($route) use ($app){
-    $app->render("site/{$route}.html");
+    $app->render("site/{$route}.html", array('routeName' => $route));
 });
 
 $app->response->headers->set('Content-Type', 'text/html');
