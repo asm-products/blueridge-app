@@ -1,37 +1,42 @@
+{% extends "site/base.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
 <div id="pricing" class="container-narrow">
-  <div ng-include src="'/views/site/sections/header.html'"></div>
-  <div class="billboard">
-    <h1 class="headline">What&rsquo;s all this, anyway?</h1>
-  </div>
-  <div class="row-fluid">
-  	<div class="span12">
-  		<h2>We had a problem.</h2>
-  		<p>We realized we were losing time and money because we couldn&rsquo;t get a good overview of all our To-dos at once. So we created this. It does a pretty good job of solving our problem. We beleive it will help you, too.</p>
-  		<h3>Super-alpha mode.</h3>
-  		<p>Things are still a little rough around here. We just moved in and are still unpacking. Don&rsquo;t expect too much right away. If you see a bug, <a href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-primary-color="#cc6d00" data-uv-link-color="#007dbf" data-uv-default-mode="support" data-uv-forum-id="212703">let us know</a>.</p>
-  		<h3>Great things are coming.</h3>
-  		<p>The list of things to add is quite long. Here are a few of them:</p>
-  		<ul>
-  			<li>An overview of how many To-dos are assigned to each team member.</li>
-  			<li>Ability to assign due dates and people to To-dos directly in BlueRidge.</li>
-  			<li>Integration with other project management systems.</li>
-  			<li>Sorting of To-dos by person, project, list or date.</li>
-  			<li>&ldquo;Mute&rdquo; people to temporarily hide them from the current view. And&hellip;</li>
-  			<li>&ldquo;Solo&rdquo; people to temporarily show only their To-dos.</li>
-  		</ul>
-  		<p>Your suggestions are welcome. Just <a href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-primary-color="#cc6d00" data-uv-link-color="#007dbf" data-uv-default-mode="support" data-uv-forum-id="212703">add them to our list</a>.</p>
+	{% include "site/sections/header.html" %}
+	<div ng-include src="'/views/site/sections/header.html'"></div>
+	<div class="billboard">
+		<h1 class="headline">What&rsquo;s all this, anyway?</h1>
+	</div>
+	<div class="row-fluid">
+		<div class="span12">
+			<h2>We had a problem.</h2>
+			<p>We realized we were losing time and money because we couldn&rsquo;t get a good overview of all our To-dos at once. So we created this. It does a pretty good job of solving our problem. We beleive it will help you, too.</p>
+			<h3>Super-alpha mode.</h3>
+			<p>Things are still a little rough around here. We just moved in and are still unpacking. Don&rsquo;t expect too much right away. If you see a bug, <a href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-primary-color="#cc6d00" data-uv-link-color="#007dbf" data-uv-default-mode="support" data-uv-forum-id="212703">let us know</a>.</p>
+			<h3>Great things are coming.</h3>
+			<p>The list of things to add is quite long. Here are a few of them:</p>
+			<ul>
+				<li>An overview of how many To-dos are assigned to each team member.</li>
+				<li>Ability to assign due dates and people to To-dos directly in BlueRidge.</li>
+				<li>Integration with other project management systems.</li>
+				<li>Sorting of To-dos by person, project, list or date.</li>
+				<li>&ldquo;Mute&rdquo; people to temporarily hide them from the current view. And&hellip;</li>
+				<li>&ldquo;Solo&rdquo; people to temporarily show only their To-dos.</li>
+			</ul>
+			<p>Your suggestions are welcome. Just <a href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-primary-color="#cc6d00" data-uv-link-color="#007dbf" data-uv-default-mode="support" data-uv-forum-id="212703">add them to our list</a>.</p>
 		</div>
 		<div class="row-fluid">
-    <div class="span12 billboard">
-      <div class="tagline">
-      	<p>See how much easier BlueRidge makes getting things done.</p>
-      </div>
-      <div class="highlight">
-        <a class="btn btn-large btn-success" href="/connect">Connect to Basecamp</a>
-        <p>and try it now for free.</p>
-      </div>
-    </div>
-  </div>
-		<div ng-include src="'/views/site/sections/footer.html'"></div>
+			<div class="span12 billboard">
+				<div class="tagline">
+					<p>See how much easier BlueRidge makes getting things done.</p>
+				</div>
+				<div class="highlight">
+					<a class="btn btn-large btn-success" href="/connect">Connect to Basecamp</a>
+					<p>and try it now for free.</p>
+				</div>
+			</div>
+		</div>
 	</div>
+	{% include "site/sections/footer.html" %}
 </div>
+{% endblock %}
