@@ -1,32 +1,29 @@
 {% extends "site/base.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Sign In{% endblock %}
 {% block content %}
 <div id="signin" class="container-narrow">
     {% include "site/sections/header.html" %}
   <div class="greeting-message">
-  	<h3>Welcome back. You're looking good today.</h3>
+  	<h3>Welcome back. You&rsquo;re looking good today.</h3>
   </div>
   <form method="post" action="">
   	<fieldset>
-    	<div class="controls">
-    	  <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-    	</div>
     	<div class="control-group">
 	  	  <label class="control-label" for="inputEmail">Email Address</label>
 	  	  <div class="controls">
-	  	    <input id="userEmail" type="email" placeholder="youare@wesome.com" ng-model="user.email" required>
+	  	    <input id="userEmail" type="email" placeholder="youare@wesome.com" required>
 	  	  </div>
 	  	</div>
 	  	<div class="control-group">
 	  	  <label class="control-label" for="inputPassword">Password</label>
 	  	  <div class="controls">
-	  	    <input id="userPassword" type="password" placeholder="Password" ng-model="user.passwd" required>
-	  	    <span class="help-block"><a href="">Forget your password?</a></span>
+	  	    <input id="userPassword" type="password" placeholder="Password" required>
+	  	    <span class="help-block"><a href="/signin/forgot/">Forget your password?</a></span>
 	  	  </div>
 	  	</div>
 	  	<div class="control-group">
     		<div class="controls">
-    	  	<button class="btn btn-success" type="submit" ng-click="signin(user)">Sign in</button>
+    	  	<button class="btn btn-success" type="submit">Sign in</button>
     		</div>
     	</div>
     </fieldset>

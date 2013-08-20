@@ -29,4 +29,9 @@ $app->get('/support/',function() use ($app){
 $app->get('/signin/',function() use ($app){
     $app->render('site/signin.html');
 });
+
+$app->get('/signout/',function() use ($app){
+    $app->render('site/signout.html');
+});
+
 $app->response->headers->set('Content-Type', 'text/html');
