@@ -1,42 +1,47 @@
 <div id="app-projects" class="container app-container">
-	<div ng-include src="'/views/app/sections/nav.html'"></div>
+	{% if !noob %}{% include "app/sections/nav.html" %}{% endif %}
 	<div class="panel">
-		<div ng-if="noob">
+		{% if noob %}
+		<div class="noob-message">
 			<h2>Welcome to BlueRidge. Let&rsquo;s get started.</h2>
 			<p class="lead">Choose the projects you&rsquo;d like to get a better view of.<br>We&rsquo;ll grab all the To-dos and sort them for you.</p>
 		</div>
-		<p ng-if="!noob" class="lead">Choose which projects to view:</p>
-		<div class="row-fluid"><div class="span12">
-			<div>
-				<label ng-repeat="project in projects" class="checkbox project-row">
-					<input type="checkbox" ng-model="project.selected" ng-change="checkChange(project)" ng-disabled="isMaxed() && !project.selected">
-					<h4>{{project.name}}</h4>
-					<p class="project-description">{{project.description}}</p>
-					<p>{{project.account}}</p>
-				</label>
+		{% else %}
+		<p class="lead">Choose which projects to view:</p>
+		{% endif %}
+		<div class="row-fluid">
+			<div class="span12">
+				<form action="" method="post">
+					{% for project in projects %}
+					<label class="checkbox project-row">
+						<input type="checkbox" name="{{ project.id }}" data-id="{{ project.id }}">
+						<h4>{{ project.name }}</h4>
+						<p class="project-description">{{ project.description }}</p>
+						<p>{{ project.account }}</p>
+					</label>
+					{% endfor %}
+				</form>
 			</div>
-
 			<div class="control-group">
 				<div class="controls">
-					<button class="btn btn-large btn-success" type="submit" ng-click="update()">Apply My Choices</button>
+					<button class="btn btn-large btn-success" type="submit">Apply My Choices</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<div modal="shouldBeOpen" close="close()" options="opts">
-	<div class="modal-header">
-		<h3>Hey!</h3>
-	</div>
-	<div class="modal-body">
-		<ul>
-			<li ng-repeat="item in items">{{maxmessage}}</li>
-		</ul>
-	</div>
-	<div class="modal-footer">
-		<button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
-	</div>
-</div>
+{% include "app/sections/footer.html" %}
 
-<div ng-include src="'/views/app/sections/footer.html'"></div>
-</div>
+<!-- <div modal="shouldBeOpen" close="close()" options="opts"> -->
+<!-- <div class="modal-header"> -->
+<!-- <h3>Hey!</h3> -->
+<!-- </div> -->
+<!-- <div class="modal-body"> -->
+<!-- <ul> -->
+<!-- <li ng-repeat="item in items">{{maxmessage}}</li> -->
+<!-- </ul> -->
+<!-- </div> -->
+<!-- <div class="modal-footer"> -->
+<!-- <button class="btn btn-warning cancel">Cancel</button> -->
+<!-- </div> -->
+<!-- </div> -->

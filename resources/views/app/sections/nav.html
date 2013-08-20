@@ -1,12 +1,12 @@
 <div class="app-navigation">
-  <div class="row-fluid" ng-if="!noob">
+  <div class="row-fluid">
     <div class="span12">
     	<a id="brand">Blue Ridge</a>
       <ul class="nav nav-pills">
-        <li ng-class="{active:isActive('/app/todos')}" ><a ng-href="/app/todos"><i class="icon-check"></i> To-dos</a></li>
-        <li ng-class="{active:isActive('/app/projects')}"><a ng-href="/app/projects"><i class="icon-cogs"></i> Projects</a></li>
-        <li class="ng-class:{active:isActive('/app/profile')};"><a ng-href="/app/profile"><i class="icon-user"></i> Profile</a></li>
-        <li class="signout ng-class:{active:isActive('/app/signout')};"><a ng-href="/app/signout" tabindex="-1"><i class="icon-signout"></i> Signout</a></li>
+        <li class="{% if route == 'todos' %}active"><a href="/app/todos/"><i class="icon-check"></i> To-dos</a></li>
+        <li class="{% if route == 'projects' %}active"><a href="/app/projects/"><i class="icon-cogs"></i> Projects</a></li>
+        <li class="{% if route == 'profile' %}active"><a href="/app/profile/"><i class="icon-user"></i> Profile</a></li>
+        <li class="signout"><a href="/app/signout/" tabindex="-1"><i class="icon-signout"></i> Signout</a></li>
       </ul>
     </div>
   </div>

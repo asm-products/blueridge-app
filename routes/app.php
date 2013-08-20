@@ -3,12 +3,12 @@
  * Routes for the Application
  */
 $app->get('/app/(:route/)',function($route) use ($app){
-    $app->render("app/{$route}.html");
+    $app->render("app/{$route}.html", array('routeName' => $route));
 });
 $app->response->headers->set('Content-Type', 'text/html');
 
 /**
- * @todo 
+ * @todo
  */
 /*
 $app->get('/app/export/(:format)', function ($format) {
