@@ -1,5 +1,8 @@
+{% extends "site/base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
 <div id="signin" class="container-narrow">
-  <div ng-include src="'/views/site/sections/header.html'"></div>
+    {% include "site/sections/header.html" %}
   <div class="greeting-message">
   	<h3>Welcome back. You're looking good today.</h3>
   </div>
@@ -29,3 +32,4 @@
     </fieldset>
   </form>
 </div>
+{% endblock %}
