@@ -19,13 +19,7 @@ $view = $app->view();
 $view->parserOptions = ['debug' => true,'cache' => CACHE_DIR];
 $view->parserExtensions = [ new \Slim\Views\TwigExtension()];
 
-
-require APPLICATION_PATH."/routes/site/home.php";
-
-/*require "../api/routes/services.php";
-require "../api/routes/users.php";
-require "../api/routes/auth.php";
-require "../api/routes/subscriptions.php";
-*/
+require APPLICATION_PATH."/routes/site.php";
+require APPLICATION_PATH."/routes/app.php";
 
 $app->run();
