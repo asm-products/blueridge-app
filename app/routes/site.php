@@ -6,6 +6,6 @@ $app->get('/',function() use ($app){
     $app->render('site/home.html');
 });
 
-$app->get('/preview(/)',function() use ($app){
+$app->get('/preview/',function() use ($app){
     $app->render('site/preview.html');
 });
