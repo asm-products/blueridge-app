@@ -25,3 +25,4 @@ $app->get('/about/',function() use ($app){
 $app->get('/support/',function() use ($app){
     $app->render('site/support.html');
 });
+$app->response->headers->set('Content-Type', 'text/html');
