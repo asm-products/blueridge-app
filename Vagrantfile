@@ -1,7 +1,7 @@
 Vagrant.configure("2") do |config|
   config.vm.hostname = "blueridgeapp"
   config.vm.box = "ninelabs-devbox"
-  config.vm.box_url = 'ninelabs-devbox'#{"http://static.techeffe.net/vagrant/ubuntu-12.04.2-server-amd64-dist.box"
+  config.vm.box_url = '~/Projects/_lib/ninelabs-devbox'
   config.vm.synced_folder "./", "/var/www/blueridgeapp",owner: "www-data", group: "www-data"
   config.vm.synced_folder "devbox/conf.d", "/etc/apache2/sites-available",owner: "root", group: "root"
   config.vm.synced_folder "devbox/logs", "/var/log/apache2"
