@@ -1,0 +1,4 @@
+<?php
+/**
+ * Instantiate Cache
+ */
