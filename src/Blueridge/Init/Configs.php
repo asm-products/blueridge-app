@@ -1,13 +1,15 @@
 <?php
 /**
  * Configs
+ * Instantiate application configs
  * @author Moses Ngone <mo@mospired.com> @mosesngone
  */
 
 namespace BlueRidge\Init;
 
 use \Slim\Middleware;
-use \Slim\Views;
+use \Slim\Views\Twig;
+use \Slim\Views\TwigExtension;
 
 class Configs extends Middleware
 {
@@ -23,13 +25,13 @@ class Configs extends Middleware
         $config_content= file_get_contents($config_file);
         $configs =json_decode($config_content,true); 
         $configs['mode']=$appEnv;
-        $configs['view']= new Views\Twig();
+        $configs['view']= new Twig();
         $configs['templates.path'] = APPLICATION_PATH.'/resources/views';
         $this->app->config($configs); 
 
         // set Twig Extensions
         $this->app->view->parserOptions = ['debug' => true,'cache' => CACHE_DIR.'/front'];
-        $this->app->view->parserExtensions = [ new Views\TwigExtension()];
+        $this->app->view->parserExtensions = [ new TwigExtension()];
 
 
         $this->next->call();
