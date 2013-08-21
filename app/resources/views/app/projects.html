@@ -1,14 +1,17 @@
+{% extends "app/base.html" %}
+{% block title %}Projects{% endblock %}
+{% block content %}
 <div id="app-projects" class="container app-container">
-	{% if !noob %}{% include "app/sections/nav.html" %}{% endif %}
+	{#% if !noob %}{% include "app/sections/nav.html" %}{% endif %#}
 	<div class="panel">
-		{% if noob %}
+		{#% if noob %#}
 		<div class="noob-message">
 			<h2>Welcome to BlueRidge. Let&rsquo;s get started.</h2>
 			<p class="lead">Choose the projects you&rsquo;d like to get a better view of.<br>We&rsquo;ll grab all the To-dos and sort them for you.</p>
 		</div>
-		{% else %}
+		{#% else %#}
 		<p class="lead">Choose which projects to view:</p>
-		{% endif %}
+		{#% endif %#}
 		<div class="row-fluid">
 			<div class="span12">
 				<form action="" method="post">
@@ -31,17 +34,4 @@
 	</div>
 </div>
 {% include "app/sections/footer.html" %}
-
-<!-- <div modal="shouldBeOpen" close="close()" options="opts"> -->
-<!-- <div class="modal-header"> -->
-<!-- <h3>Hey!</h3> -->
-<!-- </div> -->
-<!-- <div class="modal-body"> -->
-<!-- <ul> -->
-<!-- <li ng-repeat="item in items">{{maxmessage}}</li> -->
-<!-- </ul> -->
-<!-- </div> -->
-<!-- <div class="modal-footer"> -->
-<!-- <button class="btn btn-warning cancel">Cancel</button> -->
-<!-- </div> -->
-<!-- </div> -->
+{% endblock %}
