@@ -20,10 +20,22 @@ $app->add(new Init());
 
 
 $view = $app->view();
-$view->parserOptions = ['debug' => true,'cache' => CACHE_DIR];
+$view->parserOptions = ['debug' => true,'cache' => CACHE_DIR.'/front'];
 $view->parserExtensions = [ new \Slim\Views\TwigExtension()];
 
+
+/**
+ * Routes
+ * Note: Always load individual routes before generic ones 
+ */
+
+// Site
+require APPLICATION_PATH."/routes/site/connect.php";
 require APPLICATION_PATH."/routes/site.php";
+
+// App
+require APPLICATION_PATH."/routes/app/basecamp.php";
+require APPLICATION_PATH."/routes/app/export.php";
 require APPLICATION_PATH."/routes/app.php";
 
 $app->run();

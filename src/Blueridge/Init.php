@@ -37,6 +37,8 @@ class Init extends Middleware
         
         if($this->configs->database){
             $this->app->container->singleton('database', function(){
+
+
                 $db = $this->configs->database;
 
                 $connection_url = "mongodb://{$db->host}:{$db->port}/{$db->name}";   
@@ -46,6 +48,7 @@ class Init extends Middleware
 
                 $client= new \MongoClient($connection_url);
                 return $client->selectDB($db->name);
+
             });
         }
 
