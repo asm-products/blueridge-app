@@ -3,7 +3,7 @@
  *  Export Routes
  */
 
-$app->get('/app/export/csv', function ($format) {
+$app->get('/app/export/csv', $authenticate($app), function ($format) {
     
     $protocol = (!empty($_SERVER['HTTPS']))?'https://':'http://';
     $base= $protocol.$_SERVER['SERVER_NAME'];
