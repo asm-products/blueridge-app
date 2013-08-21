@@ -5,23 +5,15 @@
 require '../vendor/autoload.php';
 use \Slim\Slim;
 use \Slim\Views;
-use \BlueRidge\Init;
+use \BlueRidge\Init\Configs;
 
 defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__).'/../app'));
 defined('CACHE_DIR') || define('CACHE_DIR', realpath(dirname(__FILE__).'/../cache'));
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
-$app = new Slim([
-    'view' => new Views\Twig(),
-    'templates.path' => APPLICATION_PATH.'/resources/views'
-    ]);
+$app = new Slim();
 $app->setName('blueridgeapp');
-$app->add(new Init());
-
-
-$view = $app->view();
-$view->parserOptions = ['debug' => true,'cache' => CACHE_DIR.'/front'];
-$view->parserExtensions = [ new \Slim\Views\TwigExtension()];
+$app->add(new Configs());
 
 
 /**
