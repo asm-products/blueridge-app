@@ -16,7 +16,7 @@
       "token_url": "https://launchpad.37signals.com/authorization/token"
     }
   },
-  "cache": {
+  "memcache": {
     "host": "localhost",
     "port": 11211
   },
@@ -32,5 +32,5 @@
     }
   },
   "debug": true,
-  "log_enabled": true
+  "log.enabled": true
 }
