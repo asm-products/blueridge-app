@@ -2,19 +2,9 @@
 /**
  * Routes for the Application
  */
-$app->get('/app/(:route/)',function($route) use ($app){
+
+
+$app->get('/app/(:route/)',$authenticate($app),function($route) use ($app){
     $app->render("app/{$route}.html", array('routeName' => $route));
 });
 $app->response->headers->set('Content-Type', 'text/html');
-
-/**
- * @todo
- */
-/*
-$app->get('/app/export/(:format)', function ($format) {
-    //$app->render("app/{$route}.html");
-    $response = $app->response();
-    //$response['Content-Type'] = 'application/json';
-});
-
-*/

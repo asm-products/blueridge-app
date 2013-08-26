@@ -2,6 +2,7 @@
   "require": {
     "slim/slim": "2.3.*",
     "slim/views": "0.1.*",
+    "slim/extras": "dev-master",
     "twig/twig": "1.*",
     "stripe/stripe-php": "dev-master",
     "mandrill/mandrill": "1.0.*",
@@ -11,7 +12,7 @@
   "minimum-stability": "stable",
   "autoload": {
     "psr-0": {
-      "BlueRidge": "src/"
+      "BlueRidge": "app/src/"
     }
   }
 }

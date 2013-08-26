@@ -1,24 +1,28 @@
 <?php
+/**
+ *  Export Routes
+ */
 
-$protocol = (!empty($_SERVER['HTTPS']))?'https://':'http://';
-$base= $protocol.$_SERVER['SERVER_NAME'];
-if (empty($_COOKIE['_blrdgapp_a84']))
-{
+$app->get('/app/export/csv', $authenticate($app), function ($format) {
+    
+    $protocol = (!empty($_SERVER['HTTPS']))?'https://':'http://';
+    $base= $protocol.$_SERVER['SERVER_NAME'];
+    $filename = 'To-Dos-'.date("Ymd").'.csv';
+    
+    /**
+    * @todo Check for valid authenticated session 
+    */
+    // fetch user data
 
-    header("Location: ".$base);
-}
 
 
-$filename = 'To-Dos-'.date("Ymd").'.csv';
-header("Content-Type: text/csv;");
-header('Content-Disposition: attachment; filename="'.$filename.'"');
 
-$userkey = base64_decode($_COOKIE['_blrdgapp_j49']);
-$url = "{$base}/api/users/{$userkey}/todos";
+    $app->response->headers->set('Content-Type', 'text/csv');
+    $app->response->headers->set('Content-Disposition: attachment', 'filename="'.$filename.'"');
+    
+});
 
-$file = json_decode(file_get_contents($url),true);
-
-$data = arrayToCsv($file);
+/*
 
 function arrayToCsv( array &$todos, $delimiter = ';', $enclosure = '"', $encloseAll = false ) {
     $delimiter_esc = preg_quote($delimiter, '/');
@@ -42,8 +46,4 @@ function arrayToCsv( array &$todos, $delimiter = ';', $enclosure = '"', $enclose
         }
     }
 
-}
-
-
-
-
+}*/
