@@ -5,7 +5,8 @@
 
 use \BlueRidge\Entities\User;
 use \BlueRidge\Utilities\Postman;
-use \Zend\Session\Container;
+use \BlueRidge\Utilities\Doorman;
+use \BlueRidge\Providers\BasecampApi;
 
 
 $app->get('/app/basecamp/',function() use ($app){    
@@ -14,35 +15,41 @@ $app->get('/app/basecamp/',function() use ($app){
     if(empty($code)){
         // respond with friendly message
     }
-    
 
-    if(isset($app->providers->basecamp)){
-        $handler  = "\\BlueRidge\\Providers\\{$app->providers->basecamp->handler}";
-    }else{
-        return ;
-    }
-    $provider = new $handler($app); 
-    $provider->authorize($code);
+    if(isset($app->config('providers')['basecamp'])){
+        $provider = new BasecampApi($app); 
+        $properties= $provider->authorize($code);
 
-    $user = new User($app);
-    $response= $user->create($provider);
+        $user = new User($app,$properties);
 
-    if($response['status'] == 500){
-        $app->response()->status(500);
-        //registration failed
+        // check if user exists
+        //$exists = $user->exists(['email'=>$properties['email']]);            
+        //if(!empty($exists)){
+
+            //return $this->refresh($properties);
+        //}
+
+        //$user = new User($app);
         
-    }else{
-        $app->response()->status($response['status']);
+        var_dump($properties);
+        exit();
+        //$user->create($provider);
 
-        $session = new Container('blrdgapp');
-        $session->userid = $user->id;
-        
-        //Postman::newUserMail($app,$response['resource'],$response['access']);
+        $access = Doorman::Init();
+        $user->key = $access['key'];
+        $user->save();
+        //$properties['key']=$access['key'];
 
+        var_dump($user);
+        exit();
+
+        $_SESSION['user'] = $user->id;
+
+        Postman::newUserMail($app,$user,$access);
         $app->redirect('/app/projects/');
 
-        
-        
+    }else{
+        // flash error
     }
 
 });
