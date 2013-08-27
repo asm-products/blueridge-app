@@ -2,7 +2,7 @@
 /**
  * Configs
  * Instantiate application configs
- * @author Moses Ngone <mo@mospired.com> @mosesngone
+ * @author Moses Ngone <mo@mospired.com> @mospired
  */
 
 namespace BlueRidge\Init;

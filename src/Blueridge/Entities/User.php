@@ -5,11 +5,10 @@
 
 namespace BlueRidge\Entities;
 
-use BlueRidge\ModelAbstract;
 use BlueRidge\Providers\BasecampApi;
-use BlueRidge\Utilities\Doorman;
+use BlueRidge\ModelAbstract;
 
-class User extends ModelAbstract
+class User
 {
 	/**
 	 * User Id
@@ -90,13 +89,30 @@ class User extends ModelAbstract
 	 */
 	protected $collection;
 
+	/**
+	 * App
+	 * @var $app
+	 */
+	private $app;
+
 
 	public function __construct($app,$properties=null)
 	{
-		parent::__construct($app,$properties);
-		$this->collection = new \MongoCollection($this->app->database,"Users");	
+		$this->app = $app;
+		$this->collection = new \MongoCollection($app->db,"Users");	
+
+		if(!empty($properties)){
+
+			foreach($properties as $property => $value){
+				if($property == "_id"){
+					$this->id = (string) $value;
+				}
+				$this->$property = $value;
+			}
+		}
 
 	}
+
 
 	public function fetch(Array $params=null)
 	{
@@ -131,8 +147,9 @@ class User extends ModelAbstract
 		if(empty($doc)){
 			return;
 		}
+	
 
-		return $this->setProperties($doc);
+		return $doc;//x->setProperties($doc);
 
 	}
 
@@ -156,31 +173,41 @@ class User extends ModelAbstract
 		}
 		return $data;
 	}
+	public function exists(Array $params)
+	{
+		return $this->collection->count($params);
+	}
 
+	/**
+	 * Create
+	 * @deprecated
+	 */
 	public function create($provider)
 	{
 		$properties = $this->prep($provider);
 		$exists = $this->collection->count(['email'=>$properties['email']]);
 
+		/*
 		if(!empty($exists)){
 
 			return $this->refresh($properties);
-		}
-
-		$access = Doorman::Init();
-		$properties['key']=$access['key'];
+		}*/
 
 		try{			
 			$this->collection->insert($properties);
 			$user = $this->setProperties($properties);
-			return ['status'=>201, 'resource'=>$user,'access'=>$access];
+			return ['user'=>$user,'access'=>$access];
 
 		}catch(\Exception $error){
-			return ['status'=>500,'message'=>"User Creation failed"];
+			return ['message'=>"User Creation failed"];
 		}
 
 	}
 
+	/**
+	 * Refresh User
+	 * @deprecated
+	 */
 	public function refresh(Array $properties)
 	{	
 		
@@ -227,9 +254,10 @@ class User extends ModelAbstract
 
 	}
 
+
 	public function toArray()
 	{
-		$item = [
+		$properties = [
 		"id"=>$this->id,
 		"name"=>$this->name,
 		"fullname"=>['first'=>$this->firstName,'last'=>$this->lastName],
@@ -240,7 +268,66 @@ class User extends ModelAbstract
 		];
 		
 
-		return $item;
+		return $properties;
+	}
+
+	/**
+	 * Save
+	 * @return Object
+	 */
+	public function save()
+	{
+		$properties = [
+		'id',
+		'name',
+		'firstName',
+		'lastName',
+		'email',
+		'key',
+		'url',
+		'avatar',
+		'profile',
+		'projects',
+		'subscription',
+		];
+
+		$document=array();
+
+		foreach ($this as $property => $value)
+		{
+			if (in_array($property, $properties))
+			{
+				if($property == 'id'){
+					$document['_id'] = new \MongoId($value);
+				}else{
+					$document[$property]=$value;
+				}
+				
+			}
+
+		}
+
+		$this->collection->insert($document,['w'=>true]);
+		return $this;
+	}
+
+
+	/**
+	 * Set Subscription 
+	 */
+	public function setSubscription()
+	{
+		\Stripe::setApiKey($this->app->config('services')['subscriber']['secret_key']);
+		$customer = \Stripe_Customer::create(['description' => $this->name,'email' =>$this->email,'plan'=>'br-free']);
+
+		$this->subscription=[
+		'customer_id'=>$customer->id,
+		'plan'=>['id'=>$customer->subscription->plan->id,'name'=>$customer->subscription->plan->name],
+		'card'=>'',
+		'status'=>$customer->subscription->status
+		];
+
+		return $this;
 	}
 
 	private function prep($provider)
@@ -254,7 +341,8 @@ class User extends ModelAbstract
 		$properties['profile']['projects']= (!empty($this->profile->projects))?$this->profile->projects:[];
 
 		if(empty($this->subscription)){
-			\Stripe::setApiKey($this->app->subscriber->secret_key);
+
+			\Stripe::setApiKey($this->app->config('services')['subscriber']['secret_key']);
 			$customer = \Stripe_Customer::create(["description" => $properties['name'],"email" =>$properties['email'],'plan'=>'br-free']);
 
 			$properties['subscription']=[
@@ -327,12 +415,10 @@ class User extends ModelAbstract
 
 
 	/**
-	 * Update subsription
+	 * Update subscription
 	 */
 	private function updateSubscription($id,$subscription)
 	{
-
-		
 
 		$user = $this->collection->findOne(['_id' => new \MongoId($id)]);
 
@@ -342,7 +428,7 @@ class User extends ModelAbstract
 
 
 		try{
-			\Stripe::setApiKey($this->app->subscriber->secret_key);
+			\Stripe::setApiKey($this->app->config('services')['subscriber']['secret_key']);
 			$customer = \Stripe_Customer::retrieve($user['subscription']['customer_id']);
 			$customer->updateSubscription(array("plan" => $subscription['plan'], "prorate" => true,'card'=>$subscription['payment']));
 
@@ -375,5 +461,26 @@ class User extends ModelAbstract
 		}
 
 
+	}
+
+	/**
+	 * Getter
+	 */
+	public function __get($property)
+	{
+		if (property_exists($this, $property)) {
+			return $this->$property;
+		}
+	}
+	
+	/**
+	 * Setter
+	 */
+	public function __set($property, $value)
+	{
+		if (property_exists($this, $property)) {
+			$this->$property = $value;
+		}
+		return $this;
 	}
 }
