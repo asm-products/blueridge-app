@@ -21,16 +21,21 @@ class BasecampApi extends ModelAbstract
 	protected $accounts =[];
 	protected $identity;
 
-	public function __construct($app, $params = null){
+	public function __construct($app, $params = null)
+	{
 		parent::__construct($app);
-		$this->setProperties($app->providers->basecamp);
+		$this->setProperties($app->config('providers')['basecamp']);
 		if(!empty($params)){
 			$this->setProperties($params);
 		}
 		return $this;
 	}
 
-	protected function setProperties($properties){
+	/**
+	 * Set Properties
+	 */
+	protected function setProperties($properties)
+	{
 		foreach($properties as $property => $value){
 			if($property == "auth_url"){
 				$this->authUrl = $this->getAuthUrl($properties);
@@ -43,7 +48,8 @@ class BasecampApi extends ModelAbstract
 		return $this;
 	}
 	
-	public function authorize ($code){
+	public function authorize ($code)
+	{
 
 		$params = [
 		'type'=>'web_server',
@@ -53,9 +59,15 @@ class BasecampApi extends ModelAbstract
 		'code'=>$code
 		];
 		$this->token = $this->postData($this->tokenUrl,$params);
-		return $this;		
+		$this->getAuthorization();	
+		return $this->getMe();		
 	}
-	public function getAuthorization(){
+
+	/**
+	 * Get Authorization
+	 */
+	public function getAuthorization()
+	{
 		$endpoint="https://launchpad.37signals.com/authorization.json";
 
 		$authorized= $this->getData($endpoint,$this->token);
@@ -68,8 +80,10 @@ class BasecampApi extends ModelAbstract
 		return $this;
 
 	}
+	
 
-	public function getMe(){
+	public function getMe()
+	{
 		$endpoint = "people/me.json";
 		$url="{$this->accounts[0]['href']}/{$endpoint}"; 
 		$whoami = $this->getData($url,$this->token);
@@ -117,8 +131,8 @@ class BasecampApi extends ModelAbstract
 
 
 	private function getAuthUrl($properties){
-		$redirect_uri = urlencode($properties->redirect_uri);
-		return "{$properties->auth_url}?client_id={$properties->client_id}&redirect_uri={$redirect_uri}&type=web_server";
+		$redirect_uri = urlencode($properties['redirect_uri']);
+		return "{$properties['auth_url']}?client_id={$properties['client_id']}&redirect_uri={$redirect_uri}&type=web_server";
 	}
 
 	public function getTodos($todoLists){
