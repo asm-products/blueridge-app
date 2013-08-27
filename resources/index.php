@@ -51,12 +51,14 @@ $app->hook('slim.before.dispatch', function() use ($app) {
  */
 
 // Site
+require APPLICATION_PATH."/routes/site/signin.php";
 require APPLICATION_PATH."/routes/site/connect.php";
 require APPLICATION_PATH."/routes/site.php";
 
 // App
 require APPLICATION_PATH."/routes/app/basecamp.php";
 require APPLICATION_PATH."/routes/app/export.php";
+require APPLICATION_PATH."/routes/app/projects.php";
 require APPLICATION_PATH."/routes/app.php";
 
 $app->run();

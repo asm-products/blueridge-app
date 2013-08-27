@@ -3,30 +3,33 @@
 {% block content %}
 <div id="signin" class="container-narrow">
     {% include "site/sections/header.html" %}
-  <div class="greeting-message">
-  	<h3>Welcome back. You&rsquo;re looking good today.</h3>
-  </div>
-  <form method="post" action="">
-  	<fieldset>
-    	<div class="control-group">
-	  	  <label class="control-label" for="inputEmail">Email Address</label>
-	  	  <div class="controls">
-	  	    <input id="userEmail" type="email" placeholder="youare@wesome.com" required>
-	  	  </div>
-	  	</div>
-	  	<div class="control-group">
-	  	  <label class="control-label" for="inputPassword">Password</label>
-	  	  <div class="controls">
-	  	    <input id="userPassword" type="password" placeholder="Password" required>
-	  	    <span class="help-block"><a href="/signin/forgot/">Forget your password?</a></span>
-	  	  </div>
-	  	</div>
-	  	<div class="control-group">
-    		<div class="controls">
-    	  	<button class="btn btn-success" type="submit">Sign in</button>
-    		</div>
-    	</div>
-    </fieldset>
-  </form>
+    <div class="greeting-message">
+        <h3>Welcome back. You&rsquo;re looking good today.</h3>
+    </div>
+    {#% if error != null %#}
+    <p class="error">{{error}}</p>
+    {#% endif %#}
+    <form method="post" action="/signin/">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="email">Email Address</label>
+                <div class="controls">
+                    <input id="email" type="email" name="email" placeholder="youare@wesome.com" required>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                    <input id="password" name="password" type="password" placeholder="Password" required>
+                    <span class="help-block"><a href="/signin/forgot/">Forget your password?</a></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button class="btn btn-success" type="submit">Sign in</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
 </div>
 {% endblock %}
