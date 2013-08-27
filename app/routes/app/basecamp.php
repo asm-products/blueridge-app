@@ -19,33 +19,31 @@ $app->get('/app/basecamp/',function() use ($app){
     if(isset($app->config('providers')['basecamp'])){
         $provider = new BasecampApi($app); 
         $properties= $provider->authorize($code);
+        $access = Doorman::Init();
 
         $user = new User($app,$properties);
+        $exists = $user->exists(['email'=>$properties['email']]);
 
-        // check if user exists
-        //$exists = $user->exists(['email'=>$properties['email']]);            
-        //if(!empty($exists)){
+        if(empty($exists)){
 
-            //return $this->refresh($properties);
-        //}
+            $user->id = (string) new \MongoId();            
+            $user->profile = [
+            'accounts'=>$provider->getAccounts(),
+            'projects'=>[]
+            ];
+            $user->url = "/users/{$user->id}";
 
-        //$user = new User($app);
-        
-        var_dump($properties);
-        exit();
-        //$user->create($provider);
-
-        $access = Doorman::Init();
-        $user->key = $access['key'];
+            
+            $user->key = $access['key'];
+            $user->setSubscription();
+        }
+        $user->providers= [$provider->name =>$provider->getProperties()];
+        $user->projects= $provider->getProjects();
         $user->save();
-        //$properties['key']=$access['key'];
-
-        var_dump($user);
-        exit();
-
+        
         $_SESSION['user'] = $user->id;
 
-        Postman::newUserMail($app,$user,$access);
+        //Postman::newUserMail($app,$user,$access);
         $app->redirect('/app/projects/');
 
     }else{

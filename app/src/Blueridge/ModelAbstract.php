@@ -1,4 +1,7 @@
-<?php 
+<?php
+/**
+ * Model Abstract
+ */
 namespace BlueRidge;
 
 abstract class ModelAbstract 
@@ -7,22 +10,17 @@ abstract class ModelAbstract
 	
 	public function __construct($app,$properties=null)
 	{
-		$this->app = $app;
+		$this->app = $app;		
 		if(!empty($properties)){
-			$this->setProperties($properties);
-		}
-	}
-	
-	protected function setProperties($properties)
-	{
-		foreach($properties as $property => $value){
-			if($property == "_id"){
-				$this->id = (string) $value;
+
+			foreach($properties as $property => $value){
+				if($property == "_id"){
+					$this->id = (string) $value;
+				}
+				$this->$property = $value;
 			}
-			$this->$property = $value;
 		}
-		return $this;
-	}
+	}	
 	
 	public function __get($property)
 	{
