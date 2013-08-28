@@ -6,22 +6,19 @@
     <div class="greeting-message">
         <h3>Welcome back. You&rsquo;re looking good today.</h3>
     </div>
-    {#% if error != null %#}
-    <p class="error">{{error}}</p>
-    {#% endif %#}
     <form method="post" action="/signin/">
         <fieldset>
             <div class="control-group">
                 <label class="control-label" for="email">Email Address</label>
                 <div class="controls">
-                    <input id="email" type="email" name="email" placeholder="youare@wesome.com" required>
+                    <input id="email" name="email" type="email" placeholder="youare@wesome.com" required>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="password">Password</label>
                 <div class="controls">
                     <input id="password" name="password" type="password" placeholder="Password" required>
-                    <span class="help-block"><a href="/signin/forgot/">Forget your password?</a></span>
+                    <span class="help-block"><a href="/forgotpassword/">Forget your password?</a></span>
                 </div>
             </div>
             <div class="control-group">
