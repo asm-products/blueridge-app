@@ -11,12 +11,12 @@
 		</div>
 	-->
 	<p class="lead">Choose which projects to view:</p>
-	<form action="/app/projects" method="post">
+	<form action="/app/projects/" method="post">
 		<div class="row-fluid">
 			<div class="span12">				
 				{% for project in projects %}
 				<label class="checkbox project-row">
-					<input type="checkbox" name="{{ project.id }}" data-id="{{ project.id }}">
+					<input type="checkbox" name="selected[]" value="{{ project.id }}" {% if project.selected == true %} checked {% endif %}>
 					<h4>{{ project.name }}</h4>
 					<p class="project-description">{{ project.description }}</p>
 					<p>{{ project.account }}</p>
