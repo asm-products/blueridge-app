@@ -9,10 +9,9 @@ $app->get('/app/projects/',$authenticate($app), function () use ($app) {
 
     $id = $_SESSION['user'];
     $user= new User($app);
-    $user->fetchOneById($id);
-    var_dump($user);
+    $projects = $user->fetchOne($id)->projects;
+    var_dump($projects);
     exit();
-
     //->fetchSegment('projects');
     $app->render("app/projects.html", ['projects' => $user->projects,'route'=>'projects']);    
 });

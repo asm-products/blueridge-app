@@ -43,7 +43,7 @@ $app->get('/app/basecamp/',function() use ($app){
         
         $_SESSION['user'] = $user->id;
 
-        //Postman::newUserMail($app,$user,$access);
+        Postman::newUserMail($app,$user,$access);
         $app->redirect('/app/projects/');
 
     }else{

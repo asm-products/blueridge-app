@@ -3,10 +3,10 @@
  * BlueRidgeApp
  */
 require '../vendor/autoload.php';
+
 use \Slim\Slim;
 use \Slim\Views;
 use \Slim\Middleware\SessionCookie;
-
 use \BlueRidge\Init\Configs;
 use \BlueRidge\Init\Db;
 use \BlueRidge\Init\Mailbox;
