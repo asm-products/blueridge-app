@@ -156,7 +156,8 @@ class BasecampApi extends ModelAbstract
 		return $todos;
 	}
 
-	public function getTodoLists($profileProjects){
+	public function getTodoLists($profileProjects){		
+
 		$todoLists=array();
 		$list= array();
 		foreach ($profileProjects as $project) {
@@ -165,7 +166,6 @@ class BasecampApi extends ModelAbstract
 			$base= pathinfo($url,PATHINFO_DIRNAME);
 			$todoLists[$project['name']] = $this->getData("{$base}/{$endpoint}");
 		}
-
 		
 		return $todoLists;
 	}
@@ -188,6 +188,8 @@ class BasecampApi extends ModelAbstract
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$data=curl_exec($ch);
 		curl_close($ch);
+
+
 
 		return json_decode($data,true);
 

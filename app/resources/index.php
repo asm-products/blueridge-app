@@ -22,9 +22,6 @@ $app->add(new Db());
 $app->add(new Mailbox());
 $app->add(new Configs());
 
-
-
-
 $authenticate = function ($app) {
     return function () use ($app) {
         if (!isset($_SESSION['user'])) {
@@ -59,6 +56,7 @@ require APPLICATION_PATH."/routes/site.php";
 require APPLICATION_PATH."/routes/app/basecamp.php";
 require APPLICATION_PATH."/routes/app/export.php";
 require APPLICATION_PATH."/routes/app/projects.php";
+require APPLICATION_PATH."/routes/app/todos.php";
 require APPLICATION_PATH."/routes/app.php";
 
 $app->run();

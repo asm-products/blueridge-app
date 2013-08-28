@@ -1,15 +1,18 @@
+{% extends "app/base.html" %}
+{% block title %}Todos{% endblock %}
+{% block content %}
 <div id="app-todos" class="container app-container">
 	{% include "app/sections/nav.html" %}
-	<div loading-container="loading" class="panel">
+	<div  class="panel">
 		<div class="app-todo-controls row-fluid">
 			<div class="span12 ">
-				<a href="/app/export/csv/" class="btn btn-mini pull-right"><i class="icon-download-alt"></i> Export CSV</button>
+				<a href="/app/export/csv/" class="btn btn-mini pull-right"><i class="icon-download-alt"></i> Export CSV</a>
 			</div>
 		</div>
 		{% for todo in todos %}
 		<div class="app-todo-list-item row-fluid">
 			<div class="span3 app-todo-duedate">
-				{% if !todo.dueDate %}<span class="app-alert-warning">None</span>{% endif %} {{todo.dueDate}} {% if todo.overDueBy>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overDueBy}} days</span>{% endif %}
+				{% if todo.dueDate == null %}<span class="app-alert-warning">None</span>{% endif %} {{todo.dueDate}} {% if todo.overDueBy>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overDueBy}} days</span>{% endif %}
 			</div>
 			<div class="span6 app-todo-content">
 				<a class="app-todo-title" href="{{todo.url}}" target="_blank">{{ todo.content }}</a>
@@ -26,6 +29,7 @@
 			</div>
 		</div>
 		{% endfor %}
-	</div>
-	{% include "app/sections/footer.html" %}
+	</div>	
 </div>
+{% include "app/sections/footer.html" %}
+{% endblock %}
