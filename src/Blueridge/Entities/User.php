@@ -78,7 +78,7 @@ class User
 
 	/**
 	 * Providers
-	 * @var string
+	 * @var Array
 	 */
 	protected $providers;
 
@@ -148,26 +148,9 @@ class User
 		return $this->setProperties($doc);
 	}
 
-	public function fetchSegment($segment)
-	{
-		$data = null;
-		switch ($segment) {
-			case 'todos':
-			$todo = new Todo($this->app);
-			$data['todos'] = $todo->fetchUserTodos($this);
-			break;
-			case 'accounts':
-			$data['accounts'] = $this->profile['accounts']['basecamp'];
-			break;
-			case 'projects':
-			$data['projects'] = $this->fetchProjects();
-			break;
-			case 'subscription':
-			$data = $this->fetchSubscription();
-			break;		
-		}
-		return $data;
-	}
+	/**
+	 * Exists
+	 */
 	public function exists(Array $params)
 	{
 		return $this->collection->count($params);
@@ -199,7 +182,7 @@ class User
 	protected function toArray()
 	{
 		
-		$properties = ['id','name','firstName','lastName','email','key','url','avatar','profile','projects','subscription'];
+		$properties = ['id','name','firstName','lastName','email','key','url','avatar','profile','projects','subscription','providers'];
 
 		$document=array();
 
@@ -267,6 +250,10 @@ class User
 		return $this;
 	}
 
+	/**
+	 * Prep 
+	 * @deprecated
+	 */
 	private function prep($provider)
 	{
 		$provider->getAuthorization();
@@ -305,8 +292,7 @@ class User
 			$selected = (in_array($project['id'], $this->profile['projects']))?true:false;
 			$item=$project;
 			$item['selected']=$selected;	
-			unset(
-				$item['url'],
+			unset(				
 				$item['archived'],
 				$item['created_at'],
 				$item['updated_at'],

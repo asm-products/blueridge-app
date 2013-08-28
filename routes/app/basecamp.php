@@ -37,7 +37,7 @@ $app->get('/app/basecamp/',function() use ($app){
             $user->key = $access['key'];
             $user->setSubscription();
         }
-        $user->providers= [$provider->name =>$provider->getProperties()];
+        $user->providers= [$provider->name =>$provider->getProperties()];       
         $user->projects= $provider->getProjects();
         $user->save();
         

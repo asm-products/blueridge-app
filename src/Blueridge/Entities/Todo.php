@@ -67,6 +67,7 @@ class Todo extends \BlueRidge\ModelAbstract
 	/**
 	 * Fetch
 	 * @return Array
+	 * 
 	 */
 	public function fetch($params)
 	{
@@ -92,7 +93,7 @@ class Todo extends \BlueRidge\ModelAbstract
 		
 	}
 	
-	public function fetchUserTodos(User $user)
+	public function fetchByUser(User $user)
 	{
 		// no project selected
 		if(empty($user->profile['projects'])){
@@ -111,7 +112,6 @@ class Todo extends \BlueRidge\ModelAbstract
 		}
 
 		$basecamp = new BasecampApi($this->app,$user->providers['basecamp']);
-		
 
 		$todoLists=$basecamp->getTodoLists($profileProjects);
 		$todos = $basecamp->getTodos($todoLists);
