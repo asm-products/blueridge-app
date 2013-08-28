@@ -57,6 +57,7 @@ require APPLICATION_PATH."/routes/app/basecamp.php";
 require APPLICATION_PATH."/routes/app/export.php";
 require APPLICATION_PATH."/routes/app/projects.php";
 require APPLICATION_PATH."/routes/app/todos.php";
+require APPLICATION_PATH."/routes/app/profile.php";
 require APPLICATION_PATH."/routes/app.php";
 
 $app->run();

@@ -177,9 +177,9 @@ class User
 	}
 
 	/**
-	 * To Array
+	 * To Array Document
 	 */
-	protected function toArray()
+	private function toArrayDoc()
 	{
 		
 		$properties = ['id','name','firstName','lastName','email','key','url','avatar','profile','projects','subscription','providers'];
@@ -205,6 +205,26 @@ class User
 	}
 
 	/**
+	 * To Array
+	 * @return Array
+	 */
+	public function toArray()
+	{
+		$properties = ['name','firstName','lastName','email','url','avatar','subscription'];
+
+		$item=array();
+
+		foreach ($this as $property => $value)
+		{
+			if (in_array($property, $properties))
+			{				
+				$item[$property]=$value;								
+			}
+		}
+		return $item;
+	}
+
+	/**
 	 * Set Properties
 	 * @return Object
 	 */	
@@ -226,7 +246,7 @@ class User
 	public function save()
 	{
 
-		$document= $this->toArray();
+		$document= $this->toArrayDoc();
 		$this->collection->save($document,['w'=>true]);
 		return $this;
 	}

@@ -1,3 +1,6 @@
+{% extends "app/base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
 <div id="app-profile" class="container app-container">
 	{% include "app/sections/nav.html" %}
 	<div class="panel">
@@ -5,30 +8,30 @@
 		<div class="row-fluid">
 			<div class="span4">
 				<h3>Your Info</h3>
-				<form action="" method="post" id="profile" class="well">
+				<form action="/app/profile/" method="post" id="profile" class="well">
 					<fieldset>
 						<div class="control-group">
-							<label class="control-label" for="userName">Name</label>
+							<label class="control-label" for="name">Name</label>
 							<div class="controls">
-								<input type="text" class="input-large" id="userName">
+								<input type="text" class="input-large" id="name" value="{{user['name']}}">
 							</div>
 						</div>
 						<div class="control-group">
-							<label class="control-label" for="userEmail">Email</label>
+							<label class="control-label" for="email">Email</label>
 							<div class="controls">
-								<input type="email" class="input-large" id="userEmail">
+								<input type="email" class="input-large" id="email" value="{{user['email']}}">
 							</div>
 						</div>
 						<div class="control-group">
-							<label class="control-label" for="userPassword">Password</label>
+							<label class="control-label" for="password">Password</label>
 							<div class="controls">
-								<input type="password" class="input-large" id="userPassword">
+								<input type="password" class="input-large" id="password" name="password">
 							</div>
 						</div>
 						<div class="control-group">
-							<label class="control-label" for="userPassword">Confirm Password</label>
+							<label class="control-label" for="confirm-password">Confirm Password</label>
 							<div class="controls">
-								<input type="password" class="input-large" id="userConfirmPassword">
+								<input type="password" class="input-large" id="confirm-password">
 							</div>
 						</div>
 					</fieldset>
@@ -68,5 +71,6 @@
 			</div>
 		</div>
 	</div>
-	{% include "app/sections/footer.html" %}
 </div>
+{% include "app/sections/footer.html" %}
+{% endblock %}
