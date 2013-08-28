@@ -61,7 +61,7 @@ class User
 	 * Projects
 	 * @var Array
 	 */
-	protected $profile;
+	protected $profile = array();
 
 	/**
 	 * Projects
@@ -173,68 +173,10 @@ class User
 		return $this->collection->count($params);
 	}
 
-	/**
-	 * Create
-	 * @deprecated
-	 */
-	public function create($provider)
-	{
-		$properties = $this->prep($provider);
-		$exists = $this->collection->count(['email'=>$properties['email']]);
-
-		/*
-		if(!empty($exists)){
-
-			return $this->refresh($properties);
-		}*/
-
-		try{			
-			$this->collection->insert($properties);
-			$user = $this->setProperties($properties);
-			return ['user'=>$user,'access'=>$access];
-
-		}catch(\Exception $error){
-			return ['message'=>"User Creation failed"];
-		}
-
-	}
-
-	/**
-	 * Refresh User
-	 * @deprecated
-	 */
-	public function refresh(Array $properties)
-	{	
-		
-
-		try{
-			$user = $this->collection->findOne(['email'=>$properties['email']]);
-			
-			if(!empty($user['profile']['projects'])){
-				$properties['profile']['projects'] = $user['profile']['projects'];	
-			}
-			if(!empty($user['subscription'])){
-				$properties['subscription'] = $user['subscription'];	
-			}
-
-
-
-			$this->collection->update(['_id'=>$user['_id']],['$set' => $properties]);
-			$updated= $this->collection->findOne(['_id'=>$user['_id']]);
-
-			return ['status'=>200, 'resource'=>$this->setProperties($updated)];
-
-
-
-		}catch(\Exception $error){
-
-			return ['status'=>500,'message'=>"User Update failed"];
-		}
-
-	}
 
 	/**
 	 * Update
+	 * @deprecated
 	 */
 	public function update($id,Array $properties)
 	{
@@ -302,7 +244,7 @@ class User
 	{
 
 		$document= $this->toArray();
-		$this->collection->insert($document,['w'=>true]);
+		$this->collection->save($document,['w'=>true]);
 		return $this;
 	}
 
@@ -376,22 +318,19 @@ class User
 		}
 		return $projects;
 	}
-	private function updateProfile($id,$profile)
+
+	/**
+	 * Update Profile
+	 */
+	public function updateProfile($segment,$properties)
 	{
 		try{
-			
-			foreach ($profile as $key => $property) {
-				$this->collection->update(['_id'=>new \MongoId($id)],['$set'=>["profile.{$key}"=>$property]]);
-			}
-			$user = $this->collection->findOne(['_id' => new \MongoId($id)]);
-
-			return ['status'=>204, 'message'=>""];
-
+			$this->profile[$segment]= $properties;
+			return true;
 		}catch(\Exception $error){
-
-			return ['status'=>500,'message'=>"Profile update failed"];
+			\error_log($error->getMessage());
+			return;
 		}
-
 	}
 
 	
