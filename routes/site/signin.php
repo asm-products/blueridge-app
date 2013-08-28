@@ -12,8 +12,6 @@ $app->get("/signin/", function () use ($app) {
     $error = '';
     if (isset($flash['error'])) {
         $error = $flash['error'];
-        var_dump($error);
-        exit();
     }
 
     $urlRedirect = '/';
@@ -65,32 +63,18 @@ $app->post("/signin/", function () use ($app) {
 
 
     $user = new User($app);
-    $user->fetchOne(['email'=>$email]);
+    $user->fetch(['email'=>$email]);
     $authorization = Doorman::authorize($password,$user->key);
-
-
-    var_dump($user);
-
-    var_dump($authorization);
-    exit();
-
 
 
     $errors = array();
 
-    if ($email != "moses@mospired.com") {
-        $errors['email'] = "Email is not found.";
-    } else if ($password != "aaaa") {
-        $app->flash('email', $email);
-        $errors['password'] = "Password does not match.";
-    }
-
-    if (count($errors) > 0) {
+    if (empty($authorization)) {
         $app->flash('errors', $errors);
         $app->redirect('/signin');
     }
 
-    $_SESSION['user'] = $email;
+    $_SESSION['user'] = $user->id;
 
     if (isset($_SESSION['urlRedirect'])) {
         $tmp = $_SESSION['urlRedirect'];

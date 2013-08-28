@@ -114,7 +114,7 @@ class User
 	}
 
 
-	public function fetch(Array $params=null)
+	public function search(Array $params=null)
 	{
 		$users = array();
 		$cursor=$this->collection->find();
@@ -125,32 +125,27 @@ class User
 		return $users;		
 	}
 	
-	public function fetchOne(Array $params=null)
-	{
-
-		if (isset($params['id'])){
-			return $this->fetchOneById($params['id']);
-		}		
+	public function fetch(Array $params=null)
+	{	
 
 		$doc=$this->collection->findOne($params);
 		if(empty($doc)){
 			return;
 		}
-
 		return $this->setProperties($doc);
 	}
 
-	public function fetchOneById($id)
+	/**
+	 * Fetch One By Id
+	 */
+	public function fetchOne($id)
 	{
-		
 		$doc=(object)$this->collection->findOne(array('_id' => new \MongoId($id)));
 		if(empty($doc)){
 			return;
 		}
-	
 
-		return $doc;//x->setProperties($doc);
-
+		return $this->setProperties($doc);
 	}
 
 	public function fetchSegment($segment)
@@ -238,7 +233,9 @@ class User
 
 	}
 
-
+	/**
+	 * Update
+	 */
 	public function update($id,Array $properties)
 	{
 		list($segment,$subset) = each($properties);
@@ -254,42 +251,13 @@ class User
 
 	}
 
-
-	public function toArray()
-	{
-		$properties = [
-		"id"=>$this->id,
-		"name"=>$this->name,
-		"fullname"=>['first'=>$this->firstName,'last'=>$this->lastName],
-		"email"=>$this->email,
-		"key"=>$this->key,
-		"avatar"=>$this->avatar,
-		"profile"=>$this->profile
-		];
-		
-
-		return $properties;
-	}
-
 	/**
-	 * Save
-	 * @return Object
+	 * To Array
 	 */
-	public function save()
+	protected function toArray()
 	{
-		$properties = [
-		'id',
-		'name',
-		'firstName',
-		'lastName',
-		'email',
-		'key',
-		'url',
-		'avatar',
-		'profile',
-		'projects',
-		'subscription',
-		];
+		
+		$properties = ['id','name','firstName','lastName','email','key','url','avatar','profile','projects','subscription'];
 
 		$document=array();
 
@@ -307,6 +275,33 @@ class User
 
 		}
 
+
+		return $document;
+	}
+
+	/**
+	 * Set Properties
+	 * @return Object
+	 */	
+	protected function setProperties($document)
+	{
+		foreach($document as $property => $value){
+			if($property == "_id"){
+				$this->id = (string) $value;
+			}
+			$this->$property = $value;
+		}
+		return $this;
+	}
+
+	/**
+	 * Save
+	 * @return Object
+	 */
+	public function save()
+	{
+
+		$document= $this->toArray();
 		$this->collection->insert($document,['w'=>true]);
 		return $this;
 	}
@@ -361,7 +356,7 @@ class User
 	 */
 	private function fetchProjects()
 	{
-		$items=array();
+		$projects=array();
 
 		foreach($this->projects as $key => $project){
 			
@@ -377,9 +372,9 @@ class User
 				$item['starred']
 				);
 
-			$items[]=$item;
+			$projects[]=$item;
 		}
-		return $items;
+		return $projects;
 	}
 	private function updateProfile($id,$profile)
 	{
@@ -469,7 +464,23 @@ class User
 	public function __get($property)
 	{
 		if (property_exists($this, $property)) {
-			return $this->$property;
+
+			switch($property)
+			{
+				case 'accounts':
+				$data= $this->profile['accounts']['basecamp'];
+				break;
+				case 'projects':
+				$data = $this->fetchProjects();
+				break;
+				case 'subscription':
+				$data = $this->fetchSubscription();
+				break;
+				default:
+				$data = $this->$property;
+
+			}		
+			return $data;			
 		}
 	}
 	
