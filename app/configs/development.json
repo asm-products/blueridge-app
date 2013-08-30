@@ -8,10 +8,10 @@
     "basecamp": {
       "name": "basecamp",
       "handler": "BasecampApi",
-      "userAgent": "BlueRidgeApp (mo@mospired.com)",
+      "user_agent": "BlueRidgeApp (mo@mospired.com)",
       "client_id": "cbc3f4cff1def7da310df4d74c7baaffa106772a",
       "client_secret": "41ffa461186d66b1876d526ecab677d92df0533a",
-      "redirect_uri": "http://dev.blueridgeapp.com/app/basecamp",
+      "redirect_uri": "http://dev.blueridgeapp.com/auth/basecamp",
       "auth_url": "https://launchpad.37signals.com/authorization/new",
       "token_url": "https://launchpad.37signals.com/authorization/token"
     }
