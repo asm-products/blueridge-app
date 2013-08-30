@@ -6,9 +6,8 @@
     "twig/twig": "1.*",
     "stripe/stripe-php": "dev-master",
     "mandrill/mandrill": "1.0.*",
-    "doctrine/mongodb": "1.0.*",
     "doctrine/mongodb-odm": "1.0.*@dev",
-    "guzzle/guzzle": "~3.7"
+    "guzzle/guzzle": "3.7.*"
   },
   "minimum-stability": "stable",
   "autoload": {
