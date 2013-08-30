@@ -16,10 +16,6 @@
       "token_url": "https://launchpad.37signals.com/authorization/token"
     }
   },
-  "memcache": {
-    "host": "localhost",
-    "port": 11211
-  },
   "services": {
     "mail": {
       "name": "mandrillapp",
