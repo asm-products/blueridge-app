@@ -1,12 +1,12 @@
 <?php
 /**
- * Signin Routes
+ * Sign In Routes
  */
-use \BlueRidge\Entities\User;
+use  \BlueRidge\Entities\User;
 use  \BlueRidge\Utilities\Doorman;
 
 
-$app->get("/signin/", function () use ($app) {
+$app->get("/sign-in/", function () use ($app) {
     $flash = $app->view()->getData('flash');
 
     $error = '';
@@ -16,7 +16,7 @@ $app->get("/signin/", function () use ($app) {
 
     $urlRedirect = '/';
 
-    if ($app->request()->get('r') && $app->request()->get('r') != '/signout/' && $app->request()->get('r') != '/signin/') {
+    if ($app->request()->get('r') && $app->request()->get('r') != '/signout/' && $app->request()->get('r') != '/sign-in/') {
         $_SESSION['urlRedirect'] = $app->request()->get('r');
     }
 
@@ -38,7 +38,7 @@ $app->get("/signin/", function () use ($app) {
         $password_error = $flash['errors']['password'];
     }
 
-    $app->render('/site/signin.html', [
+    $app->render('/site/sign-in.html', [
         'error' => $error, 
         'email_value' => $email_value, 
         'email_error' => $email_error, 
@@ -49,7 +49,7 @@ $app->get("/signin/", function () use ($app) {
 
 
 
-$app->post("/signin/", function () use ($app) {
+$app->post("/sign-in/", function () use ($app) {
 
 
     $email = $app->request()->post('email');
@@ -58,7 +58,7 @@ $app->post("/signin/", function () use ($app) {
     if(empty($email) || empty($password)){
         $app->response()->status(403);
         $app->flash('errors', 'Missing Credentials');
-        $app->redirect('/signin');
+        $app->redirect('/sign-in');
     }
 
 
@@ -71,7 +71,7 @@ $app->post("/signin/", function () use ($app) {
 
     if (empty($authorization)) {
         $app->flash('errors', $errors);
-        $app->redirect('/signin');
+        $app->redirect('/sign-in');
     }
 
     $_SESSION['user'] = $user->id;
