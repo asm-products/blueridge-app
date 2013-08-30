@@ -13,7 +13,6 @@ $app->get('/app/profile/',$authenticate($app), function () use ($app) {
     $user->fetchOne($id);
 
     $user = $user->toArray();
-    //var_dump($user);
     $app->render("app/profile.html", ['user' =>$user ,'route'=>'profile']);    
 });
 
