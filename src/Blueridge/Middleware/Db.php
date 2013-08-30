@@ -5,7 +5,7 @@
  * @author Moses Ngone <mo@mospired.com> @mosesngone
  */
 
-namespace BlueRidge\Init;
+namespace BlueRidge\Middleware;
 
 use \Slim\Middleware;
 use \Doctrine\MongoDB\Connection;

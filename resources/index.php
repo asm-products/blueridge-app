@@ -7,9 +7,11 @@ require '../vendor/autoload.php';
 use \Slim\Slim;
 use \Slim\Views;
 use \Slim\Middleware\SessionCookie;
-use \BlueRidge\Init\Configs;
-use \BlueRidge\Init\Db;
-use \BlueRidge\Init\Mailbox;
+use \BlueRidge\Middleware\Bootstrap;
+use \BlueRidge\Middleware\Db;
+use \BlueRidge\Middleware\Mail;
+use \BlueRidge\Middleware\View;
+use \BlueRidge\Middleware\Subscription;
 
 defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__).'/../app'));
 defined('CACHE_DIR') || define('CACHE_DIR', realpath(dirname(__FILE__).'/../cache'));
@@ -19,8 +21,9 @@ $app = new Slim();
 $app->setName('blueridgeapp');
 $app->add(new SessionCookie(array('secret' => '4VtUZrv8@Y')));
 $app->add(new Db());
-$app->add(new Mailbox());
-$app->add(new Configs());
+$app->add(new Mail());
+$app->add(new View());
+$app->add(new Bootstrap());
 
 $authenticate = function ($app) {
     return function () use ($app) {
@@ -40,24 +43,16 @@ $app->hook('slim.before.dispatch', function() use ($app) {
     $app->view()->setData('user', $user);
 });
 
+require APPLICATION_PATH."/routes/auth/basecamp.php";
 
+require APPLICATION_PATH."/routes/site/sign-in.php";
+require APPLICATION_PATH."/routes/site/forgot-password.php";
+require APPLICATION_PATH."/routes/site/home.php";
 
-/**
- * Routes
- * Note: Always load individual routes before generic ones 
- */
-
-// Site
-require APPLICATION_PATH."/routes/site/signin.php";
-require APPLICATION_PATH."/routes/site/connect.php";
-require APPLICATION_PATH."/routes/site.php";
-
-// App
-require APPLICATION_PATH."/routes/app/basecamp.php";
 require APPLICATION_PATH."/routes/app/export.php";
 require APPLICATION_PATH."/routes/app/projects.php";
 require APPLICATION_PATH."/routes/app/todos.php";
 require APPLICATION_PATH."/routes/app/profile.php";
-require APPLICATION_PATH."/routes/app.php";
+//require APPLICATION_PATH."/routes/app.php";
 
 $app->run();

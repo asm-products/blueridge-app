@@ -2,10 +2,10 @@
 /**
  * Mail
  * Instantiate mail
- * @author Moses Ngone <mo@mospired.com> @mosesngone
+ * @author Moses Ngone <mo@mospired.com>
  */
 
-namespace BlueRidge\Init\Services;
+namespace BlueRidge\Middleware;
 
 use \Slim\Middleware;
 
@@ -19,6 +19,5 @@ class Mail extends Middleware
             $this->app->mail =  new \Mandrill($mail['api_key']);
         }
         $this->next->call();
-
     }
 }
