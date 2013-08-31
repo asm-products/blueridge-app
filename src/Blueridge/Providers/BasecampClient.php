@@ -7,28 +7,22 @@ namespace BlueRidge\Providers;
 
 use \BlueRidge\ModelAbstract;
 
-class BasecampApi extends ModelAbstract
+class BasecampClient
 {
 
-	protected $name;
-	protected $userAgent;
+	protected $user_agent;
 	protected $client_id;
 	protected $client_secret;
 	protected $redirect_uri;
-	protected $authUrl;
-	protected $tokenUrl;
+	protected $auth_url;
+	protected $token_url;
 	protected $token;
 	protected $accounts =[];
 	protected $identity;
 
-	public function __construct($app, $params = null)
-	{
-		parent::__construct($app);
-		$this->setProperties($app->config('providers')['basecamp']);
-		if(!empty($params)){
-			$this->setProperties($params);
-		}
-		return $this;
+	public function __construct($settings)
+	{		
+		$this->setProperties($settings);
 	}
 
 	/**
@@ -37,15 +31,15 @@ class BasecampApi extends ModelAbstract
 	protected function setProperties($properties)
 	{
 		foreach($properties as $property => $value){
-			if($property == "auth_url"){
-				$this->authUrl = $this->getAuthUrl($properties);
+			if (property_exists($this, $property)) {
+				if($property == "auth_url"){
+					$this->auth_url = $this->getAuthUrl($properties);
+				}else{
+					$this->$property = $value;
+				}
+
 			}
-			if($property == "token_url"){
-				$this->tokenUrl = $value;
-			}			
-			$this->$property = $value;
 		}
-		return $this;
 	}
 	
 	public function authorize ($code)
@@ -58,7 +52,7 @@ class BasecampApi extends ModelAbstract
 		'client_secret'=>$this->client_secret,
 		'code'=>$code
 		];
-		$this->token = $this->postData($this->tokenUrl,$params);
+		$this->token = $this->postData($this->token_url,$params);
 		$this->getAuthorization();	
 		return $this->getMe();		
 	}
@@ -181,7 +175,7 @@ class BasecampApi extends ModelAbstract
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
+		curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
 		if(!empty($this->token)){
 			curl_setopt($ch, CURLOPT_HTTPHEADER,["Authorization: Bearer {$this->token['access_token']}"]);
 		}		
@@ -202,7 +196,7 @@ class BasecampApi extends ModelAbstract
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $params );
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-		curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
+		curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
 		if(!empty($this->token)){
 			curl_setopt($ch, CURLOPT_HTTPHEADER,["Authorization: Bearer {$this->token['access_token']}"]);
 		}	

@@ -7,6 +7,7 @@ require '../vendor/autoload.php';
 use \Slim\Slim;
 use \Slim\Views;
 use \Slim\Middleware\SessionCookie;
+
 use \BlueRidge\Middleware\Bootstrap;
 use \BlueRidge\Middleware\Db;
 use \BlueRidge\Middleware\Mail;
@@ -19,7 +20,7 @@ defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV
 
 $app = new Slim();
 $app->setName('blueridgeapp');
-$app->add(new SessionCookie(array('secret' => '4VtUZrv8@Y')));
+$app->add(new SessionCookie(['secret' => '4VtUZrv8@Y']));
 $app->add(new Db());
 $app->add(new Mail());
 $app->add(new View());
