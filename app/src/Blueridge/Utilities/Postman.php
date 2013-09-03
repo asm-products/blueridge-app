@@ -56,7 +56,7 @@ class Postman
 
 
     try{
-        return $app->mailbox->messages->sendTemplate($template_name, $template_content, $message, $async, $ip_pool);
+        return $app->mail->messages->sendTemplate($template_name, $template_content, $message, $async, $ip_pool);
     } catch(Mandrill_Error $e) {    
         echo 'A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage();
         throw $e;
