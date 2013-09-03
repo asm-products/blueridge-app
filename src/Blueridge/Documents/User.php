@@ -89,34 +89,12 @@ class User
      */
     protected $subscription = array();
 
-
     /**
      * Providers
      * @var Array
      * @ODM\Hash
      */
     protected $providers;
-
-    /**
-     * Getter
-     */
-    public function __get($property)
-    {
-        if (property_exists($this, $property)) {
-            return $this->$property;
-        }
-    }
-    
-    /**
-     * Setter
-     */
-    public function __set($property, $value)
-    {
-        if (property_exists($this, $property)) {
-            $this->$property = $value;
-        }
-        return $this;
-    }
 
     /**
      * Set Properties
@@ -182,5 +160,64 @@ class User
             }
         }
         return $item;
+    }
+
+    /**
+     * Fetch Projects
+     */
+    protected function fetchProjects()
+    {
+        $projects=array();
+
+        foreach($this->projects as $key => $project){
+            
+            $selected = (in_array($project['id'], $this->profile['projects']))?true:false;
+            $item=$project;
+            $item['selected']=$selected;    
+            unset(              
+                $item['archived'],
+                $item['created_at'],
+                $item['updated_at'],
+                $item['last_event_at'],
+                $item['starred']
+                );
+
+            $projects[]=$item;
+        }
+        return $projects;
+    }
+
+    /**
+     * Getter
+     */
+    public function __get($property)
+    {
+        if (property_exists($this, $property)) {
+
+            switch($property)
+            {
+                case 'accounts':
+                $data= $this->profile['accounts']['basecamp'];
+                break;
+                case 'projects':
+                $data = $this->fetchProjects();
+                break;
+                default:
+                $data = $this->$property;
+
+            }       
+            return $data;           
+        }
+    }
+    
+    /**
+     * Setter
+     */
+    public function __set($property, $value)
+    {
+        if (property_exists($this, $property)) {
+            $this->$property = $value;
+        }
+        return $this;
     }
 }
