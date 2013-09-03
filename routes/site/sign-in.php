@@ -2,7 +2,7 @@
 /**
  * Sign In Routes
  */
-use  \BlueRidge\Entities\User;
+use  \BlueRidge\Documents\User;
 use  \BlueRidge\Utilities\Doorman;
 
 
@@ -16,7 +16,7 @@ $app->get("/sign-in/", function () use ($app) {
 
     $urlRedirect = '/';
 
-    if ($app->request()->get('r') && $app->request()->get('r') != '/signout/' && $app->request()->get('r') != '/sign-in/') {
+    if ($app->request()->get('r') && $app->request()->get('r') != '/sign-out/' && $app->request()->get('r') != '/sign-in/') {
         $_SESSION['urlRedirect'] = $app->request()->get('r');
     }
 
@@ -61,9 +61,7 @@ $app->post("/sign-in/", function () use ($app) {
         $app->redirect('/sign-in');
     }
 
-
-    $user = new User($app);
-    $user->fetch(['email'=>$email]);
+    $user = $app->dm->getRepository('\BlueRidge\Documents\User')->findOneByEmail($email);
     $authorization = Doorman::authorize($password,$user->key);
 
 
@@ -82,5 +80,5 @@ $app->post("/sign-in/", function () use ($app) {
         $app->redirect($tmp);
     }
 
-    $app->redirect('/');
+    $app->redirect('/app/todos/');
 });

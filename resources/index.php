@@ -31,7 +31,7 @@ $authenticate = function ($app) {
         if (!isset($_SESSION['user'])) {
             $_SESSION['urlRedirect'] = $app->request()->getPathInfo();
             $app->flash('error', 'Login required');
-            $app->redirect('/signin');
+            $app->redirect('/sign-in/');
         }
     };
 };
@@ -54,6 +54,7 @@ require APPLICATION_PATH."/routes/app/export.php";
 require APPLICATION_PATH."/routes/app/projects.php";
 require APPLICATION_PATH."/routes/app/todos.php";
 require APPLICATION_PATH."/routes/app/profile.php";
+require APPLICATION_PATH."/routes/app/sign-out.php";
 //require APPLICATION_PATH."/routes/app.php";
 
 $app->run();
