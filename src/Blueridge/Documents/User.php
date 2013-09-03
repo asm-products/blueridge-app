@@ -8,7 +8,7 @@ namespace BlueRidge\Documents;
 use \Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** 
- * @ODM\Document(collection="Users") 
+ * @ODM\Document(collection="Users",repositoryClass="\BlueRidge\Documents\UserRepository") 
  */
 class User
 {
@@ -115,6 +115,38 @@ class User
         if (property_exists($this, $property)) {
             $this->$property = $value;
         }
+        return $this;
+    }
+
+    /**
+     * Set Properties
+     * @return Object
+     */ 
+    public function setProperties(Array $properties)
+    {
+        foreach($properties as $property => $value){            
+            if (property_exists($this, $property)) {
+                $this->$property = $value;
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Set Subscription 
+     */
+    public function initNewSubscriber($service)
+    {
+        \Stripe::setApiKey($service['secret_key']);
+        $customer = \Stripe_Customer::create(['description' => $this->name,'email' =>$this->email,'plan'=>'br-free']);
+
+        $this->subscription=[
+        'customer_id'=>$customer->id,
+        'plan'=>['id'=>$customer->subscription->plan->id,'name'=>$customer->subscription->plan->name],
+        'card'=>'',
+        'status'=>$customer->subscription->status
+        ];
+
         return $this;
     }
 }
