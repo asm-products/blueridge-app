@@ -3,14 +3,14 @@
  * Todo Routes
  */
 
-use \BlueRidge\Entities\User;
+use \BlueRidge\Documents\User;
 use \BlueRidge\Entities\Todo;
 
 $app->get('/app/todos/',$authenticate($app), function () use ($app) {
 
     $id = $_SESSION['user'];
-    $user= new User($app);
-    $user->fetchOne($id);
+    $user = $app->dm->find('\BlueRidge\Documents\User', $id);
+
 
     $todo = new Todo($app);
     $todos = $todo->fetchByUser($user);

@@ -149,4 +149,38 @@ class User
 
         return $this;
     }
+
+    /**
+     * Update Profile
+     */
+    public function updateProfile($segment,$properties)
+    {
+        try{
+            $this->profile[$segment]= $properties;
+            return true;
+        }catch(\Exception $error){
+            \error_log($error->getMessage());
+            return;
+        }
+    }
+
+    /**
+     * To Array
+     * @return Array
+     */
+    public function toArray()
+    {
+        $properties = ['name','firstName','lastName','email','url','avatar','subscription'];
+
+        $item=array();
+
+        foreach ($this as $property => $value)
+        {
+            if (in_array($property, $properties))
+            {               
+                $item[$property]=$value;                                
+            }
+        }
+        return $item;
+    }
 }
