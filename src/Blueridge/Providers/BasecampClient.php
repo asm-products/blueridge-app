@@ -42,7 +42,7 @@ class BasecampClient
 		}
 	}
 	
-	public function authorize ($code)
+	public function getToken ($code,$refresh=null)
 	{
 
 		$params = [
@@ -52,9 +52,10 @@ class BasecampClient
 		'client_secret'=>$this->client_secret,
 		'code'=>$code
 		];
-		$this->token = $this->postData($this->token_url,$params);
-		$this->getAuthorization();	
-		return $this->getMe();		
+
+		$token = $this->postData($this->token_url,$params);
+		$this->token = $token;
+		return $this;
 	}
 
 	/**
@@ -211,7 +212,6 @@ class BasecampClient
 	public function getProperties()
 	{
 		$item = [
-		"name"=>$this->name,
 		"token"=>$this->token,
 		"accounts"=>$this->accounts,
 		"identity"=>$this->identity
@@ -222,6 +222,21 @@ class BasecampClient
 	public function toArray(){
 		$item = ["name"=>$this->name,"authUrl"=>$this->authUrl];
 		return $item;
+	}
+
+	public function __get($property)
+	{
+		if (property_exists($this, $property)) {
+			return $this->$property;
+		}
+	}
+	
+	public function __set($property, $value)
+	{
+		if (property_exists($this, $property)) {
+			$this->$property = $value;
+		}
+		return $this;
 	}
 
 }

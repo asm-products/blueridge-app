@@ -153,6 +153,7 @@ class User
 	 */
 	public function exists(Array $params)
 	{
+		// true / false comparison
 		return $this->collection->count($params);
 	}
 

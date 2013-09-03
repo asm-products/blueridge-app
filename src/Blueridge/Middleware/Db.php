@@ -19,7 +19,7 @@ class Db extends Middleware
     {
         if(!empty($this->app->config('database')))
         {   
-            $this->app->container->singleton('db', function () {
+            $this->app->container->singleton('dm', function () {
                 $configs = $this->app->config('database');
                 $connection_url = "mongodb://{$configs['host']}:{$configs['port']}/{$configs['name']}";
                 AnnotationDriver::registerAnnotationClasses();
