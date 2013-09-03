@@ -58,7 +58,7 @@ $app->get('/auth/basecamp/',function() use ($app){
         if($noob){
             Postman::newUserMail($app,$user,$access);    
         }
-        
+
         $app->redirect('/app/projects/');
 
     }
