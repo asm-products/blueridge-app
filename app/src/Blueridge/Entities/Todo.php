@@ -5,7 +5,8 @@
 
 namespace BlueRidge\Entities;
 
-use BlueRidge\Providers\BasecampApi;
+use \BlueRidge\Providers\BasecampClient;
+use \BlueRidge\Documents\User;
 
 class Todo extends \BlueRidge\ModelAbstract
 {
@@ -111,10 +112,12 @@ class Todo extends \BlueRidge\ModelAbstract
 			return;
 		}
 
-		$basecamp = new BasecampApi($this->app,$user->providers['basecamp']);
+		$settings = array_merge($this->app->config('providers')['basecamp'],$user->providers['basecamp']);
 
-		$todoLists=$basecamp->getTodoLists($profileProjects);
-		$todos = $basecamp->getTodos($todoLists);
+		$basecampClient = new BasecampClient($settings);
+
+		$todoLists=$basecampClient->getTodoLists($profileProjects);
+		$todos = $basecampClient->getTodos($todoLists);
 
 		return $this->organize($todos);
 
