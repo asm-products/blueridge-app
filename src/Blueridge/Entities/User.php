@@ -8,6 +8,10 @@ namespace BlueRidge\Entities;
 use BlueRidge\Providers\BasecampApi;
 use BlueRidge\ModelAbstract;
 
+
+/**
+ * @deprecated
+ */
 class User
 {
 	/**
