@@ -20,7 +20,7 @@ defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV
 
 $app = new Slim();
 $app->setName('blueridgeapp');
-$app->add(new SessionCookie(['secret' => '4VtUZrv8@Y']));
+$app->add(new SessionCookie(['secret' => '4VtUZrv8@Y','name'=>'_blrdgapp','expires'=>'24 hours']));
 $app->add(new Db());
 $app->add(new Mail());
 $app->add(new View());
@@ -54,6 +54,7 @@ require APPLICATION_PATH."/routes/app/export.php";
 require APPLICATION_PATH."/routes/app/projects.php";
 require APPLICATION_PATH."/routes/app/todos.php";
 require APPLICATION_PATH."/routes/app/profile.php";
+require APPLICATION_PATH."/routes/app/cart.php";
 require APPLICATION_PATH."/routes/app/sign-out.php";
 //require APPLICATION_PATH."/routes/app.php";
 
