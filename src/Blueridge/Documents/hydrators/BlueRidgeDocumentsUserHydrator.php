@@ -92,6 +92,14 @@ class BlueRidgeDocumentsUserHydrator implements HydratorInterface
         }
 
         /** @Field(type="hash") */
+        if (isset($data['roles'])) {
+            $value = $data['roles'];
+            $return = $value;
+            $this->class->reflFields['roles']->setValue($document, $return);
+            $hydratedData['roles'] = $return;
+        }
+
+        /** @Field(type="hash") */
         if (isset($data['profile'])) {
             $value = $data['profile'];
             $return = $value;

@@ -69,6 +69,13 @@ class User
     protected $key;
 
     /**
+     * Roles
+     * @var Array
+     * @ODM\Hash
+     */
+    protected $roles = array();
+
+    /**
      * Profile
      * @var Array
      * @ODM\Hash
