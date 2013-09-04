@@ -50,10 +50,9 @@ $app->get("/sign-in/", function () use ($app) {
 
 
 $app->post("/sign-in/", function () use ($app) {
-
-
     $email = $app->request()->post('email');
     $password = $app->request()->post('password');
+    $errors = array();
 
     if(empty($email) || empty($password)){
         $app->response()->status(403);
@@ -62,10 +61,17 @@ $app->post("/sign-in/", function () use ($app) {
     }
 
     $user = $app->dm->getRepository('\BlueRidge\Documents\User')->findOneByEmail($email);
+
+    if(empty($user)){
+        $app->response()->status(403);
+        $app->flash('errors', 'Wrong Credentials');
+        $app->redirect('/sign-in');
+
+    }
     $authorization = Doorman::authorize($password,$user->key);
 
 
-    $errors = array();
+
 
     if (empty($authorization)) {
         $app->flash('errors', $errors);
