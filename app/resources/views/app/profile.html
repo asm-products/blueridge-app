@@ -43,37 +43,8 @@
 
 			<div class="span8">
 				<h3>Your Plan</h3>
-				<div class="row-fluid">
-					<div class="span6 well {% if user['subscription']['plan']['id'] == 'br-pro' %} muted {% endif %}">
-						<h4>Pro </h4>
-						<p class="plan-feature">30 projects at a time</p>
-						<p class="plan-price"><sup>$</sup>19.95<sub>/mo.</sub></p>
-						<a href="/app/cart/pro" class="btn btn-info">Change</a>
-					</div>
-					<div class="span6 well {% if user['subscription']['plan']['id'] == 'br-manager' %} muted {% endif %}">
-						<h4>Manager </h4>
-						<p class="plan-feature">10 projects at a time</p>
-						<p class="plan-price"><sup>$</sup>9.95<sub>/mo.</sub></p>
-						<a href="/app/cart/manager" class="btn btn-info">Change</a>
-					</div>
-					<div class="span6 well {% if user['subscription']['plan']['id'] == 'br-solo' %} muted {% endif %}">
-						<h4>Solo</h4>
-						<p class="plan-feature">5 projects at a time</p>
-						<p class="plan-price"><sup>$</sup>4.95<sub>/mo.</sub></p>
-						<a href="/app/cart/solo" class="btn btn-info">Change</a>
-					</div>
-					<div class="span6 well {% if user['subscription']['plan']['id'] == 'br-free' %} muted {% endif %}">
-						<h4>Forever Free</h4>
-						<p class="plan-feature">3 project at a time</p>
-						<p class="plan-price"><sup>$</sup>0.00<sub>/mo.</sub></p>
-						<a href="/app/cart/free" class="btn btn-info">Change</a>
-					</div>
-				</div>
-				<div class="row-fluid">
-					<div class="span12">
-						<p>Hey! You can choose which projects you see whenever you like, as much as you like.</p>
-					</div>
-				</div>
+				<p>Hey! You can choose which projects you see whenever you like, as much as you like.</p>					
+				{{dump(user)}}				
 			</div>
 		</div>
 	</div>
