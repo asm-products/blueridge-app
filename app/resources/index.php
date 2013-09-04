@@ -49,6 +49,7 @@ require APPLICATION_PATH."/routes/auth/basecamp.php";
 require APPLICATION_PATH."/routes/site/sign-in.php";
 require APPLICATION_PATH."/routes/site/forgot-password.php";
 require APPLICATION_PATH."/routes/site/home.php";
+require APPLICATION_PATH."/routes/site.php";
 
 require APPLICATION_PATH."/routes/app/export.php";
 require APPLICATION_PATH."/routes/app/projects.php";
