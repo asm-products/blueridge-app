@@ -28,7 +28,7 @@ $app->get('/auth/basecamp/',function() use ($app){
 
         $basecampClient = new BasecampClient($settings);         
         $basecampClient->getToken($code)->getAuthorization();
-
+        
         $access = Doorman::Init();
         $user = $app->dm->getRepository('\BlueRidge\Documents\User')->findOneByEmail($basecampClient->identity['email_address']);
         if(empty($user))
