@@ -10,6 +10,7 @@ namespace BlueRidge\Middleware;
 use \Slim\Middleware;
 use \Slim\Views\Twig;
 use \Slim\Views\TwigExtension;
+use \Twig_Extension_Debug;
 
 class View extends Middleware
 {
@@ -23,7 +24,8 @@ class View extends Middleware
 
         // set Twig Extensions
         $this->app->view->parserOptions = ['debug' => true,'cache' => CACHE_DIR.'/front'];
-        $this->app->view->parserExtensions = [ new TwigExtension()];
+        $this->app->view->parserExtensions = [ new TwigExtension(),new Twig_Extension_Debug()];
         $this->next->call();
+
     }
 }
