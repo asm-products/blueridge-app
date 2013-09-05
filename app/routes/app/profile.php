@@ -3,16 +3,16 @@
  * Profile Routes
  */
 
-use \BlueRidge\Entities\User;
-use \BlueRidge\Entities\Todo;
+use \BlueRidge\Utilities\Teller;
 
 $app->get('/app/profile/',$authenticate($app), function () use ($app) {
 
     $id = $_SESSION['user'];
-    $user = $app->dm->find('\BlueRidge\Documents\User', $id)->toArray(); 
-    $app->render("app/profile.html", ['user' =>$user ,'route'=>'profile']);    
+    $user = $app->dm->find('\BlueRidge\Documents\User', $id)->toArray();
+    $payment = Teller::getPayment($app->config('services')['subscriber'],$user['subscription']);
+    $app->render("app/profile.html", ['user' =>$user,'payment'=>$payment ,'route'=>'profile']);    
 });
 
-$app->post('/app/profile/',$authenticate($app),function() use ($app){
+// $app->post('/app/profile/',$authenticate($app),function() use ($app){
 
-});
+// });
