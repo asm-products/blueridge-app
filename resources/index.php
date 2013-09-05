@@ -59,4 +59,8 @@ require APPLICATION_PATH."/routes/app/cart.php";
 require APPLICATION_PATH."/routes/app/sign-out.php";
 //require APPLICATION_PATH."/routes/app.php";
 
+$app->notFound(function () use ($app) {
+   $app->render("common/error-404.html",['message'=>'No Joy. File not found',404]);
+});
+
 $app->run();
