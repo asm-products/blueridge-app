@@ -116,25 +116,7 @@ class User
         }
         return $this;
     }
-
-    /**
-     * Set Subscription 
-     */
-    public function initNewSubscriber($service)
-    {
-        \Stripe::setApiKey($service['secret_key']);
-        $customer = \Stripe_Customer::create(['description' => $this->name,'email' =>$this->email,'plan'=>'br-free']);
-
-        $this->subscription=[
-        'customer_id'=>$customer->id,
-        'plan'=>['id'=>$customer->subscription->plan->id,'name'=>$customer->subscription->plan->name],
-        'card'=>'',
-        'status'=>$customer->subscription->status
-        ];
-
-        return $this;
-    }
-
+    
     /**
      * Update Profile
      */
