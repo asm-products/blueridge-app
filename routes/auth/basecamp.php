@@ -7,20 +7,22 @@ use \BlueRidge\Providers\BasecampClient;
 use \BlueRidge\Documents\User;
 use \BlueRidge\Utilities\Postman;
 use \BlueRidge\Utilities\Doorman;
+use \BlueRidge\Utilities\Teller;
 
 
 $app->get('/auth/basecamp/',function() use ($app){
     $code = $app->request()->params('code');
-    $settings = $app->config('providers')['basecamp'];
-    $subscribe_settings = $app->config('services')['subscriber'];
+    $settings = $app->config('providers')['basecamp'];   
     $noob = false;
 
     if(empty($code))
     {        
-        if(!empty($settings)){
+        if(!empty($settings))
+        {
             $auth_request = "{$settings['auth_url']}?client_id={$settings['client_id']}&redirect_uri={$settings['redirect_uri']}&type=web_server";        
             $app->redirect($auth_request);
-        }else{
+        }else
+        {
             $app->render("common/error-500.html",['message'=>'Looks like we have a problem connecting you to Basecamp',500]);
         }
     }else
@@ -41,8 +43,7 @@ $app->get('/auth/basecamp/',function() use ($app){
             ];
             $me = $basecampClient->getMe();
             $user->setProperties($me);
-            $user->initNewSubscriber($subscribe_settings);
-
+            $user->subscription = Teller::addCustomer($app->config('services')['subscriber'],$me);            
             $noob = true;
         }
         $user->providers = ['basecamp'=>[
