@@ -8,12 +8,22 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 
 class UserRepository extends DocumentRepository
 {
-    public function exists($property, $value)
+
+    public function updatePayment($payment)
     {
-
-
-        // return $this->createQueryBuilder()
-        //     ->field('status')->equals('admin')
-        //     ->getQuery()->execute();
+       return $this->createQueryBuilder()
+            ->update()
+            ->field('subscription.cardId')->set($payment['card']['id'])
+            ->getQuery()->execute();
     }
+
+    public function updateSubscription($plan)
+    {
+       return $this->createQueryBuilder()
+            ->update()
+            ->field('subscription.plan')->set($plan)
+            ->getQuery()->execute();
+    }
+
+
 }
