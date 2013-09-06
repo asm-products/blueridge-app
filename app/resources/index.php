@@ -30,18 +30,18 @@ $authenticate = function ($app) {
     return function () use ($app) {
         if (!isset($_SESSION['user'])) {
             $_SESSION['urlRedirect'] = $app->request()->getPathInfo();
-            $app->flash('error', 'Login required');
+            $app->flash('error', 'Sign In required');
             $app->redirect('/sign-in/');
         }
     };
 };
 
 $app->hook('slim.before.dispatch', function() use ($app) { 
-    $user = null;
+    $id = null;
     if (isset($_SESSION['user'])) {
-        $user = $_SESSION['user'];
+        $id = $_SESSION['user'];
     }
-    $app->view()->setData('user', $user);
+    $app->view()->setData('user', $id);
 });
 
 require APPLICATION_PATH."/routes/auth/basecamp.php";
