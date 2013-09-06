@@ -56,7 +56,7 @@
 				
 				<hr />
 
-				<form action="/app/cart/update-subscription" method="post" id="update-subscription">					
+				<form action="/app/cart/update-subscription/" method="post" id="update-subscription">					
 					<h3>Plans</h3>	
 					<fieldset>						
 						<label class="radio">
@@ -96,7 +96,7 @@
 <script>
 $('#payment-button').click(function(){
 	var token = function(res){		
-		var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+		var $input = $('<input type=hidden name=paymentToken />').val(res.id);
 		$('#update-payment').append($input).submit();
 	};
 	StripeCheckout.open({

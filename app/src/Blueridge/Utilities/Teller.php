@@ -36,7 +36,13 @@ class Teller
         $customer = \Stripe_Customer::retrieve($subscription['customerId']);
         $card = $customer->cards->retrieve($subscription['cardId']);
 
-        return ['key'=>$service['publishable_key'],'card'=>$card];
+        return ['key'=>$service['publishable_key'],'card'=>[
+        'id'=>$card->id,
+        'last4'=>$card->last4,
+        'exp_month' => $card->exp_month,
+        'type'=>$card->type,
+        'exp_year' => $card->exp_year
+        ]];
     }
 
     public static function updatePayment($service,$customerId,$token)
@@ -48,12 +54,25 @@ class Teller
         */
 
         $card = $customer->cards->create(array("card" => $token));
-
-        return ['key'=>$service['publishable_key'],'cardId'=>[
+        
+        return ['key'=>$service['publishable_key'],'card'=>[
         'id'=>$card->id,
         'last4'=>$card->last4,
+        'type'=>$card->type,
         'exp_month' => $card->exp_month,
         'exp_year' => $card->exp_year
         ]];
+    }
+
+    public static function updateSubscription($service,$customerId,$plan)
+    {
+        \Stripe::setApiKey($service['secret_key']);    
+        $customer = \Stripe_Customer::retrieve($customerId);
+        $customer->updateSubscription(array("plan" => $plan, "prorate" => true));
+
+        return [
+        'id'=>$customer->subscription->plan->id,
+        'name'=>$customer->subscription->plan->name,
+        ];
     }
 }
