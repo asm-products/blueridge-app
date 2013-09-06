@@ -57,7 +57,7 @@ $app->post("/sign-in/", function () use ($app) {
     if(empty($email) || empty($password)){
         $app->response()->status(403);
         $app->flash('errors', 'Missing Credentials');
-        $app->redirect('/sign-in');
+        $app->redirect('/sign-in/');
     }
 
     $user = $app->dm->getRepository('\BlueRidge\Documents\User')->findOneByEmail($email);
@@ -65,7 +65,7 @@ $app->post("/sign-in/", function () use ($app) {
     if(empty($user)){
         $app->response()->status(403);
         $app->flash('errors', 'Wrong Credentials');
-        $app->redirect('/sign-in');
+        $app->redirect('/sign-in/');
 
     }
     $authorization = Doorman::authorize($password,$user->key);
@@ -75,7 +75,7 @@ $app->post("/sign-in/", function () use ($app) {
 
     if (empty($authorization)) {
         $app->flash('errors', $errors);
-        $app->redirect('/sign-in');
+        $app->redirect('/sign-in/');
     }
 
     $_SESSION['user'] = $user->id;
