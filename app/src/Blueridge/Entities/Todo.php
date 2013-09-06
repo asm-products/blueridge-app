@@ -8,7 +8,7 @@ namespace BlueRidge\Entities;
 use \BlueRidge\Providers\BasecampClient;
 use \BlueRidge\Documents\User;
 
-class Todo extends \BlueRidge\ModelAbstract
+class Todo
 {
 	/**
 	 * Todo Id
@@ -26,7 +26,7 @@ class Todo extends \BlueRidge\ModelAbstract
 	 * Date
 	 * @var String
 	 */
-	protected $dueDate;
+	protected $dueDate='';
 
 	/**
 	 * Overdue By
@@ -38,19 +38,19 @@ class Todo extends \BlueRidge\ModelAbstract
 	 * Content
 	 * @var String
 	 */
-	protected $content;
+	protected $content='';
 
 	/**
 	 * Owner
 	 * @var Object
 	 */
-	protected $owner;
+	protected $owner='';
 
 	/**
 	 * Project Name
 	 * @var String
 	 */
-	protected $projectName;
+	protected $projectName='';
 
 	/**
 	 * List
@@ -63,6 +63,29 @@ class Todo extends \BlueRidge\ModelAbstract
 	 * @var String
 	 */
 	protected $url;
+
+	/**
+	 * App
+	 * @var Object
+	 */
+	private $app;
+	
+	/**
+	 * Constructor
+	 */
+	public function __construct($app,$properties=null)
+	{
+		$this->app = $app;		
+		if(!empty($properties)){
+
+			foreach($properties as $property => $value){
+				if($property == "_id"){
+					$this->id = (string) $value;
+				}
+				$this->$property = $value;
+			}
+		}
+	}	
 
 
 	/**
@@ -180,5 +203,20 @@ class Todo extends \BlueRidge\ModelAbstract
 		"overDueBy"=>$this->overDueBy
 		];
 		return $item;
+	}
+
+	public function __get($property)
+	{
+		if (property_exists($this, $property)) {
+			return $this->$property;
+		}
+	}
+	
+	public function __set($property, $value)
+	{
+		if (property_exists($this, $property)) {
+			$this->$property = $value;
+		}
+		return $this;
 	}
 }
