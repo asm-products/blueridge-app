@@ -13,7 +13,7 @@ class UserRepository extends DocumentRepository
     {
        return $this->createQueryBuilder()
             ->update()
-            ->field('subscription.cardId')->set($payment['card']['id'])
+            ->field('subscription.card')->set($payment)
             ->getQuery()->execute();
     }
 
