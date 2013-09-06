@@ -18,7 +18,7 @@ git pull , and grunt to view the lastest changes from [origin](https://github.co
 
 Create a feature branch 
         
-        git checkout -b feature/sleekness
+        git checkout -b feature/sleekness master
 
 
 When you are done Push your branch to [origin](https://github.com/ninelabs/blueridgeapp)
