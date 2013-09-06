@@ -3,9 +3,9 @@
     <div class="span12">
     	<a id="brand">Blue Ridge</a>
       <ul class="nav nav-pills">
-        <li><a href="/app/todos/"><i class="icon-check"></i> To-dos</a></li>
-        <li><a href="/app/projects/"><i class="icon-cogs"></i> Projects</a></li>
-        <li><a href="/app/profile/"><i class="icon-user"></i> Profile</a></li>
+        <li{% if route == 'todos' %} class="active" {% endif %}><a href="/app/todos/"><i class="icon-check"></i> To-dos</a></li>
+        <li{% if route == 'projects' %} class="active" {% endif %}><a href="/app/projects/"><i class="icon-cogs"></i> Projects</a></li>
+        <li{% if route == 'profile' %} class="active" {% endif %}><a href="/app/profile/"><i class="icon-user"></i> Profile</a></li>
         <li><a href="/sign-out/" tabindex="-1"><i class="icon-signout"></i> Sign out</a></li>
       </ul>
     </div>
