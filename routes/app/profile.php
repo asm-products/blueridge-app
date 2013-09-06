@@ -6,10 +6,9 @@
 use \BlueRidge\Utilities\Teller;
 
 $app->get('/app/profile/',$authenticate($app), function () use ($app) {
-
     $id = $_SESSION['user'];
-    $user = $app->dm->find('\BlueRidge\Documents\User', $id)->toArray();
+    $subscriber= $app->config('services')['subscriber'];
     
-    $payment = Teller::getPayment($app->config('services')['subscriber'],$user['subscription']);
-    $app->render("app/profile.html", ['user' =>$user,'payment'=>$payment ,'route'=>'profile']);    
+    $user = $app->dm->find('\BlueRidge\Documents\User', $id)->toArray();    
+    $app->render("app/profile.html", ['user' =>$user,'subscriber'=>$subscriber ,'route'=>'profile']);    
 });
