@@ -45,18 +45,17 @@ $app->hook('slim.before.dispatch', function() use ($app) {
 });
 
 require APPLICATION_PATH."/routes/auth/basecamp.php";
-
 require APPLICATION_PATH."/routes/site/sign-in.php";
 require APPLICATION_PATH."/routes/site/forgot-password.php";
 require APPLICATION_PATH."/routes/site/home.php";
-require APPLICATION_PATH."/routes/site.php";
-
 require APPLICATION_PATH."/routes/app/export.php";
 require APPLICATION_PATH."/routes/app/projects.php";
 require APPLICATION_PATH."/routes/app/todos.php";
 require APPLICATION_PATH."/routes/app/profile.php";
 require APPLICATION_PATH."/routes/app/cart.php";
 require APPLICATION_PATH."/routes/app/sign-out.php";
+
+require APPLICATION_PATH."/routes/site.php";
 //require APPLICATION_PATH."/routes/app.php";
 
 $app->notFound(function () use ($app) {
