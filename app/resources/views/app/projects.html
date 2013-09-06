@@ -2,35 +2,38 @@
 {% block title %}Projects{% endblock %}
 {% block content %}
 <div id="app-projects" class="container app-container">
+	{% if noob == false %}
 	{% include "app/sections/nav.html" %}
+	{% endif %}
 	<div class="panel">
-		<!--
+		{% if noob %}
 		<div class="noob-message">
 			<h2>Welcome to BlueRidge. Let&rsquo;s get started.</h2>
 			<p class="lead">Choose the projects you&rsquo;d like to get a better view of.<br>We&rsquo;ll grab all the To-dos and sort them for you.</p>
 		</div>
-	-->
-	<p class="lead">Choose which projects to view:</p>
-	<form action="/app/projects/" method="post">
-		<div class="row-fluid">
-			<div class="span12">				
-				{% for project in projects %}
-				<label class="checkbox project-row">
-					<input type="checkbox" name="selected[]" value="{{ project.id }}" {% if project.selected == true %} checked {% endif %}>
-					<h4>{{ project.name }}</h4>
-					<p class="project-description">{{ project.description }}</p>
-					<p>{{ project.account }}</p>
-				</label>
-				{% endfor %}				
-			</div>
-			<div class="control-group">
-				<div class="controls">
-					<button class="btn btn-large btn-success" type="submit">Apply My Choices</button>
+		{% else %}	
+		<p class="lead">Choose which projects to view:</p>
+		{% endif %}
+		<form action="/app/projects/" method="post">
+			<div class="row-fluid">
+				<div class="span12">				
+					{% for project in projects %}
+					<label class="checkbox project-row">
+						<input type="checkbox" name="selected[]" value="{{ project.id }}" {% if project.selected == true %} checked {% endif %}>
+						<h4>{{ project.name }}</h4>
+						<p class="project-description">{{ project.description }}</p>
+						<p>{{ project.account }}</p>
+					</label>
+					{% endfor %}				
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<button class="btn btn-large btn-success" type="submit">Apply My Choices</button>
+					</div>
 				</div>
 			</div>
-		</div>
-	</form>
-</div>
+		</form>
+	</div>
 </div>
 {% include "app/sections/footer.html" %}
 {% endblock %}

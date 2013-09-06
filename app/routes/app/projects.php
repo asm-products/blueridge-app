@@ -8,9 +8,10 @@ use \BlueRidge\Documents\User;
 $app->get('/app/projects/',$authenticate($app), function () use ($app) {
 
     $id = $_SESSION['user'];
+    $noob = (isset($_SESSION['noob']))?true:false;
     $user = $app->dm->find('\BlueRidge\Documents\User', $id);
     $projects = $user->projects; 
-    $app->render("app/projects.html", ['projects' => $projects,'route'=>'projects']);    
+    $app->render("app/projects.html", ['projects' => $projects,'route'=>'projects','noob'=>$noob]);    
 });
 
 $app->post('/app/projects/',$authenticate($app),function() use ($app){
@@ -22,6 +23,6 @@ $app->post('/app/projects/',$authenticate($app),function() use ($app){
     $user->updateProfile('projects',$params);
     $user->url = "/users/{$user->id}";
     $app->dm->flush($user);
-    
+    unset($_SESSION['noob']);    
     $app->redirect('/app/todos/');
 });

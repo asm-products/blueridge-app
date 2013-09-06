@@ -12,8 +12,7 @@ use \BlueRidge\Utilities\Teller;
 
 $app->get('/auth/basecamp/',function() use ($app){
     $code = $app->request()->params('code');
-    $settings = $app->config('providers')['basecamp'];   
-    $noob = false;
+    $settings = $app->config('providers')['basecamp'];       
 
     if(empty($code))
     {        
@@ -43,8 +42,8 @@ $app->get('/auth/basecamp/',function() use ($app){
             ];
             $me = $basecampClient->getMe();
             $user->setProperties($me);
-            $user->subscription = Teller::addCustomer($app->config('services')['subscriber'],$me);            
-            $noob = true;
+            $user->subscription = Teller::addCustomer($app->config('services')['subscriber'],$me);                        
+            $_SESSION['noob'] = true;
         }
         $user->providers = ['basecamp'=>[
         'token'=>$basecampClient->token,
@@ -56,7 +55,7 @@ $app->get('/auth/basecamp/',function() use ($app){
         $app->dm->flush();
 
         $_SESSION['user'] = $user->id;
-        if($noob){
+        if(isset($_SESSION['noob'])){
             Postman::newUserMail($app,$user,$access);    
         }
 
