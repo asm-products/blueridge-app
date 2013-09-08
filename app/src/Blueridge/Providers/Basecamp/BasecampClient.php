@@ -19,6 +19,7 @@ class BasecampClient
 	protected $token_url;
 	protected $token;
 	protected $accounts =[];
+	protected $expires_at;
 	protected $handler;
 
 	public function __construct($settings)
@@ -30,7 +31,6 @@ class BasecampClient
 	{
 		$properties = $app->config('providers')['basecamp'];
 		$handler = $app->provider;
-		$handler->setUserAgent($properties['user_agent']);		
 		$properties['handler'] = $handler;
 		$client = new self($properties);
 
@@ -71,6 +71,7 @@ class BasecampClient
 		$request = $this->handler->post($this->token_url,[],$params);
 		$response = $request->send();
 		$this->token = $response->json();
+		return $this;
 	}
 
 	/**
@@ -78,16 +79,22 @@ class BasecampClient
 	 */
 	public function getAuthorization()
 	{
-		$endpoint="https://launchpad.37signals.com/authorization.json";
-		$authorized= $this->getData($endpoint,$this->token);
-		foreach ($authorized['accounts'] as $account) {
+		$endpoint="https://launchpad.37signals.com/authorization.json";		
+		$this->setAuth();
+		$request = $this->handler->get($endpoint);
+		$response = $request->send();
+		$auth = $response->json();
+		$this->identity = $auth['identity'];
+		$this->expires_at = $auth['expires_at'];
+
+		$authIterator = new \ArrayIterator($auth['accounts']);
+		foreach ($authIterator as $account) {
 			if($account['product'] =='bcx'){
 				$this->accounts[] = $account;
 			}
-		}		
-		$this->identity = $authorized['identity'];
+		}
+		
 		return $this;
-
 	}
 	
 	/**
@@ -96,10 +103,13 @@ class BasecampClient
 	public function getMe()
 	{
 		$endpoint = "people/me.json";
-		$url="{$this->accounts[0]['href']}/{$endpoint}"; 
-		$whoami = $this->getData($url,$this->token);
+		$url="{$this->accounts[0]['href']}/{$endpoint}";
+		
+		$request = $this->handler->get($url);
+		$response = $request->send();
+		$whoami = $response->json();
+		
 		$avatar = parse_url($whoami['avatar_url']);
-
 		return [
 		'name'=>$whoami['name'],
 		'firstName'=>$this->identity['first_name'],
@@ -107,16 +117,6 @@ class BasecampClient
 		'email'=>$whoami['email_address'],
 		'avatar'=>"//{$avatar['host']}/{$avatar['path']}?{$avatar['query']}"
 		];
-	}
-
-	/**
-	 * Get Accounts
-	 */
-	public function getAccounts()
-	{
-
-		$accounts=array_column($this->accounts,'name');
-		return ['basecamp'=>$accounts];
 	}
 
 	/**
@@ -244,16 +244,16 @@ class BasecampClient
 	/**
 	 * Set User Authorization
 	 */
-	public function setAuth(User $user)
+	public function setAuth($settings = null)
 	{
-		
-		$settings = $user->providers['basecamp'];
-		$this->setProperties($settings);
+		if (!empty($settings))
+		{
+			$this->setProperties($settings);			
+		}
 
-		$authorization ="Bearer {$settings['token']['access_token']}";			
+		$authorization ="Bearer {$this->token['access_token']}";			
 		$this->handler->getEventDispatcher()->addListener('request.before_send', function(Event $event) use ($authorization) {
 			$event['request']->addHeader('Authorization', $authorization);
-
 		});
 		return $this;
 	}
