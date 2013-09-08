@@ -165,23 +165,19 @@ class BasecampClient
 
 		if(empty($user->profile['projects'])){
 			return;
-		}		
-
-		// set up profile projects
-		$projectIter = new \ArrayIterator($user->projects);
+		}
+		
+		$projectIterator = new \ArrayIterator($user->projects);
 		$profileProjects = [];
 
-		foreach($projectIter as $project){
+		foreach($projectIterator as $project){
 			if(in_array($project['id'], $user->profile['projects']))
 			{
-				$base= pathinfo($project['url'],PATHINFO_DIRNAME);											
+				$base= $project['account']['href'];
 				$profileProjects[] = ['baseUrl'=>$base,'projectId'=>$project['id'],'name'=>$project['name']];
-
 			}
 		}
-
 		return $profileProjects;
-
 	}
 
 	/**
@@ -228,7 +224,7 @@ class BasecampClient
 		$list= array();
 		foreach ($projectsIterator as $project) {
 			$project_name = $project['name'];
-			$endpoint = "{$project['baseUrl']}/{$project['projectId']}/todolists.json";
+			$endpoint = "{$project['baseUrl']}/projects/{$project['projectId']}/todolists.json";
 			$request = $this->handler->get($endpoint);
 			$response = $request->send();
 			$todolist = $response->json();
