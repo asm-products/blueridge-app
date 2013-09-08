@@ -8,10 +8,25 @@ namespace BlueRidge\Providers\Basecamp;
 class BasecampClientHelper
 {
     /**
+     * Get Accounts
+     */
+    public static function getAccounts()
+    {
+        $accounts=array_column($this->accounts,'name');
+        return ['basecamp'=>$accounts];
+    }
+
+
+    /**
      * Organise Todos
      */
     public static function organizeTodos($todoItems)
     {
+        if(empty($todoItems))
+        {
+            return;
+        }
+
         $todos = [];
         $todosIterator = new \RecursiveArrayIterator($todoItems);
 
