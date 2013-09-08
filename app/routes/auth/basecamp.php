@@ -3,7 +3,7 @@
  *  Auth Basecamp
  */
 
-use \BlueRidge\Providers\BasecampClient;
+use \BlueRidge\Providers\Basecamp\BasecampClient;
 use \BlueRidge\Documents\User;
 use \BlueRidge\Utilities\Postman;
 use \BlueRidge\Utilities\Doorman;
@@ -27,24 +27,27 @@ $app->get('/auth/basecamp/',function() use ($app){
     }else
     {
 
-        $basecampClient = new BasecampClient($settings);         
+        $basecampClient = BasecampClient::factory($app);
         $basecampClient->getToken($code)->getAuthorization();
-        
+        $me = $basecampClient->getMe();
+
         $access = Doorman::Init();
-        $user = $app->dm->getRepository('\BlueRidge\Documents\User')->findOneByEmail($basecampClient->identity['email_address']);
+        $qr= $app->dm->getRepository('\BlueRidge\Documents\User');
+        $user = $qr->findOneByEmail($me['email']);
         if(empty($user))
         {
             $user = new User;            
             $user->key = $access['key'];
             $user->profile = [
-            'accounts'=>$basecampClient->getAccounts(),
+            'accounts'=>$basecampClient->accounts,
             'projects'=>[]
             ];
-            $me = $basecampClient->getMe();
+            
             $user->setProperties($me);
             $user->subscription = Teller::addCustomer($app->config('services')['subscriber'],$me);                        
             $_SESSION['noob'] = true;
         }
+
         $user->providers = ['basecamp'=>[
         'token'=>$basecampClient->token,
         'accounts'=>$basecampClient->accounts,
@@ -58,9 +61,7 @@ $app->get('/auth/basecamp/',function() use ($app){
         if(isset($_SESSION['noob'])){
             Postman::newUserMail($app,$user,$access);    
         }
-
         $app->redirect('/app/projects/');
-
     }
 });
 

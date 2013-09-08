@@ -16,7 +16,6 @@ class BasecampClientHelper
         return ['basecamp'=>$accounts];
     }
 
-
     /**
      * Organise Todos
      */

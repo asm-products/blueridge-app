@@ -19,7 +19,7 @@ $app->get('/app/export/csv/', $authenticate($app), function () use ($app) {
     $user = $app->dm->find('\BlueRidge\Documents\User', $id);
 
 
-    $basecampClient = BasecampClient::factory($app)->setAuth($user);
+    $basecampClient = BasecampClient::factory($app)->setAuth($user->providers['basecamp']);
     $todos = $basecampClient->getTodos($user);
 
 
