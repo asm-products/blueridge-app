@@ -3,9 +3,10 @@
  * Basecamp Auth classes
  */
 
-namespace BlueRidge\Providers;
+namespace BlueRidge\Providers\Basecamp;
 
-use \BlueRidge\ModelAbstract;
+use \BlueRidge\Documents\User;
+use \Guzzle\Common\Event;
 
 class BasecampClient
 {
@@ -18,11 +19,22 @@ class BasecampClient
 	protected $token_url;
 	protected $token;
 	protected $accounts =[];
-	protected $identity;
+	protected $handler;
 
 	public function __construct($settings)
 	{		
 		$this->setProperties($settings);
+	}
+
+	public static function factory($app)
+	{
+		$properties = $app->config('providers')['basecamp'];
+		$handler = $app->provider;
+		$handler->setUserAgent($properties['user_agent']);		
+		$properties['handler'] = $handler;
+		$client = new self($properties);
+
+		return $client;
 	}
 
 	/**
@@ -42,6 +54,9 @@ class BasecampClient
 		}
 	}
 	
+	/**
+	 * Get Token
+	 */
 	public function getToken ($code,$refresh=null)
 	{
 
@@ -63,7 +78,6 @@ class BasecampClient
 	public function getAuthorization()
 	{
 		$endpoint="https://launchpad.37signals.com/authorization.json";
-
 		$authorized= $this->getData($endpoint,$this->token);
 		foreach ($authorized['accounts'] as $account) {
 			if($account['product'] =='bcx'){
@@ -75,7 +89,9 @@ class BasecampClient
 
 	}
 	
-
+	/**
+	 * Get Me
+	 */
 	public function getMe()
 	{
 		$endpoint = "people/me.json";
@@ -92,6 +108,9 @@ class BasecampClient
 		];
 	}
 
+	/**
+	 * Get Accounts
+	 */
 	public function getAccounts()
 	{
 
@@ -99,6 +118,9 @@ class BasecampClient
 		return ['basecamp'=>$accounts];
 	}
 
+	/**
+	 * Get Projects
+	 */
 	public function getProjects()
 	{
 		$endpoint="projects.json";
@@ -123,53 +145,122 @@ class BasecampClient
 		return $projects;
 	}
 
-
+	/**
+	 * Get Auth Url
+	 */
 	private function getAuthUrl($properties){
 		$redirect_uri = urlencode($properties['redirect_uri']);
 		return "{$properties['auth_url']}?client_id={$properties['client_id']}&redirect_uri={$redirect_uri}&type=web_server";
 	}
 
-	public function getTodos($todoLists){
-		$todos = array();
-		
+	/**
+	 * Get Profile Projects
+	 */
+	public function getProfileProjects(User $user)
+	{
 
+		if(empty($user->profile['projects'])){
+			return;
+		}		
 
-		foreach($todoLists as $projectName => $lists){
+		// set up profile projects
+		$projectIter = new \ArrayIterator($user->projects);
+		$profileProjects = array();
 
-			foreach ($lists as $list) {
-				$todoList = $this->getData($list['url']);
-				foreach ($todoList['todos']['remaining'] as $todo){				
-					$todo['list'] = $list['name'];
-					$todo['projectName'] = $projectName;
-					$todo['siteUrl']=$this->getSiteUrl($todo['url']);
-					$todos[]=$todo;
-				}
+		foreach($projectIter as $project){
+			if(in_array($project['id'], $user->profile['projects']))
+			{
+				$base= pathinfo($project['url'],PATHINFO_DIRNAME);
+				//list($sp,$accountId)=explode('/',parse_url($project['url'])['path']);								
+				$profileProjects[] = ['baseUrl'=>$base,'projectId'=>$project['id'],'name'=>$project['name']];
+
 			}
-			
 		}
-		return $todos;
+
+		return $profileProjects;
+
 	}
 
-	public function getTodoLists($profileProjects){		
+	/**
+	 * Get Todos
+	 */
+	public function getTodos(User $user)
+	{
+		// get profile projects
+		$profileProjects = $this->getProfileProjects($user);
+
+		// get todo lists
+		$todolists = $this->getTodoLists($user, $profileProjects);
+		
+		// get the todos
+		$todos = [];
+		$todolistIterator = new \RecursiveArrayIterator($todolists);
+		foreach (new \RecursiveArrayIterator($todolistIterator)  as $list) {
+
+			$request = $this->handler->get($list['url']);
+			$response = $request->send();
+			$data = $response->json();
+			$incomplete_todos = $data['todos']['remaining'];			
+			$inherited = ['project'=>$list['project'],'list'=>$list['name']];
+
+			array_walk($incomplete_todos, function(&$a, $key, $inherited) {				
+				$a['project'] = $inherited['project'];
+				$a['list'] = $inherited['list'];
+				$a['href'] = BasecampClientHelper::getSiteUrl($a['url']);				
+			},$inherited);
+
+			$todos = array_merge($todos,$incomplete_todos);
+		}
+		return BasecampClientHelper::organizeTodos($todos);
+	}
+
+	/**
+	 * Get Todolists
+	 */
+	public function getTodoLists(User $user, $profileProjects){	
+
+		$projectsIterator = new \ArrayIterator($profileProjects);
 
 		$todoLists=array();
 		$list= array();
-		foreach ($profileProjects as $project) {
-			$endpoint = "{$project['id']}/todolists.json";
-			$url = "{$project['url']}";
-			$base= pathinfo($url,PATHINFO_DIRNAME);
-			$todoLists[$project['name']] = $this->getData("{$base}/{$endpoint}");
+		foreach ($projectsIterator as $project) {
+			$project_name = $project['name'];
+			$endpoint = "{$project['baseUrl']}/{$project['projectId']}/todolists.json";
+			$request = $this->handler->get($endpoint);
+			$response = $request->send();
+			$todolist = $response->json();
+
+			array_walk($todolist, function(&$a, $key, $project_name) {				
+				$a['project'] = $project_name;
+			},$project_name);
+
+			$todoLists=array_merge($todoLists, $todolist);
 		}
 		
 		return $todoLists;
 	}
 
-	protected function getSiteUrl($url){
-		$points = ['/api/v1','.json'];
-		$siteUrl = str_replace($points,'',$url);
-		return $siteUrl;
+	/**
+	 * Set User Authorization
+	 */
+	public function setAuth(User $user)
+	{
+		
+		$settings = $user->providers['basecamp'];
+		$this->setProperties($settings);
+
+		$authorization ="Bearer {$settings['token']['access_token']}";			
+		$this->handler->getEventDispatcher()->addListener('request.before_send', function(Event $event) use ($authorization) {
+			$event['request']->addHeader('Authorization', $authorization);
+
+		});
+		return $this;
 	}
 
+	/**
+	 * Get Data
+	 * @deprecated
+	 */
 	private function getData($url){
 
 		$ch = curl_init();
@@ -182,12 +273,15 @@ class BasecampClient
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$data=curl_exec($ch);
 		curl_close($ch);
-
-
-
 		return json_decode($data,true);
 
 	}
+
+	/**
+	 * Post Data
+	 * Post data to basecamp
+	 * @deprecated
+	 */
 	private function postData($url,Array $params,$token=null){
 
 		$params = http_build_query($params);
