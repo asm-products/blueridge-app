@@ -11,6 +11,7 @@ use \Guzzle\Http\Client;
 use \Guzzle\Cache\DoctrineCacheAdapter;
 use \Guzzle\Plugin\Cache\CachePlugin;
 use \Doctrine\Common\Cache\ApcCache;
+use \Doctrine\Common\Cache\ArrayCache;
 
 class Provider extends Middleware
 {
@@ -20,12 +21,10 @@ class Provider extends Middleware
         if(!empty($this->app->config('database')))
         {   
             $this->app->container->singleton('provider', function () {
-
                 $client = new Client();
                 $cachePlugin = new CachePlugin(array(
-                    'adapter' => new DoctrineCacheAdapter(new ApcCache())
+                    'adapter' => new DoctrineCacheAdapter(new ArrayCache())
                     ));
-
                 $client->addSubscriber($cachePlugin);
                 return $client;                
             });
