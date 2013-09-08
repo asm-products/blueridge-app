@@ -12,17 +12,17 @@
 		{% for todo in todos %}
 		<div class="app-todo-list-item row-fluid">
 			<div class="span3 app-todo-duedate">
-				{% if todo.dueDate == null %}<span class="app-alert-warning">None</span>{% endif %} {{todo.dueDate}} {% if todo.overDueBy>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overDueBy}} days</span>{% endif %}
+				{% if todo.due_on == null %}<span class="app-alert-warning">None</span>{% endif %} {{todo.due_on}} {% if todo.overdue_by>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overdue_by}} days</span>{% endif %}
 			</div>
 			<div class="span6 app-todo-content">
 				<a class="app-todo-title" href="{{todo.url}}" target="_blank">{{ todo.content }}</a>
 				<span class="app-todo-meta">
-					{{ todo.list }} | {{ todo.projectName }}
+					{{ todo.list }} | {{ todo.project }}
 				</span>
 			</div>
 			<div class="span3 app-todo-owner">
-				{% if todo.owner.name %}
-				<span class="app-assignee-name">{{todo.owner.name}}</span>
+				{% if todo.assignee.name %}
+				<span class="app-assignee-name">{{todo.assignee.name}}</span>
 				{% else %}
 				<span class="app-alert-warning">Unassigned</span>
 				{% endif %}
