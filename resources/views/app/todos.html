@@ -15,7 +15,7 @@
 				{% if todo.due_on == null %}<span class="app-alert-warning">None</span>{% endif %} {{todo.due_on}} {% if todo.overdue_by>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overdue_by}} days</span>{% endif %}
 			</div>
 			<div class="span6 app-todo-content">
-				<a class="app-todo-title" href="{{todo.url}}" target="_blank">{{ todo.content }}</a>
+				<a class="app-todo-title" href="{{todo.href}}" target="_blank">{{ todo.content }}</a>
 				<span class="app-todo-meta">
 					{{ todo.list }} | {{ todo.project }}
 				</span>
