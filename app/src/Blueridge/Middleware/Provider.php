@@ -17,11 +17,12 @@ class Provider extends Middleware
 {
     public function call()
     {
-
-        if(!empty($this->app->config('database')))
+        if(!empty($this->app->config('providers')['basecamp']))
         {   
             $this->app->container->singleton('provider', function () {
+                $settings = $this->app->config('providers')['basecamp'];    
                 $client = new Client();
+                $client->setUserAgent($settings['user_agent']);
                 $cachePlugin = new CachePlugin(array(
                     'adapter' => new DoctrineCacheAdapter(new ArrayCache())
                     ));

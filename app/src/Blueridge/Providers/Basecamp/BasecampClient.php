@@ -19,6 +19,7 @@ class BasecampClient
 	protected $token_url;
 	protected $token;
 	protected $accounts =[];
+	protected $identity;
 	protected $expires_at;
 	protected $handler;
 
@@ -42,6 +43,7 @@ class BasecampClient
 	 */
 	protected function setProperties($properties)
 	{
+		
 		foreach($properties as $property => $value){
 			if (property_exists($this, $property)) {
 				if($property == "auth_url"){
@@ -84,6 +86,7 @@ class BasecampClient
 		$request = $this->handler->get($endpoint);
 		$response = $request->send();
 		$auth = $response->json();
+
 		$this->identity = $auth['identity'];
 		$this->expires_at = $auth['expires_at'];
 
@@ -92,8 +95,7 @@ class BasecampClient
 			if($account['product'] =='bcx'){
 				$this->accounts[] = $account;
 			}
-		}
-		
+		}		
 		return $this;
 	}
 	
@@ -125,24 +127,25 @@ class BasecampClient
 	public function getProjects()
 	{
 		$endpoint="projects.json";
-		$projects=array();
-		$account_urls = array_column($this->accounts,'href'); 
+		$projects=[];
 		$index=0;
-		foreach ($account_urls as $url) {
-			$account_projects= $this->getData("{$url}/{$endpoint}");		
-			if(!empty($account_projects)){
-				foreach($account_projects as $project){
+
+		$accountIterator = new \RecursiveArrayIterator($this->accounts);
+		foreach (new \RecursiveArrayIterator($accountIterator) as $key => $account) {
+			$request = $this->handler->get("{$account['href']}/{$endpoint}");
+			$response = $request->send();
+			$data= $response->json();
+
+			if(!empty($data)){
+				$projectIterator = new \ArrayIterator($data);
+				foreach($projectIterator as $project){
 					$names[$index] = $project['name'];
 					$index++;
+					$project['account']=$account;
 					$projects[] = $project;
 				}
 			}
 		}
-		
-		if(!empty($projects)){
-			array_multisort($names,SORT_ASC,$projects);
-		}		
-		
 		return $projects;
 	}
 
@@ -166,13 +169,12 @@ class BasecampClient
 
 		// set up profile projects
 		$projectIter = new \ArrayIterator($user->projects);
-		$profileProjects = array();
+		$profileProjects = [];
 
 		foreach($projectIter as $project){
 			if(in_array($project['id'], $user->profile['projects']))
 			{
-				$base= pathinfo($project['url'],PATHINFO_DIRNAME);
-				//list($sp,$accountId)=explode('/',parse_url($project['url'])['path']);								
+				$base= pathinfo($project['url'],PATHINFO_DIRNAME);											
 				$profileProjects[] = ['baseUrl'=>$base,'projectId'=>$project['id'],'name'=>$project['name']];
 
 			}
@@ -262,47 +264,47 @@ class BasecampClient
 	 * Get Data
 	 * @deprecated
 	 */
-	private function getData($url){
+	// private function getData($url){
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
-		if(!empty($this->token)){
-			curl_setopt($ch, CURLOPT_HTTPHEADER,["Authorization: Bearer {$this->token['access_token']}"]);
-		}		
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$data=curl_exec($ch);
-		curl_close($ch);
-		return json_decode($data,true);
+	// 	$ch = curl_init();
+	// 	curl_setopt($ch, CURLOPT_URL, $url);
+	// 	curl_setopt($ch, CURLOPT_HEADER, 0);
+	// 	curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
+	// 	if(!empty($this->token)){
+	// 		curl_setopt($ch, CURLOPT_HTTPHEADER,["Authorization: Bearer {$this->token['access_token']}"]);
+	// 	}		
+	// 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	// 	$data=curl_exec($ch);
+	// 	curl_close($ch);
+	// 	return json_decode($data,true);
 
-	}
+	// }
 
 	/**
 	 * Post Data
 	 * Post data to basecamp
 	 * @deprecated
 	 */
-	private function postData($url,Array $params,$token=null){
+	// private function postData($url,Array $params,$token=null){
 
-		$params = http_build_query($params);
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $params );
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-		curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
-		if(!empty($this->token)){
-			curl_setopt($ch, CURLOPT_HTTPHEADER,["Authorization: Bearer {$this->token['access_token']}"]);
-		}	
-		curl_setopt($ch, CURLOPT_HEADER,0);  
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER ,1); 
-		$data = curl_exec($ch);
-		curl_close($ch);
+	// 	$params = http_build_query($params);
+	// 	$ch = curl_init();
+	// 	curl_setopt($ch, CURLOPT_URL, $url);
+	// 	curl_setopt($ch, CURLOPT_POST, 1);
+	// 	curl_setopt($ch, CURLOPT_POSTFIELDS, $params );
+	// 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+	// 	curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
+	// 	if(!empty($this->token)){
+	// 		curl_setopt($ch, CURLOPT_HTTPHEADER,["Authorization: Bearer {$this->token['access_token']}"]);
+	// 	}	
+	// 	curl_setopt($ch, CURLOPT_HEADER,0);  
+	// 	curl_setopt($ch, CURLOPT_RETURNTRANSFER ,1); 
+	// 	$data = curl_exec($ch);
+	// 	curl_close($ch);
 
-		return json_decode($data,true);
+	// 	return json_decode($data,true);
 
-	}
+	// }
 	public function getProperties()
 	{
 		$item = [
