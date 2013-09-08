@@ -4,7 +4,7 @@
  */
 
 use \BlueRidge\Documents\User;
-use \BlueRidge\Entities\Todo;
+use \BlueRidge\Providers\Basecamp\BasecampClient;
 
 $app->get('/app/export/csv/', $authenticate($app), function () use ($app) {
 
@@ -19,11 +19,9 @@ $app->get('/app/export/csv/', $authenticate($app), function () use ($app) {
     $user = $app->dm->find('\BlueRidge\Documents\User', $id);
 
 
-    $todo = new Todo($app);
-    $todos = $todo->fetchByUser($user);
+    $basecampClient = BasecampClient::factory($app)->setAuth($user->providers['basecamp']);
+    $todos = $basecampClient->getTodos($user);
 
-    //var_dump($todos);
-    //exit();
 
     $arrayToCsv = function (array &$todos, $delimiter = ';', $enclosure = '"', $encloseAll = false){
         $delimiter_esc = preg_quote($delimiter, '/');
@@ -38,11 +36,11 @@ $app->get('/app/export/csv/', $authenticate($app), function () use ($app) {
         foreach ( $todos as $todo ) {
             $owner = (!empty($todo['owner']['name']))?$todo['owner']['name']:'';
             $line = '';
-            $line .= '"' . $todo['dueDate'] . '",';
-            $line .= '"' . $todo['overDueBy'] . '",';
+            $line .= '"' . $todo['due_on'] . '",';
+            $line .= '"' . $todo['overdue_by'] . '",';
             $line .= '"' . $todo['content'] . '",';
             $line .= '"' . $todo['list'] . '",';
-            $line .= '"' . $todo['projectName'] . '",';
+            $line .= '"' . $todo['project'] . '",';
             $line .= '"' . $owner . '",';
             $line .= '"' . $todo['url'] . '"';
             echo $line . "\n";            

@@ -110,7 +110,7 @@ class User
      */ 
     public function setProperties(Array $properties)
     {
-        foreach($properties as $property => $value){            
+        foreach($properties as $property => $value){          
             if (property_exists($this, $property)) {
                 $this->$property = $value;
             }
