@@ -68,8 +68,9 @@ class BasecampClient
 		'code'=>$code
 		];
 
-		$this->token = $this->postData($this->token_url,$params);		 
-		return $this;
+		$request = $this->handler->post($this->token_url,[],$params);
+		$response = $request->send();
+		$this->token = $response->json();
 	}
 
 	/**
