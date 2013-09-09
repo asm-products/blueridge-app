@@ -11,7 +11,7 @@ module.exports = function(grunt) {
       js: [
       '<%= dir.vendor %>/jquery/jquery.min.js',
       '<%= dir.vendor %>/underscore/underscore-min.js',
-      '<%= dir.vendor %>/bootstrap/dist/bootstrap.min.js',
+      '<%= dir.vendor %>/bootstrap/dist/js/bootstrap.js',
       ]
     },
 
@@ -47,11 +47,7 @@ module.exports = function(grunt) {
           }
         },
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-      },
-      dist: {
-        src: ['module.prefix','<%= dir.build %>/js/**/*.js','module.suffix'],        
-        dest: '<%= dir.build %>/bin/<%= pkg.name %>.js'
-      },      
+      },     
       libs:{
        src: ['<%= vendor.js %>'],
        dest: '<%= dir.build %>/bin/libs.js'
@@ -63,7 +59,6 @@ module.exports = function(grunt) {
     },
     libs: {
       files: {
-        '<%= dir.publish %>/js/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>'],
         '<%= dir.publish %>/js/libs.min.js': ['<%= concat.libs.dest %>']
       }
     },
