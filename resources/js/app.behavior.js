@@ -9,6 +9,9 @@ $(document).ready(function(){
 	};
 	var plan_limit = plan_limits[$('#project-list').data('plan')];
 
+	/**
+	 * Projects Page
+	 */
 	// Makes sure they don't check more boxes than they should.
 	$('#project-list').on('change', '.project', function(){
 		var box = $(this);
@@ -19,4 +22,44 @@ $(document).ready(function(){
 			$('#plan-limit-modal').modal();
 		}
 	});
+
+
+	/**
+	 * Profile Page
+	 */
+	$('#update-subscription').submit(function(){
+		if($('#update-payment').data('card') == 'none') {
+			event.preventDefault();
+			$('#payment-empty-modal').modal();
+			return false;
+		}
+	});
+
+	$('#dismiss-payment-warning').click(function(){
+		initStripe();
+	})
+
+	$('#payment-button').click(function(){
+		initStripe();
+	});
+
+	function initStripe() {
+		var token = function(res){
+			var $input = $('<input type=hidden name=paymentToken />').val(res.id);
+			$('#update-payment').append($input).submit();
+		};
+		StripeCheckout.open({
+			key:"{{subscriber.publishable_key}}",
+			address:false,
+			currency:'usd',
+			name:'BlueRidge',
+			panelLabel:'Update Payment Method',
+			token:token
+		});
+		return false;
+	}
+
+
+
+
 });
