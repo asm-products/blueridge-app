@@ -14,6 +14,7 @@
 		{% else %}	
 		<p class="lead">Choose which projects to view:</p>
 		{% endif %}
+		{{dump(plan)}}
 		<form action="/app/projects/" method="post">
 			<div class="row-fluid">
 				<div class="span12">				
