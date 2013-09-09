@@ -42,9 +42,38 @@
 			</div>
 
 			<div class="span7">
+				<form action="/app/cart/update-subscription/" method="post" id="update-subscription">
+					<h3>Choose Your Plan</h3>
+					<p>You can choose which projects you see whenever you like, as much as you like.</p>
+					<fieldset>
+						<label class="radio">
+							<input type="radio" name="plan" id="br-pro" value="br-pro" {% if user.subscription.plan.id == 'br-pro'%} checked {% endif %}>
+							<h4>Pro &mdash; <span class="plan-price"><sup>$</sup>19.95<small>/mo.</small></span></h4>
+							<p class="plan-feature">30 projects at a time.</p>
+						</label>
 
-				<p class="lead">Hey! You can choose which projects you see whenever you like, as much as you like.</p>				
-				<h3>Payment Method</h3>				
+						<label class="radio">
+							<input type="radio" name="plan" id="br-manager" value="br-manager" {% if user.subscription.plan.id == 'br-manager'%} checked {% endif %} >
+							<h4>Manager &mdash; <span class="plan-price"><sup>$</sup>9.95<small>/mo.</small></span></h4>
+							<p class="plan-feature">10 projects at a time.</p>
+						</label>
+
+						<label class="radio">
+							<input type="radio" name="plan" id="br-solo" value="br-solo" {% if user.subscription.plan.id == 'br-solo'%} checked {% endif %} >
+							<h4>Solo &mdash; <span class="plan-price"><sup>$</sup>4.95<small>/mo.</small></span></h4>
+							<p class="plan-feature">5 projects at a time.</p>
+						</label>
+
+						<label class="radio">
+							<input type="radio" name="plan" id="br-free" value="br-free" {% if user.subscription.plan.id == 'br-free'%} checked {% endif %} >
+							<h4>Forever Free</h4>
+							<p class="plan-feature">3 projects at a time.</p>
+						</label>
+					</fieldset>
+					<button type="submit" class="btn btn-success" id="subscribe-button">Update Subscription</button>
+				</form>
+				<hr>
+				<h3>Payment Method</h3>
 				<form action="/app/cart/update-payment/" method="post" id="update-payment">
 					{% if user.subscription.card.id != null %}
 					<p><strong>{{user.subscription.card.type}}</strong> ending in <strong>{{user.subscription.card.last4}}</strong>, expires <strong>{{user.subscription.card.exp_month}}/{{user.subscription.card.exp_year}}</strong></p>
@@ -53,38 +82,7 @@
 					<button type="submit" class="btn btn-warning" id="payment-button">Add Payment Method</button>
 					{% endif %}
 				</form>
-				
-				<hr />
 
-				<form action="/app/cart/update-subscription/" method="post" id="update-subscription">					
-					<h3>Plans</h3>	
-					<fieldset>						
-						<label class="radio">
-							<input type="radio" name="plan" id="br-pro" value="br-pro" {% if user.subscription.plan.id == 'br-pro'%} checked {% endif %}>
-							<h4>Pro</h4>
-							<p class="plan-feature">30 projects at a time <span class="plan-price"><sup>$</sup>19.95<sub>/mo.</sub></span></p>														
-						</label>
-
-						<label class="radio">
-							<input type="radio" name="plan" id="br-manager" value="br-manager" {% if user.subscription.plan.id == 'br-manager'%} checked {% endif %} >
-							<h4>Manager</h4>
-							<p class="plan-feature">10 projects at a time <span class="plan-price"><sup>$</sup>9.95<sub>/mo.</sub></span></p>								
-						</label>
-
-						<label class="radio">
-							<input type="radio" name="plan" id="br-solo" value="br-solo" {% if user.subscription.plan.id == 'br-solo'%} checked {% endif %} >
-							<h4>Solo</h4>
-							<p class="plan-feature">5 projects at a time <span class="plan-price"><sup>$</sup>4.95<sub>/mo.</sub></span></p>							
-						</label>
-
-						<label class="radio">
-							<input type="radio" name="plan" id="br-free" value="br-free" {% if user.subscription.plan.id == 'br-free'%} checked {% endif %} >
-							<h4>Forever Free</h4>
-							<p class="plan-feature">3 projects at a time <span class="plan-price"><sup>$</sup>0.00<sub>/mo.</sub></span></p>
-						</label>						
-					</fieldset>
-					<button type="submit" class="btn btn-warning" id="subscribe-button">Update Subscription</button>
-				</form>
 			</div>
 		</div>
 	</div>
@@ -95,13 +93,13 @@
 <script src="//checkout.stripe.com/v2/checkout.js"></script>
 <script>
 $('#payment-button').click(function(){
-	var token = function(res){		
+	var token = function(res){
 		var $input = $('<input type=hidden name=paymentToken />').val(res.id);
 		$('#update-payment').append($input).submit();
 	};
 	StripeCheckout.open({
 		key:"{{subscriber.publishable_key}}",
-		address:false,						
+		address:false,
 		currency:'usd',
 		name:'BlueRidge',
 		panelLabel:'Update Payment Method',
