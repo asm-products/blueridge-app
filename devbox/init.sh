@@ -11,9 +11,12 @@ openssl req -new -x509 -key dev.blueridgeapp.com.key -out dev.blueridgeapp.com.c
 # Start Apache
 sudo service apache2 start
 
-#init project 
+# get package managers
 cd /var/www/blueridgeapp
-sudo composer update
+composer update
+
+cd /vagrant
+npm install && bower install --allow-root
 
 # Start Apache
 #sudo service mongodb start
