@@ -74,7 +74,7 @@
 				</form>
 				<hr>
 				<h3>Payment Method</h3>
-				<form action="/app/cart/update-payment/" method="post" id="update-payment">
+				<form action="/app/cart/update-payment/" method="post" id="update-payment" data-card="{{user.subscription.card.id|default('none')}}">
 					{% if user.subscription.card.id != null %}
 					<p><strong>{{user.subscription.card.type}}</strong> ending in <strong>{{user.subscription.card.last4}}</strong>, expires <strong>{{user.subscription.card.exp_month}}/{{user.subscription.card.exp_year}}</strong></p>
 					<button type="submit" class="btn btn-success" id="payment-button">Update Payment Method</button>
@@ -82,30 +82,28 @@
 					<button type="submit" class="btn btn-warning" id="payment-button">Add Payment Method</button>
 					{% endif %}
 				</form>
-
 			</div>
 		</div>
 	</div>
 </div>
+
+<div id="payment-empty-modal" class="modal hide">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Whoops!</h3>
+  </div>
+  <div class="modal-body">
+    <p>You must have a payment method before you can choose a paid plan. Please add a payment method now.</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Okay, close this thing</a>
+    <a href="#" class="btn btn-success" id="dismiss-payment-warning" data-dismiss="modal">Add Payment Method</a>
+  </div>
+</div>
+
 {% include "app/sections/footer.html" %}
 {% endblock %}
 {% block js %}
-<script src="//checkout.stripe.com/v2/checkout.js"></script>
-<script>
-$('#payment-button').click(function(){
-	var token = function(res){
-		var $input = $('<input type=hidden name=paymentToken />').val(res.id);
-		$('#update-payment').append($input).submit();
-	};
-	StripeCheckout.open({
-		key:"{{subscriber.publishable_key}}",
-		address:false,
-		currency:'usd',
-		name:'BlueRidge',
-		panelLabel:'Update Payment Method',
-		token:token
-	});
-	return false;
-});
-</script>
+<script type="text/javascript" src="//checkout.stripe.com/v2/checkout.js"></script>
+<script type="text/javascript" src="/js/app.behavior.js"></script>
 {% endblock %}
