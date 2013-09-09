@@ -22,7 +22,7 @@
 						<input type="checkbox" name="selected[]" value="{{ project.id }}" {% if project.selected == true %} checked {% endif %}>
 						<h4>{{ project.name }}</h4>
 						<p class="project-description">{{ project.description }}</p>
-						<p>{{ project.account }}</p>
+						<p>{{ project.account.name }}</p>
 					</label>
 					{% endfor %}				
 				</div>
