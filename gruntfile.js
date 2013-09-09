@@ -11,6 +11,7 @@ module.exports = function(grunt) {
       js: [
       '<%= dir.vendor %>/jquery/jquery.min.js',
       '<%= dir.vendor %>/underscore/underscore-min.js',
+      '<%= dir.vendor %>/bootstrap/dist/bootstrap.min.js',
       ]
     },
 
@@ -56,25 +57,23 @@ module.exports = function(grunt) {
        dest: '<%= dir.build %>/bin/libs.js'
      }
    },
-   ngmin: {
-    dist: {
-      files: [{
-        expand: true,
-        cwd: '<%= dir.src %>/js',
-        src: '**/*.js',
-        dest: '<%= dir.build %>/js'
-      }]
-    }
-  },
-  uglify: {
+   uglify: {
     options: {
       banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
     },
-    dist: {
+    libs: {
       files: {
         '<%= dir.publish %>/js/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>'],
         '<%= dir.publish %>/js/libs.min.js': ['<%= concat.libs.dest %>']
       }
+    },
+    dist: {
+      files: [{
+        expand: true,
+        src: '**/*.js',
+        dest: '<%= dir.publish %>/js',
+        cwd: '<%= dir.src %>/js'
+      }]
     }
   },
   qunit: {
@@ -114,7 +113,7 @@ module.exports = function(grunt) {
       },
       scripts: {
         files: ['<%= dir.src %>/js/**/*.js'],
-        tasks: ['ngmin','concat','uglify'],
+        tasks: ['concat','uglify'],
       },
     },
     copy: {
@@ -128,7 +127,7 @@ module.exports = function(grunt) {
       },
       publish: {
         files: [
-        {expand: true, cwd:'<%= dir.build %>/', src: ['img/**','views/**','fonts/**'], dest: '<%= dir.publish %>/'},
+        {expand: true, cwd:'<%= dir.build %>/', src: ['img/**','views/**','fonts/**','js/**'], dest: '<%= dir.publish %>/'},
         {expand: true, flatten:true ,src: '<%= dir.build %>/css/**/*.css', dest: '<%= dir.publish %>/css',filter: 'isFile'},
         {expand: true, cwd:'<%= dir.build %>/',src: ['*.html','*.php'], dest: '<%= dir.publish %>/'},
         ]
@@ -155,7 +154,6 @@ module.exports = function(grunt) {
   });
 
 grunt.loadNpmTasks('grunt-contrib-clean');
-grunt.loadNpmTasks('grunt-ngmin');
 grunt.loadNpmTasks('grunt-contrib-copy');
 grunt.loadNpmTasks('grunt-contrib-uglify');
 grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -166,6 +164,6 @@ grunt.loadNpmTasks('grunt-contrib-compass');
 
 grunt.registerTask('test', ['jshint', 'qunit']);
 grunt.registerTask('default', ['build']);
-grunt.registerTask('build', ['jshint','clean','compass','copy:build','ngmin','copy:publish','concat','uglify']);
+grunt.registerTask('build', ['jshint','clean','compass','copy:build','copy:publish','concat','uglify']);
 
 };
