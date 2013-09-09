@@ -2,8 +2,12 @@
 
 $(document).ready(function(){
 
-	var plan_limits = {'br-free':3,'br-solo':5,'br-manager':10,'br-pro':30}
-	var plan_limit = plan_limits[$('#project-list').data('plan')]
+	var plan_limits = {
+		'br-free':3,
+		'br-solo':5,
+		'br-manager':10,'br-pro':30
+	};
+	var plan_limit = plan_limits[$('#project-list').data('plan')];
 
 	// Makes sure they don't check more boxes than they should.
 	$('#project-list').on('change', '.project', function(){
@@ -15,6 +19,4 @@ $(document).ready(function(){
 			$('#plan-limit-modal').modal();
 		}
 	});
-
-
 });
