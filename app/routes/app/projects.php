@@ -11,7 +11,7 @@ $app->get('/app/projects/',$authenticate($app), function () use ($app) {
     $noob = (isset($_SESSION['noob']))?true:false;
     $user = $app->dm->find('\BlueRidge\Documents\User', $id);
     $projects = $user->projects;
-    $app->render("app/projects.html", ['projects' => $projects,'route'=>'projects','noob'=>$noob]);    
+    $app->render("app/projects.html", ['projects' => $projects,'route'=>'projects','noob'=>$noob,'plan'=>$user->toArray()['subscription']['plan']]);    
 });
 
 $app->post('/app/projects/',$authenticate($app),function() use ($app){
