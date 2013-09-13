@@ -2,7 +2,7 @@
 /**
  * User Repository
  */
-namespace BlueRidge\Documents;
+namespace Blueridge\Documents;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
 

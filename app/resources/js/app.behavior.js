@@ -37,7 +37,7 @@ $(document).ready(function(){
 
 	$('#dismiss-payment-warning').click(function(){
 		initStripe();
-	})
+	});
 
 	$('#payment-button').click(function(){
 		initStripe();

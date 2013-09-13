@@ -5,7 +5,7 @@
  * @author Moses Ngone <mo@mospired.com>
  */
 
-namespace BlueRidge\Middleware;
+namespace Blueridge\Middleware;
 
 use \Slim\Middleware;
 

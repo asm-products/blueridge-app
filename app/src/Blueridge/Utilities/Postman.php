@@ -2,7 +2,7 @@
 /**
  * Postman
  */
-namespace BlueRidge\Utilities;
+namespace Blueridge\Utilities;
 
 class Postman
 {

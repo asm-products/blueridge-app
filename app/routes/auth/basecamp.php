@@ -3,11 +3,11 @@
  *  Auth Basecamp
  */
 
-use \BlueRidge\Providers\Basecamp\BasecampClient;
-use \BlueRidge\Documents\User;
-use \BlueRidge\Utilities\Postman;
-use \BlueRidge\Utilities\Doorman;
-use \BlueRidge\Utilities\Teller;
+use \Blueridge\Providers\Basecamp\BasecampClient;
+use \Blueridge\Documents\User;
+use \Blueridge\Utilities\Postman;
+use \Blueridge\Utilities\Doorman;
+use \Blueridge\Utilities\Teller;
 
 
 $app->get('/auth/basecamp/',function() use ($app){
@@ -32,8 +32,9 @@ $app->get('/auth/basecamp/',function() use ($app){
         $me = $basecampClient->getMe();
 
         $access = Doorman::Init();
-        $qr= $app->dm->getRepository('\BlueRidge\Documents\User');
+        $qr= $app->dm->getRepository('\Blueridge\Documents\User');
         $user = $qr->findOneByEmail($me['email']);
+
         if(empty($user))
         {
             $user = new User;            

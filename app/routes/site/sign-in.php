@@ -2,8 +2,8 @@
 /**
  * Sign In Routes
  */
-use  \BlueRidge\Documents\User;
-use  \BlueRidge\Utilities\Doorman;
+use  \Blueridge\Documents\User;
+use  \Blueridge\Utilities\Doorman;
 
 
 $app->get("/sign-in/", function () use ($app) {
@@ -60,7 +60,7 @@ $app->post("/sign-in/", function () use ($app) {
         $app->redirect('/sign-in/');
     }
 
-    $user = $app->dm->getRepository('\BlueRidge\Documents\User')->findOneByEmail($email);
+    $user = $app->dm->getRepository('\Blueridge\Documents\User')->findOneByEmail($email);
 
     if(empty($user)){
         $app->response()->status(403);
