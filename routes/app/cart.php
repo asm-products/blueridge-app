@@ -3,8 +3,8 @@
  * Cart
  */
 
-use \BlueRidge\Documents\User;
-use \BlueRidge\Utilities\Teller;
+use \Blueridge\Documents\User;
+use \Blueridge\Utilities\Teller;
 
 $app->post('/app/cart/update-payment/',$authenticate($app), function () use ($app) {
 
@@ -15,7 +15,7 @@ $app->post('/app/cart/update-payment/',$authenticate($app), function () use ($ap
     }else
     {   
 
-        $qr = $app->dm->getRepository('\BlueRidge\Documents\User');
+        $qr = $app->dm->getRepository('\Blueridge\Documents\User');
         $user = $qr->find($_SESSION['user']);
         $payment = Teller::updatePayment($app->config('services')['subscriber'],$user->subscription['customerId'],$token);
         $qr->updatePayment($payment);
@@ -32,7 +32,7 @@ $app->post('/app/cart/update-subscription/',$authenticate($app), function () use
     }else
     {   
 
-        $qr = $app->dm->getRepository('\BlueRidge\Documents\User');
+        $qr = $app->dm->getRepository('\Blueridge\Documents\User');
         $user = $qr->find($_SESSION['user']);
         $plan = Teller::updateSubscription($app->config('services')['subscriber'],$user->subscription['customerId'],$plan);
         $qr->updateSubscription($plan);

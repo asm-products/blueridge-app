@@ -4,7 +4,7 @@
  * @author Moses Ngone <mo@mospired.com> @mosesngone
  */
 
-namespace BlueRidge\Middleware;
+namespace Blueridge\Middleware;
 
 use \Slim\Middleware;
 use \Doctrine\Common\Cache\ApcCache;

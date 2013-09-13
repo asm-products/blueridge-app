@@ -3,9 +3,9 @@
  * Basecamp Auth classes
  */
 
-namespace BlueRidge\Providers\Basecamp;
+namespace Blueridge\Providers\Basecamp;
 
-use \BlueRidge\Documents\User;
+use \Blueridge\Documents\User;
 use \Guzzle\Common\Event;
 
 class BasecampClient

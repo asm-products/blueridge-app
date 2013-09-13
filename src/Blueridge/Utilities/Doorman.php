@@ -3,7 +3,7 @@
  * Doorman
  */
 
-namespace BlueRidge\Utilities;
+namespace Blueridge\Utilities;
 
 class Doorman
 {

@@ -2,8 +2,8 @@
 /**
  * Sign In Routes
  */
-use  \BlueRidge\Documents\User;
-use  \BlueRidge\Utilities\Doorman;
+use  \Blueridge\Documents\User;
+use  \Blueridge\Utilities\Doorman;
 
 
 $app->get("/sign-out/", function () use ($app) {

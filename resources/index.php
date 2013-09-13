@@ -8,12 +8,12 @@ use \Slim\Slim;
 use \Slim\Views;
 use \Slim\Middleware\SessionCookie;
 
-use \BlueRidge\Middleware\Bootstrap;
-use \BlueRidge\Middleware\Db;
-use \BlueRidge\Middleware\Provider;
-use \BlueRidge\Middleware\Mail;
-use \BlueRidge\Middleware\View;
-use \BlueRidge\Middleware\Subscription;
+use \Blueridge\Middleware\Bootstrap;
+use \Blueridge\Middleware\Db;
+use \Blueridge\Middleware\Provider;
+use \Blueridge\Middleware\Mail;
+use \Blueridge\Middleware\View;
+use \Blueridge\Middleware\Subscription;
 
 defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__).'/../app'));
 defined('CACHE_DIR') || define('CACHE_DIR', realpath(dirname(__FILE__).'/../cache'));
