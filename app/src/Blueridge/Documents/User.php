@@ -3,13 +3,13 @@
  * User
  */
 
-namespace BlueRidge\Documents;
+namespace Blueridge\Documents;
 
 use \Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use \Doctrine\ODM\MongoDB\DocumentRepository;
 
 /** 
- * @ODM\Document(collection="Users",repositoryClass="BlueRidge\Documents\UserRepository") 
+ * @ODM\Document(collection="Users",repositoryClass="Blueridge\Documents\UserRepository") 
  */
 class User
 {

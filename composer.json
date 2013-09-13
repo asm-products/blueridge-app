@@ -12,7 +12,7 @@
   "minimum-stability": "stable",
   "autoload": {
     "psr-0": {
-      "BlueRidge": "app/src/"
+      "Blueridge": "app/src/"
     }
   }
 }

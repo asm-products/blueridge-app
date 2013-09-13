@@ -3,7 +3,7 @@
  * Basecamp Client Helper
  */
 
-namespace BlueRidge\Providers\Basecamp;
+namespace Blueridge\Providers\Basecamp;
 
 class BasecampClientHelper
 {
