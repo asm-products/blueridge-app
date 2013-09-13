@@ -2,28 +2,30 @@ BlueRidge
 ============
 
 ### Getting started
-Head over to [Wiki - Getting Started ](https://github.com/jcornelius/blueridgeapp/wiki/Getting-Started) Page
+Head over to [Wiki - Getting Started ](https://github.com/ninelabs/blueridgeapp/wiki/Getting-Started) Page
 
 ### Workflow
 #### Updating your working copy with the latest.
 
-git pull , and grunt to view the lastest changes from [upstream](https://github.com/jcornelius/blueridgeapp)
-
-**upstream** *is the main repo*
+git pull , and grunt to view the lastest changes from [origin](https://github.com/ninelabs/blueridgeapp)
      
-          # e.g Sean, Jason, Mo etc
-          git pull upstream dev-master && grunt
-
-          # J 
-          git pull origin dev-master && grunt
+          git pull origin master && grunt && grunt watch
           
  if you encounter pull errors, fix the conflicts, merge and commit the changes
 
 
-#### Pushing up your code
+#### Going to work
 
-          # everyone 
-          git push origin dev-master
-          
-          
-Everyone but J gets to create a pull request to have the code merged upstream
+Create a feature branch 
+        
+        git checkout -b feature/sleekness master
+
+
+When you are done Push your branch to [origin](https://github.com/ninelabs/blueridgeapp)
+
+        git push origin feature/sleekness
+
+
+Create a Pull request (PR)  into master from your branch (feature/sleekness)
+
+Easy as momma's pie

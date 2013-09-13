@@ -1,0 +1,109 @@
+{% extends "app/base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div id="app-profile" class="container app-container">
+	{% include "app/sections/nav.html" %}
+	<div class="panel">
+		<h2><img src="{{user.avatar}}" class="img-circle" > <span class="muted">{{user.name}}</span></h2>
+		<div class="row-fluid">
+			<div class="span5">
+				<h3>You</h3>
+				<form action="/app/profile/" method="post" id="profile" >
+					<fieldset>
+						<div class="control-group">
+							<label class="control-label" for="name">Name</label>
+							<div class="controls">
+								<input type="text" class="input-large" id="name" value="{{user['name']}}">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="email">Email</label>
+							<div class="controls">
+								<input type="email" class="input-large" id="email" value="{{user['email']}}">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="password">Password</label>
+							<div class="controls">
+								<input type="password" class="input-large" id="password" name="password">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="confirm-password">Confirm Password</label>
+							<div class="controls">
+								<input type="password" class="input-large" id="confirm-password">
+							</div>
+						</div>
+					</fieldset>
+					<div>
+						<button class="btn btn-success" type="submit">Update Profile</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="span7">
+				<form action="/app/cart/update-subscription/" method="post" id="update-subscription">
+					<h3>Choose Your Plan</h3>
+					<p>You can choose which projects you see whenever you like, as much as you like.</p>
+					<fieldset>
+						<label class="radio">
+							<input type="radio" name="plan" id="br-pro" value="br-pro" {% if user.subscription.plan.id == 'br-pro'%} checked {% endif %}>
+							<h4>Pro &mdash; <span class="plan-price"><sup>$</sup>19.95<small>/mo.</small></span></h4>
+							<p class="plan-feature">30 projects at a time.</p>
+						</label>
+
+						<label class="radio">
+							<input type="radio" name="plan" id="br-manager" value="br-manager" {% if user.subscription.plan.id == 'br-manager'%} checked {% endif %} >
+							<h4>Manager &mdash; <span class="plan-price"><sup>$</sup>9.95<small>/mo.</small></span></h4>
+							<p class="plan-feature">10 projects at a time.</p>
+						</label>
+
+						<label class="radio">
+							<input type="radio" name="plan" id="br-solo" value="br-solo" {% if user.subscription.plan.id == 'br-solo'%} checked {% endif %} >
+							<h4>Solo &mdash; <span class="plan-price"><sup>$</sup>4.95<small>/mo.</small></span></h4>
+							<p class="plan-feature">5 projects at a time.</p>
+						</label>
+
+						<label class="radio">
+							<input type="radio" name="plan" id="br-free" value="br-free" {% if user.subscription.plan.id == 'br-free'%} checked {% endif %} >
+							<h4>Forever Free</h4>
+							<p class="plan-feature">3 projects at a time.</p>
+						</label>
+					</fieldset>
+					<button type="submit" class="btn btn-success" id="subscribe-button">Update Subscription</button>
+				</form>
+				<hr>
+				<h3>Payment Method</h3>
+				<form action="/app/cart/update-payment/" method="post" id="update-payment" data-card="{{user.subscription.card.id|default('none')}}">
+					{% if user.subscription.card.id != null %}
+					<p><strong>{{user.subscription.card.type}}</strong> ending in <strong>{{user.subscription.card.last4}}</strong>, expires <strong>{{user.subscription.card.exp_month}}/{{user.subscription.card.exp_year}}</strong></p>
+					<button type="submit" class="btn btn-success" id="payment-button">Update Payment Method</button>
+					{% else %}
+					<button type="submit" class="btn btn-warning" id="payment-button">Add Payment Method</button>
+					{% endif %}
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="payment-empty-modal" class="modal hide">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Whoops!</h3>
+  </div>
+  <div class="modal-body">
+    <p>You must have a payment method before you can choose a paid plan. Please add a payment method now.</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Okay, close this thing</a>
+    <a href="#" class="btn btn-success" id="dismiss-payment-warning" data-dismiss="modal">Add Payment Method</a>
+  </div>
+</div>
+
+{% include "app/sections/footer.html" %}
+{% endblock %}
+{% block js %}
+<script type="text/javascript" src="//checkout.stripe.com/v2/checkout.js"></script>
+<script type="text/javascript" src="/js/app.behavior.js"></script>
+{% endblock %}

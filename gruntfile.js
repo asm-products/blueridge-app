@@ -4,22 +4,14 @@ module.exports = function(grunt) {
     dir:{
       publish:'pub',
       build:'build',
-      src:'app/src',
-      api:'api',
+      src:'app/resources',
       vendor:'app/vendor'
     },
     vendor: {
       js: [
       '<%= dir.vendor %>/jquery/jquery.min.js',
-      '<%= dir.vendor %>/angular-all-unstable/angular.min.js',
-      '<%= dir.vendor %>/angular-all-unstable/angular-cookies.min.js',
-      '<%= dir.vendor %>/angular-bootstrap/ui-bootstrap-tpls.min.js',
-      '<%= dir.vendor %>/restangular/dist/restangular.min.js',
-      '<%= dir.vendor %>/js-base64/base64.min.js',
       '<%= dir.vendor %>/underscore/underscore-min.js',
-      ],
-      nomin:[
-      '<%= dir.vendor %>/angular-google-analytics/src/angular-google-analytics.js',
+      '<%= dir.vendor %>/bootstrap/dist/js/bootstrap.js',
       ]
     },
 
@@ -55,39 +47,28 @@ module.exports = function(grunt) {
           }
         },
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-      },
-      dist: {
-        src: ['module.prefix','<%= dir.build %>/js/**/*.js','module.suffix'],        
-        dest: '<%= dir.build %>/bin/<%= pkg.name %>.js'
-      },      
+      },     
       libs:{
        src: ['<%= vendor.js %>'],
        dest: '<%= dir.build %>/bin/libs.js'
-     },
-     libs_nomin:{
-       src: ['<%= vendor.nomin %>'],
-       dest: '<%= dir.build %>/bin/libs.nomin.js'
      }
    },
-   ngmin: {
-    dist: {
-      files: [{
-        expand: true,
-        cwd: '<%= dir.src %>/scripts',
-        src: '**/*.js',
-        dest: '<%= dir.build %>/js'
-      }]
-    }
-  },
-  uglify: {
+   uglify: {
     options: {
       banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
     },
-    dist: {
+    libs: {
       files: {
-        '<%= dir.publish %>/js/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>'],
-        '<%= dir.publish %>/js/libs.min.js': ['<%= concat.libs.dest %>','<%= concat.libs_nomin.dest %>']
+        '<%= dir.publish %>/js/libs.min.js': ['<%= concat.libs.dest %>']
       }
+    },
+    dist: {
+      files: [{
+        expand: true,
+        src: '**/*.js',
+        dest: '<%= dir.publish %>/js',
+        cwd: '<%= dir.src %>/js'
+      }]
     }
   },
   qunit: {
@@ -126,8 +107,8 @@ module.exports = function(grunt) {
         tasks: ['copy'],
       },
       scripts: {
-        files: ['<%= dir.src %>/scripts/**/*.js'],
-        tasks: ['ngmin','concat','uglify'],
+        files: ['<%= dir.src %>/js/**/*.js'],
+        tasks: ['concat','uglify'],
       },
     },
     copy: {
@@ -136,14 +117,12 @@ module.exports = function(grunt) {
         {expand: true, cwd:'<%= dir.src %>', src: ['img/**','views/**','fonts/**'], dest: '<%= dir.build %>'},
         {expand: true, flatten:true,src: ['<%= dir.src %>/sass/**/{*.eot,*.svg,*ttf,*woff,*.otf}'], dest: '<%= dir.build %>/fonts',filter: 'isFile'},
         {expand: true, cwd:'<%= dir.src %>',src: ['*.html','*.php'], dest: '<%= dir.build %>/'},
-        {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'},
-        {expand: true, flatten:true ,src: '<%= vendor.nomin %>', dest: '<%= dir.build %>/libs',filter: 'isFile'},
-        {expand: true, cwd:'<%= dir.api %>',src: ['api.php'], dest: '<%= dir.build %>/'},
+        {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'}
         ]
       },
       publish: {
         files: [
-        {expand: true, cwd:'<%= dir.build %>/', src: ['img/**','views/**','fonts/**'], dest: '<%= dir.publish %>/'},
+        {expand: true, cwd:'<%= dir.build %>/', src: ['img/**','views/**','fonts/**','js/**'], dest: '<%= dir.publish %>/'},
         {expand: true, flatten:true ,src: '<%= dir.build %>/css/**/*.css', dest: '<%= dir.publish %>/css',filter: 'isFile'},
         {expand: true, cwd:'<%= dir.build %>/',src: ['*.html','*.php'], dest: '<%= dir.publish %>/'},
         ]
@@ -170,7 +149,6 @@ module.exports = function(grunt) {
   });
 
 grunt.loadNpmTasks('grunt-contrib-clean');
-grunt.loadNpmTasks('grunt-ngmin');
 grunt.loadNpmTasks('grunt-contrib-copy');
 grunt.loadNpmTasks('grunt-contrib-uglify');
 grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -181,6 +159,6 @@ grunt.loadNpmTasks('grunt-contrib-compass');
 
 grunt.registerTask('test', ['jshint', 'qunit']);
 grunt.registerTask('default', ['build']);
-grunt.registerTask('build', ['jshint','clean','compass','copy:build','ngmin','copy:publish','concat','uglify']);
+grunt.registerTask('build', ['jshint','clean','compass','copy:build','copy:publish','concat','uglify']);
 
 };

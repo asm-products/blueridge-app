@@ -1,20 +1,18 @@
 {
   "require": {
-    "slim/slim": "2.*",
-    "slim/extras": "dev-develop",
+    "slim/slim": "2.3.*",
+    "slim/views": "0.1.*",
+    "slim/extras": "dev-master",
+    "twig/twig": "1.*",
     "stripe/stripe-php": "dev-master",
     "mandrill/mandrill": "1.0.*",
-    "ircmaxell/password-compat": "dev-master",
-    "rhumsaa/array_column": "~1.1"
-  },
-  "require-dev": {
-    "phing/phing": "dev-master",
-    "phpunit/phpunit": "3.*"
+    "doctrine/mongodb-odm": "1.0.*@dev",
+    "guzzle/guzzle": "3.7.*"
   },
   "minimum-stability": "stable",
   "autoload": {
     "psr-0": {
-      "BlueRidge": "api/src/"
+      "BlueRidge": "app/src/"
     }
   }
 }

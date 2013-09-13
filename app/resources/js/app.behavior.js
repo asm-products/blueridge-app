@@ -1,0 +1,65 @@
+// app.behavior.js
+
+$(document).ready(function(){
+
+	var plan_limits = {
+		'br-free':3,
+		'br-solo':5,
+		'br-manager':10,'br-pro':30
+	};
+	var plan_limit = plan_limits[$('#project-list').data('plan')];
+
+	/**
+	 * Projects Page
+	 */
+	// Makes sure they don't check more boxes than they should.
+	$('#project-list').on('change', '.project', function(){
+		var box = $(this);
+		var selected_count = $('.project:checked').size();
+		if(selected_count > plan_limit) {
+			$('.modal-body p').html('Whoops, your plan allows ' + plan_limit + ' projects at a time. You can upgrade your plan to see more projects at once.');
+			box.attr("checked", false);
+			$('#plan-limit-modal').modal();
+		}
+	});
+
+
+	/**
+	 * Profile Page
+	 */
+	$('#update-subscription').submit(function(){
+		if($('#update-payment').data('card') == 'none') {
+			event.preventDefault();
+			$('#payment-empty-modal').modal();
+			return false;
+		}
+	});
+
+	$('#dismiss-payment-warning').click(function(){
+		initStripe();
+	})
+
+	$('#payment-button').click(function(){
+		initStripe();
+	});
+
+	function initStripe() {
+		var token = function(res){
+			var $input = $('<input type=hidden name=paymentToken />').val(res.id);
+			$('#update-payment').append($input).submit();
+		};
+		StripeCheckout.open({
+			key:"{{subscriber.publishable_key}}",
+			address:false,
+			currency:'usd',
+			name:'BlueRidge',
+			panelLabel:'Update Payment Method',
+			token:token
+		});
+		return false;
+	}
+
+
+
+
+});
