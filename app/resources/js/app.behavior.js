@@ -1,7 +1,6 @@
 // app.behavior.js
 
 $(document).ready(function(){
-
 	var plan_limits = {
 		'br-free':3,
 		'br-solo':5,
@@ -9,10 +8,6 @@ $(document).ready(function(){
 	};
 	var plan_limit = plan_limits[$('#project-list').data('plan')];
 
-	/**
-	 * Projects Page
-	 */
-	// Makes sure they don't check more boxes than they should.
 	$('#project-list').on('change', '.project', function(){
 		var box = $(this);
 		var selected_count = $('.project:checked').size();
@@ -25,8 +20,8 @@ $(document).ready(function(){
 
 
 	/**
-	 * Profile Page
-	 */
+	* Profile Page
+	*/
 	$('#update-subscription').submit(function(){
 		if($('#update-payment').data('card') == 'none') {
 			event.preventDefault();
@@ -36,11 +31,11 @@ $(document).ready(function(){
 	});
 
 	$('#dismiss-payment-warning').click(function(){
-		initStripe();
+		return initStripe();
 	});
 
 	$('#payment-button').click(function(){
-		initStripe();
+		return initStripe();	 	
 	});
 
 	function initStripe() {
@@ -49,7 +44,7 @@ $(document).ready(function(){
 			$('#update-payment').append($input).submit();
 		};
 		StripeCheckout.open({
-			key:"{{subscriber.publishable_key}}",
+			key: $('#update-payment').attr('data-key'),
 			address:false,
 			currency:'usd',
 			name:'BlueRidge',
@@ -58,8 +53,4 @@ $(document).ready(function(){
 		});
 		return false;
 	}
-
-
-
-
 });
