@@ -22,7 +22,7 @@ class Db extends Middleware
             $this->app->container->singleton('dm', function () {
                 $configs = $this->app->config('database');   
 
-                if(APPLICATION_ENV == 'development'){
+                if(empty($configs['user'])){
                     $connection_url = "mongodb://{$configs['host']}:{$configs['port']}/{$configs['name']}";    
                 }else{
                     $connection_url = "mongodb://{$configs['user']}:{$configs['passwd']}@{$configs['host']}:{$configs['port']}/{$configs['name']}";   
