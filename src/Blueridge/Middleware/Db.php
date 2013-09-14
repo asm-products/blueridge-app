@@ -20,8 +20,13 @@ class Db extends Middleware
         if(!empty($this->app->config('database')))
         {   
             $this->app->container->singleton('dm', function () {
-                $configs = $this->app->config('database');                
-                $connection_url = "mongodb://{$configs['user']}:{$configs['passwd']}@{$configs['host']}:{$configs['port']}/{$configs['name']}";
+                $configs = $this->app->config('database');   
+
+                if(APPLICATION_ENV == 'development'){
+                    $connection_url = "mongodb://{$configs['host']}:{$configs['port']}/{$configs['name']}";    
+                }else{
+                    $connection_url = "mongodb://{$configs['user']}:{$configs['passwd']}@{$configs['host']}:{$configs['port']}/{$configs['name']}";   
+                }                             
                 AnnotationDriver::registerAnnotationClasses();
 
                 $config = new Configuration();
@@ -35,7 +40,7 @@ class Db extends Middleware
                 return  DocumentManager::create( new Connection($connection_url), $config);
                 
             });
-        }
-        $this->next->call();
-    }
+}
+$this->next->call();
+}
 }
