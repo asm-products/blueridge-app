@@ -39,10 +39,18 @@ class BasecampClientHelper
                 $todo['due_on']=$dueOn->format('m/d/Y');
                 $todo['overdue_by'] = (int) self::getOverdueBy($dueOn);
             }
+            if(empty($todo['assignee']))
+            {
+                $todo['assignee'] = ['id'=>null,'type'=>'Person','name'=>'Unassigned'];
+            }
             // set initial order
             $due_on[$key] = $todo['due_on'];
             $position[$key] = $initPos;
             $overdue_by[$key] = $todo['overdue_by'];
+
+            var_dump($todo);
+            exit();
+
             $todos[]=$todo;
         }
         array_multisort($overdue_by,SORT_DESC,$position,SORT_DESC,$due_on,SORT_ASC,$todos);
