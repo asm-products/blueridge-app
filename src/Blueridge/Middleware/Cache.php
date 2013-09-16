@@ -17,13 +17,11 @@ class Cache extends Middleware
     public function call()
     {
 
-        // $memcache = new \Memcache();
-        // $memcache->connect('localhost', 11211);
+        $memcache = new Memcache();
+        $memcache->connect('localhost', 11211);
 
-        // $cacheDriver = new MemcacheCache();
-        // $cacheDriver->setMemcache($memcache);
-
-        $cacheDriver = new ApcCache();
+        $cacheDriver = new MemcacheCache();
+        $cacheDriver->setMemcache($memcache);        
         $cacheDriver->setNamespace('blrg_sdk_');
 
         $this->app->cacheDriver = $cacheDriver;
