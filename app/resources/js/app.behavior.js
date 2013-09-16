@@ -35,7 +35,7 @@ $(document).ready(function(){
 	});
 
 	$('#payment-button').click(function(){
-		return initStripe();	 	
+		return initStripe();
 	});
 
 	function initStripe() {

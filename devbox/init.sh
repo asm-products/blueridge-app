@@ -15,8 +15,8 @@ sudo service apache2 start
 cd /var/www/blueridgeapp
 composer update
 
-cd /vagrant
-npm install && bower install --allow-root
+# cd /vagrant
+#npm install && bower install --allow-root
 
 # Start Apache
 #sudo service mongodb start

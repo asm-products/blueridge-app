@@ -9,26 +9,24 @@
 				<a href="/app/export/csv/" class="btn btn-mini pull-right"><i class="icon-download-alt"></i> Export CSV</a>
 			</div>
 		</div>
-		{% for todo in todos %}
-		<div class="app-todo-list-item row-fluid">
-			<div class="span3 app-todo-duedate">
-				{% if todo.due_on == null %}<span class="app-alert-warning">None</span>{% endif %} {{todo.due_on}} {% if todo.overdue_by>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overdue_by}} days</span>{% endif %}
+		<div id="todos">
+			{% for todo in todos %}			
+			<div class="app-todo-list-item row-fluid mix">
+				<div class="span3 app-todo-duedate">
+					{% if todo.due_on == null %}<span class="app-alert-warning">None</span>{% endif %} {{todo.due_on}} {% if todo.overdue_by>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overdue_by}} days</span>{% endif %}
+				</div>
+				<div class="span6 app-todo-content">
+					<a class="app-todo-title" href="{{todo.href}}" target="_blank">{{ todo.content }}</a>
+					<span class="app-todo-meta">
+						{{ todo.parent.list_name }} | {{ todo.parent.project_name }}
+					</span>
+				</div>
+				<div class="span3 app-todo-owner">
+					<span {% if todo.assignee.name == 'Unassigned' %} class="app-alert-warning" {% else %} class="app-assignee-name"{% endif %} >{{todo.assignee.name}}</span>
+				</div>
 			</div>
-			<div class="span6 app-todo-content">
-				<a class="app-todo-title" href="{{todo.href}}" target="_blank">{{ todo.content }}</a>
-				<span class="app-todo-meta">
-					{{ todo.list }} | {{ todo.project }}
-				</span>
-			</div>
-			<div class="span3 app-todo-owner">
-				{% if todo.assignee.name %}
-				<span class="app-assignee-name">{{todo.assignee.name}}</span>
-				{% else %}
-				<span class="app-alert-warning">Unassigned</span>
-				{% endif %}
-			</div>
+			{% endfor %}
 		</div>
-		{% endfor %}
 	</div>	
 </div>
 {% include "app/sections/footer.html" %}
