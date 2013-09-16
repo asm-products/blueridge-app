@@ -10,6 +10,7 @@ use \Slim\Middleware\SessionCookie;
 
 use \Blueridge\Middleware\Bootstrap;
 use \Blueridge\Middleware\Db;
+use \Blueridge\Middleware\Cache;
 use \Blueridge\Middleware\Provider;
 use \Blueridge\Middleware\Mail;
 use \Blueridge\Middleware\View;
@@ -23,6 +24,7 @@ $app = new Slim();
 $app->setName('blueridgeapp');
 $app->add(new SessionCookie(['secret' => '4VtUZrv8@Y','name'=>'_blrdgapp','expires'=>'24 hours']));
 $app->add(new Db());
+$app->add(new Cache());
 $app->add(new Provider());
 $app->add(new Mail());
 $app->add(new View());
