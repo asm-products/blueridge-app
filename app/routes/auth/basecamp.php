@@ -4,6 +4,7 @@
  */
 
 use \Blueridge\Providers\Basecamp\BasecampClient;
+use \Blueridge\Providers\Basecamp\BasecampClientHelper;
 use \Blueridge\Documents\User;
 use \Blueridge\Utilities\Postman;
 use \Blueridge\Utilities\Doorman;
@@ -26,10 +27,12 @@ $app->get('/auth/basecamp/',function() use ($app){
         }
     }else
     {
-
-        $basecampClient = BasecampClient::factory($app);
-        $basecampClient->getToken($code)->getAuthorization();
-        $me = $basecampClient->getMe();
+        
+        $config = BasecampClientHelper::getConfig($app);                   
+        $token = BasecampClientHelper::getToken($config, $code);
+        $config= array_merge($config,$token);
+        $authorization = BasecampClientHelper::getAuthorization($config);
+        $me = BasecampClientHelper::getMe($config,$authorization);
 
         $access = Doorman::Init();
         $qr= $app->dm->getRepository('\Blueridge\Documents\User');
@@ -40,7 +43,7 @@ $app->get('/auth/basecamp/',function() use ($app){
             $user = new User;            
             $user->key = $access['key'];
             $user->profile = [
-            'accounts'=>$basecampClient->accounts,
+            'accounts'=>$authorization['accounts'],
             'projects'=>[]
             ];
             
@@ -50,11 +53,11 @@ $app->get('/auth/basecamp/',function() use ($app){
         }
 
         $user->providers = ['basecamp'=>[
-        'token'=>$basecampClient->token,
-        'accounts'=>$basecampClient->accounts,
-        'identity'=>$basecampClient->identity,
+        'token'=>$token,
+        'accounts'=>$authorization['accounts'],
+        'identity'=>$authorization['identity'],
         ]];
-        $user->projects= $basecampClient->getProjects();
+        $user->projects= BasecampClientHelper::getProjects($config,$authorization);
         $app->dm->persist($user);
         $app->dm->flush();
 

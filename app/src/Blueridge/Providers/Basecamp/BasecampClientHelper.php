@@ -24,6 +24,108 @@ class BasecampClientHelper
     }
 
     /**
+     * Get Token
+     */
+    public static function getToken ($config,$code)
+    {
+        $client = BasecampClient::factory($config);
+        $params = [
+        'type'=>'web_server',
+        'client_id'=>$config['client_id'],
+        'redirect_uri'=>$config['redirect_uri'],
+        'client_secret'=>$config['client_secret'],
+        'code'=>$code
+        ];
+
+
+        $request = $client->post($config['token_url'],[],$params);
+        $response = $request->send();
+        $token = $response->json();
+
+        return $token;
+    }
+
+    /**
+     * Get Authorization
+     */
+    public static function getAuthorization($config)
+    {
+        $endpoint="https://launchpad.37signals.com/authorization.json";     
+        $client = BasecampClient::factory($config);
+
+        $request = $client->get($endpoint);
+        $response = $request->send();
+        $auth = $response->json();
+
+        $authorization = [];
+
+        $authorization['identity'] = $auth['identity'];
+        $authorization['expires_at'] = $auth['expires_at'];
+
+        $authIterator = new \ArrayIterator($auth['accounts']);
+        foreach ($authIterator as $account) {
+            if($account['product'] =='bcx'){
+                $authorization['accounts'][] = $account;
+            }
+        }       
+        return $authorization;
+    }
+
+    /**
+     * Get Me
+     */
+    public static function getMe($config, $authorization)
+    {
+        $client = BasecampClient::factory($config);
+        $endpoint = "people/me.json";
+        
+        $url="{$authorization['accounts'][0]['href']}/{$endpoint}";
+
+        $request = $client->get($url);
+        $response = $request->send();
+        $whoami = $response->json();
+
+        $avatar = parse_url($whoami['avatar_url']);
+        return [
+        'name'=>$whoami['name'],
+        'firstName'=>$authorization['identity']['first_name'],
+        'lastName'=>$authorization['identity']['last_name'],
+        'email'=>$whoami['email_address'],
+        'avatar'=>"//{$avatar['host']}/{$avatar['path']}?{$avatar['query']}"
+        ];        
+    }
+
+    /**
+     * Get Projects
+     */
+    public static function getProjects($config,$authorization)
+    {
+        $client = BasecampClient::factory($config);
+        $endpoint="projects.json";
+        $projects=[];
+        $index=0;
+
+        $accountIterator = new \RecursiveArrayIterator($authorization['accounts']);
+        foreach (new \RecursiveArrayIterator($accountIterator) as $key => $account) {
+            $request = $client->get("{$account['href']}/{$endpoint}");
+            $response = $request->send();
+            $data= $response->json();
+
+            if(!empty($data)){
+                $projectIterator = new \ArrayIterator($data);
+                foreach($projectIterator as $project){
+                    $names[$index] = $project['name'];
+                    $index++;
+                    $project['account']=$account;
+                    $projects[] = $project;
+                }
+            }
+        }
+        return $projects;
+    }
+
+
+    /**
      * Get Todos
      */
     public static function getTodos($app, User $user)
