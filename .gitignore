@@ -1,6 +1,7 @@
 .DS_Store
 .vagrant
 **/vendor/*
+vendor/*
 node_modules/*
 bower_modules/*
 *.scssc
