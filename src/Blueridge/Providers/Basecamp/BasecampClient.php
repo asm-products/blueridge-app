@@ -26,28 +26,36 @@ class BasecampClient extends Client
     {
 
         $default = array(
-            'base_url'      => 'https://basecamp.com/2011887/api/{version}/',
+            'base_url'      => 'https://basecamp.com/2011887/api/v1/',
             'version'       => 'v1',
             'auth_method'   => 'oauth',
             'access_token'  => null
             );
         $required = array('user_agent');
         $config = Collection::fromConfig($config, $default, $required);
-        $client = new self($config->get('base_url'), $config);
+        $client = new self($config->get('base_url'));
 
 
         /**
          * Attach Access Token
          */
-        if (! isset($config['access_token'])) {
-            throw new InvalidArgumentException("Config must contain token when using oath");
-        }
-        $authoritzation = sprintf('Bearer %s', $config['access_token']);
-        
-        if (! isset($authoritzation)) {
-            throw new InvalidArgumentException("Config must contain valid authentication method");
-        }
+        if(!empty($config['access_token']))
+        {
+            if (! isset($config['access_token'])) {
+                throw new InvalidArgumentException("Config must contain token when using oath");
+            }
+            $authorization = sprintf('Bearer %s', $config['access_token']);
+            
+            if (! isset($authorization)) {
+                throw new InvalidArgumentException("Config must contain valid authentication method");
+            } 
+            $client->getEventDispatcher()->addListener('request.before_send', function(Event $event) use ($authorization) {
+                $event['request']->addHeader('Authorization', $authorization);
 
+            });
+        }  
+        
+        
         /**
          * Attach Cache Plugin
          */
@@ -65,11 +73,8 @@ class BasecampClient extends Client
         $client->setUserAgent($config['user_agent']);
         
 
-        $client->getEventDispatcher()->addListener('request.before_send', function(Event $event) use ($authoritzation) {
-            $event['request']->addHeader('Authorization', $authoritzation);
 
-        });
 
         return $client;
-    }
+    }    
 }
