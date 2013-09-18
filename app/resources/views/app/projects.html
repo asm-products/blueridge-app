@@ -14,21 +14,20 @@
 		{% else %}
 		<p class="lead">Choose which projects to view:</p>
 		{% endif %}
-		<form action="/app/projects/" method="post">
+		<form action="/app/projects/" method="post" id="project-selection-list">
 			<div class="row-fluid">
 				<div class="span12" id="project-list" data-plan="{{plan.id}}">
 					{% for project in projects %}
 					<label class="checkbox project-row">
 						<input type="checkbox" name="selected[]" value="{{ project.id }}" class="project" {% if project.selected == true %} checked {% endif %}>
-						<h4>{{ project.name }}</h4>
+						<h4>{{ project.name }} <small>( {{ project.account.name }} )</small></h4>
 						<p class="project-description">{{ project.description }}</p>
-						<p>{{ project.account.name }}</p>
 					</label>
 					{% endfor %}
 				</div>
 				<div class="control-group">
 					<div class="controls">
-						<button class="btn btn-large btn-success" type="submit">Apply My Choices</button>
+						<button class="btn btn-large btn-success apply-project-selections" type="submit">Apply My Choices</button>
 					</div>
 				</div>
 			</div>
