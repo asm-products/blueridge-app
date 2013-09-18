@@ -64,9 +64,4 @@ class Postman
 
 
     }
-
-    public static function forgotPassword()
-    {
-
-    }
 }
