@@ -45,8 +45,6 @@ $authenticate = function ($app) {
 
 require APPLICATION_PATH."/routes/auth/connect.php";
 require APPLICATION_PATH."/routes/auth/basecamp.php";
-require APPLICATION_PATH."/routes/site/sign-in.php";
-require APPLICATION_PATH."/routes/site/forgot-password.php";
 require APPLICATION_PATH."/routes/site/home.php";
 require APPLICATION_PATH."/routes/app/export.php";
 require APPLICATION_PATH."/routes/app/projects.php";
@@ -56,7 +54,7 @@ require APPLICATION_PATH."/routes/app/cart.php";
 require APPLICATION_PATH."/routes/app/sign-out.php";
 
 require APPLICATION_PATH."/routes/site.php";
-//require APPLICATION_PATH."/routes/app.php";
+
 
 $app->notFound(function () use ($app) {
    $app->render("common/error-404.html",['message'=>'No Joy. File not found',404]);
