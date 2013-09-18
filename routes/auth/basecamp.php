@@ -34,7 +34,7 @@ $app->get('/auth/basecamp/',function() use ($app){
         $authorization = BasecampClientHelper::getAuthorization($config);
         $me = BasecampClientHelper::getMe($config,$authorization);
 
-        $access = Doorman::Init();
+        $access = Doorman::getAccess();
         $qr= $app->dm->getRepository('\Blueridge\Documents\User');
         $user = $qr->findOneByEmail($me['email']);
 
