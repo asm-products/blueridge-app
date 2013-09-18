@@ -18,23 +18,26 @@
 				<form action="/app/cart/update-subscription/" method="post" id="update-subscription">
 					<h3>Choose Your Plan</h3>
 					<p>You can choose which projects you see whenever you like, as much as you like.</p>
-					<fieldset>
+					<fieldset class="plan-list">
 						<label class="radio">
 							<input type="radio" name="plan" id="br-pro" value="br-pro" {% if user.subscription.plan.id == 'br-pro'%} checked {% endif %}>
 							<h4>Pro &mdash; <span class="plan-price"><sup>$</sup>19.95<small>/mo.</small></span></h4>
 							<p class="plan-feature">30 projects at a time.</p>
+							<p class="plan-feature">Priority Support.</p>
 						</label>
 
 						<label class="radio">
 							<input type="radio" name="plan" id="br-manager" value="br-manager" {% if user.subscription.plan.id == 'br-manager'%} checked {% endif %} >
 							<h4>Manager &mdash; <span class="plan-price"><sup>$</sup>9.95<small>/mo.</small></span></h4>
 							<p class="plan-feature">10 projects at a time.</p>
+							<p class="plan-feature">Priority Support.</p>
 						</label>
 
 						<label class="radio">
 							<input type="radio" name="plan" id="br-solo" value="br-solo" {% if user.subscription.plan.id == 'br-solo'%} checked {% endif %} >
 							<h4>Solo &mdash; <span class="plan-price"><sup>$</sup>4.95<small>/mo.</small></span></h4>
 							<p class="plan-feature">5 projects at a time.</p>
+							<p class="plan-feature">Priority Support.</p>
 						</label>
 
 						<label class="radio">
@@ -51,9 +54,9 @@
 				<form action="/app/cart/update-payment/" method="post" id="update-payment" data-card="{{user.subscription.card.id|default('none')}}" data-key="{{subscriber.publishable_key}}">
 					{% if user.subscription.card.id != null %}
 					<p><strong>{{user.subscription.card.type}}</strong> ending in <strong>{{user.subscription.card.last4}}</strong>, expires <strong>{{user.subscription.card.exp_month}}/{{user.subscription.card.exp_year}}</strong></p>
-					<button type="submit" class="btn btn-success" id="payment-button">Update Payment Method</button>
+					<button type="submit" class="btn btn-success btn-small" id="payment-button">Update Payment Method</button>
 					{% else %}
-					<button type="submit" class="btn btn-warning" id="payment-button">Add Payment Method</button>
+					<button type="submit" class="btn btn-primary" id="payment-button">Add Payment Method</button>
 					{% endif %}
 				</form>
 			</div>
