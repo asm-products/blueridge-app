@@ -8,6 +8,6 @@ use  \Blueridge\Utilities\Doorman;
 
 
 $app->get("/sign-out/", function () use ($app) {
-    unset($_SESSION['blrdgcntd']);
-     $app->render("site/sign-out.html");
+    unset($_SESSION['live']);
+    $app->render("site/sign-out.html");
 });

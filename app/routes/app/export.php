@@ -15,7 +15,7 @@ $app->get('/app/export/csv/', $authenticate($app), function () use ($app) {
     * @todo Check for valid authenticated session 
     */
     // fetch user data
-    $id = $_SESSION['user'];
+    $id = base64_decode($_SESSION['user']);
     $user = $app->dm->find('\Blueridge\Documents\User', $id);
 
     $todos = BasecampClientHelper::getTodos($app,$user);
