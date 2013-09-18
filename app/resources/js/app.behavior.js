@@ -1,6 +1,13 @@
 // app.behavior.js
 
 $(document).ready(function(){
+
+	$('.app-navigation .nav-link').click(function(){
+		$('.panel').html($('#loading-message').html());
+		$(this).parent('li').addClass('active');
+		$(this).parent('li').siblings().removeClass('active');
+	});
+
 	var plan_limits = {
 		'br-free':3,
 		'br-solo':5,
@@ -17,6 +24,7 @@ $(document).ready(function(){
 			$('#plan-limit-modal').modal();
 		}
 	});
+
 
 
 	/**
