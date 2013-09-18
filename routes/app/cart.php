@@ -16,7 +16,7 @@ $app->post('/app/cart/update-payment/',$authenticate($app), function () use ($ap
     {   
 
         $qr = $app->dm->getRepository('\Blueridge\Documents\User');
-        $user = $qr->find($_SESSION['user']);
+        $user = $qr->find(base64_decode($_SESSION['user']));
         $payment = Teller::updatePayment($app->config('services')['subscriber'],$user->subscription['customerId'],$token);
         $qr->updatePayment($payment);
         $app->redirect('/app/profile/');
@@ -33,7 +33,7 @@ $app->post('/app/cart/update-subscription/',$authenticate($app), function () use
     {   
 
         $qr = $app->dm->getRepository('\Blueridge\Documents\User');
-        $user = $qr->find($_SESSION['user']);
+        $user = $qr->find(base64_decode($_SESSION['user']));
         $plan = Teller::updateSubscription($app->config('services')['subscriber'],$user->subscription['customerId'],$plan);
         $qr->updateSubscription($plan);
         $app->redirect('/app/profile/');

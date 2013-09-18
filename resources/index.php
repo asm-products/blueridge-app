@@ -31,23 +31,19 @@ $app->add(new View());
 $app->add(new Bootstrap());
 
 $authenticate = function ($app) {
-    return function () use ($app) {
-        if (!isset($_SESSION['user'])) {
-            $_SESSION['urlRedirect'] = $app->request()->getPathInfo();
-            $app->flash('error', 'Sign In required');
-            $app->redirect('/sign-in/');
+    return function () use ($app) { 
+        if(empty($_SESSION['live'])){            
+            if(!empty($_SESSION['user'])){
+                $_SESSION['live']=time();
+            }else{
+                $app->flash('error', 'Connect to our Basecamp account ');
+                $app->redirect('/');
+            }
         }
     };
 };
 
-$app->hook('slim.before.dispatch', function() use ($app) { 
-    $id = null;
-    if (isset($_SESSION['user'])) {
-        $id = $_SESSION['user'];
-    }
-    $app->view()->setData('user', $id);
-});
-
+require APPLICATION_PATH."/routes/auth/connect.php";
 require APPLICATION_PATH."/routes/auth/basecamp.php";
 require APPLICATION_PATH."/routes/site/sign-in.php";
 require APPLICATION_PATH."/routes/site/forgot-password.php";

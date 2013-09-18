@@ -6,7 +6,7 @@
 use \Blueridge\Utilities\Teller;
 
 $app->get('/app/profile/',$authenticate($app), function () use ($app) {
-    $id = $_SESSION['user'];
+    $id = base64_decode($_SESSION['user']);
     $subscriber= $app->config('services')['subscriber'];
     
     $user = $app->dm->find('\Blueridge\Documents\User', $id)->toArray();    
