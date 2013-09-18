@@ -33,7 +33,7 @@ $app->add(new Bootstrap());
 $authenticate = function ($app) {
     return function () use ($app) { 
         if(empty($_SESSION['live'])){            
-            if(!empty($_SESSION['user'])){
+            if(!empty($_SESSION['user'])){    
                 $_SESSION['live']=time();
             }else{
                 $app->flash('error', 'Connect to our Basecamp account ');
@@ -52,12 +52,6 @@ require APPLICATION_PATH."/routes/app/todos.php";
 require APPLICATION_PATH."/routes/app/profile.php";
 require APPLICATION_PATH."/routes/app/cart.php";
 require APPLICATION_PATH."/routes/app/sign-out.php";
-
 require APPLICATION_PATH."/routes/site.php";
-
-
-$app->notFound(function () use ($app) {
-   $app->render("common/error-404.html",['message'=>'No Joy. File not found',404]);
-});
 
 $app->run();
