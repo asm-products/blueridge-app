@@ -7,29 +7,9 @@
 		<h3>See you later, alligator.</h3>
 		<p>Remember, you can take BlueRidge with you. It works great on mobile devices, too!</p>
 	</div>
-	 <form method="post" action="/sign-in/">
-		<fieldset>
-			<div class="control-group">
-				<h4 class="muted">Need to sign in again?</h4>
-				<br>
-				<label class="control-label" for="email">Email Address</label>
-				<div class="controls">
-					<input id="email" name="email" type="email" placeholder="youare@wesome.com" required>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="password">Password</label>
-				<div class="controls">
-					<input id="password" type="password" name="password" placeholder="Password" required>
-					<span class="help-block"><a href="/forgotpassword/">Forget your password?</a></span>
-				</div>
-			</div>
-			<div class="control-group">
-				<div class="controls">
-					<button class="btn btn-success" type="submit">Sign in</button>
-				</div>
-			</div>
-		</fieldset>
-	</form>
+	<div class="greeting-message">
+		<h4 class="muted">Want to get back to work?</h4>
+		<button class="btn btn-success btn-small" type="submit">Get Back In There</button>
+	</div>
 </div>
 {% endblock %}
