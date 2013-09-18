@@ -1,6 +1,8 @@
 /* app stylesheet */
 @import "lib/bootstrap/bootstrap.scss","lib/bootstrap/responsive.scss","lib/font-awesome/scss/font-awesome.scss","responsive","colors","layout","typography","css3";
 
+#loading-message { display: none; }
+
 .app-container { padding:1em 0;}
 
 .app-navigation {
