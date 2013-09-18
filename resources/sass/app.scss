@@ -146,8 +146,38 @@
 // PROFILE
 /////////////////////////////////////////////////
 
+.user-info {
+	border-bottom: 1px solid $site_border_color;
+	margin-bottom: 1em;
+	padding-bottom: 1em;
+	img {
+		float: left;
+		margin-right:20px;
+	}
+	h2 { margin: 0; }
+	h4 {
+		color: $muted;
+		margin: 0;
+		@include breakpoint(medium){
+			font-size:1em;
+			font-weight: normal;
+		}
+	}
+}
 
 
+.plan-list {
+	label {
+		margin-bottom: 2em;
+		h4 { margin: 0; }
+		sup {
+			color: $muted;
+			font-weight: normal;
+			top: -0.25em;
+		}
+		p { margin: 0}
+	}
+}
 
 
 
