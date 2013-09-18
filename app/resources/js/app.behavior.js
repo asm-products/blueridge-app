@@ -3,9 +3,12 @@
 $(document).ready(function(){
 
 	$('.app-navigation .nav-link').click(function(){
-		$('.panel').html($('#loading-message').html());
+		var img = new Image();
+  	img.src = $('#loading-bar').attr('src');
 		$(this).parent('li').addClass('active');
 		$(this).parent('li').siblings().removeClass('active');
+		$('#loading-message p').html($(this).data('message'));
+		$('.panel').html($('#loading-message').html());
 	});
 
 	var plan_limits = {
@@ -25,6 +28,13 @@ $(document).ready(function(){
 		}
 	});
 
+	/**
+	* Projects Page
+	*/
+
+	$('#project-selection-list').submit(function(){
+		$('.apply-project-selections').addClass('disabled').attr('disabled','disabled').text('Working...');
+	});
 
 
 	/**
