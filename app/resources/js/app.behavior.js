@@ -29,6 +29,15 @@ $(document).ready(function(){
 	});
 
 	/**
+	* Projects Page
+	*/
+
+	$('#project-selection-list').submit(function(){
+		$('.apply-project-selections').addClass('disabled').attr('disabled','disabled').text('Working...');
+	});
+
+
+	/**
 	* Profile Page
 	*/
 	$('#update-subscription').submit(function(){
