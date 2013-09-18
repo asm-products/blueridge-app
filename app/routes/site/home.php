@@ -4,7 +4,7 @@
  */
 
 $app->get('/',function() use ($app){
-    if (isset($_SESSION['user']))
+    if (isset($_SESSION['live']))
     {
         $app->redirect('/app/todos/');
     }

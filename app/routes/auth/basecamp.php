@@ -11,30 +11,28 @@ use \Blueridge\Utilities\Doorman;
 use \Blueridge\Utilities\Teller;
 
 
+
 $app->get('/auth/basecamp/',function() use ($app){
+
     $code = $app->request()->params('code');
-    $settings = $app->config('providers')['basecamp'];       
+    $settings = $app->config('providers')['basecamp'];
+    $newbie = false;      
 
     if(empty($code))
-    {        
-        if(!empty($settings))
-        {
-            $auth_request = "{$settings['auth_url']}?client_id={$settings['client_id']}&redirect_uri={$settings['redirect_uri']}&type=web_server";        
-            $app->redirect($auth_request);
-        }else
-        {
-            $app->render("common/error-500.html",['message'=>'Looks like we have a problem connecting you to Basecamp',500]);
-        }
+    {       
+        $app->redirect('/connect/basecamp');         
     }else
     {
-        
+
+        $_SESSION['live']=time();
+
         $config = BasecampClientHelper::getConfig($app);                   
         $token = BasecampClientHelper::getToken($config, $code);
         $config= array_merge($config,$token);
         $authorization = BasecampClientHelper::getAuthorization($config);
         $me = BasecampClientHelper::getMe($config,$authorization);
 
-        $access = Doorman::Init();
+        $access = Doorman::getAccess();
         $qr= $app->dm->getRepository('\Blueridge\Documents\User');
         $user = $qr->findOneByEmail($me['email']);
 
@@ -46,10 +44,10 @@ $app->get('/auth/basecamp/',function() use ($app){
             'accounts'=>$authorization['accounts'],
             'projects'=>[]
             ];
-            
+
             $user->setProperties($me);
             $user->subscription = Teller::addCustomer($app->config('services')['subscriber'],$me);                        
-            $_SESSION['noob'] = true;
+            $newbie = true;
         }
 
         $user->providers = ['basecamp'=>[
@@ -61,11 +59,13 @@ $app->get('/auth/basecamp/',function() use ($app){
         $app->dm->persist($user);
         $app->dm->flush();
 
-        $_SESSION['user'] = $user->id;
-        if(isset($_SESSION['noob'])){
-            Postman::newUserMail($app,$user,$access);    
+
+        $_SESSION['user'] = base64_encode($user->id);        
+        $app->flash('newbie', $newbie);
+        if($newbie){
+            $app->redirect('/app/projects/');            
         }
-        $app->redirect('/app/projects/');
+        $app->redirect('/app/todos/');
     }
 });
 
