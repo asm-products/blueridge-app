@@ -130,6 +130,7 @@ class BasecampClientHelper
      */
     public static function getTodos($app, User $user)
     {
+
         $todos = [];
         $clientConfig = self::getConfig($app,$user);        
         $todolists = self::getTodolists($app, $user);
@@ -146,26 +147,30 @@ class BasecampClientHelper
 
             $cacheId = "todos-{$todolist['id']}";
             if ($app->cacheDriver->contains($cacheId)) {
-                // fetch list
+                
                 $list = $app->cacheDriver->fetch($cacheId);
+                             
 
             } else {
+                
                 $request = $client->get($todolist['url']);
                 $response = $request->send();
                 $bc_todolist = $response->json();
-                $list = $bc_todolist['todos']['remaining'];
-
+                $list = $bc_todolist['todos']['remaining'];                
                 $todolist['parent']['list_name'] = $bc_todolist['name'];
 
                 array_walk($list, function(&$a, $key, $parent) {             
                     $a['parent'] = $parent;                    
                     $a['href'] = self::getSiteUrl($a['url']);               
                 },$todolist['parent']);
-                $app->cacheDriver->save($cacheId, $list);
+                $app->cacheDriver->save($cacheId, $list,60); 
             }
 
             $todos = array_merge($todos,$list);            
         }
+        $todos = self::organizeTodos($todos);
+        var_dump($todos);
+        exit();
         return $organized = self::organizeTodos($todos);
     }
 
@@ -203,7 +208,10 @@ class BasecampClientHelper
 
             $todos[]=$todo;
         }
-        array_multisort($overdue_by,SORT_DESC,$position,SORT_DESC,$due_on,SORT_ASC,$todos);
+        if(count($todos)>1){
+            array_multisort($overdue_by,SORT_DESC,$position,SORT_DESC,$due_on,SORT_ASC,$todos);    
+        }
+
         return $todos;  
 
     }
