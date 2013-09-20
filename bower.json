@@ -8,7 +8,8 @@
     "underscore": "~1.5.1",
     "font-awesome": "~3.2.1",
     "js-base64": "~2.1.2",
-    "bootstrap": "~3.0.0"
+    "bootstrap": "~3.0.0",
+    "isotope": "git@github.com:desandro/isotope.git#~1.5.25"
   },
   "devDependencies": {}
 }
