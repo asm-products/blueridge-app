@@ -12,6 +12,7 @@ module.exports = function(grunt) {
       '<%= dir.vendor %>/jquery/jquery.min.js',
       '<%= dir.vendor %>/underscore/underscore-min.js',
       '<%= dir.vendor %>/bootstrap/dist/js/bootstrap.js',
+      '<%= dir.vendor %>/isotope/jquery.isotope.min.js',
       ]
     },
 
