@@ -169,8 +169,6 @@ class BasecampClientHelper
             $todos = array_merge($todos,$list);            
         }
         $todos = self::organizeTodos($todos);
-        var_dump($todos);
-        exit();
         return $organized = self::organizeTodos($todos);
     }
 
