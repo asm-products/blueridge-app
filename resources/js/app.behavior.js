@@ -28,6 +28,40 @@ $(document).ready(function(){
 		}
 	});
 
+  /**
+  * To-dos Page
+  */
+
+  // var tokenArray = new Object;
+  // $('.assignee-name').each(function(){
+  //   var token = $(this).data('nametoken');
+  //   tokenArray[token] = $(this).text();
+  // });
+
+  // $.each(tokenArray, function(index,value){
+  //   $('<button class="btn btn-mini filter" data-filter="' + index + '"">' + value + '</button>').appendTo('.mix-filters');
+  // });
+
+  $('#todos').mixitup({
+    animateGridList: false,
+    sortOnLoad: ['data-duedate','desc'],
+    //effects: ['fade'],
+    transitionSpeed: 0,
+    onMixStart: function(config) {
+      $("html, body").animate({ scrollTop: 0 }, "fast");
+      if (config.filter != 'all' && config.filter != 'mix_all'){
+        $('.app-assignee').addClass('soloed');
+        $('.app-filter-message').show();
+      } else {
+        $('.app-assignee').removeClass('soloed');
+        $('.app-filter-message').hide();
+      }
+    }
+  });
+
+
+
+
 	/**
 	* Projects Page
 	*/
