@@ -7,7 +7,7 @@
 
 .app-navigation {
   margin:0 2em;
-	@include breakpoint(appnav){
+  @include breakpoint(appnav){
     margin:1em 1em 0;
   }
   #brand {
@@ -27,15 +27,15 @@
   }
   a {
   	color: $app_nav_link_color;
-	}
-	.nav-toggle {
+  }
+  .nav-toggle {
   	display: none;
   	float:right;
   	@include breakpoint(appnav){
   		display:none;
   	}
   }
-	.nav-pills {
+  .nav-pills {
   	padding-top: 8px;
   	&>li>a:hover, &>li>a:focus {
   		background-color: $app_nav_pill_hover_background;
@@ -46,16 +46,16 @@
   		background-color: $app_nav_pill_active_background;
   		color: $app_nav_pill_active_text;
   		text-shadow: none;
-		}
-		.signout {
-			float:right;
-		}
+    }
+    .signout {
+     float:right;
+   }
 
-  	@include breakpoint(appnav){
-  		.signout { float:left; }
-  		li i { display:none; }
-  	}
+   @include breakpoint(appnav){
+    .signout { float:left; }
+    li i { display:none; }
   }
+}
 }
 
 .navbar .nav { margin: 20px 10px 20px 0;  }
@@ -88,7 +88,7 @@
   &:first-child {
   	border:none;
   }
-	&> div {
+  &> div {
   	padding: .5em;
   }
   .secondary-data {
@@ -100,7 +100,14 @@
 // To Do
 /////////////////////////////////////////////////
 
- .app-todo-title {
+#todos .mix{
+  opacity: 0;
+  display: none;
+}
+
+.app-filter-message { display: none; }
+
+.app-todo-title {
   color: #000;
   font-size: 1.2em;
   &:hover {
@@ -117,28 +124,44 @@
   font-weight: bold;
 }
 
-.app-assignee-name {
+.app-assignee {
   background-color: rgb(238, 238, 238);
   border-radius: 30px;
   color: #000;
   padding: 2px 8px;
-  text-decoration: none;
+  .app-assignee-mutesolo {
+    display: none;
+  }
+  &:hover {
+    text-decoration: none;
+    .app-assignee-mutesolo {
+      color: #666;
+      cursor: pointer;
+      display: inline-block;
+    }
+  }
+  &.app-assignee-warning {
+    color: #c00;
+    font-size: .9em;
+    font-weight: bold;
+  }
+}
+
+.unhide {
+  color: rgb(238, 238, 238);
+  cursor: pointer;
+  font-weight: normal;
+  margin: 4px 2px 0;
+  text-shadow: none;
+}
+
+.app-assignee.soloed, {
+  .app-filter-assignee { display: none; }
 }
 
 .app-todo-meta a {
   color: #888;
   padding: 1px 6px;
-}
-
-.app-solo-mute:hover, .app-todo-meta a:hover {
-  background-color: #777;
-  border-radius: 30px;
-  color: #fff;
-  text-decoration: none;
-}
-.app-solo-mute:hover .app-solo,
-.app-solo-mute:hover .app-mute {
-  display: inline-block;
 }
 
 
@@ -234,47 +257,47 @@ footer {
 	}
 
 	a[href]:after {
-     content:"" !important;
+   content:"" !important;
+ }
+
+ .app-navigation .nav {
+  display: none;
+}
+
+.app-todo-list-item {
+  @top-border;
+  clear: left;
+  margin:0;
+  padding:0;
+
+  &> div {
+   float: left !important;
+   padding:.75em 0 !important;
+   margin:0 !important;
+ }
+
+ .app-todo-duedate {
+   width: 20% !important;
+   .app-todo-overdue {
+    display:block;
   }
+}
 
-	.app-navigation .nav {
-		display: none;
-	}
+.app-todo-content {
+ width:55% !important;
+}
 
-	.app-todo-list-item {
-		@top-border;
-		clear: left;
-		margin:0;
-		padding:0;
+.app-todo-owner {
+ text-align: right !important;
+ width: 25% !important;
+ .app-assignee-name {
+  padding:0;
+}
+}
+}
 
-		&> div {
-			float: left !important;
-			padding:.75em 0 !important;
-			margin:0 !important;
-		}
-
-		.app-todo-duedate {
-			width: 20% !important;
-			.app-todo-overdue {
-				display:block;
-			}
-		}
-
-		.app-todo-content {
-			width:55% !important;
-		}
-
-		.app-todo-owner {
-			text-align: right !important;
-			width: 25% !important;
-			.app-assignee-name {
-				padding:0;
-			}
-		}
-	}
-
- 	footer {
- 		@top-border;
- 	}
+footer {
+ @top-border;
+}
 
 }
