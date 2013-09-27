@@ -9,6 +9,7 @@
   </div>
   <div class="panel">
     <div class="app-todo-controls row-fluid">
+
       <div class="span9">
         <div class="btn-toolbar">
           <div class="btn-group mixsorters">
@@ -31,9 +32,10 @@
     </div>
     <div id="todos">
       {% for todo in todos %}
-      <div class="app-todo-list-item row-fluid mix {{todo.assignee.name|e('html')|replace({' ':''})|lower}}" data-duedate="{% if todo.due_on == null %}9999999999999999{% else %}{{todo.due_on|date('U')}}{% endif %}">
+
+      <div class="app-todo-list-item row-fluid mix {{todo.assignee.name|e('html')|replace({' ':''})|lower}}" data-duedate="{{todo.due_date|date('U')}}">
         <div class="span3 app-todo-duedate">
-          {% if todo.due_on == null %}<span class="app-alert-warning">None</span>{% endif %} {{todo.due_on|e('html')}} {% if todo.overdue_by>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overdue_by|e('html')}} days</span>{% endif %}
+          {% if todo.due_on == null %}<span class="app-alert-warning">None</span>{% else %} {{todo.due_on|date('m/d/Y')}}{% endif %} {% if todo.overdue_by>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overdue_by|e('html')}} days</span>{% endif %}
         </div>
         <div class="span6 app-todo-content">
           <a class="app-todo-title" href="{{todo.href}}" target="_blank">{{todo.content|e('html')}}</a>
@@ -50,6 +52,7 @@
       {% endfor %}
     </div>
   </div>
+
   <div class="row-fluid">
     <div class="span6">
       <div class="btn-toolbar">

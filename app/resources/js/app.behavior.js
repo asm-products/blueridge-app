@@ -32,19 +32,12 @@ $(document).ready(function(){
   * To-dos Page
   */
 
-  // var tokenArray = new Object;
-  // $('.assignee-name').each(function(){
-  //   var token = $(this).data('nametoken');
-  //   tokenArray[token] = $(this).text();
-  // });
 
-  // $.each(tokenArray, function(index,value){
-  //   $('<button class="btn btn-mini filter" data-filter="' + index + '"">' + value + '</button>').appendTo('.mix-filters');
-  // });
 
   $('#todos').mixitup({
     animateGridList: false,
-    //sortOnLoad: ['data-duedate','desc'],
+
+    sortOnLoad: ['data-duedate','desc'],
     //effects: ['fade'],
     transitionSpeed: 0,
     onMixStart: function(config) {
@@ -56,13 +49,13 @@ $(document).ready(function(){
       //   $('.app-assignee').removeClass('soloed');
       //   $('.app-filter-message, .mix-filters').hide();
       // }
-    },
-    onMixEnd: function(config) {
+  },
+  onMixEnd: function(config) {
       $('.filter').bind('click', function(){
         $('#todos').mixitup('filter');
-      });
-    }
-  });
+    });
+  }
+});
 
   $('.app-mute-assignee').click(function(){
     var token = $(this).data('filter');
@@ -70,19 +63,19 @@ $(document).ready(function(){
     $('.mix.' + token).hide();
     $('#app-assignee-filter-show-all').removeClass('active');
     $('<span class="unhide label" data-token="' + token + '"">' + name + ' <i class="icon-plus"></i></span>').appendTo('.muted-people');
-  });
+});
   $('.muted-people').on('click', '.unhide', function() {
     var token = $(this).data('token');
     $('.mix.' + token).show();
     $(this).detach();
-  });
+});
   $('#app-assignee-filter-show-all').click(function(){
     $('.mix').show();
     $('.unhide').detach();
-  });
+});
   $('#app-assignee-filter-show-unassigned').click(function(){
     $('.unhide').detach();
-  });
+});
 
 
 
