@@ -41,14 +41,14 @@ $(document).ready(function(){
     //effects: ['fade'],
     transitionSpeed: 0,
     onMixStart: function(config) {
-      // $("html, body").animate({ scrollTop: 0 }, "fast");
-      // if (config.filter != 'all' && config.filter != 'mix_all'){
-      //   $('.app-assignee').addClass('soloed');
-      //   $('.app-filter-message, .mix-filters').show();
-      // } else {
-      //   $('.app-assignee').removeClass('soloed');
-      //   $('.app-filter-message, .mix-filters').hide();
-      // }
+      $("html, body").animate({ scrollTop: 0 }, "fast");
+      if (config.filter != 'all' && config.filter != 'mix_all'){
+        $('.app-assignee').addClass('soloed');
+        $('.app-filter-message, .mix-filters').show();
+      } else {
+        $('.app-assignee').removeClass('soloed');
+        $('.app-filter-message, .mix-filters').hide();
+      }
   },
   onMixEnd: function(config) {
       $('.filter').bind('click', function(){
