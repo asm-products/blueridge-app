@@ -1,0 +1,32 @@
+{
+  "database": {
+    "name": "blueridge",
+    "host": "ds029638.mongolab.com",
+    "port": 29638,
+    "user": "sterling",
+    "passwd": "gscellC6405"
+  },
+  "providers": {
+    "basecamp": {
+      "user_agent": "BlueRidgeApp (mo@mospired.com)",
+      "client_id": "cbc3f4cff1def7da310df4d74c7baaffa106772a",
+      "client_secret": "41ffa461186d66b1876d526ecab677d92df0533a",
+      "redirect_uri": "https://dev.blueridgeapp.com/auth/basecamp/",
+      "auth_url": "https://launchpad.37signals.com/authorization/new",
+      "token_url": "https://launchpad.37signals.com/authorization/token"
+    }
+  },
+  "services": {
+    "mail": {
+      "name": "mandrillapp",
+      "api_key": "IgxS9suuhImK6ewUnfOxqg"
+    },
+    "subscriber": {
+      "name": "stripe",
+      "secret_key": "sk_test_4vcuf4y5rna0k8NpRN6cuKK2",
+      "publishable_key": "pk_test_1yJ4OqVTXyu42OI7wXT6TSnr"
+    }
+  },
+  "debug": true,
+  "log.enabled": true
+}
