@@ -18,7 +18,7 @@ class Db extends Middleware
     public function call()
     {
         if(!empty($this->app->config('database')))
-        {   
+        {
             $this->app->container->singleton('dm', function () {
                 $configs = $this->app->config('database');   
 
@@ -36,11 +36,9 @@ class Db extends Middleware
                 $config->setHydratorNamespace('Hydrators');
                 $config->setMetadataDriverImpl(AnnotationDriver::create(APPLICATION_PATH.'/src/Blueridge/Documents'));
                 $config->setDefaultDB($configs['name']);            
-
-                return  DocumentManager::create( new Connection($connection_url), $config);
-                
-            });
-}
-$this->next->call();
-}
+                return  DocumentManager::create( new Connection($connection_url), $config);                
+            });   
+        }
+        $this->next->call();
+    }
 }
