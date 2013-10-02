@@ -17,6 +17,7 @@ use \Blueridge\Middleware\View;
 use \Blueridge\Middleware\Subscription;
 
 defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__).'/../app'));
+defined('BIN_PATH') || define('BIN_PATH', realpath(dirname(__FILE__).'/../bin'));
 defined('CACHE_DIR') || define('CACHE_DIR', realpath(dirname(__FILE__).'/../cache'));
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
