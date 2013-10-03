@@ -12,7 +12,7 @@ openssl req -new -x509 -key dev.blueridgeapp.com.key -out dev.blueridgeapp.com.c
 sudo service apache2 start
 
 # get package managers
-cd /var/www/blueridgeapp
+cd /var/www/blueridge
 composer update
 
 # cd /vagrant

@@ -2,7 +2,13 @@
 {% block title %}Profile{% endblock %}
 {% block content %}
 <div id="app-profile" class="container app-container">
-	{% include "app/sections/nav.html" %}
+	{% include "app/sections/nav.html" %}	
+	{% if flash['success'] != null %}
+	<div class="alert alert-success">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong>Yay!</strong> {{flash['success']}}.
+	</div>
+	{% endif %}
 	<div class="panel">
 		<div class="row-fluid user-info">
 			<div class="span1 hidden-phone">
