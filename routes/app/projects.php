@@ -9,6 +9,13 @@ $app->get('/app/projects/',$authenticate($app), function () use ($app) {
 
     $id = base64_decode($_SESSION['user']);
     $user = $app->dm->find('\Blueridge\Documents\User', $id);
+    
+    if (empty($user)){
+        unset($_SESSION['live']); 
+        unset($_SESSION['user']);
+        $app->redirect('/');  
+    }
+
     $projects = $user->projects;
     $app->render("app/projects.html", ['projects' => $projects,'route'=>'projects','plan'=>$user->toArray()['subscription']['plan']]);    
 });
