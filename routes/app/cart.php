@@ -35,7 +35,10 @@ $app->post('/app/cart/update-subscription/',$authenticate($app), function () use
         $qr = $app->dm->getRepository('\Blueridge\Documents\User');
         $user = $qr->find(base64_decode($_SESSION['user']));
         $plan = Teller::updateSubscription($app->config('services')['subscriber'],$user->subscription['customerId'],$plan);
-        $qr->updateSubscription($user,$plan);
+        $updated= $qr->updateSubscription($user,$plan);
+        if(empty($updated['err'])){
+            $app->flash('success', 'Your subscription has been updated successfully');
+        }        
         $app->redirect('/app/profile/');
             
     } 

@@ -24,8 +24,6 @@ $app->get('/connect/basecamp/',function() use ($app){
         $app->redirect('/app/todos'); 
     }
 
-
-
 });
 
 $app->response->headers->set('Content-Type', 'text/html');
