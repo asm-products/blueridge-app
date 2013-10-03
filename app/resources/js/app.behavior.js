@@ -28,6 +28,57 @@ $(document).ready(function(){
 		}
 	});
 
+  /**
+  * To-dos Page
+  */
+
+
+
+  $('#todos').mixitup({
+    animateGridList: false,
+
+    sortOnLoad: ['data-duedate','desc'],
+    //effects: ['fade'],
+    transitionSpeed: 0,
+    onMixStart: function(config) {
+      $("html, body").animate({ scrollTop: 0 }, "fast");
+      if (config.filter != 'all' && config.filter != 'mix_all'){
+        $('.app-assignee').addClass('soloed');
+        $('.app-filter-message, .mix-filters').show();
+      } else {
+        $('.app-assignee').removeClass('soloed');
+        $('.app-filter-message, .mix-filters').hide();
+      }
+  },
+  onMixEnd: function(config) {
+      $('.filter').bind('click', function(){
+        $('#todos').mixitup('filter');
+    });
+  }
+});
+
+  $('.app-mute-assignee').click(function(){
+    var token = $(this).data('filter');
+    var name = $(this).siblings('.app-assignee-name').html();
+    $('.mix.' + token).hide();
+    $('#app-assignee-filter-show-all').removeClass('active');
+    $('<span class="unhide label" data-token="' + token + '"">' + name + ' <i class="icon-plus"></i></span>').appendTo('.muted-people');
+});
+  $('.muted-people').on('click', '.unhide', function() {
+    var token = $(this).data('token');
+    $('.mix.' + token).show();
+    $(this).detach();
+});
+  $('#app-assignee-filter-show-all').click(function(){
+    $('.mix').show();
+    $('.unhide').detach();
+});
+  $('#app-assignee-filter-show-unassigned').click(function(){
+    $('.unhide').detach();
+});
+
+
+
 	/**
 	* Projects Page
 	*/

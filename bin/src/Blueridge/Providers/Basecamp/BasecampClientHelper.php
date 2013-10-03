@@ -147,12 +147,12 @@ class BasecampClientHelper
 
             $cacheId = "todos-{$todolist['id']}";
             if ($app->cacheDriver->contains($cacheId)) {
-                
+
                 $list = $app->cacheDriver->fetch($cacheId);
-                             
+
 
             } else {
-                
+
                 $request = $client->get($todolist['url']);
                 $response = $request->send();
                 $bc_todolist = $response->json();
@@ -168,8 +168,9 @@ class BasecampClientHelper
 
             $todos = array_merge($todos,$list);            
         }
+        
         $todos = self::organizeTodos($todos);
-        return $organized = self::organizeTodos($todos);
+        return $todos;
     }
 
     /**
@@ -186,30 +187,27 @@ class BasecampClientHelper
         $todosIterator = new \ArrayIterator($todoItems);
 
         foreach($todosIterator as $key => $todo){
-            $initPos = 0;
-            $todo['overdue_by'] =null; 
+            $todo['overdue_by'] = 0;
+            $now= new \DateTime('now');
 
-            if(!empty($todo['due_on'])){
-                $initPos = 1;
-                $dueOn= new \DateTime($todo['due_on']);
-                $todo['due_on']=$dueOn->format('m/d/Y');
-                $todo['overdue_by'] = (int) self::getOverdueBy($dueOn);
+            if(!empty($todo['due_on'])){            
+                $due_on= new \DateTime($todo['due_on']);                
+                $todo['due_date']=$due_on->getTimestamp();
+                if($now > $due_on){
+                    $todo['overdue_by']= $due_on->diff($now, true)->format('%a');
+                }
+
+            }else{                
+                $todo['due_date']=$now->add(new \DateInterval('P6Y'))->getTimestamp();
             }
+
             if(empty($todo['assignee']))
             {
                 $todo['assignee'] = ['id'=>null,'type'=>'Person','name'=>'Unassigned'];
             }
-            // set initial order
-            $due_on[$key] = $todo['due_on'];
-            $position[$key] = $initPos;
-            $overdue_by[$key] = $todo['overdue_by'];
 
             $todos[]=$todo;
         }
-        if(count($todos)>1){
-            array_multisort($overdue_by,SORT_DESC,$position,SORT_DESC,$due_on,SORT_ASC,$todos);    
-        }
-
         return $todos;  
 
     }
@@ -252,23 +250,5 @@ class BasecampClientHelper
         $points = ['/api/v1','.json'];
         $siteUrl = str_replace($points,'',$url);
         return $siteUrl;
-    }
-
-
-    /**
-     * Get Over Due By
-     */
-    public static function getOverdueBy($dueDate)
-    {
-
-        $now = new \DateTime('now');
-
-        if($dueDate > $now){
-            return 0;
-        }
-
-        $interval = $dueDate->diff($now);
-        return $interval->format('%a');
-
     }
 }

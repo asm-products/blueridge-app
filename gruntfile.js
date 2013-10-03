@@ -12,11 +12,13 @@ module.exports = function(grunt) {
       '<%= dir.vendor %>/jquery/jquery.min.js',
       '<%= dir.vendor %>/underscore/underscore-min.js',
       '<%= dir.vendor %>/bootstrap/dist/js/bootstrap.js',
+      '<%= dir.vendor %>/isotope/jquery.isotope.min.js',
+      '<%= dir.vendor %>/mixitup/src/jquery.mixitup.js',
       ]
     },
 
     clean:{
-      build:[ 
+      build:[
       '<%= dir.build %>/css',
       '<%= dir.build %>/fonts',
       '<%= dir.build %>/img',
@@ -27,7 +29,7 @@ module.exports = function(grunt) {
       '<%= dir.build %>/*.html',
       '<%= dir.build %>/*.php'
       ],
-      publish:[ 
+      publish:[
       '<%= dir.publish %>/css',
       '<%= dir.publish %>/fonts',
       '<%= dir.publish %>/js',
@@ -47,7 +49,7 @@ module.exports = function(grunt) {
           }
         },
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-      },     
+      },
       libs:{
        src: ['<%= vendor.js %>'],
        dest: '<%= dir.build %>/bin/libs.js'
