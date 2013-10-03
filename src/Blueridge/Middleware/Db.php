@@ -30,9 +30,9 @@ class Db extends Middleware
                 AnnotationDriver::registerAnnotationClasses();
 
                 $config = new Configuration();
-                $config->setProxyDir(APPLICATION_PATH.'/src/Blueridge/Documents/proxies');
+                $config->setProxyDir(APPLICATION_PATH.'/src/Blueridge/Documents/Proxies');
                 $config->setProxyNamespace('Proxies');
-                $config->setHydratorDir(APPLICATION_PATH.'/src/Blueridge/Documents/hydrators');
+                $config->setHydratorDir(APPLICATION_PATH.'/src/Blueridge/Documents/Hydrators');
                 $config->setHydratorNamespace('Hydrators');
                 $config->setMetadataDriverImpl(AnnotationDriver::create(APPLICATION_PATH.'/src/Blueridge/Documents'));
                 $config->setDefaultDB($configs['name']);            
