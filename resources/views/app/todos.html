@@ -8,8 +8,13 @@
     You are now in Solo Mode. Click 'Show Everyone' to see everyone again.
   </div>
   <div class="panel">
+    {% if todos == null %}
+    <div class="loading">
+      <h2>Whoops! There are no To-dos in the projects you've selected.</h2>
+      <a href="/app/projects/" class="btn btn-success btn-large" style="margin-bottom:2em">Change Selected Projects</a>
+    </div>
+    {% else %}
     <div class="app-todo-controls row-fluid">
-
       <div class="span9">
         <div class="btn-toolbar">
           <div class="btn-group mixsorters">
@@ -32,7 +37,6 @@
     </div>
     <div id="todos">
       {% for todo in todos %}
-
       <div class="app-todo-list-item row-fluid mix {{todo.assignee.name|e('html')|replace({' ':''})|lower}}" data-duedate="{{todo.due_date|date('U')}}">
         <div class="span3 app-todo-duedate">
           {% if todo.due_on == null %}<span class="app-alert-warning">None</span>{% else %} {{todo.due_on|date('m/d/Y')}}{% endif %} {% if todo.overdue_by>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overdue_by|e('html')}} days</span>{% endif %}
@@ -51,17 +55,19 @@
       </div>
       {% endfor %}
     </div>
-  </div>
-
-  <div class="row-fluid">
-    <div class="span6">
-      <div class="btn-toolbar">
-        <div class="btn-group pull-right">
-          <button class="btn btn-mini" href="/app/export/csv/"><i class="icon-download-alt"></i> Export CSV</button>
+    <div class="row-fluid subcontrols">
+      <div class="span12">
+        <div class="btn-toolbar">
+          <div class="btn-group pull-right">
+            <button class="btn btn-mini" href="/app/export/csv/"><i class="icon-download-alt"></i> Export CSV</button>
+          </div>
         </div>
       </div>
     </div>
+    {% endif %}
   </div>
+
+
 </div>
 {% include "app/sections/footer.html" %}
 {% endblock %}
