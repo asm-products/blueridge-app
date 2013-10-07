@@ -209,7 +209,9 @@
 // Yadda yadda
 /////////////////////////////////////////////////
 
-
+.subcontrols {
+  border-top: 1px solid $site_border_color;
+}
 
 .loading-container {
   position: relative;
