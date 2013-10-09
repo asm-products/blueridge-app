@@ -28,11 +28,10 @@ $(document).ready(function(){
 		}
 	});
 
-  /**
+
+  /********************************************************************
   * To-dos Page
   */
-
-
 
   $('#todos').mixitup({
     animateGridList: false,
@@ -49,13 +48,13 @@ $(document).ready(function(){
         $('.app-assignee').removeClass('soloed');
         $('.app-filter-message, .mix-filters').hide();
       }
-  },
-  onMixEnd: function(config) {
+    },
+    onMixEnd: function(config) {
       $('.filter').bind('click', function(){
         $('#todos').mixitup('filter');
-    });
-  }
-});
+      });
+    }
+  });
 
   $('.app-mute-assignee').click(function(){
     var token = $(this).data('filter');
@@ -63,19 +62,63 @@ $(document).ready(function(){
     $('.mix.' + token).hide();
     $('#app-assignee-filter-show-all').removeClass('active');
     $('<span class="unhide label" data-token="' + token + '"">' + name + ' <i class="icon-plus"></i></span>').appendTo('.muted-people');
-});
+  });
   $('.muted-people').on('click', '.unhide', function() {
     var token = $(this).data('token');
     $('.mix.' + token).show();
     $(this).detach();
-});
+  });
   $('#app-assignee-filter-show-all').click(function(){
     $('.mix').show();
     $('.unhide').detach();
-});
+  });
   $('#app-assignee-filter-show-unassigned').click(function(){
     $('.unhide').detach();
-});
+  });
+
+  /* Check To-do as done */
+  $('.app-checkdone-submit').change(function(event){
+    /**
+     * MN: Add hooks for checking a to-do as done here. Use the code below in the success callback function.
+     */
+    $(this).parents('.app-todo-list-item').fadeOut("slow", function(){$(this).detach(); });
+  });
+
+  /* Toggle To-do details */
+  $('.app-todo-title').click(function(){
+    /**
+     * MN: Add hooks for fetching To-do comments here
+     */
+    $(this).parents('.row-fluid').siblings('.app-todo-details').toggle();
+  });
+
+  /* Change duedate */
+  $('.app-todo-changeduedate').click(function(event){
+    event.preventDefault();
+    $(this).popover({
+      animation: false,
+      placement: "bottom",
+      title: "Set the due date:",
+      content: "this should be a calendar"
+    });
+    /**
+     * MN: Add hooks for changing due date
+     */
+  });
+
+  /* Change assignee */
+  $('.app-assignee-name').click(function(event){
+    event.preventDefault();
+    $(this).popover({
+      animation: false,
+      placement: "bottom",
+      title: "Assign this to-do to:",
+      content: "names of potential assignees here"
+    });
+    /**
+     * MN: Add hooks for changing assignee
+     */
+  });
 
 
 
