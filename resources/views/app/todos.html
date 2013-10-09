@@ -15,7 +15,7 @@
     </div>
     {% else %}
     <div class="app-todo-controls row-fluid">
-      <div class="span7">
+      <div class="span8">
         <h3>To-Do Items</h3>
       </div>
       <div class="span2">
@@ -26,8 +26,8 @@
           </div>
         </div>
       </div>
-      <div class="span3">
-        <div class="btn-toolbar">
+      <div class="span2">
+        <div class="btn-toolbar pull-right">
           <div class="btn-group mixfilters">
             <button class="btn btn-mini filter active" data-filter="all" id="app-assignee-filter-show-all">Everyone</button>
             <button class="btn btn-mini filter" data-filter="{{user.name|e('html')|replace({' ':''})|lower}}" id="app-assignee-filter-show-me">Me</button>
@@ -38,20 +38,62 @@
     </div>
     <div id="todos">
       {% for todo in todos %}
-      <div class="app-todo-list-item row-fluid mix {{todo.assignee.name|e('html')|replace({' ':''})|lower}}" data-duedate="{{todo.due_date|date('U')}}">
-        <div class="span7 app-todo-content">
-          <a class="app-todo-title" href="{{todo.href}}" target="_blank">{{todo.content|e('html')}}</a>
-          <span class="app-todo-meta">{{todo.parent.list_name|e('html')}} | {{todo.parent.project_name|e('html')}}</span>
-        </div>
-        <div class="span2 app-todo-duedate">
-          {% if todo.due_on == null %}<span class="app-alert-warning">None</span>{% else %} {{todo.due_on|date('m/d/Y')}}{% endif %} {% if todo.overdue_by>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overdue_by|e('html')}} days</span>{% endif %}
-        </div>
-        <div class="span3 app-todo-owner">
-          <span class="app-assignee{% if todo.assignee.name == 'Unassigned' %} app-assignee-warning{% endif %}">
-            <span class="app-assignee-name" data-nametoken="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}">{{todo.assignee.name|e('html')}}</span>
-            <span class="app-assignee-mutesolo app-filter-assignee filter" data-filter="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}"><i class="icon-zoom-in" title="Solo"></i></span>
-            <!-- <span class="app-assignee-mutesolo app-mute-assignee" data-filter="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}"><i class="icon-ban-circle" title="Mute"></i></span> -->
-          </span>
+      <div class="row-fluid app-todo-list-item mix {{todo.assignee.name|e('html')|replace({' ':''})|lower}}" data-duedate="{{todo.due_date|date('U')}}">
+        <div class="span12">
+          <div class="row-fluid">
+            <div class="span8 app-todo-content">
+              <div class="app-todo-checkdone">
+                <input type="checkbox" class="app-checkdone-submit" data-todo-id="{{todo.id}}">
+              </div>
+              <a class="app-todo-title">{{todo.content|e('html')}}</a>
+              <span class="app-todo-meta">{{todo.parent.list_name|e('html')}} | {{todo.parent.project_name|e('html')}}</span>
+            </div>
+            <div class="span2 app-todo-duedate">
+              <a class="app-todo-changeduedate">{% if todo.due_on == null %}<span class="app-alert-warning">None</span>{% else %} {{todo.due_on|date('m/d/Y')}}{% endif %} {% if todo.overdue_by>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overdue_by|e('html')}} days</span>{% endif %}</a>
+            </div>
+            <div class="span2 app-todo-owner">
+              <span class="app-assignee{% if todo.assignee.name == 'Unassigned' %} app-assignee-warning{% endif %}">
+                <a class="app-assignee-name" data-nametoken="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}">{{todo.assignee.name|e('html')}}</a>
+                <span class="app-assignee-mutesolo app-filter-assignee filter" data-filter="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}"><i class="icon-zoom-in" title="Solo"></i></span>
+                <!-- <span class="app-assignee-mutesolo app-mute-assignee" data-filter="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}"><i class="icon-ban-circle" title="Mute"></i></span> -->
+              </span>
+            </div>
+          </div>
+          <div class="row-fluid app-todo-details">
+            <div class="span6 app-todo-lastcomments">
+              <!-- this should be a loop with the last three comments, injected by an ajax request on $('.app-todo-title').click(). -->
+              <div class="comment-block">
+                <span class="comment-meta">J Cornelius &mdash; 09/21/13</span>
+                <div class="comment-content">
+                  <p>We will add the &lt;input&gt; element in markup, and handle form submission/response with JavaScript.</p>
+                  <ol>
+                    <li>On change submit the API request to Basecamp</li>
+                    <li>If successful, remove parent row from the DOM.</li>
+                    <li>On fail, present error message using Popover right (http://getbootstrap.com/2.3.2/javascript.html#popovers)</li>
+                  </ol>
+                </div>
+              </div>
+              <div class="comment-block">
+                <span class="comment-meta">Louis CK &mdash; 09/22/13</span>
+                <div class="comment-content">
+                  <p>We need a variety of landing pages for the marketing we'll be doing via Google AdWords. These can be static for now.</p>
+                </div>
+              </div>
+              <div class="comment-block">
+                <span class="comment-meta">Chris Rock &mdash; 09/23/13</span>
+                <div class="comment-content">
+                  <p>Create a directory next to index.html, add them in and they'll get grunt'd</p>
+                  <p><code>i.e app/src/&lt;whatever&gt;</code></p>
+                  <p>they will show up as <code>blueridgeapp.com/&lt;whatever&gt;/juicymarkeing.html</code></p>
+                </div>
+              </div>
+              <!-- end loop -->
+            </div>
+            <div class="span6 todo-commentform">
+              <textarea name=""></textarea>
+              <button class="btn btn-success btn-small">Add Comment</button>
+            </div>
+          </div>
         </div>
       </div>
       {% endfor %}
