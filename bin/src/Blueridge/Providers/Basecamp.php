@@ -45,6 +45,97 @@ class Basecamp
     }
 
     /**
+     * Get Token
+     */
+    public function getToken($code)
+    {
+
+        $params = [
+        'type'=>'web_server',
+        'client_id'=>$this->configs['client_id'],
+        'redirect_uri'=>$this->configs['redirect_uri'],
+        'client_secret'=>$this->configs['client_secret'],
+        'code'=>$code
+        ];
+
+        return $this->client->post($this->configs['token_url'],[],$params)->send()->json();  
+    }
+
+
+    /**
+    * Get Authorization
+    */
+
+    public  function getAuthorization($token)
+    {
+        $this->setAuth($token);
+        $endpoint="https://launchpad.37signals.com/authorization.json";     
+        $auth = $this->client->get($endpoint)->send()->json();
+
+        $authorization = [];
+
+        $authorization['identity'] = $auth['identity'];
+        $authorization['expires_at'] = $auth['expires_at'];
+
+        $authIterator = new \ArrayIterator($auth['accounts']);
+        foreach ($authIterator as $account) {
+            if($account['product'] =='bcx'){
+                $authorization['accounts'][] = $account;
+            }
+        }       
+        return $authorization;
+    }
+
+    /**
+     * Get Me
+     */
+    public function getMe($authorization)
+    {
+
+        $endpoint = "people/me.json";        
+        $url="{$authorization['accounts'][0]['href']}/{$endpoint}";
+
+        $whoami = $this->client->get($url)->send()->json();
+        $avatar = parse_url($whoami['avatar_url']);
+        return [
+        'name'=>$whoami['name'],
+        'firstName'=>$authorization['identity']['first_name'],
+        'lastName'=>$authorization['identity']['last_name'],
+        'email'=>$whoami['email_address'],
+        'avatar'=>"//{$avatar['host']}/{$avatar['path']}?{$avatar['query']}"
+        ];        
+
+    }
+
+    /**
+     * Get Projects
+     */
+    public function getProjects($authorization)
+    {        
+        $endpoint="projects.json";
+        $projects=[];
+        $index=0;
+
+        $accountIterator = new \RecursiveArrayIterator($authorization['accounts']);
+        foreach (new \RecursiveArrayIterator($accountIterator) as $key => $account) {
+
+            $data = $this->client->get("{$account['href']}/{$endpoint}")->send()->json();
+            if(!empty($data)){
+                $projectIterator = new \ArrayIterator($data);
+                foreach($projectIterator as $project){
+                    $names[$index] = $project['name'];
+                    $index++;
+                    $project['account']=$account;
+                    $projects[] = $project;
+                }
+            }
+        }
+        return $projects;
+    }
+
+
+
+    /**
      * Get Todolist
      */
     public function getTodolists(\Blueridge\Documents\User $user)
@@ -52,7 +143,7 @@ class Basecamp
         $todolists = [];
         $projectIterator = new \ArrayIterator($user->projects);
 
-        $this->setAuth($user);
+        $this->setAuth($user->providers['basecamp']['token']);
 
         foreach ($projectIterator as $project) {
             if($project['selected'])
@@ -150,23 +241,20 @@ class Basecamp
     /**
      * Set Auth
      */
-    protected function setAuth(\Blueridge\Documents\User $user)
+    protected function setAuth($token)
     {
-        if(!empty($user))
+
+        $this->configs = array_merge($this->configs,$token);
+
+        if(!empty($this->configs['access_token']))
         {
-            $this->configs = array_merge($this->configs,$user->providers['basecamp']['token']);
+            $authorization = sprintf('Bearer %s', $this->configs['access_token']);
 
-            if(!empty($this->configs['access_token']))
-            {
-                $authorization = sprintf('Bearer %s', $this->configs['access_token']);
+            $this->client->getEventDispatcher()->addListener('request.before_send', function(Event $event) use ($authorization) {
+                $event['request']->addHeader('Authorization', $authorization);
 
-                $this->client->getEventDispatcher()->addListener('request.before_send', function(Event $event) use ($authorization) {
-                    $event['request']->addHeader('Authorization', $authorization);
-
-                });
-            }  
-
-        }  
+            });
+        } 
 
     }
 
