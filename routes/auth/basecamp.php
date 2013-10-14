@@ -3,10 +3,9 @@
  *  Auth Basecamp
  */
 
-use \Blueridge\Providers\Basecamp\BasecampClient;
-use \Blueridge\Providers\Basecamp\BasecampClientHelper;
+use \Blueridge\Providers\Basecamp;
 use \Blueridge\Documents\User;
-use \Blueridge\Utilities\Postman;
+
 use \Blueridge\Utilities\Doorman;
 use \Blueridge\Utilities\Teller;
 
@@ -26,11 +25,10 @@ $app->get('/auth/basecamp/',function() use ($app){
 
         $_SESSION['live']=time();
 
-        $config = BasecampClientHelper::getConfig($app);                   
-        $token = BasecampClientHelper::getToken($config, $code);
-        $config= array_merge($config,$token);
-        $authorization = BasecampClientHelper::getAuthorization($config);
-        $me = BasecampClientHelper::getMe($config,$authorization);
+        $basecampClient = new Basecamp($app);
+        $token = $basecampClient->getToken($code);
+        $authorization = $basecampClient->getAuthorization($token);
+        $me = $basecampClient->getMe($authorization);
 
         $access = Doorman::getAccess();
         $qr= $app->dm->getRepository('\Blueridge\Documents\User');
@@ -55,7 +53,8 @@ $app->get('/auth/basecamp/',function() use ($app){
         'accounts'=>$authorization['accounts'],
         'identity'=>$authorization['identity'],
         ]];
-        $user->projects= BasecampClientHelper::getProjects($config,$authorization);
+
+        $user->projects= $basecampClient->getProjects($authorization);
         $app->dm->persist($user);
         $app->dm->flush();
 
