@@ -8,7 +8,6 @@ namespace Blueridge\Middleware;
 
 use \Memcache;
 use \Slim\Middleware;
-use \Doctrine\Common\Cache\ApcCache;
 use \Doctrine\Common\Cache\MemcacheCache;
 
 

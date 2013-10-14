@@ -4,7 +4,7 @@
  */
 
 use \Blueridge\Documents\User;
-use \Blueridge\Providers\Basecamp\BasecampClientHelper;
+use \Blueridge\Providers\Basecamp;
 
 
 $app->get('/app/todos/',$authenticate($app), function () use ($app) {
@@ -17,8 +17,9 @@ $app->get('/app/todos/',$authenticate($app), function () use ($app) {
         unset($_SESSION['user']);
         $app->redirect('/');  
     }
-    
-    $todos = BasecampClientHelper::getTodos($app,$user);
+    $basecampClient = new Basecamp($app);
+    $todos = $basecampClient->getTodos($user);
+
     $app->render("app/todos.html", ['user' =>$user->toArray(),'todos' => $todos,'route'=>'todos']);
 });
 

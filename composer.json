@@ -7,8 +7,8 @@
     "stripe/stripe-php": "dev-master",
     "mandrill/mandrill": "1.0.*",
     "doctrine/mongodb-odm": "1.0.*@dev",
-    "guzzle/guzzle": "3.7.*",
-    "sirprize/basecamp": "dev-master"
+    "sirprize/basecamp": "dev-master",
+    "guzzle/guzzle": "3.6.*"
   },
   "minimum-stability": "stable",
   "autoload": {
