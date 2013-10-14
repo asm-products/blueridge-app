@@ -1,6 +1,7 @@
 <?php
 /**
  * Basecamp Client
+ * @deprecated
  */
 
 namespace Blueridge\Providers\Basecamp;

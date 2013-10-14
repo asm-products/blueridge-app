@@ -4,7 +4,7 @@
  */
 
 use \Blueridge\Documents\User;
-use \Blueridge\Providers\Basecamp\BasecampClientHelper;
+use \Blueridge\Providers\Basecamp;
 
 $app->get('/app/export/csv/', $authenticate($app), function () use ($app) {
 
@@ -18,7 +18,8 @@ $app->get('/app/export/csv/', $authenticate($app), function () use ($app) {
     $id = base64_decode($_SESSION['user']);
     $user = $app->dm->find('\Blueridge\Documents\User', $id);
 
-    $todos = BasecampClientHelper::getTodos($app,$user);
+    $basecampClient = new Basecamp($app);
+    $todos = $basecampClient->getTodos($user);
 
 
     $arrayToCsv = function (array &$todos, $delimiter = ';', $enclosure = '"', $encloseAll = false){
