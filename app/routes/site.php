@@ -1,9 +1,17 @@
 <?php
+
 /**
- * Routes for the Application
+ * Home page
  */
 
+$app->get('/',function() use ($app){
+    $app->render('site/home.html');
+});
+$app->response->headers->set('Content-Type', 'text/html');
 
+/**
+ * Pages on the root
+ */
 $app->get('/:page/',function($page) use ($app){
     $allowed_routes = ['pricing','preview','privacy','about'];
     if(in_array($page, $allowed_routes))
