@@ -1,0 +1,56 @@
+{% extends "app/base.html" %}
+{% block title %}Projects{% endblock %}
+{% block content %}
+<div id="app-projects" class="container app-container">
+	{% if flash.newbie == false %}
+	{% include "app/sections/nav.html" %}
+	{% endif %}
+	<div class="panel">
+		{% if flash.newbie %}
+		<div class="noob-message">
+			<h2>Welcome to BlueRidge. Let&rsquo;s get started.</h2>
+			<p class="lead">Choose the projects you&rsquo;d like to get a better view of.<br>We&rsquo;ll grab all the To-dos and sort them for you.</p>
+		</div>
+		{% else %}
+		<p class="lead">Choose which projects to view:</p>
+		{% endif %}
+		<form action="/app/projects/" method="post" id="project-selection-list">
+			<div class="row-fluid">
+				<div class="span12" id="project-list" data-plan="{{plan.id}}">
+					{% for project in projects %}
+					<label class="checkbox project-row">
+						<input type="checkbox" name="selected[]" value="{{ project.id }}" class="project" {% if project.selected == true %} checked {% endif %}>
+						<h4>{{ project.name }} <small>( {{ project.account.name }} )</small></h4>
+						<p class="project-description">{{ project.description }}</p>
+					</label>
+					{% endfor %}
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<button class="btn btn-large btn-success apply-project-selections" type="submit">Apply My Choices</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div id="plan-limit-modal" class="modal hide">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Whoops!</h3>
+  </div>
+  <div class="modal-body">
+    <p></p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Okay, close this thing</a>
+    <a href="/app/profile/" class="btn btn-primary">Change My Plan</a>
+  </div>
+</div>
+
+{% include "app/sections/footer.html" %}
+{% endblock %}
+{% block js %}
+<script type="text/javascript" src="/js/app.behavior.js"></script>
+{% endblock %}

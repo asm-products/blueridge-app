@@ -1,0 +1,22 @@
+// Responsive
+
+@mixin breakpoint($point) {
+  @if $point == huge {
+    @media (max-width: 1600px) { @content; }
+  }
+  @else if $point == large {
+    @media (max-width: 1250px) { @content; }
+  }
+  @else if $point == medium {
+    @media (max-width: 650px)  { @content; }
+  }
+  @else if $point == sitefooter {
+  	@media (max-width: 610px)  { @content; }
+  }
+  @else if $point == appnav {
+    @media (max-width: 410px)  { @content; }
+  }
+  @else if $point == small {
+    @media (max-width: 320px)  { @content; }
+  }
+}

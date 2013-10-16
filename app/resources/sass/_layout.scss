@@ -1,0 +1,34 @@
+/** Layout **/
+
+// Small Defaults
+body {
+  background-color: $background_color;
+  background-image: url('/img/background_pattern.png');
+  background-position: 0 0;
+  background-repeat: repeat;
+  border-top: 5px solid $brand_blue;
+  height: 100%;
+  font-family: "proxima-nova","Helvetica Neue",helvetica,arial,sans-serif;
+  margin: 0;
+  padding: 0;
+  text-shadow: 0 1px #fff;
+}
+
+.container-narrow {
+  margin: 0 auto;
+  max-width: 680px;
+  & > hr {
+  	margin: 3em 0;
+  }
+}
+
+.loading {
+	margin: 3em auto 0;
+	max-width:500px;
+	text-align: center;
+	p {
+		font-size: 2.5em;
+		line-height: 1.4em;
+	}
+	img { margin-bottom: 2em; }
+}

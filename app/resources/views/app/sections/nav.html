@@ -1,0 +1,13 @@
+<div class="app-navigation">
+  <div class="row-fluid">
+    <div class="span12">
+    	<a id="brand">Blue Ridge</a>
+      <ul class="nav nav-pills">
+        <li{% if route == 'todos' %} class="active" {% endif %}><a href="/app/todos/" class="nav-link" data-message="Fetching your To-dos&hellip;"><i class="icon-check"></i> To-dos</a></li>
+        <li{% if route == 'projects' %} class="active" {% endif %}><a href="/app/projects/" class="nav-link" data-message="Rounding up your Project list&hellip;"><i class="icon-cogs"></i> Projects</a></li>
+        <li{% if route == 'profile' %} class="active" {% endif %}><a href="/app/profile/" class="nav-link" data-message="Loading your awesomeness&hellip;"><i class="icon-user"></i> Profile</a></li>
+        <li class="pull-right"><a href="/sign-out/" tabindex="-1"><i class="icon-signout"></i> Sign out</a></li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+{% extends "site/base.html" %}
+{% block title %}File Not Found {% endblock %}
+{% block content %}
+<div class="container">
+    {% include "common/sections/header.html" %}
+    <div class="billboard">
+        <h1 class="headline">Ahhhhh!!</h1>
+        <p class="lead"> {{message}}.</p>
+    </div>    
+    {% include "common/sections/footer.html" %}
+</div>
+{% endblock %}
