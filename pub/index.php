@@ -43,15 +43,9 @@ $authenticate = function ($app) {
     };
 };
 
-require APP_PATH."/routes/auth/connect.php";
-require APP_PATH."/routes/auth/basecamp.php";
-require APP_PATH."/routes/app/export.php";
-require APP_PATH."/routes/app/projects.php";
-require APP_PATH."/routes/app/todos.php";
-require APP_PATH."/routes/app/profile.php";
-require APP_PATH."/routes/app/cart.php";
-require APP_PATH."/routes/app/sign-out.php";
-require APP_PATH."/routes/site/home.php";
-require APP_PATH."/routes/site.php";
+require APP_PATH."/init.php";
+// require API_PATH."init.php";
+
+
 
 $app->run();
