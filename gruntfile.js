@@ -34,9 +34,7 @@ module.exports = function(grunt) {
       '<%= dir.publish %>/fonts',
       '<%= dir.publish %>/js',
       '<%= dir.publish %>/img',
-      '<%= dir.publish %>/views',
-      '<%= dir.publish %>/*.html',
-      '<%= dir.publish %>/*.php'
+      '<%= dir.publish %>/views'          
       ]
     },
     concat: {
