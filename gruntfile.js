@@ -5,7 +5,7 @@ module.exports = function(grunt) {
       publish:'pub',
       build:'build',
       src:'app/resources',
-      vendor:'app/vendor'
+      vendor:'app/bower_modules'
     },
     vendor: {
       js: [
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
         tasks: ['copy'],
       },
       html: {
-        files: ['<%= dir.src %>/**/*.html','<%= dir.src %>/**/*.php'],
+        files: ['<%= dir.src %>/**/*.html'],
         tasks: ['copy'],
       },
       scripts: {
@@ -114,17 +114,15 @@ module.exports = function(grunt) {
     copy: {
       build: {
         files: [
-        {expand: true, cwd:'<%= dir.src %>', src: ['img/**','views/**','fonts/**'], dest: '<%= dir.build %>'},
-        {expand: true, flatten:true,src: ['<%= dir.src %>/sass/**/{*.eot,*.svg,*ttf,*woff,*.otf}'], dest: '<%= dir.build %>/fonts',filter: 'isFile'},
-        {expand: true, cwd:'<%= dir.src %>',src: ['*.html','*.php'], dest: '<%= dir.build %>/'},
+        {expand: true, cwd:'<%= dir.src %>', src: ['img/**','fonts/**'], dest: '<%= dir.build %>'},
+        {expand: true, flatten:true,src: ['<%= dir.src %>/sass/**/{*.eot,*.svg,*ttf,*woff,*.otf}'], dest: '<%= dir.build %>/fonts',filter: 'isFile'},        
         {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'}
         ]
       },
       publish: {
         files: [
-        {expand: true, cwd:'<%= dir.build %>/', src: ['img/**','views/**','fonts/**','js/**'], dest: '<%= dir.publish %>/'},
+        {expand: true, cwd:'<%= dir.build %>/', src: ['img/**','fonts/**','js/**'], dest: '<%= dir.publish %>/'},
         {expand: true, flatten:true ,src: '<%= dir.build %>/css/**/*.css', dest: '<%= dir.publish %>/css',filter: 'isFile'},
-        {expand: true, cwd:'<%= dir.build %>/',src: ['*.html','*.php'], dest: '<%= dir.publish %>/'},
         ]
       }
     },
