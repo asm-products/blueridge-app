@@ -15,7 +15,8 @@ use \Blueridge\Middleware\Mail;
 use \Blueridge\Middleware\View;
 use \Blueridge\Middleware\Subscription;
 
-defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__).'/../app'));
+defined('APP_PATH') || define('APP_PATH', realpath(dirname(__FILE__).'/../app'));
+defined('API_PATH') || define('API_PATH', realpath(dirname(__FILE__).'/../api'));
 defined('BIN_PATH') || define('BIN_PATH', realpath(dirname(__FILE__).'/../bin'));
 defined('CACHE_DIR') || define('CACHE_DIR', realpath(dirname(__FILE__).'/../cache'));
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
@@ -42,15 +43,15 @@ $authenticate = function ($app) {
     };
 };
 
-require APPLICATION_PATH."/routes/auth/connect.php";
-require APPLICATION_PATH."/routes/auth/basecamp.php";
-require APPLICATION_PATH."/routes/site/home.php";
-require APPLICATION_PATH."/routes/app/export.php";
-require APPLICATION_PATH."/routes/app/projects.php";
-require APPLICATION_PATH."/routes/app/todos.php";
-require APPLICATION_PATH."/routes/app/profile.php";
-require APPLICATION_PATH."/routes/app/cart.php";
-require APPLICATION_PATH."/routes/app/sign-out.php";
-require APPLICATION_PATH."/routes/site.php";
+require APP_PATH."/routes/auth/connect.php";
+require APP_PATH."/routes/auth/basecamp.php";
+require APP_PATH."/routes/app/export.php";
+require APP_PATH."/routes/app/projects.php";
+require APP_PATH."/routes/app/todos.php";
+require APP_PATH."/routes/app/profile.php";
+require APP_PATH."/routes/app/cart.php";
+require APP_PATH."/routes/app/sign-out.php";
+require APP_PATH."/routes/site/home.php";
+require APP_PATH."/routes/site.php";
 
 $app->run();

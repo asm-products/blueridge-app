@@ -18,7 +18,7 @@ class View extends Middleware
     {
         $configs = [
         'view'=> new Twig(),
-        'templates.path'=> APPLICATION_PATH.'/resources/views'
+        'templates.path'=> APP_PATH.'/resources/views'
         ];
         $this->app->config($configs);
         $this->app->view->parserOptions = ['debug' => true,'cache' => CACHE_DIR.'/front'];
