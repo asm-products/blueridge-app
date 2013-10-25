@@ -2,7 +2,6 @@
 .vagrant
 vendor/*
 node_modules/*
-**/bower_modules/*
 *.scssc
 *.sublime-*
 *.lock
