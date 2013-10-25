@@ -19,7 +19,7 @@ require APPLICATION_ROOT.'/vendor/autoload.php';
 
 use Blueridge\Blueridge;
 
-$app = new Blueridge();
+$blueridgeApp = new Blueridge();
 
 
 print_r($app);
