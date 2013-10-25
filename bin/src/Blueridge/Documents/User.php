@@ -91,6 +91,13 @@ class User
     protected $projects = array();
 
     /**
+     * Todo Lists
+     * @var Array
+     * @ODM\Hash 
+     */
+    protected $todoLists = array();
+
+    /**
      * Subscription
      * @var Array
      * @ODM\Hash

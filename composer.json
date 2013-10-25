@@ -7,8 +7,9 @@
     "stripe/stripe-php": "dev-master",
     "mandrill/mandrill": "1.0.*",
     "doctrine/mongodb-odm": "1.0.*@dev",
-    "sirprize/basecamp": "dev-master",
-    "guzzle/guzzle": "3.6.*"
+    "guzzle/guzzle": "3.6.*",
+    "pimple/pimple": "v1.0.2",
+    "zendframework/zend-cache": "2.2.2"
   },
   "minimum-stability": "stable",
   "autoload": {

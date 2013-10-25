@@ -21,23 +21,23 @@ class Basecamp
 
     protected $client;
     protected $configs;
-    protected $app;
+    protected $container;
 
     /**
      * Basecamp
      */
-    public function __construct($app)
+    public function __construct($container)
     {
-        $this->app = $app;
-        $this->configs = $app->config('providers')['basecamp']; 
-        $this->client = new Client('https://basecamp.com/');
+        $this->container = $container;
+        $this->configs = $container['configs']['providers']['basecamp']; 
+        $this->client = new Client('https://basecamp.com/',['params.cache.override_ttl' => 3600]);
 
         $this->client->setUserAgent($this->configs['user_agent']);
 
         $cachePlugin = new CachePlugin(array(
             'storage' => new DefaultCacheStorage(
                 new DoctrineCacheAdapter(
-                    new FilesystemCache(CACHE_DIR.'/back')
+                    new FilesystemCache(CACHE_DIR.'/clients/basecamp')
                     )
                 )
             ));
@@ -140,6 +140,11 @@ class Basecamp
      */
     public function getTodolists(\Blueridge\Documents\User $user)
     {
+        // $todolists = $user->todoLists;
+        // if(!empty($todolists)){
+        //     return $todolists;
+        // }
+
         $todolists = [];
         $projectIterator = new \ArrayIterator($user->projects);
 
@@ -149,8 +154,12 @@ class Basecamp
             if($project['selected'])
             {                
                 $endpoint = "{$project['account']['href']}/projects/{$project['id']}/todolists.json";
-                
+
+                $result =  $this->client->get($endpoint)->send();
+
                 $list = $this->client->get($endpoint)->send()->json();
+
+                // var_dump($list);
 
                 array_walk($list, function(&$a, $key, $project) {
                     $a['parent'] = ['account_name'=>$project['account']['name'],'project_name'=> $project['name']];                    
@@ -160,6 +169,7 @@ class Basecamp
             }
 
         }
+        // exit();
         return $todolists;
 
     }
@@ -177,6 +187,8 @@ class Basecamp
             return;
         }
 
+        $todo_ids = array();
+
 
         $todolistIterator = new \ArrayIterator($todolists); 
 
@@ -184,17 +196,30 @@ class Basecamp
 
             $bc_todolist = $this->client->get($todolist['url'])->send()->json();
 
+
+            // echo "<pre>";
+            // print_r($bc_todolist);
             $list = $bc_todolist['todos']['remaining'];                
             $todolist['parent']['list_name'] = $bc_todolist['name'];
+
+            // echo "<pre>";
+            // print_r($bc_todolist);
+
+            // $todo_ids = array_column($todos, 'id');
+            // // var_dump($todo_ids);
+            
 
             array_walk($list, function(&$a, $key, $parent) {             
                 $a['parent'] = $parent;                    
                 $a['href'] = $this->getSiteUrl($a['url']);               
             },$todolist['parent']);
             
-            $todos = array_merge($todos,$list);            
+            $todos = array_merge($todos,$list);  
+
+
         }
-        
+
+        // exit();
         return $this->organizeTodos($todos);
 
     }
