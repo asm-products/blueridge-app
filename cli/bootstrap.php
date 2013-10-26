@@ -2,7 +2,7 @@
 <?php
 /**
  * Blueridge
- * Bootstrap
+ * Bootstrap Cli
  */
 
 // Set Constants
@@ -19,7 +19,4 @@ require APPLICATION_ROOT.'/vendor/autoload.php';
 
 use Blueridge\Blueridge;
 
-$blueridgeApp = new Blueridge();
-
-
-print_r($app);
+$blueridge = new Blueridge();
