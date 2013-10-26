@@ -140,11 +140,7 @@ class Basecamp
      */
     public function getTodolists(\Blueridge\Documents\User $user)
     {
-        // $todolists = $user->todoLists;
-        // if(!empty($todolists)){
-        //     return $todolists;
-        // }
-
+        
         $todolists = [];
         $projectIterator = new \ArrayIterator($user->projects);
 
@@ -157,9 +153,7 @@ class Basecamp
 
                 $result =  $this->client->get($endpoint)->send();
 
-                $list = $this->client->get($endpoint)->send()->json();
-
-                // var_dump($list);
+                $list = $this->client->get($endpoint)->send()->json();                
 
                 array_walk($list, function(&$a, $key, $project) {
                     $a['parent'] = ['account_name'=>$project['account']['name'],'project_name'=> $project['name']];                    
