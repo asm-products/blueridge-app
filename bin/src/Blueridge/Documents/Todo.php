@@ -8,37 +8,45 @@ use \Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use \Doctrine\ODM\MongoDB\DocumentRepository;
 
 /** 
- * @ODM\Document(collection="Todos") 
+ * @ODM\Document(collection="Todos",repositoryClass="Blueridge\Documents\TodoRepository") 
  */
 class Todo
 {
     /**
-     * Todo Id
+     * Id
      * @var string
      * @ODM\Id
      */
-
     protected $id;
+
+    /**
+     * TodoId
+     * @var string
+     * @ODM\String
+     */
+    protected $todoId;
+
+
     /**
      * Assignee
-     * @var string
-     * @ODM\String   
+     * @var Array
+     * @ODM\Hash   
      */
     protected $assignee;
 
     /**
      * Due On
      * @var string
-     * @ODM\Timestamp
+     * @ODM\String
      */
-    protected $dueOn;
+    protected $due_on;
 
     /**
      * Overdue By
      * @var string
      * @ODM\String
      */
-    protected $overdueBy;
+    protected $overdue_by;
     
     /**
      * Href
@@ -56,18 +64,12 @@ class Todo
     protected $source;
 
     /**
-     * Parent
+     * Rel
      * @var Array
      * @ODM\Hash
      */
-    protected $parent;
+    protected $rel;
 
-    /**
-     * Users
-     * @var Array
-     * @ODM\Hash
-     */
-    protected $users;
 
 
     /**
@@ -121,5 +123,34 @@ class Todo
             $this->$property = $value;
         }
         return $this;
+    }
+
+    /**
+     * Polish
+     */
+    public function polish($todo)
+    {
+
+        $todo['overdue_by'] = 0;
+        $now= new \DateTime('now');
+
+        if(!empty($todo['due_on'])){            
+            $due_on= new \DateTime($todo['due_on']);                
+            $todo['due_date']=$due_on->getTimestamp();
+            if($now > $due_on){
+                $todo['overdue_by']= $due_on->diff($now, true)->format('%a');
+            }
+
+        }else{                
+            $todo['due_date']=$now->add(new \DateInterval('P6Y'))->getTimestamp();
+        }
+
+        if(empty($todo['assignee']))
+        {
+            $todo['assignee'] = ['id'=>null,'type'=>'Person','name'=>'Unassigned'];
+        }
+
+        return $todo;
+
     }
 }

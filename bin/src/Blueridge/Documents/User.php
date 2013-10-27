@@ -91,11 +91,11 @@ class User
     protected $projects = array();
 
     /**
-     * Todo Lists
+     * Todos
      * @var Array
      * @ODM\Hash 
      */
-    protected $todoLists = array();
+    protected $todos= array();
 
     /**
      * Subscription

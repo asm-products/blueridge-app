@@ -21,15 +21,15 @@ class Basecamp
 
     protected $client;
     protected $configs;
-    protected $container;
+    protected $blueridge;
 
     /**
      * Basecamp
      */
-    public function __construct($container)
+    public function __construct($blueridge)
     {
-        $this->container = $container;
-        $this->configs = $container['configs']['providers']['basecamp']; 
+        $this->blueridge = $blueridge;
+        $this->configs = $blueridge['configs']['providers']['basecamp']; 
         $this->client = new Client('https://basecamp.com/',['params.cache.override_ttl' => 3600]);
 
         $this->client->setUserAgent($this->configs['user_agent']);
@@ -140,7 +140,7 @@ class Basecamp
      */
     public function getTodolists(\Blueridge\Documents\User $user)
     {
-        
+
         $todolists = [];
         $projectIterator = new \ArrayIterator($user->projects);
 
@@ -149,21 +149,16 @@ class Basecamp
         foreach ($projectIterator as $project) {
             if($project['selected'])
             {                
-                $endpoint = "{$project['account']['href']}/projects/{$project['id']}/todolists.json";
-
-                $result =  $this->client->get($endpoint)->send();
-
-                $list = $this->client->get($endpoint)->send()->json();                
-
+                $endpoint = "{$project['account']['href']}/projects/{$project['id']}/todolists.json";            
+                $list = $this->client->get($endpoint)->send()->json();             
                 array_walk($list, function(&$a, $key, $project) {
-                    $a['parent'] = ['account_name'=>$project['account']['name'],'project_name'=> $project['name']];                    
+                    $a['rel']['project'] = $project;                    
                 },$project);
-
                 $todolists = array_merge($todolists,$list);
             }
 
         }
-        // exit();
+
         return $todolists;
 
     }
@@ -181,80 +176,28 @@ class Basecamp
             return;
         }
 
-        $todo_ids = array();
-
-
         $todolistIterator = new \ArrayIterator($todolists); 
 
         foreach ($todolistIterator as $todolist) {
 
             $bc_todolist = $this->client->get($todolist['url'])->send()->json();
-
-
-            // echo "<pre>";
-            // print_r($bc_todolist);
-            $list = $bc_todolist['todos']['remaining'];                
-            $todolist['parent']['list_name'] = $bc_todolist['name'];
-
-            // echo "<pre>";
-            // print_r($bc_todolist);
-
-            // $todo_ids = array_column($todos, 'id');
-            // // var_dump($todo_ids);
+            $list = $bc_todolist['todos']['remaining'];
             
+            $rel=['project'=>$todolist['rel']['project'],'list_name'=>$bc_todolist['name']];
+            array_walk($list, function(&$a, $key, $rel) {             
+                $a['rel'] = $rel;                
+                $a['rel']['href'] = $this->getSiteUrl($a['url']);                
+            },$rel);
 
-            array_walk($list, function(&$a, $key, $parent) {             
-                $a['parent'] = $parent;                    
-                $a['href'] = $this->getSiteUrl($a['url']);               
-            },$todolist['parent']);
-            
             $todos = array_merge($todos,$list);  
 
-
         }
-
-        // exit();
-        return $this->organizeTodos($todos);
-
+        return $todos;
     }
 
-    /**
-     * Organize Todoss
-     */
-    protected function organizeTodos($todoItems)
-    {
-        if(empty($todoItems))
-        {
-            return;
-        }
-
-        $todos = [];
-        $todosIterator = new \ArrayIterator($todoItems);
-
-        foreach($todosIterator as $key => $todo){
-            $todo['overdue_by'] = 0;
-            $now= new \DateTime('now');
-
-            if(!empty($todo['due_on'])){            
-                $due_on= new \DateTime($todo['due_on']);                
-                $todo['due_date']=$due_on->getTimestamp();
-                if($now > $due_on){
-                    $todo['overdue_by']= $due_on->diff($now, true)->format('%a');
-                }
-
-            }else{                
-                $todo['due_date']=$now->add(new \DateInterval('P6Y'))->getTimestamp();
-            }
-
-            if(empty($todo['assignee']))
-            {
-                $todo['assignee'] = ['id'=>null,'type'=>'Person','name'=>'Unassigned'];
-            }
-
-            $todos[]=$todo;
-        }
-        return $todos;  
-
+    public function getTodo(\Blueridge\Documents\User $user, $url)
+    {               
+        return $this->client->get($url)->send()->json();        
     }
 
     /**
