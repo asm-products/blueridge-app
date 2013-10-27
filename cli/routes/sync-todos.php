@@ -8,9 +8,10 @@
 require realpath(dirname(__FILE__).'/../bootstrap.php');
 
 use Blueridge\Documents\User;
+use Blueridge\Documents\Todo;
 use Blueridge\Providers\Basecamp;
 
-// var_dump($blueridge);
+
 // get the user id
 $options = getopt("u:");
 if(empty($options['u']))
@@ -26,7 +27,37 @@ if(empty($options['u']))
 
 $id = $options['u'];
 $user = $blueridge['documentManager']->find('\Blueridge\Documents\User', $id);
+$todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
 
 $basecampClient = new Basecamp($blueridge);
-$todos = $basecampClient->getTodos($user);
-var_dump($todos);
+$raw_todos = $basecampClient->getTodos($user);
+$todoIds = array();
+
+foreach($raw_todos as $item)
+{
+    $item['todoId']=$item['rel']['project']['account']['product'].'_'.$item['id'];
+    unset($item['id']);
+    $item['source'] = $basecampClient->getTodo($user,$item['url']);
+
+    // check for existing todo and update
+    $todo = $todoQr->findOneByTodoId($item['todoId']);
+
+    if(empty($todo))
+    {
+        $todo = new Todo();
+    }
+
+    $item  = $todo->polish($item);
+    $todo->setProperties($item);        
+    $blueridge['documentManager']->persist($todo);
+    $todoIds[]=$item['todoId'];                        
+}
+$user->todos = $todoIds;   
+$blueridge['documentManager']->persist($user);
+$blueridge['documentManager']->flush();
+ 
+
+var_dump($user);
+
+
+// var_dump($todoUrls);
