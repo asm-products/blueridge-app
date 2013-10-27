@@ -31,7 +31,7 @@ $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo
 
 $basecampClient = new Basecamp($blueridge);
 $raw_todos = $basecampClient->getTodos($user);
-$todoIds = array();
+// $todoIds = array();
 
 foreach($raw_todos as $item)
 {
@@ -50,14 +50,14 @@ foreach($raw_todos as $item)
     $item  = $todo->polish($item);
     $todo->setProperties($item);        
     $blueridge['documentManager']->persist($todo);
-    $todoIds[]=$item['todoId'];                        
+    // $todoIds[]=$item['todoId'];                        
 }
-$user->todos = $todoIds;   
-$blueridge['documentManager']->persist($user);
+// $user->todos = $todoIds;   
+// $blueridge['documentManager']->persist($user);
 $blueridge['documentManager']->flush();
  
 
-var_dump($user);
+var_dump(count($raw_todos));
 
 
 // var_dump($todoUrls);
