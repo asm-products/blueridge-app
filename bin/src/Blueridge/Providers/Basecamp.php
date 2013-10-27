@@ -146,17 +146,13 @@ class Basecamp
 
         $this->setAuth($user->providers['basecamp']['token']);
 
-        foreach ($projectIterator as $project) {
-            if($project['selected'])
-            {                
-                $endpoint = "{$project['account']['href']}/projects/{$project['id']}/todolists.json";            
-                $list = $this->client->get($endpoint)->send()->json();             
-                array_walk($list, function(&$a, $key, $project) {
-                    $a['rel']['project'] = $project;                    
-                },$project);
-                $todolists = array_merge($todolists,$list);
-            }
-
+        foreach ($projectIterator as $project) {            
+            $endpoint = "{$project['account']['href']}/projects/{$project['id']}/todolists.json";            
+            $list = $this->client->get($endpoint)->send()->json();             
+            array_walk($list, function(&$a, $key, $project) {
+                $a['rel']['project'] = $project;                    
+            },$project);
+            $todolists = array_merge($todolists,$list);
         }
 
         return $todolists;

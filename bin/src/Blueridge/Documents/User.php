@@ -74,35 +74,28 @@ class User
      * @var Array
      * @ODM\Hash
      */
-    protected $roles = array();
+    protected $roles;
 
     /**
      * Profile
      * @var Array
      * @ODM\Hash
      */
-    protected $profile = array();
+    protected $profile;
 
     /**
      * Projects
      * @var Array
      * @ODM\Hash
      */
-    protected $projects = array();
-
-    /**
-     * Todos
-     * @var Array
-     * @ODM\Hash 
-     */
-    protected $todos= array();
+    protected $projects;
 
     /**
      * Subscription
      * @var Array
      * @ODM\Hash
      */
-    protected $subscription = array();
+    protected $subscription;
 
     /**
      * Providers
@@ -110,6 +103,18 @@ class User
      * @ODM\Hash
      */
     protected $providers;
+
+    /**
+     * User
+     */
+    public function __construct()
+    {
+        $this->roles = new ArrayCollection;
+        $this->profile = new ArrayCollection;
+        $this->projects = new ArrayCollection;
+        $this->subscription = new ArrayCollection;
+        $this->providers = new ArrayCollection;
+    }
 
     /**
      * Set Properties
@@ -167,7 +172,7 @@ class User
         $projects=array();
 
         foreach($this->projects as $key => $project){
-            
+
             $selected = (in_array($project['id'], $this->profile['projects']))?true:false;
             $item=$project;
             $item['selected']=$selected;    

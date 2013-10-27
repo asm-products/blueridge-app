@@ -18,4 +18,13 @@ class TodoRepository extends DocumentRepository
         ->getQuery()->execute();
     }
 
+    
+    public function fetchByUser(\Blueridge\Documents\User $user)
+    {        
+        return $this->createQueryBuilder()
+        ->hydrate(false)    
+        ->field('rel.project.id')->in($user->profile['projects'])
+        ->getQuery()->execute();
+    }
+
 }

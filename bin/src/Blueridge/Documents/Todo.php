@@ -70,6 +70,16 @@ class Todo
      */
     protected $rel;
 
+    /**
+     * Todo
+     */
+    public function __construct()
+    {
+        $this->assignee = new ArrayCollection;
+        $this->source = new ArrayCollection;
+        $this->rel = new ArrayCollection;
+    }
+
 
 
     /**
