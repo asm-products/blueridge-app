@@ -43,7 +43,7 @@ $authenticate = function ($app) {
 };
 
 require APP_PATH."/init.php";
-// +require API_PATH."/init.php";
+require API_PATH."/init.php";
 
 
 

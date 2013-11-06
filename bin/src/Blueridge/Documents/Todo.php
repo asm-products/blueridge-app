@@ -26,6 +26,13 @@ class Todo
      */
     protected $todoId;
 
+    /**
+     * Content
+     * @var string
+     * @ODM\String
+     */
+    protected $content;
+
 
     /**
      * Assignee
@@ -42,18 +49,18 @@ class Todo
     protected $due_on;
 
     /**
+     * Due Date
+     * @var timestamp
+     * @ODM\Timestamp
+     */
+    protected $due_date;
+
+    /**
      * Overdue By
-     * @var string
-     * @ODM\String
+     * @var int
+     * @ODM\Int
      */
     protected $overdue_by;
-    
-    /**
-     * Href
-     * @var string
-     * @ODM\String
-     */
-    protected $href;
     
 
     /**
@@ -75,9 +82,9 @@ class Todo
      */
     public function __construct()
     {
-        $this->assignee = new ArrayCollection;
-        $this->source = new ArrayCollection;
-        $this->rel = new ArrayCollection;
+        // $this->assignee = new \ArrayCollection();
+        // $this->source = new \ArrayCollection;
+        // $this->rel = new \ArrayCollection;
     }
 
 
@@ -104,11 +111,16 @@ class Todo
     public function toArray()
     {
 
+        $properties = ['id','todoId','content','assignee','due_on','due_date','overdue_by','rel'];
+
         $item=array();
 
         foreach ($this as $property => $value)
-        {            
-            $item[$property]=$value;                                
+        {
+            if (in_array($property, $properties))
+            {               
+                $item[$property]=$value;                                
+            }
         }
         return $item;
     }

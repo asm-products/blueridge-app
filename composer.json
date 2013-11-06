@@ -11,6 +11,9 @@
     "pimple/pimple": "v1.0.2",
     "zendframework/zend-cache": "2.2.2"
   },
+  "require-dev": {
+    "behat/behat": "2.4.*@stable"
+  },
   "minimum-stability": "stable",
   "autoload": {
     "psr-0": {

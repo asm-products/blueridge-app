@@ -104,16 +104,28 @@ class User
      */
     protected $providers;
 
+
+    /**
+     * Member Since
+     * @var String
+     * @ODM\String
+     */
+    protected $member_since;
+
+    
+
+
+
     /**
      * User
      */
     public function __construct()
     {
-        $this->roles = new ArrayCollection;
-        $this->profile = new ArrayCollection;
-        $this->projects = new ArrayCollection;
-        $this->subscription = new ArrayCollection;
-        $this->providers = new ArrayCollection;
+        // $this->roles = new ArrayCollection;
+        // $this->profile = new ArrayCollection;
+        // $this->projects = new ArrayCollection;
+        // $this->subscription = new ArrayCollection;
+        // $this->providers = new ArrayCollection;
     }
 
     /**
@@ -150,7 +162,7 @@ class User
      */
     public function toArray()
     {
-        $properties = ['name','firstName','lastName','email','url','avatar','subscription'];
+        $properties = ['id','name','firstName','lastName','email','url','avatar','subscription'];
 
         $item=array();
 

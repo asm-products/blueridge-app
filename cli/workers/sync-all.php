@@ -2,7 +2,7 @@
 <?php
 /**
  * Blueridge
- * Sync Todos
+ * Sync All
  */
 
 require realpath(dirname(__FILE__).'/../bootstrap.php');
@@ -12,21 +12,7 @@ use Blueridge\Documents\Todo;
 use Blueridge\Providers\Basecamp;
 
 
-// get the user id
-$options = getopt("u:");
-if(empty($options['u']))
-{
-
-    try {
-        throw new Exception("Error Processing Request: User Id missing", 1);
-    } catch (Exception $e) {
-        error_log($e->getMessage()."\n");
-    }
-    exit(1);    
-}
-
-$id = $options['u'];
-$user = $blueridge['documentManager']->find('\Blueridge\Documents\User', $id);
+$userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
 $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
 
 $basecampClient = new Basecamp($blueridge);
@@ -50,13 +36,11 @@ foreach($raw_todos as $item)
     $item  = $todo->polish($item);
     $todo->setProperties($item);        
     $blueridge['documentManager']->persist($todo);
-    // $todoIds[]=$item['todoId'];                        
+                            
 }
-// $user->todos = $todoIds;   
-// $blueridge['documentManager']->persist($user);
 $blueridge['documentManager']->flush();
- 
 
+// log this job
 var_dump(count($raw_todos));
 
 

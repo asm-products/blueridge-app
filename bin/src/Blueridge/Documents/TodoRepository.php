@@ -13,7 +13,7 @@ class TodoRepository extends DocumentRepository
     {
 
         return $this->createQueryBuilder()
-        ->hydrate(false)    
+        ->eagerCursor(true)    
         ->field('todoId')->in($todoIds)
         ->getQuery()->execute();
     }
@@ -22,7 +22,7 @@ class TodoRepository extends DocumentRepository
     public function fetchByUser(\Blueridge\Documents\User $user)
     {        
         return $this->createQueryBuilder()
-        ->hydrate(false)    
+        ->eagerCursor(true)    
         ->field('rel.project.id')->in($user->profile['projects'])
         ->getQuery()->execute();
     }

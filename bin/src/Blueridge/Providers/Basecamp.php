@@ -191,9 +191,23 @@ class Basecamp
         return $todos;
     }
 
+    /**
+     * getTodo Get Todo
+     * @param  BlueridgeDocumentsUser $user
+     * @param  String                 $url
+     * @return Object
+     */
     public function getTodo(\Blueridge\Documents\User $user, $url)
     {               
         return $this->client->get($url)->send()->json();        
+    }
+
+    
+    public function updateTodo(\Blueridge\Documents\User $user, $id,Array $attributes)
+    {
+        print_r($this->client);
+        // $endpoint= 
+
     }
 
     /**

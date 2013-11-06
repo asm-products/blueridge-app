@@ -20,12 +20,19 @@ class UserRepository extends DocumentRepository
 
     public function updateSubscription($user,$plan)
     {
-       return $this->createQueryBuilder()
-       ->update()
-       ->field('subscription.plan')->set($plan)
-       ->field('id')->equals($user->id)
-       ->getQuery()->execute();
-   }
+        return $this->createQueryBuilder()
+        ->update()
+        ->field('subscription.plan')->set($plan)
+        ->field('id')->equals($user->id)
+        ->getQuery()->execute();
+    }
+
+    public function fetchAll()
+    {        
+        return $this->createQueryBuilder()
+        ->eagerCursor(true)       
+        ->getQuery()->execute();
+    }
 
 
 }
