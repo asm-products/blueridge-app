@@ -9,6 +9,7 @@ namespace Blueridge;
 use Pimple;
 use Memcache;
 use Mandrill;
+use IronMQ;
 
 use Doctrine\MongoDB\Connection;
 use Doctrine\ODM\MongoDB\Configuration;
@@ -83,14 +84,14 @@ class Blueridge extends Pimple
             }
             return;
         });
-    }
+}
 
     /**
      * Init File Cache
      */
     public function _initFileCache()
     {
-        
+
         $this['fileCache'] =  $this->share(function (){
             $fileCache  = StorageFactory::adapterFactory('filesystem', ['ttl' => 3600,'cache_dir'=>CACHE_DIR.'/data']);        
             $plugin = StorageFactory::pluginFactory('exception_handler',['throw_exceptions' => false]);
@@ -116,6 +117,5 @@ class Blueridge extends Pimple
             return;
         });
     }
-
 
 }

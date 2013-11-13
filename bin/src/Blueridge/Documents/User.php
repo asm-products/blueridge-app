@@ -107,12 +107,10 @@ class User
 
     /**
      * Member Since
-     * @var String
-     * @ODM\String
+     * @var Date
+     * @ODM\Date
      */
     protected $member_since;
-
-    
 
 
 

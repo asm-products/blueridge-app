@@ -49,7 +49,6 @@ class Basecamp
      */
     public function getToken($code)
     {
-
         $params = [
         'type'=>'web_server',
         'client_id'=>$this->configs['client_id'],
@@ -57,8 +56,8 @@ class Basecamp
         'client_secret'=>$this->configs['client_secret'],
         'code'=>$code
         ];
-
         return $this->client->post($this->configs['token_url'],[],$params)->send()->json();  
+
     }
 
 

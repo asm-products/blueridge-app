@@ -8,7 +8,12 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 
 class UserRepository extends DocumentRepository
 {
-
+    /**
+     * Update User Payment Method
+     * @param  Object $user    
+     * @param  Array $payment 
+     * @return Object
+     */
     public function updatePayment($user,$payment)
     {
         return $this->createQueryBuilder()
@@ -18,6 +23,12 @@ class UserRepository extends DocumentRepository
         ->getQuery()->execute();
     }
 
+    /**
+     * Update Subscription Plan
+     * @param  Object $user 
+     * @param  Array $plan 
+     * @return Object      
+     */
     public function updateSubscription($user,$plan)
     {
         return $this->createQueryBuilder()
@@ -27,12 +38,21 @@ class UserRepository extends DocumentRepository
         ->getQuery()->execute();
     }
 
+    /**
+     * Fetch All Users
+     * @return Object Array
+     */
     public function fetchAll()
     {        
         return $this->createQueryBuilder()
         ->eagerCursor(true)       
         ->getQuery()->execute();
     }
+
+    // public function fetchProjects()
+    // {
+
+    // }
 
 
 }
