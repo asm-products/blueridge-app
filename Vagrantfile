@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "./", "/var/www/blueridge",owner: "www-data", group: "www-data"
   config.vm.synced_folder "devbox/conf.d", "/etc/apache2/sites-available",owner: "root", group: "root"
   config.vm.synced_folder "devbox/crt", "/etc/ssl/crt",owner: "root", group: "root"
-  config.vm.synced_folder "devbox/logs", "/var/log/apache2"
+  config.vm.synced_folder "devbox/logs", "/var/log/blueridge"
 
   #config.vm.network :public_network
   config.vm.network :private_network, ip: "33.33.33.40"
