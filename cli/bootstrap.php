@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 /**
  * Blueridge
@@ -16,7 +15,3 @@ defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV
 
 
 require APPLICATION_ROOT.'/vendor/autoload.php';
-
-use Blueridge\Blueridge;
-
-$blueridge = new Blueridge();

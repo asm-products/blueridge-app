@@ -1,5 +1,6 @@
 {
   "require": {
+    "league/oauth2-client": "0.1",
     "slim/slim": "2.3.*",
     "slim/views": "0.1.*",
     "slim/extras": "dev-master",
@@ -9,7 +10,8 @@
     "doctrine/mongodb-odm": "1.0.*@dev",
     "guzzle/guzzle": "3.6.*",
     "pimple/pimple": "v1.0.2",
-    "zendframework/zend-cache": "2.2.2"
+    "zendframework/zend-cache": "2.2.2",
+    "chrisboulton/php-resque": "1.2"
   },
   "require-dev": {
     "behat/behat": "2.4.*@stable"

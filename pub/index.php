@@ -16,7 +16,6 @@ require APPLICATION_ROOT.'/vendor/autoload.php';
 use \Slim\Slim;
 use \Slim\Views;
 use \Slim\Middleware\SessionCookie;
-
 use \Blueridge\Blueridge;
 use \Blueridge\Middleware\View;
 
