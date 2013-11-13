@@ -3,17 +3,17 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     dir:{
       publish:'pub',
-      build:'build',
+      build:'app/build',
       src:'app/resources',
       vendor:'app/bower_modules'
     },
     vendor: {
       js: [
-      '<%= dir.vendor %>/jquery/jquery.min.js',
-      '<%= dir.vendor %>/underscore/underscore-min.js',
+      '<%= dir.vendor %>/jquery/jquery.min.js',      
       '<%= dir.vendor %>/bootstrap/dist/js/bootstrap.js',
       '<%= dir.vendor %>/isotope/jquery.isotope.min.js',
       '<%= dir.vendor %>/mixitup/src/jquery.mixitup.js',
+      '<%= dir.vendor %>/underscore/underscore-min.js',
       ]
     },
 
