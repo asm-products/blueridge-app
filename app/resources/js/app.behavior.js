@@ -14,7 +14,7 @@ $(document).ready(function(){
 	var plan_limits = {
 		'br-free':3,
 		'br-solo':5,
-		'br-manager':10,'br-pro':30
+		'br-manager':10,'br-pro':40
 	};
 	var plan_limit = plan_limits[$('#project-list').data('plan')];
 
