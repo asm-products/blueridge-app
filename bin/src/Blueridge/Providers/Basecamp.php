@@ -108,29 +108,30 @@ class Basecamp
 
     /**
      * Get Projects
-     */
-    public function getProjects($authorization)
+     */    
+    public function getProjects(\Blueridge\Documents\User $user)
     {        
+
         $endpoint="projects.json";
         $projects=[];
         $index=0;
 
-        $accountIterator = new \RecursiveArrayIterator($authorization['accounts']);
-        foreach (new \RecursiveArrayIterator($accountIterator) as $key => $account) {
+        $this->setAuth($user->providers['basecamp']['token']);
+        $accountIterator = new \ArrayIterator($user->providers['basecamp']['accounts']);        
+        foreach ($accountIterator as $account) {            
+            $list = $this->client->get("{$account['href']}/{$endpoint}")->send()->json();
 
-            $data = $this->client->get("{$account['href']}/{$endpoint}")->send()->json();
-            if(!empty($data)){
-                $projectIterator = new \ArrayIterator($data);
-                foreach($projectIterator as $project){
-                    $names[$index] = $project['name'];
-                    $index++;
-                    $project['account']=$account;
-                    $projects[] = $project;
-                }
-            }
+            if(!empty($list)){
+                array_walk($list, function(&$project, $key, $account) {
+                    $project['account'] = $account;                    
+                },$account);
+
+                $projects = array_merge($projects,$list);     
+            }            
         }
         return $projects;
     }
+
 
 
 
