@@ -21,7 +21,7 @@ use \Blueridge\Middleware\View;
 
 
 $app = new Slim();
-$blueridge = new Blueridge;
+$blueridge = new Blueridge();
 
 $app->setName('blueridgeapp');
 $app->add(new SessionCookie(['secret' => '4VtUZrv8@Y','name'=>'_blrdgapp','expires'=>'24 hours']));
