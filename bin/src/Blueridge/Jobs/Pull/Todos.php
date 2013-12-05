@@ -22,11 +22,10 @@ class Todos
         $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
 
 
-        $user= $userQr->findOneById($this->args['userId']);
-        
-        $raw_todos = $basecampClient->getTodos($user);
+        $user= $userQr->findOneById($this->args['userId']);        
+        $todos = $basecampClient->getTodos($user);
 
-        foreach($raw_todos as $item)
+        foreach($todos as $item)
         {
             $item['todoId']=$item['rel']['project']['account']['product'].'_'.$item['id'];
             unset($item['id']);
