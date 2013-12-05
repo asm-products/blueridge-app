@@ -1,0 +1,99 @@
+{% extends "app/base.html" %}
+{% block title %}Todos{% endblock %}
+{% block content %}
+<div id="app-todos" class="container app-container">
+	{% include "app/sections/nav.html" %}
+  <div class="app-filter-message alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    You are now in Solo Mode. Click 'Show Everyone' to see everyone again.
+  </div>
+  <div class="panel">
+    {% if todos == null %}
+    <div class="loading">
+      <h2>Whoops! There are no To-dos in the projects you've selected.</h2>
+      <a href="/app/projects/" class="btn btn-success btn-large" style="margin-bottom:2em">Change Selected Projects</a>
+    </div>
+    {% else %}
+    <div class="app-todo-controls row-fluid">
+      <div class="span8">
+        <h3>To-Do Items</h3>
+      </div>
+      <div class="span2">
+        <div class="btn-toolbar">
+          <div class="btn-group mixsorters">
+            <button class="btn btn-mini sort active" data-sort="data-duedate" data-order="desc">Oldest First</button>
+            <button class="btn btn-mini sort" data-sort="data-duedate" data-order="asc">Newest First</button>
+          </div>
+        </div>
+      </div>
+      <div class="span2">
+        <div class="btn-toolbar pull-right">
+          <div class="btn-group mixfilters">
+            <button class="btn btn-mini filter active" data-filter="all" id="app-assignee-filter-show-all">Everyone</button>
+            <button class="btn btn-mini filter" data-filter="{{user.name|e('html')|replace({' ':''})|lower}}" id="app-assignee-filter-show-me">Me</button>
+            <button class="btn btn-mini filter" data-filter="unassigned" id="app-assignee-filter-show-unassigned">Unassigned</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="todos">
+      {% for todo in todos %}
+      <div class="row-fluid app-todo-list-item mix {{todo.assignee.name|e('html')|replace({' ':''})|lower}}" data-duedate="{{todo.due_date|date('U')}}">
+        <div class="span12">
+          <div class="row-fluid">
+            <div class="span8 app-todo-content">
+              <div class="app-todo-checkdone">
+                <input type="checkbox" class="app-checkdone-submit" data-todo-id="{{todo.todoId}}">
+              </div>
+              <a class="app-todo-title">{{todo.content|e('html')}}</a>
+              <span class="app-todo-meta">{{todo.rel.list_name|e('html')}} | {{todo.rel.project.name|e('html')}}</span>
+            </div>
+            <div class="span2 app-todo-duedate">
+              <a class="app-todo-changeduedate">{% if todo.due_on == null %}<span class="app-alert-warning">None</span>{% else %} {{todo.due_date|date('m/d/Y')}}{% endif %} {% if todo.overdue_by>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overdue_by|e('html')}} days</span>{% endif %}</a>
+            </div>
+            <div class="span2 app-todo-owner">
+              <span class="app-assignee{% if todo.assignee.name == 'Unassigned' %} app-assignee-warning{% endif %}">
+                <a class="app-assignee-name" data-nametoken="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}">{{todo.assignee.name|e('html')}}</a>
+                <span class="app-assignee-mutesolo app-filter-assignee filter" data-filter="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}"><i class="icon-zoom-in" title="Solo"></i></span>
+              </span>
+            </div>
+          </div>
+          <div class="row-fluid app-todo-details">
+            <div class="span6 app-todo-lastcomments">              
+              {# % if todo.source.comments != null % #}
+              {% for comment in todo.source.comments %}
+              <div class="comment-block">
+                <span class="comment-meta">{{comment.creator.name}} &mdash; {{comment.updated_at|date('m/d/Y')}}</span>
+                <div class="comment-content">
+                  {{comment.content|raw}}
+                </div>
+              </div>
+              {% endfor %}
+              {# % endif % #}              
+            </div>
+            <div class="span6 todo-commentform">
+              <textarea name=""></textarea>
+              <button class="btn btn-success btn-small">Add Comment</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="row-fluid subcontrols">
+      <div class="span12">
+        <div class="btn-toolbar">
+          <div class="btn-group">
+            <button class="btn btn-mini" href="/app/export/csv/"><i class="icon-download-alt"></i> Export CSV</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% include "app/sections/footer.html" %}
+{% endblock %}
+{% block js %}
+<script type="text/javascript" src="/js/app.behavior.js"></script>
+{% endblock %}
