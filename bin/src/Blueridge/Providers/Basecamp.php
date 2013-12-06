@@ -138,7 +138,7 @@ class Basecamp
     /**
      * Get Todolist
      */
-    public function getTodolists(\Blueridge\Documents\User $user)
+    public function getTodolists(\Blueridge\Documents\User $user, Array $projects = null)
     {
 
         $todolists = [];
@@ -146,13 +146,27 @@ class Basecamp
 
         $this->setAuth($user->providers['basecamp']['token']);
 
-        foreach ($projectIterator as $project) {            
-            $endpoint = "{$project['account']['href']}/projects/{$project['id']}/todolists.json";            
-            $list = $this->client->get($endpoint)->send()->json();             
-            array_walk($list, function(&$a, $key, $project) {
-                $a['rel']['project'] = $project;                    
-            },$project);
-            $todolists = array_merge($todolists,$list);
+        foreach ($projectIterator as $project) {
+
+            if(!empty($projects)){
+                if(in_array($project['id'], $projects)){
+                    $endpoint = "{$project['account']['href']}/projects/{$project['id']}/todolists.json";            
+                    $list = $this->client->get($endpoint)->send()->json();             
+                    array_walk($list, function(&$a, $key, $project) {
+                        $a['rel']['project'] = $project;                    
+                    },$project);
+                    $todolists = array_merge($todolists,$list);
+                }   
+            }else{            
+                $endpoint = "{$project['account']['href']}/projects/{$project['id']}/todolists.json";            
+                $list = $this->client->get($endpoint)->send()->json();             
+                array_walk($list, function(&$a, $key, $project) {
+                    $a['rel']['project'] = $project;                    
+                },$project);
+                $todolists = array_merge($todolists,$list);
+            }
+
+
         }
 
         return $todolists;
@@ -162,10 +176,10 @@ class Basecamp
     /**
      * Get Todos
      */
-    public function getTodos(\Blueridge\Documents\User $user)
+    public function getTodos(\Blueridge\Documents\User $user, Array $projects= null)
     {
         $todos = [];
-        $todolists = $this->getTodolists($user);
+        $todolists = $this->getTodolists($user, $projects);
 
         if (empty($todolists))
         {
@@ -198,17 +212,16 @@ class Basecamp
      * @return Object
      */
     public function getTodo(\Blueridge\Documents\User $user, $url)
-    {               
-        return $this->client->get($url)->send()->json();        
+    {                
+        try{
+            $this->setAuth($user->providers['basecamp']['token']);
+            return $this->client->get($url)->send()->json();            
+        }catch(\Exception $e){
+            return;
+        }
+        
     }
 
-    
-    public function updateTodo(\Blueridge\Documents\User $user, $id,Array $attributes)
-    {
-        print_r($this->client);
-        // $endpoint= 
-
-    }
 
     /**
      * Set Auth

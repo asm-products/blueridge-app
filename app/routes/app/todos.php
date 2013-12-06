@@ -21,7 +21,7 @@ $app->get('/app/todos/',$authenticate($app), function () use ($app,$blueridge) {
         unset($_SESSION['live']); 
         unset($_SESSION['user']);
         $app->redirect('/');  
-    }
+    }    
 
     $collection = $todoQr->fetchByUser($user);
     $todos = Array();

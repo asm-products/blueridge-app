@@ -5,11 +5,13 @@
  * Sync Todos
  */
 
-require realpath(dirname(__FILE__).'/../bootstrap.php');
+require realpath(dirname(__FILE__).'/../init.php');
 
 use Blueridge\Documents\User;
 use Blueridge\Documents\Todo;
 use Blueridge\Providers\Basecamp;
+use Blueridge\Blueridge;
+
 
 
 // get the user id
@@ -25,15 +27,19 @@ if(empty($options['u']))
     exit(1);    
 }
 
+$blueridge = new Blueridge();
+
+
 $id = $options['u'];
 $user = $blueridge['documentManager']->find('\Blueridge\Documents\User', $id);
 $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
 
 $basecampClient = new Basecamp($blueridge);
-$raw_todos = $basecampClient->getTodos($user);
+$todos = $basecampClient->getTodos($user);
+
 // $todoIds = array();
 
-foreach($raw_todos as $item)
+foreach($todos as $item)
 {
     $item['todoId']=$item['rel']['project']['account']['product'].'_'.$item['id'];
     unset($item['id']);
@@ -55,7 +61,7 @@ foreach($raw_todos as $item)
 $blueridge['documentManager']->flush();
 
 // log this job
-var_dump(count($raw_todos));
+var_dump(count($todos));
 
 
 // var_dump($todoUrls);

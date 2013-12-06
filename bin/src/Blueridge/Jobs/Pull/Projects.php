@@ -5,7 +5,7 @@
  */
 namespace Blueridge\Jobs\Pull;
 
-class Project 
+class Projects
 {
     public function perform()
     {

@@ -111,7 +111,7 @@ class Todo
     public function toArray()
     {
 
-        $properties = ['id','todoId','content','assignee','due_on','due_date','overdue_by','rel'];
+        $properties = ['id','todoId','content','assignee','due_on','due_date','overdue_by','source','rel'];
 
         $item=array();
 

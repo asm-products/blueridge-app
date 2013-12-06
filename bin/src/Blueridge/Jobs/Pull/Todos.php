@@ -16,20 +16,26 @@ class Todos
     {
 
         $blueridge= new Blueridge();
-        $basecampClient = new Basecamp($blueridge);
+        
         
         $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
         $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
 
 
         $user= $userQr->findOneById($this->args['userId']);        
-        $todos = $basecampClient->getTodos($user);
+
+        $projects = (!empty($this->args['projects']))?$this->args['projects']:null;
+        $basecampClient = new Basecamp($blueridge);
+        $todos = $basecampClient->getTodos($user,$projects);
 
         foreach($todos as $item)
         {
             $item['todoId']=$item['rel']['project']['account']['product'].'_'.$item['id'];
             unset($item['id']);
+
+            $basecampClient = new Basecamp($blueridge);
             $item['source'] = $basecampClient->getTodo($user,$item['url']);
+            
 
             // check for existing todo and update
             $todo = $todoQr->findOneByTodoId($item['todoId']);
@@ -42,9 +48,13 @@ class Todos
             $item  = $todo->polish($item);
             $todo->setProperties($item);        
             $blueridge['documentManager']->persist($todo);
-
+            $blueridge['documentManager']->flush();
         }
-        $blueridge['documentManager']->flush();
+        
+
+        $total=count($todos);
+        // print_r($todos);
+        echo "updated {$total} todos";
         
     }
 

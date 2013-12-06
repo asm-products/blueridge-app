@@ -23,10 +23,7 @@ $app->get('/app/projects/',$authenticate($app), function () use ($app,$blueridge
     $blueridge['documentManager']->persist($user);
     $blueridge['documentManager']->flush();
 
-
-    $projects = $user->projects;
-    // Resque::enqueue('default', 'Blueridge\Jobs\Pull\Todos', ['userId'=>$user->id]);
-    
+    $projects = $user->projects;         
     $app->render("app/projects.html", ['projects' => $projects,'route'=>'projects','plan'=>$user->toArray()['subscription']['plan']]);    
 });
 
@@ -39,9 +36,11 @@ $app->post('/app/projects/',$authenticate($app),function() use ($app,$blueridge)
     $user->updateProfile('projects',$params);
     $user->url = "/users/{$user->id}";
     $blueridge['documentManager']->flush($user);
-    
-    Resque::enqueue('default', 'Blueridge\Jobs\Pull\Todos', ['userId'=>$user->id]);
 
-    unset($_SESSION['noob']);    
+    Resque::enqueue('default', 'Blueridge\Jobs\Utils\CleanUpTodos', ['userId'=>$user->id,'projects'=>$params]);
+    Resque::enqueue('default', 'Blueridge\Jobs\Pull\Todos', ['userId'=>$user->id,'projects'=>$params]);
+
+    unset($_SESSION['noob']);
+    sleep(1);
     $app->redirect('/app/todos/');
 });

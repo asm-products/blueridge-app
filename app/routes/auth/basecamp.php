@@ -38,12 +38,9 @@ $app->get('/auth/basecamp/',function() use ($app,$blueridge){
         'projects'=>[]
         ];
 
-
-
         // check for user
         $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
         $user = $userQr->findOneByEmail($me['email']);
-
 
 
         if(empty($user))
@@ -69,10 +66,6 @@ $app->get('/auth/basecamp/',function() use ($app,$blueridge){
 
         $blueridge['documentManager']->persist($user);
         $blueridge['documentManager']->flush();
-
-
-        Resque::enqueue('default', 'Blueridge\Jobs\Pull\Projects', ['userId'=>$user->id]);
-        Resque::enqueue('default', 'Blueridge\Jobs\Pull\Todos', ['userId'=>$user->id]);
 
         $_SESSION['user'] = base64_encode($user->id);        
         $app->flash('newbie', $newbie);
