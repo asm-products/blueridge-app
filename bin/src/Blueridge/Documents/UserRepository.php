@@ -1,11 +1,18 @@
 <?php
 /**
- * User Repository
+ * Blueridge 
+ * 
+ * @copyright Ninelabs 2013
+ * @author Moses Ngone <moses@ninelabs.com>
  */
+
 namespace Blueridge\Documents;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
 
+/**
+ * User Repository
+ */
 class UserRepository extends DocumentRepository
 {
     /**
@@ -14,7 +21,7 @@ class UserRepository extends DocumentRepository
      * @param  Array $payment 
      * @return Object
      */
-    public function updatePayment($user,$payment)
+    public function updatePayment(\Blueridge\Documents\User  $user,$payment)
     {
         return $this->createQueryBuilder()
         ->update()
@@ -29,7 +36,7 @@ class UserRepository extends DocumentRepository
      * @param  Array $plan 
      * @return Object      
      */
-    public function updateSubscription($user,$plan)
+    public function updateSubscription(\Blueridge\Documents\User $user,$plan)
     {
         return $this->createQueryBuilder()
         ->update()
@@ -49,10 +56,20 @@ class UserRepository extends DocumentRepository
         ->getQuery()->execute();
     }
 
-    // public function fetchProjects()
-    // {
-
-    // }
-
+    /**
+     * Add Provider
+     * @param  Object $user    
+     * @param  String $providerName 
+     * @param  Array $ProviderDetails 
+     * @return Object
+     */
+    public function addProvider(\Blueridge\Documents\User $user, $providerName, Array $providerDetails)
+    {
+        return $this->createQueryBuilder()
+        ->update()
+        ->field('providers.'.$providerName)->set($providerDetails)        
+        ->field('id')->equals($user->id)
+        ->getQuery()->execute();
+    }
 
 }

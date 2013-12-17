@@ -1,12 +1,16 @@
 <?php
 /**
- * User
+ * Blueridge 
+ * 
+ * @copyright Ninelabs 2013
+ * @author Moses Ngone <moses@ninelabs.com>
  */
 
 namespace Blueridge\Documents;
 
-use \Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use \Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
  * @ODM\Document(collection="Users",repositoryClass="Blueridge\Documents\UserRepository") 
@@ -77,6 +81,13 @@ class User
     protected $roles;
 
     /**
+     * Status
+     * @var String
+     * @ODM\String
+     */
+    protected $status;
+
+    /**
      * Profile
      * @var Array
      * @ODM\Hash
@@ -104,7 +115,6 @@ class User
      */
     protected $providers;
 
-
     /**
      * Member Since
      * @var Date
@@ -119,16 +129,17 @@ class User
      */
     public function __construct()
     {
-        // $this->roles = new ArrayCollection;
-        // $this->profile = new ArrayCollection;
-        // $this->projects = new ArrayCollection;
-        // $this->subscription = new ArrayCollection;
-        // $this->providers = new ArrayCollection;
+        $this->roles = new ArrayCollection();
+        $this->profile = new ArrayCollection();
+        $this->projects = new ArrayCollection();
+        $this->subscription = new ArrayCollection();
+        $this->providers = new ArrayCollection();
     }
 
     /**
      * Set Properties
-     * @return Object
+     * @param Array $properties
+     * @return Object User
      */ 
     public function setProperties(Array $properties)
     {
@@ -139,6 +150,7 @@ class User
         }
         return $this;
     }
+
     
     /**
      * Update Profile
@@ -160,7 +172,7 @@ class User
      */
     public function toArray()
     {
-        $properties = ['id','name','firstName','lastName','email','url','avatar','subscription'];
+        $properties = ['id','name','firstName','lastName','email','url','avatar','status','subscription'];
 
         $item=array();
 
