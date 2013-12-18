@@ -6,7 +6,7 @@
 	{% include "app/sections/nav.html" %}
 	{% endif %}
 	<div class="panel">
-		{% if flash.newbie %}
+		{% if user.status=='new' %}
 		<div class="noob-message">
 			<h2>Welcome to BlueRidge. Let&rsquo;s get started.</h2>
 			<p class="lead">Choose the projects you&rsquo;d like to get a better view of.<br>We&rsquo;ll grab all the To-dos and sort them for you.</p>
