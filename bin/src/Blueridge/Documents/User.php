@@ -129,11 +129,11 @@ class User
      */
     public function __construct()
     {
-        $this->roles = new ArrayCollection();
-        $this->profile = new ArrayCollection();
-        $this->projects = new ArrayCollection();
-        $this->subscription = new ArrayCollection();
-        $this->providers = new ArrayCollection();
+        // $this->roles = new ArrayCollection();
+        // $this->profile = new ArrayCollection();
+        // $this->projects = new ArrayCollection();
+        // $this->subscription = new ArrayCollection();
+        //  $this->providers = new ArrayCollection();
     }
 
     /**
@@ -197,15 +197,7 @@ class User
 
             $selected = (in_array($project['id'], $this->profile['projects']))?true:false;
             $item=$project;
-            $item['selected']=$selected;    
-            unset(              
-                $item['archived'],
-                $item['created_at'],
-                $item['updated_at'],
-                $item['last_event_at'],
-                $item['starred']
-                );
-
+            $item['selected']=$selected;
             $projects[]=$item;
         }
         return $projects;
