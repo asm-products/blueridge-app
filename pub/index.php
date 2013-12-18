@@ -1,6 +1,9 @@
 <?php
 /**
- * BlueRidgeApp
+ * Blueridge 
+ * 
+ * @copyright Ninelabs 2013
+ * @author Moses Ngone <moses@ninelbas.com>
  */
 
 // Set Constants
@@ -17,33 +20,15 @@ use \Slim\Slim;
 use \Slim\Views;
 use \Slim\Middleware\SessionCookie;
 use \Blueridge\Blueridge;
+use \Blueridge\Middleware\Authentication;
 use \Blueridge\Middleware\View;
 
 
 $app = new Slim();
 $blueridge = new Blueridge();
-
 $app->setName('blueridgeapp');
-$app->add(new SessionCookie(['secret' => '4VtUZrv8@Y','name'=>'_blrdgapp','expires'=>'24 hours']));
+$app->add(new Authentication($blueridge));
 $app->add(new View());
 
-
-$authenticate = function ($app) {
-    return function () use ($app) { 
-        if(empty($_SESSION['live'])){            
-            if(!empty($_SESSION['user'])){    
-                $_SESSION['live']=time();
-            }else{
-                $app->flash('error', 'Connect to our Basecamp account ');
-                $app->redirect('/');
-            }
-        }
-    };
-};
-
 require APP_PATH."/init.php";
-require API_PATH."/init.php";
-
-
-
 $app->run();
