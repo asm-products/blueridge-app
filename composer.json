@@ -7,15 +7,19 @@
     "twig/twig": "1.*",
     "stripe/stripe-php": "dev-master",
     "mandrill/mandrill": "1.0.*",
+    "mailchimp/mailchimp": "2.0.4",
     "doctrine/mongodb-odm": "1.0.*@dev",
     "guzzle/guzzle": "3.6.*",
     "pimple/pimple": "v1.0.2",
-    "zendframework/zend-cache": "2.2.2",
+    "zendframework/zend-authentication": "2.2.*",
+    "zendframework/zend-cache": "2.2.*",
+    "zendframework/zend-session": "2.2.*",
+    "zendframework/zend-validator": "2.2.*",
     "kamisama/php-resque-ex": "1.2.*",
     "fresque/fresque": "1.2.*"
   },
   "require-dev": {
-    "behat/behat": "2.4.*@stable"
+    "phpunit/phpunit": "3.7.*"
   },
   "minimum-stability": "stable",
   "autoload": {
