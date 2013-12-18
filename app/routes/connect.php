@@ -12,7 +12,7 @@ use \Blueridge\Utilities\Teller;
 
 
 
-$app->get('/connect/basecamp/',function() use ($app,$blueridge){
+$app->get('/basecamp/connect/',function() use ($app,$blueridge){
 
     $settings = $blueridge['configs']['providers']['basecamp'];
 

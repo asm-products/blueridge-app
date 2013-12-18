@@ -6,7 +6,7 @@
 use \Blueridge\Documents\User;
 use \Blueridge\Utilities\Teller;
 
-$app->post('/app/cart/update-payment/',$authenticate($app), function () use ($app,$blueridge) {
+$app->post('/app/cart/update-payment/',function () use ($app,$blueridge) {
 
     $token = $app->request->post('paymentToken');
     if(empty($token))
@@ -23,7 +23,7 @@ $app->post('/app/cart/update-payment/',$authenticate($app), function () use ($ap
     }
 });
 
-$app->post('/app/cart/update-subscription/',$authenticate($app), function () use ($app,$blueridge) {
+$app->post('/app/cart/update-subscription/',function () use ($app,$blueridge) {
 
     $plan = $app->request->post('plan');
     if(empty($plan))

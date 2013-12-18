@@ -3,10 +3,10 @@
  *  Export Routes
  */
 
-use \Blueridge\Documents\User;
-use \Blueridge\Providers\Basecamp;
+use Blueridge\Documents\User;
+use Blueridge\Documents\Todo;
 
-$app->get('/app/export/csv/', $authenticate($app), function () use ($app,$blueridge) {
+$app->get('/app/export/csv/',function () use ($app,$blueridge) {
 
     $filename = 'To-Dos-'.date("Ymd").'.csv';
 
@@ -14,13 +14,19 @@ $app->get('/app/export/csv/', $authenticate($app), function () use ($app,$blueri
     /**
     * @todo Check for valid authenticated session 
     */
-    // fetch user data
-    $id = base64_decode($_SESSION['user']);
-    $user = $blueridge['documentManager']->find('\Blueridge\Documents\User', $id);
+    
+    $userId = base64_decode($_SESSION['user']);
+    $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
+    $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
 
-    $basecampClient = new Basecamp($app);
-    $todos = $basecampClient->getTodos($user);
+    
+    $user= $userQr->findOneById($userId);
 
+    $collection = $todoQr->fetchByUser($user);
+    $todos = Array();
+    foreach ($collection as $todo ) {
+        $todos[]=$todo->toArray();
+    }
 
     $arrayToCsv = function (array &$todos, $delimiter = ';', $enclosure = '"', $encloseAll = false){
         $delimiter_esc = preg_quote($delimiter, '/');
@@ -32,15 +38,17 @@ $app->get('/app/export/csv/', $authenticate($app), function () use ($app,$blueri
         /**
          * @todo use iterator
          */
-        foreach ( $todos as $todo ) {        
+        foreach ( $todos as $todo ) {
+
+
             $line = '';
             $line .= '"' . $todo['due_on'] . '",';
             $line .= '"' . $todo['overdue_by'] . '",';
             $line .= '"' . $todo['content'] . '",';
-            $line .= '"' . $todo['parent']['list_name'] . '",';
-            $line .= '"' . $todo['parent']['project_name'] . '",';
+            $line .= '"' . $todo['rel']['list_name'] . '",';
+            $line .= '"' . $todo['rel']['project']['name'] . '",';
             $line .= '"' . $todo['assignee']['name'] . '",';
-            $line .= '"' . $todo['href'] . '"';
+            $line .= '"' . $todo['rel']['href'] . '"';
             echo $line . "\n";            
         }
 

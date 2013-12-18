@@ -1,9 +1,13 @@
 <?php
 /**
- * Root Pages
+ * Blueridge 
+ * 
+ * Site routes
+ * @copyright Ninelabs 2013
+ * @author Moses Ngone <moses@ninelbas.com>
  */
 
-$app->get('/',function() use ($app){
+$app->get('/',function() use ($app,$blueridge){	
     $app->render('site/home.html');
 });
 $app->response->headers->set('Content-Type', 'text/html');
