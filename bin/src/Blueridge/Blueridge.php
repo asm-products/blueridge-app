@@ -1,7 +1,9 @@
 <?php
 /**
  * Blueridge
- * 
+ *
+ * @copyright Ninelabs 2013
+ * @author Moses Ngone <moses@ninelabs.com>
  */
 
 namespace Blueridge;
@@ -9,19 +11,22 @@ namespace Blueridge;
 use Pimple;
 use Memcache;
 use Mandrill;
-use IronMQ;
-
 use Doctrine\MongoDB\Connection;
 use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use Doctrine\Common\Cache\MemcacheCache;
-
 use Zend\Cache\StorageFactory;
+use Zend\Session\SessionManager;
+use Zend\Session\Config\SessionConfig;
+use Zend\Session\SaveHandler\Cache;
+use Zend\Session\Container;
+use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Storage\Session as SessionStorage;
 
-
-
-
+/**
+ * Blueridge 
+ */
 class Blueridge extends Pimple
 {
     public function __construct()
@@ -40,7 +45,7 @@ class Blueridge extends Pimple
     }
 
     /**
-     * Init Config
+     * Application Config
      */
     public function _initConfig()
     {
@@ -54,7 +59,7 @@ class Blueridge extends Pimple
     }
 
     /**
-     * Init Db
+     * Document Manager
      */
     public function _initDb()
     {
@@ -87,29 +92,31 @@ class Blueridge extends Pimple
 }
 
     /**
-     * Init File Cache
+     * Cache Manager
      */
-    public function _initFileCache()
+    public function _initCache()
     {
 
-        $this['fileCache'] =  $this->share(function (){
+        $this['cacheManager'] =  $this->share(function (){
+
             $fileCache  = StorageFactory::adapterFactory('filesystem', ['ttl' => 3600,'cache_dir'=>CACHE_DIR.'/data']);        
             $plugin = StorageFactory::pluginFactory('exception_handler',['throw_exceptions' => false]);
             $fileCache->addPlugin($plugin);
+
             return $fileCache;
         });
     }
 
 
     /**
-     * Init Mail Transaction Service
+     * Mail Transaction Service
      */
     public function _initMailTransactionService()
     {
         $container = $this;
         $this['mailService'] =  $this->share(function () use ($container) {
 
-            $mailConfigs = $container['configs']['services']['mail'];         
+            $mailConfigs = $container['configs']['services']['mail']['mandrill'];         
             if(!empty($mailConfigs))
             {
                 return new Mandrill($mailConfigs['api_key']);
@@ -118,4 +125,37 @@ class Blueridge extends Pimple
         });
     }
 
+    /**
+     * Session Manager
+     */
+    public function _initSessionManager()
+    {
+        $container = $this;
+
+        $this['sessionManager'] = $this->share( function () use ($container){
+
+            $sessionConfigs = $container['configs']['session'];
+            $saveHandler = new Cache($container['cacheManager']);
+
+            $config = new SessionConfig();
+            $config->setOptions($sessionConfigs);
+            $manager= new SessionManager($config);
+            $manager->setSaveHandler($saveHandler);
+            Container::setDefaultManager($manager);
+            return $manager;
+        });
+    }
+
+    /**
+    * Authentication service
+    */
+    public function _initAuthenticationService()
+    {
+        $container = $this;
+
+        $this['authenticationService'] = $this->share( function () use ($container){
+            $auth = new AuthenticationService();            
+            return $auth->setStorage(new SessionStorage('Blueridge'));        
+        });
+    }
 }
