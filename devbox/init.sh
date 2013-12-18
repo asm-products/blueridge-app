@@ -22,5 +22,5 @@ composer update
 #sudo service mongodb start
 #
 # Start Redis Queue
-# QUEUE=default VVERBOSE=1 APP_INCLUDE=cli/bootstrap.php php vendor/chrisboulton/php-resque/resque.php 
+# vendor/bin/fresque start -q default,mail,subscription
 
