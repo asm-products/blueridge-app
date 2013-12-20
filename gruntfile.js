@@ -5,15 +5,16 @@ module.exports = function(grunt) {
       publish:'pub',
       build:'app/build',
       src:'app/resources',
-      vendor:'app/bower_modules'
+      bower:'app/bower_modules',
+      node:'node_modules'
     },
     vendor: {
       js: [
-      '<%= dir.vendor %>/jquery/jquery.min.js',      
-      '<%= dir.vendor %>/bootstrap/dist/js/bootstrap.js',
-      '<%= dir.vendor %>/isotope/jquery.isotope.min.js',
-      '<%= dir.vendor %>/mixitup/src/jquery.mixitup.js',
-      '<%= dir.vendor %>/underscore/underscore-min.js',
+      '<%= dir.bower %>/jquery/jquery.min.js', 
+      '<%= dir.bower %>/jquery/jquery-migrate.js',   
+      '<%= dir.bower %>/mixitup/jquery.mixitup.min.js',
+      '<%= dir.node %>/twig/twig.min.js',  
+      '<%= dir.bower %>/underscore/underscore-min.js',
       ]
     },
 
@@ -57,18 +58,35 @@ module.exports = function(grunt) {
     options: {
       banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
     },
-    libs: {
+    libs: {      
       files: {
         '<%= dir.publish %>/js/libs.min.js': ['<%= concat.libs.dest %>']
       }
     },
     dist: {
+      options:{
+        mangle:true
+      },
       files: [{
         expand: true,
         src: '**/*.js',
         dest: '<%= dir.publish %>/js',
         cwd: '<%= dir.src %>/js'
       }]
+    }
+  },
+  twig: {
+    options: {
+      variable:"window.Blueridge",
+      amd_wrapper:false,
+      template_key: function(filename) {
+        return filename.split('/').pop();
+      }      
+    },
+    publish: {      
+      files:{
+        "<%= dir.publish %>/js/tmpl.js": ["<%= dir.src %>/templates/**/*.html"]
+      }
     }
   },
   qunit: {
@@ -104,11 +122,11 @@ module.exports = function(grunt) {
       },
       html: {
         files: ['<%= dir.src %>/**/*.html'],
-        tasks: ['copy'],
+        tasks: ['copy','twig'],
       },
       scripts: {
         files: ['<%= dir.src %>/js/**/*.js'],
-        tasks: ['concat','uglify'],
+        tasks: ['concat','uglify','twig'],
       },
     },
     copy: {
@@ -122,7 +140,7 @@ module.exports = function(grunt) {
       publish: {
         files: [
         {expand: true, cwd:'<%= dir.build %>/', src: ['img/**','fonts/**','js/**'], dest: '<%= dir.publish %>/'},
-        {expand: true, flatten:true ,src: '<%= dir.build %>/css/**/*.css', dest: '<%= dir.publish %>/css',filter: 'isFile'},
+        {expand: true, flatten:true ,src: '<%= dir.build %>/css/**/*.css', dest: '<%= dir.publish %>/css',filter: 'isFile'},        
         ]
       }
     },
@@ -154,9 +172,10 @@ grunt.loadNpmTasks('grunt-contrib-qunit');
 grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-contrib-concat');
 grunt.loadNpmTasks('grunt-contrib-compass');
+grunt.loadNpmTasks('grunt-twig');
 
 grunt.registerTask('test', ['jshint', 'qunit']);
 grunt.registerTask('default', ['build']);
-grunt.registerTask('build', ['jshint','clean','compass','copy:build','copy:publish','concat','uglify']);
+grunt.registerTask('build', ['jshint','clean','compass','copy:build','copy:publish','concat','uglify','twig']);
 
 };

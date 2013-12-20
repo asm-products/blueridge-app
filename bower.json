@@ -2,15 +2,12 @@
   "name": "blueridge",
   "version": "0.1.0",
   "dependencies": {
-    "jquery": "~1.9.1",
-    "bootstrap-sass": "~2.3.1",
+    "jquery": "~1.10.*",
+    "bootstrap-sass": "~2.3.*",
     "es5-shim": "~2.0.8",
     "underscore": "~1.5.1",
     "font-awesome": "~3.2.1",
-    "js-base64": "~2.1.2",
-    "bootstrap": "~3.0.0",
-    "isotope": "git@github.com:desandro/isotope.git#~1.5.25",
-    "mixitup": "~1.5.4"
+    "mixitup": "~1.5.*"
   },
   "devDependencies": {}
 }
