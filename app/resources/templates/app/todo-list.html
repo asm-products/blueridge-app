@@ -1,0 +1,30 @@
+{% for todo in todos %}
+<div class="row-fluid app-todo-list-item mix {{todo.assignee.name|e('html')|replace({' ':''})|lower}}" data-duedate="{{todo.due_date.sec|date('U')}}">
+	<div class="span12">
+		<div class="row-fluid">
+			<div class="span8 app-todo-content">							
+				<a href="{{todo.rel.href}}" target="_blank" class="app-todo-title">{{todo.content|e('html')}}</a>
+				<span class="app-todo-meta">{{todo.rel.list_name|e('html')}} | {{todo.rel.project.name|e('html')}}</span>
+			</div>
+			<div class="span2 app-todo-duedate">
+				<a class="app-todo-changeduedate">
+				{% if todo.due_on == null %}
+				<span class="app-alert-warning">None</span>
+				{% endif %}
+				{% if todo.due_on != null %}
+				{{todo.due_date.sec|date('m/d/Y')}}
+				{% endif %} 
+				{% if todo.overdue_by>0 %}
+				<span class="app-alert-warning app-todo-overdue">{{todo.overdue_by|e('html')}} days</span>
+				{% endif %}</a>
+			</div>
+			<div class="span2 app-todo-owner">
+              <span class="app-assignee{% if todo.assignee.name == 'Unassigned' %} app-assignee-warning{% endif %}">
+                <a class="app-assignee-name" data-nametoken="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}">{{todo.assignee.name|e('html')}}</a>
+                <span class="app-assignee-mutesolo app-filter-assignee filter" data-filter="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}"><i class="icon-zoom-in" title="Solo"></i></span>
+              </span>
+            </div>
+		</div>
+	</div>
+</div>
+{% endfor %}
