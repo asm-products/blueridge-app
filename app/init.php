@@ -2,12 +2,13 @@
 /**
  * Blueridge 
  * 
- * Application routes
  * @copyright Ninelabs 2013
  * @author Moses Ngone <moses@ninelbas.com>
- * @since 0.1.0
  */
 
+/**
+ * APP Routes
+ */
 require "routes/basecamp.php";
 require "routes/export.php";
 require "routes/projects.php";
