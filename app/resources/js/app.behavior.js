@@ -1,4 +1,7 @@
-// app.behavior.js
+/**
+ * Application behavior 
+ * @deprecated
+ */
 $(document).ready(function(){
 
 	$('.app-navigation .nav-link').click(function(){
