@@ -2,7 +2,7 @@
 {% block title %}Projects{% endblock %}
 {% block content %}
 <div id="app-projects" class="container app-container">
-	{% if flash.newbie == false %}
+	{% if user.status=='active' %}
 	{% include "app/sections/nav.html" %}
 	{% endif %}
 	<div class="panel">

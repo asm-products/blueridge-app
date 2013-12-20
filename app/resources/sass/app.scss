@@ -100,9 +100,15 @@
 // To Do
 /////////////////////////////////////////////////
 
+#todos:after{
+  content: '';
+  display: inline-block;
+  width: 100%;
+}
+
 #todos .mix{
-  opacity: 0;
   display: none;
+  opacity: 0;
 }
 
 .app-filter-message { display: none; }

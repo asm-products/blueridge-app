@@ -31,4 +31,5 @@ $app->add(new Authentication($blueridge));
 $app->add(new View());
 
 require APP_PATH."/init.php";
+require API_PATH."/init.php";
 $app->run();
