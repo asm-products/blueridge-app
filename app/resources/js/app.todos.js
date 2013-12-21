@@ -6,7 +6,8 @@
     var user_id = $("#module").attr('data-user');
     var jqxhr = $.get( "api/todos/?u="+user_id);
     jqxhr.done(function(response){
-        console.log(response);
+        $(".loading").hide();
+        $("#tally").html("Projects: "+response.projects+", To Dos: "+response.count);
         var template = Blueridge['todo-list.html'].render(response);
         $("#todos").html(template).mixitup({
             layoutMode: 'list',
@@ -26,12 +27,12 @@
     });
 
     $('.app-mute-assignee').click(function(){
-       var token = $(this).data('filter');
-       var name = $(this).siblings('.app-assignee-name').html();
-       $('.mix.' + token).hide();
-       $('#app-assignee-filter-show-all').removeClass('active');
-       $('<span class="unhide label" data-token="' + token + '"">' + name + ' <i class="icon-plus"></i></span>').appendTo('.muted-people');
-   });
+        var token = $(this).data('filter');
+        var name = $(this).siblings('.app-assignee-name').html();
+        $('.mix.' + token).hide();
+        $('#app-assignee-filter-show-all').removeClass('active');
+        $('<span class="unhide label" data-token="' + token + '"">' + name + ' <i class="icon-plus"></i></span>').appendTo('.muted-people');
+    });
     $('.muted-people').on('click', '.unhide', function() {
        var token = $(this).data('token');
        $('.mix.' + token).show();

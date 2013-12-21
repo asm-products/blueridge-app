@@ -27,4 +27,18 @@ class TodoRepository extends DocumentRepository
         ->getQuery()->execute();
     }
 
+    /**
+     * Fetch all the todos in a project
+     * @param  BlueridgeDocumentsUser $user      
+     * @param  String                 
+     * @return Object                            
+     */
+    public function fetchByProject(\Blueridge\Documents\User $user, $projectId)
+    {
+        return $this->createQueryBuilder()
+        ->eagerCursor(true)    
+        ->field('rel.project.id')->equals($projectId)
+        ->getQuery()->execute();
+    }
+
 }
