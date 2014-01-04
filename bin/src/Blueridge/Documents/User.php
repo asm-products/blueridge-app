@@ -74,6 +74,13 @@ class User
     protected $key;
 
     /**
+     * Activation Key
+     * @var string
+     * @ODM\String
+     */
+    protected $activation;
+
+    /**
      * Roles
      * @var Array
      * @ODM\Hash
