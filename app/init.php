@@ -17,4 +17,5 @@ require "routes/profile.php";
 require "routes/cart.php";
 require "routes/sign-in.php";
 require "routes/sign-out.php";
+require "routes/forgot-password.php";
 require "routes/site.php";
