@@ -19,13 +19,13 @@ require APPLICATION_ROOT.'/vendor/autoload.php';
 use \Slim\Slim;
 use \Slim\Views;
 use \Slim\Middleware\SessionCookie;
-use \Blueridge\Blueridge;
+use \Blueridge\Application;
 use \Blueridge\Middleware\Authentication;
 use \Blueridge\Middleware\View;
 
 
 $app = new Slim();
-$blueridge = new Blueridge();
+$blueridge = new Application();
 $app->setName('blueridgeapp');
 $app->add(new Authentication($blueridge));
 $app->add(new View());
