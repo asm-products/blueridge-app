@@ -1,21 +1,24 @@
 {% for todo in todos %}
 <li class="app-todo-list-item mix {{todo.assignee.name|e('html')|replace({' ':'_'})|lower}}" data-duedate="{{todo.due_date.sec|date('U')}}">
-    <div class="row-fluid">
-        <div class="span8 app-todo-content">                            
-            <p><a href="{{todo.rel.href}}" target="_blank" class="app-todo-title">{{todo.content|e('html')}}</a></p>
+    <div class="row-fluid">        
+        <div class="span8 app-todo-content">
+            <label class="app-todo-checkdone checkbox">
+                <input type="checkbox" class="app-checkdone-submit" data-todo-id="{{todo.todoId}}">
+            </label>                            
+            <p>{{todo.content|e('html')}}</p>
             <small>{{todo.rel.list_name|e('html')}} | {{todo.rel.project.name|e('html')}}</small>
         </div>
         <div class="span2 app-todo-duedate">
             <!-- <a class="app-todo-changeduedate"> -->
-                {% if todo.due_on == null %}
-                <p class="app-alert-warning">None</p>
-                {% endif %}
-                {% if todo.due_on != null %}
-                {{todo.due_date.sec|date('m/d/Y')}}
-                {% endif %} 
-                {% if todo.overdue_by>0 %}
-                <p class="app-alert-warning app-todo-overdue">{{todo.overdue_by|e('html')}} days</p>
-                {% endif %}
+            {% if todo.due_on == null %}
+            <p class="app-alert-warning">None</p>
+            {% endif %}
+            {% if todo.due_on != null %}
+            {{todo.due_date.sec|date('m/d/Y')}}
+            {% endif %} 
+            {% if todo.overdue_by>0 %}
+            <p class="app-alert-warning app-todo-overdue">{{todo.overdue_by|e('html')}} days</p>
+            {% endif %}
             <!-- </a> -->
         </div>
         <div class="span2 app-todo-owner">
