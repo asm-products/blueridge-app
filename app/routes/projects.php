@@ -30,9 +30,17 @@ $app->get('/app/projects/',function () use ($app,$blueridge) {
     $basecampProjects = $basecampClient->getProjects($user);
     $user= $userQr->updateProjects($user, $basecampProjects);    
     $projects = $user->projects;    
-    $userDetails = $user->toArray();    
+    $userDetails = $user->toArray(); 
+
+    $view = [
+    'user'=>$userDetails,
+    'projects' => $projects,
+    'route'=>'projects',
+    'plan'=>$userDetails['subscription']['plan'],
+    'mode'=>$app->mode
+    ];
     
-    $app->render("app/projects.html", ['user'=>$userDetails,'projects' => $projects,'route'=>'projects','plan'=>$userDetails['subscription']['plan']]);    
+    $app->render("app/projects.html", $view);
 });
 
 /**
