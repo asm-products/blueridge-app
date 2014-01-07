@@ -52,10 +52,8 @@ class Application extends Pimple
         $appEnv= APPLICATION_ENV;
         $config_file = BIN_PATH."/configs/{$appEnv}.json";
         $config_content= file_get_contents($config_file);
-        $configs =json_decode($config_content,true); 
-        $configs['mode']=$appEnv;
+        $configs =json_decode($config_content,true);         
         $this['configs']=$configs;
-
     }
 
     /**
@@ -99,7 +97,7 @@ class Application extends Pimple
 
         $this['cacheManager'] =  $this->share(function (){
 
-            $fileCache  = StorageFactory::adapterFactory('filesystem', ['ttl' => 3600,'cache_dir'=>CACHE_DIR.'/data']);        
+            $fileCache  = StorageFactory::adapterFactory('filesystem', ['ttl' => 3600,'cache_dir'=>CACHE_DIR.'/sessions']);        
             $plugin = StorageFactory::pluginFactory('exception_handler',['throw_exceptions' => false]);
             $fileCache->addPlugin($plugin);
 
@@ -136,7 +134,6 @@ class Application extends Pimple
 
             $sessionConfigs = $container['configs']['session'];
             $saveHandler = new Cache($container['cacheManager']);
-
             $config = new SessionConfig();
             $config->setOptions($sessionConfigs);
             $manager= new SessionManager($config);
@@ -154,8 +151,9 @@ class Application extends Pimple
         $container = $this;
 
         $this['authenticationService'] = $this->share( function () use ($container){
-            $auth = new AuthenticationService();            
-            return $auth->setStorage(new SessionStorage('Blueridge'));        
+            $sessionStorage = new SessionStorage('Blueridge','storage', $container['sessionManager']);
+            $auth= new AuthenticationService();
+            return $auth->setStorage($sessionStorage);        
         });
     }
 }

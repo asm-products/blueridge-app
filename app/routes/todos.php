@@ -18,7 +18,6 @@ use Zend\Session\Container;
  * @return type
  */
 $app->get('/app/todos/',function () use ($app,$blueridge) {
-
     $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User'); 
     $user = $userQr->findOneByEmail($blueridge['authenticationService']->getIdentity());
 
