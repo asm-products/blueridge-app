@@ -7,11 +7,6 @@
  * @author Moses Ngone <moses@ninelbas.com>
  */
 
-$app->get('/',function() use ($app,$blueridge){	
-    $app->render('site/home.html',['mode'=>$app->mode]);
-    $app->response->headers->set('Content-Type', 'text/html');
-});
-
 $app->get('/pricing/',function() use ($app){
     $app->render('site/pricing.html',['mode'=>$app->mode]);
     $app->response->headers->set('Content-Type', 'text/html');

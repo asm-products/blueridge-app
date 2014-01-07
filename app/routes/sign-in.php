@@ -13,8 +13,14 @@ use Zend\Authentication\Result;
  * Show sign in form
  */
 $app->get("/sign-in/", function () use ($app,$blueridge) {
+
     if($blueridge['authenticationService']->hasIdentity()){
         $app->redirect('/app/todos/');
+    }
+
+    if($app->getCookie('_blrgapp')){
+        
+        // $view['connected']=true;
     }
 
     $view = [
@@ -38,20 +44,19 @@ $app->post("/sign-in/", function () use ($app,$blueridge) {
 
     $password = $app->request()->post('password');
 
-   
     $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User'); 
     $authAdapter = new AuthAdapter($userQr,$email,$password);
     $result = $blueridge['authenticationService']->authenticate($authAdapter);
 
-    switch ($result->getCode()) {
-
-        case Result::SUCCESS:   
-        $user = $userQr->findOneByEmail($result->getIdentity());     
+    switch ($result->getCode()) {        
+        case Result::SUCCESS:        
+        $user = $userQr->findOneByEmail($result->getIdentity());
+        $app->setCookie('_blrdg_connect', $_SERVER['REQUEST_TIME'], '14 days');
         if($user->status != 'active'){
             $app->redirect('/app/projects/');
         }
         $app->redirect('/app/todos/');
-        break;        
+        break;                
         default:
         $app->response()->status(403);
         $app->flash('errors', $result->getMessages());

@@ -32,8 +32,16 @@
       }
     }
   },
-  "debug": true,
-  "log.enabled": true,
+  "app": {
+    "debug": true,
+    "log.enabled": true,
+    "mode": "development",
+    "cookies.encrypt": true,
+    "cookies.secure": true,
+    "cookies.httponly": true,
+    "cookies.secret_key": "4VtUZrv8@Y",
+    "cookies.domain": "dev.blueridgeapp.com"
+  },
   "secured.urls": [
     "/app/.+",
     "/admin/.+",
@@ -43,7 +51,8 @@
     "remember_me_seconds": 2419200,
     "use_cookies": true,
     "cookie_httponly": true,
-    "name": "blrdg",
-    "cookie_domain": ".blueridgeapp.com"
+    "cookie_secure": true,
+    "name": "_blrdg",
+    "cookie_domain": "dev.blueridgeapp.com"
   }
 }
