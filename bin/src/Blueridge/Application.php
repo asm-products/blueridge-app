@@ -27,13 +27,13 @@ use Zend\Authentication\Storage\Session as SessionStorage;
 /**
  * Blueridge 
  */
-class Blueridge extends Pimple
+class Application extends Pimple
 {
     public function __construct()
     {
         parent::__construct();
 
-        $reflection = new \ReflectionClass(__NAMESPACE__ . '\Blueridge');
+        $reflection = new \ReflectionClass(__NAMESPACE__ . '\Application');
 
         $methods = $reflection -> getMethods();        
         foreach ($methods as $method) {

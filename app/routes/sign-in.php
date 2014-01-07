@@ -13,14 +13,16 @@ use Zend\Authentication\Result;
  * Show sign in form
  */
 $app->get("/sign-in/", function () use ($app,$blueridge) {
-
-     if($blueridge['authenticationService']->hasIdentity()){
+    if($blueridge['authenticationService']->hasIdentity()){
         $app->redirect('/app/todos/');
     }
 
-    $app->render("site/sign-in.html", array('route' => 'sign-in'));
+    $view = [
+    'route' => 'sign-in',
+    'mode'=>$app->mode
+    ];
+    $app->render("site/sign-in.html", $view);
     $app->response->headers->set('Content-Type', 'text/html');
-
 });
 
 

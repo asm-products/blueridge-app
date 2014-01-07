@@ -13,12 +13,14 @@ use Zend\Authentication\Result;
  * Show sign in form
  */
 $app->get("/forgot-password/", function () use ($app,$blueridge) {
-
-     if($blueridge['authenticationService']->hasIdentity()){
+    if($blueridge['authenticationService']->hasIdentity()){
         $app->redirect('/app/todos/');
     }
-
-    $app->render("site/forgot-password.html", array('route' => 'forgot-password'));
+    $view = [
+    'route' => 'forgot-password',
+    'mode'=>$app->mode
+    ];
+    $app->render("site/forgot-password.html", $view);
     $app->response->headers->set('Content-Type', 'text/html');
 
 });
@@ -34,7 +36,7 @@ $app->post("/forgot-password/", function () use ($app,$blueridge) {
         $app->redirect("/forgot-password/");
     }
 
-   
+
     $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
     $user = $userQr->findOneByEmail($email);  
 

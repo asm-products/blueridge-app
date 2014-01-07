@@ -9,7 +9,7 @@
 namespace Blueridge\Middleware;
 
 use Slim\Middleware;
-use Blueridge\Blueridge;
+use Blueridge\Application;
 
 /**
  * Authentication middleware
@@ -29,9 +29,9 @@ class Authentication extends Middleware
     
     /**
      * Public Constructor
-     * @param Mapster $mapster
+     * @param Application $blueridge
      */
-    public function __construct(Blueridge $blueridge)
+    public function __construct(Application $blueridge)
     {
     	$this->blueridge = $blueridge;
     }

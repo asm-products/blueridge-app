@@ -34,7 +34,7 @@
     </div>
     <div class="loading">
       <img src="/img/loading-bar.gif" />
-      <p>Fetching your todos, applying some magic while stirring in some flavor&hellip; please give us a moment.</p>
+      <p>Refreshing your todos.</p>
     </div>
     
     <ul id="todos"></ul>
@@ -54,7 +54,6 @@
 {% include "app/sections/footer.html" %}
 {% endblock %}
 {% block js %}
-<script type="text/javascript" src="/js/app.js"></script>
 <script id="module" type="text/javascript" src="/js/app.todos.js" data-user="{{user.id}}"></script>
 <script type="text/javascript" src="/js/tmpl.js"></script>
 {% endblock %}

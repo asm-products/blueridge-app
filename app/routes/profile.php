@@ -16,6 +16,11 @@ $app->get('/app/profile/',function () use ($app,$blueridge) {
         $app->redirect('/');
     }
     
-    $subscriber= $blueridge['configs']['services']['subscriber'];            
-    $app->render("app/profile.html", ['user' =>$user->toArray(),'subscriber'=>$subscriber ,'route'=>'profile']);    
+    $view = [
+    'user' =>$user->toArray(),
+    'subscriber'=>$blueridge['configs']['services']['subscriber'],
+    'route'=>'profile',
+    'mode'=>$app->mode
+    ];
+    $app->render("app/profile.html", $view);    
 });

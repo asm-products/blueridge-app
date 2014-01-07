@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <base href="/" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block head %}
-    <link rel="stylesheet" href="/css/app.css" media="all">
-    <title>BlueRidge | {% block title %}{% endblock %}</title>
-    {% endblock %}
+  <meta charset="utf-8">
+  <base href="/" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% block head %}
+  <link rel="stylesheet" href="/css/app.css" media="all">
+  <title>BlueRidge | {% block title %}{% endblock %}</title>
+  {% endblock %}
 </head>
 <body>
   {% block content %}{% endblock %}
@@ -16,17 +16,9 @@
   <script type="text/javascript" src="/js/app.js"></script>
   <script type="text/javascript" src="//use.typekit.net/qgh6kbu.js"></script>
   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-  <script type="text/javascript">
-  var clicky_site_ids = clicky_site_ids || [];
-  clicky_site_ids.push(100637215);
-  (function() {
-    var s = document.createElement('script');
-    s.type = 'text/javascript';
-    s.async = true;
-    s.src = '//static.getclicky.com/js';
-    ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
-  })();
-  </script>
   {% block js %}{% endblock %}
+  {% if mode == 'production' %}
+  <script type="text/javascript" src="js/analytics.js"></script>
+  {% endif %}
 </body>
 </html>
