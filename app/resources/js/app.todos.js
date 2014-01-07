@@ -3,8 +3,8 @@
  * 
  */
  $(document).ready(function(){
-    var user_id = $("#module").attr('data-user');
-    var jqxhr = $.get( "api/todos/?u="+user_id);
+    var userid = $("#module").attr('data-user');
+    var jqxhr = $.get( "api/todos/?userid="+userid);
     jqxhr.done(function(response){
         $(".loading").hide();
         $("#tally").html("Projects: "+response.projects+", To Dos: "+response.count);
@@ -28,8 +28,10 @@
     });
 
     function checkOffTodo(){
-        var todoId = $(this).attr('data-todo-id');        
-        $(this).parents('.app-todo-list-item').fadeOut();
+        var todoid = $(this).attr('data-todo-id'); 
+        var userid = $("#module").attr('data-user');        
+        $(this).parents('.app-todo-list-item').fadeOut(); 
+        request = $.post( "/api/todos/"+todoid+'/', {user:userid,payload:{completed:true}});        
     }
 
     $('.app-mute-assignee').click(function(){

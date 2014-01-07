@@ -222,6 +222,34 @@ class Basecamp
         
     }
 
+    /**
+     * [completeTodo description]
+     * @param  BlueridgeDocumentsUser $user [description]
+     * @return [type]                       [description]
+     */
+    public function updateTodo(\Blueridge\Documents\User $user,\Blueridge\Documents\Todo $todo,$payload)
+    {        
+        try{
+            $this->setAuth($user->providers['basecamp']['token']);
+            $data = [
+                'content'=>$todo->source['content'],
+                'due_at'=>(empty($todo->source['due_at']))?false:$todo->source['due_at'],
+                'assignee'=>(empty($todo->source['assignee']))?null:$todo->source['assignee'],
+                'completed'=>(empty($todo->source['completed']))?false:$todo->source['completed']
+            ];
+
+            foreach ($payload as $key => $value) {
+                if(array_key_exists($key, $data)){
+                    $data[$key]=$value;
+                }
+            }
+            return $this->client->put($todo->source['url'],['Content-Type'=>'application/json'],json_encode($data))->send()->getStatusCode();    
+        }catch(\Exception $e){
+            error_log($e->getMessage());
+        }   
+
+    }
+
 
     /**
      * Set Auth
