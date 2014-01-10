@@ -9,6 +9,7 @@
 use Blueridge\Providers\Basecamp;
 use Blueridge\Documents\User;
 use Blueridge\Utilities\Doorman;
+use Blueridge\Utilities\Teller;
 use Blueridge\Authentication\ProviderAdapter;
 use Zend\Authentication\Result;
 
@@ -72,10 +73,12 @@ $app->get('/basecamp/auth/',function() use ($app,$blueridge){
         $user = new User;                     
         $user->setProperties($me);
         $blueridge['documentManager']->persist($user);
-        $blueridge['documentManager']->flush();        
+        $blueridge['documentManager']->flush();   
 
-        Resque::enqueue('subscription', 'Blueridge\Jobs\Push\CreateCustomer', ['user'=>$user->toArray(),'plan'=>'br-free','service'=>$blueridge['configs']['services']['subscriber']['stripe']]); 
-        // Resque::enqueue('mail', 'Blueridge\Jobs\Push\SignUpEmail', ['user'=>$user->toArray(),'password'=>$activation['code'],'postman'=>$blueridge['configs']['services']['mail']['mandrill']]);
+        $subscription=Teller::addCustomer($blueridge['configs']['services']['subscriber']['stripe'],$user->toArray());     
+        $userQr->setSubscription($user,$subscription);
+
+        Resque::enqueue('mail', 'Blueridge\Jobs\Push\SignUpEmail', ['email'=>$user->email,'postman'=>$blueridge['configs']['services']['mail']['mandrill']]);
         
     }
 
