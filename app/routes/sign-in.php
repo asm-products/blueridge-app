@@ -8,6 +8,7 @@
 
 use Blueridge\Authentication\Adapter as AuthAdapter;
 use Zend\Authentication\Result;
+use Blueridge\Utilities\Doorman;
 
 /**
  * Show sign in form
@@ -16,11 +17,6 @@ $app->get("/sign-in/", function () use ($app,$blueridge) {
 
     if($blueridge['authenticationService']->hasIdentity()){
         $app->redirect('/app/todos/');
-    }
-
-    if($app->getCookie('_blrgapp')){
-        
-        // $view['connected']=true;
     }
 
     $view = [
@@ -44,13 +40,13 @@ $app->post("/sign-in/", function () use ($app,$blueridge) {
 
     $password = $app->request()->post('password');
 
-    $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User'); 
-    $authAdapter = new AuthAdapter($userQr,$email,$password);
-    $result = $blueridge['authenticationService']->authenticate($authAdapter);
+    
+    $documentAdapter = new AuthAdapter($blueridge['documentManager'],$email,$password);
+    $result = $blueridge['authenticationService']->authenticate($documentAdapter);
 
     switch ($result->getCode()) {        
-        case Result::SUCCESS:        
-        $user = $userQr->findOneByEmail($result->getIdentity());
+        case Result::SUCCESS:
+        $user= $result->getIdentity();    
         $app->setCookie('_blrdg_connect', $_SERVER['REQUEST_TIME'], '14 days');
         if($user->status != 'active'){
             $app->redirect('/app/projects/');

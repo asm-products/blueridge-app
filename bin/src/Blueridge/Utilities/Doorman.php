@@ -25,7 +25,7 @@ class Doorman
     public static function getCode($code = null)
     {
         if(empty($code)){
-            $code = bin2hex(openssl_random_pseudo_bytes(8));  
+            $code = self::getToken();  
         }
 
         $key = password_hash($code, PASSWORD_BCRYPT);
@@ -42,4 +42,10 @@ class Doorman
     {
         return password_verify($code, $key);
     }
+
+    public static function getToken($length = 8)
+    {
+        return bin2hex(openssl_random_pseudo_bytes($length));
+
+    } 
 }

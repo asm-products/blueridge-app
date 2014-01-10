@@ -4,7 +4,7 @@
  * Filter todos from storage */ 
 namespace Blueridge\Jobs\Utils;
 
-use Blueridge\Blueridge;
+use Blueridge\Application;
 use Blueridge\Documents\User;
 use Blueridge\Documents\Todo;
 use Blueridge\Providers\Basecamp;
@@ -14,14 +14,16 @@ class CleanUpTodos
     public function perform()
     {
 
-        $blueridge= new Blueridge();
-        
+        $blueridge= new Application();        
         
         $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
         $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
 
 
-        $user= $userQr->findOneById($this->args['userId']);        
+        $user= $userQr->findOneById($this->args['userId']); 
+        if(empty($user)){
+            return;
+        }       
 
         $projects = (!empty($this->args['projects']))?$this->args['projects']:null;
         $collection = $todoQr->fetchByUser($user);

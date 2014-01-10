@@ -3,7 +3,7 @@
  * Blueridge 
  * 
  * @copyright Ninelabs 2013
- * @author Moses Ngone <moses@ninelbas.com>
+ * @author Moses Ngone <moses@ninelabs.com>
  */
 
 namespace Blueridge\Jobs\Push;

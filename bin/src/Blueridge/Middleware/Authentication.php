@@ -10,6 +10,7 @@ namespace Blueridge\Middleware;
 
 use Slim\Middleware;
 use Blueridge\Application;
+use Blueridge\Utilities\Doorman;
 
 /**
  * Authentication middleware
@@ -19,17 +20,15 @@ use Blueridge\Application;
  */
 class Authentication extends Middleware
 {
-
     /**
-     * Application Container
-     *
-     * @var Blueridge
+     * Blueridge application container
+     * @var Blueridge\Application
      */
     private $blueridge;
     
     /**
      * Public Constructor
-     * @param Application $blueridge
+     * @param Bluridge\Application $blueridge
      */
     public function __construct(Application $blueridge)
     {
@@ -45,19 +44,20 @@ class Authentication extends Middleware
     	$app = $this->app;
     	$blueridge = $this->blueridge;
 
-    	$checkAuth = function () use ($app, $blueridge) {            
+    	$authenticate = function () use ($app, $blueridge) {            
     		$securedUrls = !empty($blueridge['configs']['secured.urls']) ? $blueridge['configs']['secured.urls'] : [];
     		foreach ($securedUrls as $url) {                
     			$urlPattern = '@^' . $url . '$@';
     			if (preg_match($urlPattern, $app->request()->getPathInfo()) === 1 && $blueridge['authenticationService']->hasIdentity() === false) {
-    				return $app->redirect('/sign-in/');
+    				return $app->redirect('/');
     			}             
     		}            
-    	};
+        };
 
-    	$this->app->hook('slim.before.router', $checkAuth);
+        $this->app->hook('slim.before.router', $authenticate);
 
-    	$this->next->call();
+        $this->next->call();
     }
+
 
 }

@@ -9,6 +9,7 @@
 		<strong>Yay!</strong> {{flash['success']}}.
 	</div>
 	{% endif %}
+	{{dump(user)}}
 	<div class="panel">
 		<div class="row-fluid user-info">
 			<div class="span1 hidden-phone">
@@ -88,5 +89,5 @@
 {% endblock %}
 {% block js %}
 <script type="text/javascript" src="//checkout.stripe.com/v2/checkout.js"></script>
-<script type="text/javascript" src="/js/app.behavior.js"></script>
+<script type="text/javascript" src="/js/app.profile.js"></script>
 {% endblock %}

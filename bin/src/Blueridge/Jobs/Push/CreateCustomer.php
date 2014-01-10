@@ -3,12 +3,12 @@
  * Blueridge 
  * 
  * @copyright Ninelabs 2013
- * @author Moses Ngone <moses@ninelbas.com>
+ * @author Moses Ngone <moses@ninelabs.com>
  */
 
 namespace Blueridge\Jobs\Push;
 
-use Blueridge\Blueridge;
+use Blueridge\Application;
 use Blueridge\Documents\User;
 use Blueridge\Documents\Todo;
 use Stripe;
@@ -23,14 +23,18 @@ class CreateCustomer
 	 */
 	public function perform()
 	{
-		$blueridge= new Blueridge();
+		$blueridge= new Application();
         $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
         $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
-        $user= $userQr->findOneById($this->args['user']['id']); 
 
+        $user= $userQr->findOneById($this->args['user']['id']); 
+        if(empty($user)){
+            return;
+        } 
+        
         Stripe::setApiKey($this->args['service']['secret_key']);
         $customer = Stripe_Customer::create(['description' => $user->name,'email' =>$user->email,'plan'=>'br-free']); 
-        
+
         $subscription = [
         'customerId'=>$customer->id,
         'plan'=>['id'=>$customer->subscription->plan->id,'name'=>$customer->subscription->plan->name],
@@ -38,7 +42,8 @@ class CreateCustomer
         'status'=>$customer->subscription->status
         ];
 
-        $userQr->addSubscription($user,$subscription); 
-		
-	}
+        $userQr->setSubscription($user,$subscription); 
+        
+
+    }
 }
