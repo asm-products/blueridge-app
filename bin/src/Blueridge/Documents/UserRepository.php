@@ -38,9 +38,10 @@ class UserRepository extends DocumentRepository
      * @return Object      
      */
     public function setSubscription(User $user,$subscription)
-    {
+    {   
         return $this->createQueryBuilder()
-        ->update()
+        ->findAndUpdate()
+        ->returnNew()
         ->field('subscription')->set($subscription)
         ->field('id')->equals($user->id)
         ->getQuery()->execute();
@@ -55,7 +56,8 @@ class UserRepository extends DocumentRepository
     public function updateSubscriptionPlan(User $user,$plan)
     {
         return $this->createQueryBuilder()
-        ->update()
+        ->findAndUpdate()
+        ->returnNew()
         ->field('subscription.plan')->set($plan)
         ->field('id')->equals($user->id)
         ->getQuery()->execute();
@@ -82,7 +84,8 @@ class UserRepository extends DocumentRepository
     public function setProvider(User $user, $providerName, Array $providerDetails)
     {
         return $this->createQueryBuilder()
-        ->update()
+        ->findAndUpdate()
+        ->returnNew()
         ->field('providers.'.$providerName)->set($providerDetails)        
         ->field('id')->equals($user->id)
         ->getQuery()->execute();
@@ -114,7 +117,8 @@ class UserRepository extends DocumentRepository
     public function updateProfile(User $user, $segment, Array $properties)
     {
         return $this->createQueryBuilder()
-        ->update()
+        ->findAndUpdate()
+        ->returnNew()
         ->field('profile.'.$segment)->set($properties)
         ->field('id')->equals($user->id)
         ->getQuery()->execute();
