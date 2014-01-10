@@ -57,7 +57,7 @@
 			</div>
 			<div class="span5 offset1">
 				<h3>Payment Method</h3>
-				<form action="/app/cart/update-payment/" method="post" id="update-payment" data-card="{{user.subscription.card.id|default('none')}}" data-key="{{subscriber.publishable_key}}">
+				<form action="/app/cart/update-payment/" method="post" id="update-payment" data-card="{{user.subscription.card.id|default('none')}}" data-key="{{subscriber.stripe.publishable_key}}">
 					{% if user.subscription.card.id != null %}
 					<p><strong>{{user.subscription.card.type}}</strong> ending in <strong>{{user.subscription.card.last4}}</strong>, expires <strong>{{user.subscription.card.exp_month}}/{{user.subscription.card.exp_year}}</strong></p>
 					<button type="submit" class="btn btn-success btn-small" id="payment-button">Update Payment Method</button>

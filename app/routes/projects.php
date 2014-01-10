@@ -20,7 +20,7 @@ $app->get('/app/projects/',function () use ($app,$blueridge) {
 
     $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
     $user = $userQr->findOneByIdentifier($blueridge['authenticationService']->getIdentity());
-
+    
     $basecampClient = new Basecamp($blueridge);
     $basecampProjects = $basecampClient->getProjects($user);
     $user= $userQr->updateProjects($user, $basecampProjects);    
