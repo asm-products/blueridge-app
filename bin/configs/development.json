@@ -19,7 +19,7 @@
       "mandrill": {
         "api_key": "IgxS9suuhImK6ewUnfOxqg",
         "sender": {
-          "name": "Team BlueRidgeApp",
+          "name": "Team BlueRidge",
           "email": "team@blueridgeapp.com",
           "reply_to": "team@blueridgeapp.com"
         }
