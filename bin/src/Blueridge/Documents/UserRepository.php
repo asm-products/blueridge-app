@@ -56,8 +56,7 @@ class UserRepository extends DocumentRepository
     public function updateSubscriptionPlan(User $user,$plan)
     {
         return $this->createQueryBuilder()
-        ->findAndUpdate()
-        ->returnNew()
+        ->update()
         ->field('subscription.plan')->set($plan)
         ->field('id')->equals($user->id)
         ->getQuery()->execute();

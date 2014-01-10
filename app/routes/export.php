@@ -9,18 +9,10 @@ use Blueridge\Documents\Todo;
 $app->get('/app/export/csv/',function () use ($app,$blueridge) {
 
     $filename = 'To-Dos-'.date("Ymd").'.csv';
-
-    
-    /**
-    * @todo Check for valid authenticated session 
-    */
-    
-    $userId = base64_decode($_SESSION['user']);
     $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
     $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
 
-    
-    $user= $userQr->findOneById($userId);
+    $user = $userQr->findOneByIdentifier($blueridge['authenticationService']->getIdentity()); 
 
     $collection = $todoQr->fetchByUser($user);
     $todos = Array();

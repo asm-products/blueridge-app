@@ -15,10 +15,10 @@ $app->post('/app/cart/update-payment/',function () use ($app,$blueridge) {
     }else
     {   
 
-        $qr = $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
-        $user = $qr->find(base64_decode($_SESSION['user']));
+        $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
+        $user = $userQr->findOneByIdentifier($blueridge['authenticationService']->getIdentity());    
         $payment = Teller::updatePayment($blueridge['configs']['services']['subscriber'],$user->subscription['customerId'],$token);
-        $qr->updatePayment($user,$payment);
+        $userQr->updatePayment($user,$payment);
         $app->redirect('/app/profile/');
     }
 });
@@ -32,14 +32,15 @@ $app->post('/app/cart/update-subscription/',function () use ($app,$blueridge) {
     }else
     {   
 
-        $qr = $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
-        $user = $qr->find(base64_decode($_SESSION['user']));
+        $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
+        $user = $userQr->findOneByIdentifier($blueridge['authenticationService']->getIdentity()); 
+
         $plan = Teller::updateSubscription($blueridge['configs']['services']['subscriber'],$user->subscription['customerId'],$plan);
-        $updated= $qr->updateSubscription($user,$plan);
+        $updated= $userQr->updateSubscriptionPlan($user,$plan);
         if(empty($updated['err'])){
             $app->flash('success', 'Your subscription has been updated successfully');
         }        
         $app->redirect('/app/profile/');
-            
+
     } 
 });
