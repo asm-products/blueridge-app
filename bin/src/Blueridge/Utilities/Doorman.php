@@ -25,7 +25,7 @@ class Doorman
     public static function getCode($code = null)
     {
         if(empty($code)){
-            $code = self::generateCode();    
+            $code = self::getToken();  
         }
 
         $key = password_hash($code, PASSWORD_BCRYPT);
@@ -43,14 +43,9 @@ class Doorman
         return password_verify($code, $key);
     }
 
-    /**
-     * Generate a 16 digit random code
-     * @return String code
-     */
-    public static function generateCode()
+    public static function getToken($length = 8)
     {
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#-_&%$*(){}[]=+;:";           
-        $password = substr(str_shuffle( $chars ), 0, 16 );
-        return $password;
-    }
+        return bin2hex(openssl_random_pseudo_bytes($length));
+
+    } 
 }

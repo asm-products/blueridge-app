@@ -3,7 +3,7 @@
  * Blueridge 
  * 
  * @copyright Ninelabs 2013
- * @author Moses Ngone <moses@ninelbas.com>
+ * @author Moses Ngone <moses@ninelabs.com>
  */
 
 use Blueridge\Documents\User;
@@ -18,14 +18,9 @@ use Blueridge\Providers\Basecamp;
  */
 $app->get('/app/projects/',function () use ($app,$blueridge) {
 
-    $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User'); 
-    $user = $userQr->findOneByEmail($blueridge['authenticationService']->getIdentity());
+    $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
+    $user = $userQr->findOneByIdentifier($blueridge['authenticationService']->getIdentity());
 
-    if(empty($user)){
-        $app->redirect('/sign-out/');
-    }
-    
-    
     $basecampClient = new Basecamp($blueridge);
     $basecampProjects = $basecampClient->getProjects($user);
     $user= $userQr->updateProjects($user, $basecampProjects);    
@@ -39,33 +34,24 @@ $app->get('/app/projects/',function () use ($app,$blueridge) {
     'plan'=>$userDetails['subscription']['plan'],
     'mode'=>$app->mode
     ];
-    
+
     $app->render("app/projects.html", $view);
 });
 
-/**
- * 
- */
 $app->post('/app/projects/',function() use ($app,$blueridge){
-
-    $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User'); 
-    $user = $userQr->findOneByEmail($blueridge['authenticationService']->getIdentity());
-
-    if(empty($user)){
-        $app->redirect('/sign-out/');
-    }
 
     $params = $app->request->post('selected');
     $params = array_map('intval', $params);
 
-
+    $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
+    $user = $userQr->findOneByIdentifier($blueridge['authenticationService']->getIdentity());
+    
     $userQr->updateProfile($user,'projects',$params);
-    $userQr->updateUrl($user,"/users/{$user->id}");
-    $userQr->updateStatus($user,"active");
+    $userQr->setStatus($user,"active");
 
 
-    Resque::enqueue('default', 'Blueridge\Jobs\Utils\CleanUpTodos', ['userId'=>$user->id,'projects'=>$params]);
-    Resque::enqueue('default', 'Blueridge\Jobs\Pull\Todos', ['userId'=>$user->id,'projects'=>$params]);
+    Resque::enqueue('activity', 'Blueridge\Jobs\Utils\CleanUpTodos', ['userId'=>$user->id,'projects'=>$params]);
+    Resque::enqueue('activity', 'Blueridge\Jobs\Pull\Todos', ['userId'=>$user->id,'projects'=>$params]);
 
     $app->redirect('/app/todos/');
 });

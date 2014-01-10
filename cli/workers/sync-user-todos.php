@@ -10,7 +10,7 @@ require realpath(dirname(__FILE__).'/../init.php');
 use Blueridge\Documents\User;
 use Blueridge\Documents\Todo;
 use Blueridge\Providers\Basecamp;
-use Blueridge\Blueridge;
+use Blueridge\Application;
 
 
 

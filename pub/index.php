@@ -3,7 +3,7 @@
  * Blueridge 
  * 
  * @copyright Ninelabs 2013
- * @author Moses Ngone <moses@ninelbas.com>
+ * @author Moses Ngone <moses@ninelabs.com>
  */
 
 // Set Constants
@@ -24,11 +24,13 @@ use \Blueridge\Middleware\Authentication;
 use \Blueridge\Middleware\View;
 
 
-$app = new Slim();
+
 $blueridge = new Application();
+$app = new Slim($blueridge['configs']['app']);
+
 $app->setName('blueridgeapp');
-$app->add(new Authentication($blueridge));
 $app->add(new View());
+$app->add(new Authentication($blueridge));
 
 require APP_PATH."/init.php";
 require API_PATH."/init.php";

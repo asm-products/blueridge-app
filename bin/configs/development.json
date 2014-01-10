@@ -19,7 +19,7 @@
       "mandrill": {
         "api_key": "IgxS9suuhImK6ewUnfOxqg",
         "sender": {
-          "name": "Team BlueRidgeApp",
+          "name": "Team BlueRidge",
           "email": "team@blueridgeapp.com",
           "reply_to": "team@blueridgeapp.com"
         }
@@ -32,8 +32,16 @@
       }
     }
   },
-  "debug": true,
-  "log.enabled": true,
+  "app": {
+    "debug": true,
+    "log.enabled": true,
+    "mode": "development",
+    "cookies.encrypt": true,
+    "cookies.secure": true,
+    "cookies.httponly": true,
+    "cookies.secret_key": "4VtUZrv8@Y",
+    "cookies.domain": "blueridgeapp.com"
+  },
   "secured.urls": [
     "/app/.+",
     "/admin/.+",
@@ -41,9 +49,15 @@
   ],
   "session": {
     "remember_me_seconds": 2419200,
+    "cookie_lifetime":2419200,
     "use_cookies": true,
     "cookie_httponly": true,
-    "name": "blrdg",
-    "cookie_domain": ".blueridgeapp.com"
+    "cookie_secure": true,
+    "name": "_blrdg_session",
+    "cookie_domain": "blueridgeapp.com"
+  },
+  "cache": {
+    "storage": "file",
+    "ttl": 2419200
   }
 }
