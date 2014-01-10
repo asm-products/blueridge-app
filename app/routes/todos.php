@@ -8,7 +8,6 @@
 
 use Blueridge\Documents\User;
 use Blueridge\Documents\Todo;
-use Zend\Session\Container;
 
 /**
  * Todo Routes
@@ -17,13 +16,11 @@ use Zend\Session\Container;
  * @param type $blueridge 
  * @return type
  */
-$app->get('/app/todos/',function () use ($app,$blueridge) {
-    $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User'); 
-    $user = $userQr->findOneByEmail($blueridge['authenticationService']->getIdentity());
+$app->get('/app/todos/',function () use ($app,$blueridge) {  
+    
+    $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
+    $user = $userQr->findOneByIdentifier($blueridge['authenticationService']->getIdentity());
 
-    if(empty($user)){
-        $app->redirect('/sign-out/');
-    }
     $view = [
     'user' =>$user->toArray(),
     'route'=>'todos',

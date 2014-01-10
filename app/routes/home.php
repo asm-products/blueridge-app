@@ -4,23 +4,24 @@
  * 
  * Site routes
  * @copyright Ninelabs 2013
- * @author Moses Ngone <moses@ninelbas.com>
+ * @author Moses Ngone <moses@ninelabs.com>
  */
 
 $app->get('/',function() use ($app,$blueridge){
 
-    if($blueridge['authenticationService']->hasIdentity()){
+    // if($blueridge['authenticationService']->hasIdentity()){
 
-        $userQr = $blueridge['documentManager']->getRepository('\Blueridge\Documents\User'); 
-        $user = $userQr->findOneByEmail($blueridge['authenticationService']->getIdentity());
-        $app->setCookie('_blrg_connect', $_SERVER['REQUEST_TIME'], '14 days');
+    //     $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
+    //     $user = $userQr->findOneByIdentifier($blueridge['authenticationService']->getIdentity());
 
-        if($user->status != 'active'){
-            $app->redirect('/app/projects/');
-        }
+    //     $app->setCookie('_blrg_connect', $_SERVER['REQUEST_TIME'], '14 days');
 
-        $app->redirect('/app/todos/');
-    }
+    //     if($user->status != 'active'){
+    //         $app->redirect('/app/projects/');
+    //     }
+
+    //     $app->redirect('/app/todos/');
+    // }
     
     $view = ['mode'=>$app->mode,'connected'=>false];
     

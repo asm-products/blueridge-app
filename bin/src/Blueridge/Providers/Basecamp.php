@@ -7,7 +7,6 @@ namespace Blueridge\Providers;
 
 use \Doctrine\Common\Cache\MemcacheCache;
 use \Doctrine\Common\Cache\FilesystemCache;
-
 use \Guzzle\Http\Client;
 use \Guzzle\Common\Event;
 

@@ -9,6 +9,7 @@
 namespace Blueridge\Documents;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Blueridge\Documents\User;
 
 /**
  * User Repository
@@ -21,7 +22,7 @@ class UserRepository extends DocumentRepository
      * @param  Array $payment 
      * @return Object
      */
-    public function updatePayment(\Blueridge\Documents\User  $user,$payment)
+    public function updatePayment(User  $user,$payment)
     {
         return $this->createQueryBuilder()
         ->update()
@@ -31,15 +32,16 @@ class UserRepository extends DocumentRepository
     }
 
     /**
-     * Add stripe subscription Plan
+     * Set stripe subscription plan
      * @param  Object $user 
      * @param  Array $subscription 
      * @return Object      
      */
-    public function addSubscription(\Blueridge\Documents\User $user,$subscription)
-    {
+    public function setSubscription(User $user,$subscription)
+    {   
         return $this->createQueryBuilder()
-        ->update()
+        ->findAndUpdate()
+        ->returnNew()
         ->field('subscription')->set($subscription)
         ->field('id')->equals($user->id)
         ->getQuery()->execute();
@@ -51,10 +53,11 @@ class UserRepository extends DocumentRepository
      * @param  Array $plan 
      * @return Object      
      */
-    public function updateSubscription(\Blueridge\Documents\User $user,$plan)
+    public function updateSubscriptionPlan(User $user,$plan)
     {
         return $this->createQueryBuilder()
-        ->update()
+        ->findAndUpdate()
+        ->returnNew()
         ->field('subscription.plan')->set($plan)
         ->field('id')->equals($user->id)
         ->getQuery()->execute();
@@ -72,25 +75,29 @@ class UserRepository extends DocumentRepository
     }
 
     /**
-     * Add Provider
+     * Set Provider
      * @param  Object $user    
      * @param  String $providerName 
      * @param  Array $ProviderDetails 
      * @return Object
      */
-    public function addProvider(\Blueridge\Documents\User $user, $providerName, Array $providerDetails)
+    public function setProvider(User $user, $providerName, Array $providerDetails)
     {
         return $this->createQueryBuilder()
-        ->update()
+        ->findAndUpdate()
+        ->returnNew()
         ->field('providers.'.$providerName)->set($providerDetails)        
         ->field('id')->equals($user->id)
         ->getQuery()->execute();
     }
 
     /**
-     * Update User projects
+     * Update Projects
+     * @param  User   $user     
+     * @param  Array  $projects 
+     * @return object           
      */
-    public function updateProjects(\Blueridge\Documents\User $user, Array $projects)
+    public function updateProjects(User $user, Array $projects)
     {
         return $this->createQueryBuilder()
         ->findAndUpdate()
@@ -101,37 +108,33 @@ class UserRepository extends DocumentRepository
     }
 
     /**
-     * Update User Profile segment
+     * Update Profile 
+     * @param  User   $user       
+     * @param  string $segment    
+     * @param  Array  $properties 
+     * @return object             
      */
-    public function updateProfile(\Blueridge\Documents\User $user, $segment, Array $properties)
+    public function updateProfile(User $user, $segment, Array $properties)
     {
         return $this->createQueryBuilder()
-        ->update()
+        ->findAndUpdate()
+        ->returnNew()
         ->field('profile.'.$segment)->set($properties)
         ->field('id')->equals($user->id)
         ->getQuery()->execute();
     }
 
     /**
-     * Update User projects
+     * Set Status
+     * @param User   $user   
+     * @param string $status
+     * @return object
      */
-    public function updateStatus(\Blueridge\Documents\User $user, $status)
+    public function setStatus(User $user, $status)
     {
         return $this->createQueryBuilder()
         ->update()
         ->field('status')->set($status)
-        ->field('id')->equals($user->id)
-        ->getQuery()->execute();
-    }
-
-    /**
-     * Update User url
-     */
-    public function updateUrl(\Blueridge\Documents\User $user, $url)
-    {
-        return $this->createQueryBuilder()
-        ->update()
-        ->field('url')->set($url)
         ->field('id')->equals($user->id)
         ->getQuery()->execute();
     }

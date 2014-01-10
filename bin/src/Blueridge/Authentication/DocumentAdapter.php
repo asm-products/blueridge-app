@@ -10,12 +10,12 @@ namespace Blueridge\Authentication;
 
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Authentication\Result;
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 /**
  * Authentication Adapter
  */
-class Adapter implements AdapterInterface
+class DocumentAdapter implements AdapterInterface
 {
     /**
      * User email address
@@ -25,29 +25,37 @@ class Adapter implements AdapterInterface
 
     /**
      * User password
-     * @var String
+     * @var string
      */
     private $password;
 
-
     /**
-     * User Query Object
-     * @var Object
+     * User document repository
+     * @var Doctrine\ODM\MongoDB\DocumentRepository
      */
     protected $userDocumentRepository;
 
-    
-    public function __construct(DocumentRepository $userDocumentRepository, $email, $password)
+    /**
+     * Authentication Adapter
+     * @param Doctrine\ODM\MongoDB\DocumentManager $documentManager 
+     * @param string          $email          
+     * @param string         $password        
+     */
+    public function __construct(DocumentManager $documentManager, $email, $password)
     {
-        $this->userDocumentRepository = $userDocumentRepository;
+        $this->userDocumentRepository = $documentManager->getRepository('\Blueridge\Documents\User'); 
         $this->email = $email;
         $this->password = $password;
 
     }
 
+    /**
+     * Authenticate a user
+     * @return Zend\Authentication\Result Result
+     */
     public function authenticate()
     {
-        $user = $this->userDocumentRepository->findOneByEmail($this->email);
+        $user = $this->userDocumentRepository->findOneByEmail($this->email);        
 
         if (empty($user)) {
             return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, [], ['No user exists with the credentials provided']);
@@ -57,7 +65,7 @@ class Adapter implements AdapterInterface
             return new Result(Result::FAILURE_CREDENTIAL_INVALID, [], ['Wrong Credentials ']);
         } 
 
-        return new Result(Result::SUCCESS, $user->email, []);        
+        return new Result(Result::SUCCESS, $user->identifier, []);        
         
     }
 

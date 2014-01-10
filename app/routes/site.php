@@ -4,7 +4,7 @@
  * 
  * Site routes
  * @copyright Ninelabs 2013
- * @author Moses Ngone <moses@ninelbas.com>
+ * @author Moses Ngone <moses@ninelabs.com>
  */
 
 $app->get('/pricing/',function() use ($app){

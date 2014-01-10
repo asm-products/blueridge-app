@@ -57,22 +57,20 @@ class Application extends Pimple
     }
 
     /**
-     * Document Manager
+     * Connect to MongoDb
+     * @return DocumentManager
      */
     public function _initDb()
     {
         $container = $this;
         $this['documentManager'] =  $this->share(function () use ($container) {
-
-            $dbConfigs = $container['configs']['database'];        
-            if(!empty($dbConfigs))
-            {
+            $dbConfigs = $container['configs']['database'];
+            try{
                 if(empty($dbConfigs['user'])){
                     $connection_url = "mongodb://{$dbConfigs['host']}:{$dbConfigs['port']}/{$dbConfigs['name']}";    
                 }else{
                     $connection_url = "mongodb://{$dbConfigs['user']}:{$dbConfigs['passwd']}@{$dbConfigs['host']}:{$dbConfigs['port']}/{$dbConfigs['name']}";   
                 }
-
                 AnnotationDriver::registerAnnotationClasses();
 
                 $config = new Configuration();
@@ -82,32 +80,48 @@ class Application extends Pimple
                 $config->setHydratorNamespace('Hydrators');
                 $config->setMetadataDriverImpl(AnnotationDriver::create(BIN_PATH.'/src/Blueridge/Documents'));
                 $config->setDefaultDB($dbConfigs['name']);
+                
                 return DocumentManager::create( new Connection($connection_url), $config);
 
-            }
-            return;
+            }catch(Exception $e){
+                error_log($e->getMessage());
+            } 
         });
-}
+    }
 
     /**
-     * Cache Manager
+     * Setup APC cache
+     * @return Zend\Cache\Manager
      */
     public function _initCache()
     {
+        $container = $this;
+        $this['cacheManager'] =  $this->share(function () use ($container) {
+            $cacheConfigs = $container['configs']['cache'];
+            switch ($cacheConfigs['storage']) {
+                case 'apc':
+                    $cache  = StorageFactory::adapterFactory('apc', ['ttl' => $cacheConfigs['ttl']]);
+                    break;
 
-        $this['cacheManager'] =  $this->share(function (){
+                case 'memcached':
+                    $cache  = StorageFactory::adapterFactory('memcached', ['ttl' => $cacheConfigs['ttl']]);
+                    break;
 
-            $fileCache  = StorageFactory::adapterFactory('filesystem', ['ttl' => 3600,'cache_dir'=>CACHE_DIR.'/sessions']);        
-            $plugin = StorageFactory::pluginFactory('exception_handler',['throw_exceptions' => false]);
-            $fileCache->addPlugin($plugin);
-
-            return $fileCache;
+                default:
+                    $cache  = StorageFactory::adapterFactory('filesystem', ['ttl' => $cacheConfigs['ttl'],'cache_dir'=>CACHE_DIR.'/sessions']);
+                    break;
+            }
+            
+            $plugin = StorageFactory::pluginFactory('exception_handler',['throw_exceptions' => true]);
+            $cache->addPlugin($plugin);
+            return $cache;
         });
     }
 
 
     /**
-     * Mail Transaction Service
+     * Initailaize Mandrill for mail transactions
+     * @return Mandrill
      */
     public function _initMailTransactionService()
     {
@@ -124,7 +138,8 @@ class Application extends Pimple
     }
 
     /**
-     * Session Manager
+     * Create a session manager using the cache manager as storage
+     * @return Zend\Session\Manager
      */
     public function _initSessionManager()
     {
@@ -144,8 +159,9 @@ class Application extends Pimple
     }
 
     /**
-    * Authentication service
-    */
+     * Setup an authentication service
+     * @return Zend\Authentication\AuthenticationService
+     */
     public function _initAuthenticationService()
     {
         $container = $this;

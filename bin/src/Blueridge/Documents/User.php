@@ -46,18 +46,18 @@ class User
     protected $lastName;
 
     /**
+     * Identifier
+     * @var string
+     * @ODM\String
+     */
+    protected $identifier;
+
+    /**
      * Email
      * @var string
      * @ODM\String
      */
     protected $email;
-
-    /**
-     * Url
-     * @var string
-     * @ODM\String
-     */
-    protected $url;
 
     /**
      * Avatar
@@ -72,13 +72,6 @@ class User
      * @ODM\String
      */
     protected $key;
-
-    /**
-     * Activation Key
-     * @var string
-     * @ODM\String
-     */
-    protected $activation;
 
     /**
      * Roles
@@ -179,7 +172,7 @@ class User
      */
     public function toArray()
     {
-        $properties = ['id','name','firstName','lastName','email','url','avatar','status','subscription'];
+        $properties = ['id','name','firstName','lastName','email','avatar','status','subscription'];
 
         $item=array();
 

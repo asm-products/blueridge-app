@@ -10,7 +10,7 @@ use Blueridge\Authentication\Adapter as AuthAdapter;
 use Zend\Authentication\Result;
 
 /**
- * Show sign in form
+ * Display the signin form
  */
 $app->get("/forgot-password/", function () use ($app,$blueridge) {
     if($blueridge['authenticationService']->hasIdentity()){
