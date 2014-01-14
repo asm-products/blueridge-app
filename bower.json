@@ -7,7 +7,7 @@
     "es5-shim": "~2.0.8",
     "underscore": "~1.5.1",
     "font-awesome": "~3.2.1",
-    "mixitup": "~1.5.*"
+    "mixitup": "git@github.com:ninelabs/mixitup.git#3e92dd1f21de831b86e842cf72ea4aa1c9841668"
   },
   "devDependencies": {}
 }
