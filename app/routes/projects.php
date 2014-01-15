@@ -50,7 +50,7 @@ $app->post('/app/projects/',function() use ($app,$blueridge){
     $userQr->setStatus($user,"active");
 
 
-    Resque::enqueue('activity', 'Blueridge\Jobs\Utils\CleanUpTodos', ['userId'=>$user->id,'projects'=>$params]);
+    Resque::enqueue('activity', 'Blueridge\Jobs\Sync\CleanUpTodos', ['userId'=>$user->id,'projects'=>$params]);
     Resque::enqueue('activity', 'Blueridge\Jobs\Pull\Todos', ['userId'=>$user->id,'projects'=>$params]);
 
     $app->redirect('/app/todos/');
