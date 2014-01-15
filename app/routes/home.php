@@ -8,24 +8,10 @@
  */
 
 $app->get('/',function() use ($app,$blueridge){
-
-    // if($blueridge['authenticationService']->hasIdentity()){
-
-    //     $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
-    //     $user = $userQr->findOneByIdentifier($blueridge['authenticationService']->getIdentity());
-
-    //     $app->setCookie('_blrg_connect', $_SERVER['REQUEST_TIME'], '14 days');
-
-    //     if($user->status != 'active'){
-    //         $app->redirect('/app/projects/');
-    //     }
-
-    //     $app->redirect('/app/todos/');
-    // }
     
-    $view = ['mode'=>$app->mode,'connected'=>false];
+    $view = ['mode'=>$app->mode,'connected'=>false];    
     
-    if($app->getCookie('_blrg_connect')){
+    if($app->getCookie('_blrg_connect')) {
         $view['connected']=true;
     }
 
