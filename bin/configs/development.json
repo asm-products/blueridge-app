@@ -7,7 +7,7 @@
   "providers": {
     "basecamp": {
       "type":"web_server",
-      "user_agent": "BlueRidgeApp (mo@mospired.com)",
+      "user_agent": "BlueRidgeApp (team@blueridgeapp.com)",
       "client_id": "cbc3f4cff1def7da310df4d74c7baaffa106772a",
       "client_secret": "41ffa461186d66b1876d526ecab677d92df0533a",
       "redirect_uri": "https://dev.blueridgeapp.com/basecamp/auth/",

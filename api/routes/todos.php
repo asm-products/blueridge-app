@@ -8,7 +8,9 @@
 
 use Blueridge\Documents\Todo;
 use Blueridge\Documents\User;
-use Blueridge\Providers\Basecamp;
+use Blueridge\Providers\Basecamp\BasecampClient;
+use Blueridge\Providers\Basecamp\Helper as ServiceHelper;
+
 
 /**
  * Todo
@@ -34,50 +36,56 @@ $app->get('/api/todos/',function () use ($app,$blueridge) {
 
     $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');     
     $user = $userQr->findOneById($userid);
-    if(empty($user)){
+    
+    if (empty($user)) {
         $app->response()->status(404);
         return;
     }
 
-    $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
-    $projects = $user->profile['projects'];
-    if(empty($projects)){
-        // Add message to let them select project
+    if (empty($user->profile['projects'])) {
         $app->response()->status(404);
         return;
     }
 
     $userTodos = Array();
+    foreach ($user->profile['projects'] as $selectedProject) {
 
-    foreach ($projects as $selectedProject) {
-
+        $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
         $projectTodos = $todoQr->fetchByProject($user,$selectedProject)->toArray();
 
-        if(empty($projectTodos)){
-            $basecampClient = new Basecamp($blueridge);
-            $todoItems = $basecampClient->getTodos($user,[$selectedProject]);
-            
-            foreach($todoItems as $item){
+        if(empty($todos)) {
+            $providerConfigs = $blueridge['configs']['providers']['basecamp']; 
+            $service = BasecampClient::factory([
+                'token'    => $user->providers['basecamp']['token']['access_token'],
+                'user_agent' => $providerConfigs['user_agent'],
+                ]);
+            $serviceHelper = new ServiceHelper($service); 
+            $todoItems = $serviceHelper->fetchTodos($user,[$selectedProject]);            
+            if(!empty($todoItems)):
+            $todoIterator = new \ArrayIterator($todoItems); 
+            foreach($todoIterator as $todoItem){
 
-                $item['todoId']=$item['rel']['project']['account']['product'].'_'.$item['id'];
-                unset($item['id']);
-
-                $basecampClient = new Basecamp($blueridge);
-                $item['source'] = $basecampClient->getTodo($user,$item['url']);
-
-                $todo = $todoQr->findOneByTodoId($item['todoId']);
-                if(empty($todo)){
+                $todoItem['todoId']=$todoItem['rel']['project']['account']['product'].'_'.$todoItem['id'];        
+                $todoItem['source'] = $service->getTodo([
+                    'accountId'=>$todoItem['rel']['project']['account']['id'],
+                    'projectId'=>$todoItem['rel']['project']['id'],
+                    'todoId'=>$todoItem['id'],                
+                    ]);
+                unset($todoItem['id']);
+                $todo = $todoQr->findOneBy(['todoId'=>$todoItem['todoId']]);
+                if (empty($todo)) {
                     $todo = new Todo();
-                }
-                $item  = $todo->polish($item);
-                $todo->setProperties($item);        
-                $blueridge['documentManager']->persist($todo);
-                $blueridge['documentManager']->flush();
+                    $todoItem  = $todo->polish($todoItem);
+                    $todo->setProperties($todoItem);        
+                    $blueridge['documentManager']->persist($todo);
+                    $blueridge['documentManager']->flush();
+                }           
+            // Resque::enqueue('activity', 'Blueridge\Jobs\Pull\SaveTodoDocument', ['todoItem'=>$todoItem]);   
             }
+            endif;
 
-            $projectTodos = $todoQr->fetchByProject($user,$selectedProject)->toArray();
+            $projectTodos = $todoQr->fetchByProject($user,$selectedProject)->toArray();        
         }
-
         $userTodos = array_merge($userTodos,$projectTodos);
     }
 
@@ -85,13 +93,11 @@ $app->get('/api/todos/',function () use ($app,$blueridge) {
         return $todo->toArray();
     },array_values($userTodos));
     
-    
-    $collection = ['count'=>count($todos),'projects'=>count($projects),'todos'=>$todos];
+    $collection = ['count'=>count($todos),'projects'=>count($user->profile['projects']),'todos'=>$todos];
     echo json_encode($collection);
     $app->response->headers->set('Content-Type', 'application/json');
 
 });
-
 
 
 /**
