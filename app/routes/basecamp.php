@@ -76,7 +76,7 @@ $app->get('/basecamp/auth/',function() use ($app,$blueridge){
         $userDetails['key']= $activation['key'];
 
         $user = new User;
-        $$user->setProperties($userDetails);
+        $user->setProperties($userDetails);
         $blueridge['documentManager']->persist($user);
         $blueridge['documentManager']->flush();
 
