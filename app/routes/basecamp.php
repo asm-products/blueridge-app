@@ -1,7 +1,7 @@
 <?php
 /**
- * Blueridge 
- * 
+ * Blueridge
+ *
  * @copyright Ninelabs 2013
  * @author Moses Ngone <moses@ninelabs.com>
  */
@@ -29,9 +29,9 @@ $app->get('/basecamp/connect/',function() use ($app,$blueridge){
 $app->get('/basecamp/auth/',function() use ($app,$blueridge){
 
     $code = $app->request()->params('code');
-    
+
     if(empty($code)) {
-        $app->redirect('/error/basecamp-connect/');        
+        $app->redirect('/error/basecamp-connect/');
     }
 
     try {
@@ -42,7 +42,7 @@ $app->get('/basecamp/auth/',function() use ($app,$blueridge){
 
     } catch(Exception $error) {
         error_log($error->getMessage());
-        $view = [        
+        $view = [
         'route'=>'error',
         'message'=>"Access to your Basecamp account failed",
         'mode'=>$app->mode
@@ -50,7 +50,7 @@ $app->get('/basecamp/auth/',function() use ($app,$blueridge){
         $app->render("common/error-403.html", $view,403);
         return;
     }
-    
+
     $userDetails['profile'] = [
     'accounts'=>$authorization['accounts'],
     'projects'=>[]
@@ -72,19 +72,19 @@ $app->get('/basecamp/auth/',function() use ($app,$blueridge){
         $activation = Doorman::getCode();
         $userDetails['member_since'] = new \DateTime();
         $userDetails['status']='new';
-        $userDetails['roles']='user';        
-        $userDetails['key']= $activation['key'];        
+        $userDetails['roles']='user';
+        $userDetails['key']= $activation['key'];
 
-        $user = new User;                     
-        $$user->setProperties(userDetails);
+        $user = new User;
+        $$user->setProperties($userDetails);
         $blueridge['documentManager']->persist($user);
-        $blueridge['documentManager']->flush();   
+        $blueridge['documentManager']->flush();
 
-        $subscription=Teller::addCustomer($blueridge['configs']['services']['subscriber'],$user->toArray());     
+        $subscription=Teller::addCustomer($blueridge['configs']['services']['subscriber'],$user->toArray());
         $userQr->setSubscription($user,$subscription);
 
         Resque::enqueue('mail', 'Blueridge\Jobs\Push\SignUpEmail', ['email'=>$user->email,'postman'=>$blueridge['configs']['services']['mail']['mandrill']]);
-        
+
     }
 
     $userQr->setProvider($user,'basecamp',$basecampDetails);
@@ -93,14 +93,14 @@ $app->get('/basecamp/auth/',function() use ($app,$blueridge){
     $result = $blueridge['authenticationService']->authenticate($providerAdapter);
 
 
-    switch ($result->getCode()) {        
-        case Result::SUCCESS:         
+    switch ($result->getCode()) {
+        case Result::SUCCESS:
         $app->setCookie('_blrdg_connect', $_SERVER['REQUEST_TIME'], '14 days');
         if($user->status != 'active'){
             $app->redirect('/app/projects/');
         }
         $app->redirect('/app/todos/');
-        break;                
+        break;
         default:
         $app->response()->status(403);
         $app->flash('errors', $result->getMessages());
