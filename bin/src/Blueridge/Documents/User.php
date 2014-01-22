@@ -1,7 +1,7 @@
 <?php
 /**
- * Blueridge 
- * 
+ * Blueridge
+ *
  * @copyright Ninelabs 2013
  * @author Moses Ngone <moses@ninelabs.com>
  */
@@ -12,8 +12,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 
-/** 
- * @ODM\Document(collection="Users",repositoryClass="Blueridge\Documents\UserRepository") 
+/**
+ * @ODM\Document(collection="Users",repositoryClass="Blueridge\Documents\UserRepository")
  */
 class User
 {
@@ -27,7 +27,7 @@ class User
     /**
      * Name
      * @var string
-     * @ODM\String   
+     * @ODM\String
      */
     protected $name;
 
@@ -46,11 +46,11 @@ class User
     protected $lastName;
 
     /**
-     * Identifier
+     * IdentifierKey
      * @var string
      * @ODM\String
      */
-    protected $identifier;
+    protected $identifierKey;
 
     /**
      * Email
@@ -140,10 +140,10 @@ class User
      * Set Properties
      * @param Array $properties
      * @return Object User
-     */ 
+     */
     public function setProperties(Array $properties)
     {
-        foreach($properties as $property => $value){          
+        foreach($properties as $property => $value){
             if (property_exists($this, $property)) {
                 $this->$property = $value;
             }
@@ -151,7 +151,7 @@ class User
         return $this;
     }
 
-    
+
     /**
      * Update Profile
      */
@@ -179,8 +179,8 @@ class User
         foreach ($this as $property => $value)
         {
             if (in_array($property, $properties))
-            {               
-                $item[$property]=$value;                                
+            {
+                $item[$property]=$value;
             }
         }
         return $item;
@@ -221,11 +221,11 @@ class User
                 default:
                 $data = $this->$property;
 
-            }       
-            return $data;           
+            }
+            return $data;
         }
     }
-    
+
     /**
      * Setter
      */
