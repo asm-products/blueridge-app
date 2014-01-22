@@ -6,10 +6,11 @@
   },
   "providers": {
     "basecamp": {
-      "user_agent": "BlueRidgeApp (mo@mospired.com)",
+      "type": "web_server",
+      "user_agent": "BlueRidgeApp (team@blueridgeapp.com)",
       "client_id": "4262c5c129649aa17ddb7bae825e05c55aadaf6f",
       "client_secret": "6685290db25e72824afaa3ce3ce44a400fb6ea87",
-      "redirect_uri": "https://staging.blueridgeapp.com/basecamp/auth/",
+      "redirect_uri": "https://next.blueridgeapp.com/basecamp/auth/",
       "auth_url": "https://launchpad.37signals.com/authorization/new",
       "token_url": "https://launchpad.37signals.com/authorization/token"
     }
@@ -19,7 +20,7 @@
       "mandrill": {
         "api_key": "IgxS9suuhImK6ewUnfOxqg",
         "sender": {
-          "name": "Team BlueRidgeApp",
+          "name": "Team BlueRidge",
           "email": "team@blueridgeapp.com",
           "reply_to": "team@blueridgeapp.com"
         }
@@ -32,8 +33,16 @@
       }
     }
   },
-  "debug": true,
-  "log.enabled": true,
+  "app": {
+    "debug": true,
+    "log.enabled": true,
+    "mode": "staging",
+    "cookies.encrypt": true,
+    "cookies.secure": true,
+    "cookies.httponly": true,
+    "cookies.secret_key": "4VtUZrv8@Y",
+    "cookies.domain": "next.blueridgeapp.com"
+  },
   "secured.urls": [
     "/app/.+",
     "/admin/.+",
@@ -41,9 +50,15 @@
   ],
   "session": {
     "remember_me_seconds": 2419200,
+    "cookie_lifetime":2419200,
     "use_cookies": true,
     "cookie_httponly": true,
-    "name": "blrdg",
-    "cookie_domain": ".blueridgeapp.com"
+    "cookie_secure": true,
+    "name": "_blrdg_session",
+    "cookie_domain": "next.blueridgeapp.com"
+  },
+  "cache": {
+    "storage": "file",
+    "ttl": 2419200
   }
 }

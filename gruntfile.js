@@ -12,7 +12,7 @@ module.exports = function(grunt) {
       js: [
       '<%= dir.bower %>/jquery/jquery.min.js', 
       '<%= dir.bower %>/jquery/jquery-migrate.js',   
-      '<%= dir.bower %>/mixitup/jquery.mixitup.min.js',
+      '<%= dir.bower %>/mixitup/src/jquery.mixitup.js',
       '<%= dir.bower %>/bootstrap-sass/js/bootstrap-modal.js',
       '<%= dir.node %>/twig/twig.min.js',  
       '<%= dir.bower %>/underscore/underscore-min.js',

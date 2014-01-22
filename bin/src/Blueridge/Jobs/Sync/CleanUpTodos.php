@@ -2,7 +2,7 @@
 /**
  * Clean Up Todos
  * Filter todos from storage */ 
-namespace Blueridge\Jobs\Utils;
+namespace Blueridge\Jobs\Sync;
 
 use Blueridge\Application;
 use Blueridge\Documents\User;

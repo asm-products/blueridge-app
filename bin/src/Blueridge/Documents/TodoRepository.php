@@ -5,24 +5,22 @@
 namespace Blueridge\Documents;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Blueridge\Documents\User;
 
 class TodoRepository extends DocumentRepository
 {
 
-    public function fetchByTodoId(Array $todoIds)
+    public function fetchByTodoIds(Array $todoIds)
     {
-
         return $this->createQueryBuilder()
         ->eagerCursor(true)    
         ->field('todoId')->in($todoIds)
         ->getQuery()->execute();
     }
-
     
-    public function fetchByUser(\Blueridge\Documents\User $user)
+    public function fetchByUser(User $user)
     {        
         return $this->createQueryBuilder()
-        ->eagerCursor(true)    
         ->field('rel.project.id')->in($user->profile['projects'])
         ->getQuery()->execute();
     }
@@ -33,7 +31,7 @@ class TodoRepository extends DocumentRepository
      * @param  String                 
      * @return Object                            
      */
-    public function fetchByProject(\Blueridge\Documents\User $user, $projectId)
+    public function fetchByProject(User $user, $projectId)
     {
         return $this->createQueryBuilder()
         ->eagerCursor(true)    

@@ -6,7 +6,8 @@
   },
   "providers": {
     "basecamp": {
-      "user_agent": "BlueRidgeApp (mo@mospired.com)",
+      "type": "web_server",
+      "user_agent": "BlueRidgeApp (team@blueridgeapp.com)",
       "client_id": "cbc3f4cff1def7da310df4d74c7baaffa106772a",
       "client_secret": "41ffa461186d66b1876d526ecab677d92df0533a",
       "redirect_uri": "https://dev.blueridgeapp.com/basecamp/auth/",
@@ -40,7 +41,7 @@
     "cookies.secure": true,
     "cookies.httponly": true,
     "cookies.secret_key": "4VtUZrv8@Y",
-    "cookies.domain": "blueridgeapp.com"
+    "cookies.domain": "dev.blueridgeapp.com"
   },
   "secured.urls": [
     "/app/.+",
@@ -54,7 +55,7 @@
     "cookie_httponly": true,
     "cookie_secure": true,
     "name": "_blrdg_session",
-    "cookie_domain": "blueridgeapp.com"
+    "cookie_domain": "dev.blueridgeapp.com"
   },
   "cache": {
     "storage": "file",

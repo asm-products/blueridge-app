@@ -1,16 +1,17 @@
 <?php
 /**
- * Blueridge 
- * 
+ * Blueridge
+ *
  * @copyright Ninelabs 2013
  * @author Moses Ngone <moses@ninelabs.com>
  */
 
-use Blueridge\Providers\Basecamp;
 use Blueridge\Documents\User;
 use Blueridge\Utilities\Doorman;
 use Blueridge\Utilities\Teller;
 use Blueridge\Authentication\ProviderAdapter;
+use Blueridge\Providers\Basecamp\OAuth;
+use Blueridge\Providers\Basecamp\BasecampClient as Basecamp;
 use Zend\Authentication\Result;
 
 
@@ -18,13 +19,8 @@ use Zend\Authentication\Result;
  * Connect to Basecamp
  */
 $app->get('/basecamp/connect/',function() use ($app,$blueridge){
-
-    $settings = $blueridge['configs']['providers']['basecamp'];
-    if ($session= $blueridge['authenticationService']->hasIdentity()===false) {
-        $auth_request = "{$settings['auth_url']}?client_id={$settings['client_id']}&redirect_uri={$settings['redirect_uri']}&type=web_server";         
-        $app->redirect($auth_request);
-    }
-    $app->redirect("/app/todos/");
+    $provider = new OAuth($blueridge['configs']['providers']['basecamp']);
+    $provider->authorize($app);
 });
 
 /**
@@ -33,24 +29,33 @@ $app->get('/basecamp/connect/',function() use ($app,$blueridge){
 $app->get('/basecamp/auth/',function() use ($app,$blueridge){
 
     $code = $app->request()->params('code');
-    $settings = $blueridge['configs']['providers']['basecamp'];     
 
-    if(empty($code))
-    {
-        $app->redirect('/error/basecamp-connect/');        
+    if(empty($code)) {
+        $app->redirect('/error/basecamp-connect/');
     }
 
+    try {
+        $provider = new OAuth($blueridge['configs']['providers']['basecamp']);
+        $token = $provider->getAccessToken($code);
+        $authorization = $provider->getAuthorization($token);
+        $userDetails = $provider->getUserDetails($authorization);
 
-    $basecampClient = new Basecamp($blueridge);
-    $token = $basecampClient->getToken($code);
-    $authorization = $basecampClient->getAuthorization($token);
-    $me = $basecampClient->getMe($authorization);
-    
-    $me['profile'] = [
+    } catch(Exception $error) {
+        error_log($error->getMessage());
+        $view = [
+        'route'=>'error',
+        'message'=>"Access to your Basecamp account failed",
+        'mode'=>$app->mode
+        ];
+        $app->render("common/error-403.html", $view,403);
+        return;
+    }
+
+    $userDetails['profile'] = [
     'accounts'=>$authorization['accounts'],
     'projects'=>[]
     ];
-    $me['identifier'] = Doorman::getToken();
+    $userDetails['identifier'] = Doorman::getToken();
 
     $basecampDetails =  [
     'token'=>$token,
@@ -60,26 +65,26 @@ $app->get('/basecamp/auth/',function() use ($app,$blueridge){
 
 
     $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
-    $user = $userQr->findOneByEmail($me['email']);
+    $user = $userQr->findOneByEmail($userDetails['email']);
 
-    if(empty($user)){
+    if(empty($user)) {
 
         $activation = Doorman::getCode();
-        $me['member_since'] = new \DateTime();
-        $me['status']='new';
-        $me['roles']='user';        
-        $me['key']= $activation['key'];        
+        $userDetails['member_since'] = new \DateTime();
+        $userDetails['status']='new';
+        $userDetails['roles']='user';
+        $userDetails['key']= $activation['key'];
 
-        $user = new User;                     
-        $user->setProperties($me);
+        $user = new User;
+        $user->setProperties($userDetails);
         $blueridge['documentManager']->persist($user);
-        $blueridge['documentManager']->flush();   
+        $blueridge['documentManager']->flush();
 
-        $subscription=Teller::addCustomer($blueridge['configs']['services']['subscriber'],$user->toArray());     
+        $subscription=Teller::addCustomer($blueridge['configs']['services']['subscriber'],$user->toArray());
         $userQr->setSubscription($user,$subscription);
 
         Resque::enqueue('mail', 'Blueridge\Jobs\Push\SignUpEmail', ['email'=>$user->email,'postman'=>$blueridge['configs']['services']['mail']['mandrill']]);
-        
+
     }
 
     $userQr->setProvider($user,'basecamp',$basecampDetails);
@@ -88,14 +93,14 @@ $app->get('/basecamp/auth/',function() use ($app,$blueridge){
     $result = $blueridge['authenticationService']->authenticate($providerAdapter);
 
 
-    switch ($result->getCode()) {        
-        case Result::SUCCESS:         
+    switch ($result->getCode()) {
+        case Result::SUCCESS:
         $app->setCookie('_blrdg_connect', $_SERVER['REQUEST_TIME'], '14 days');
         if($user->status != 'active'){
             $app->redirect('/app/projects/');
         }
         $app->redirect('/app/todos/');
-        break;                
+        break;
         default:
         $app->response()->status(403);
         $app->flash('errors', $result->getMessages());

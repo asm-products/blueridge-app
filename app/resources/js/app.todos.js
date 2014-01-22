@@ -30,7 +30,7 @@
     function checkOffTodo(){
         var todoid = $(this).attr('data-todo-id'); 
         var userid = $("#module").attr('data-user');        
-        $(this).parents('.app-todo-list-item').fadeOut(); 
+        $(this).parents('.app-todo-list-item').fadeOut().remove(); 
         request = $.post( "/api/todos/"+todoid+'/', {user:userid,payload:{completed:true}});        
     }
 
