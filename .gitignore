@@ -1,7 +1,7 @@
 .DS_Store
 .vagrant
 vendor/*
-**/Hydrators/**
+***/Hydrators/**
 node_modules/*
 *.scssc
 *.sublime-*
