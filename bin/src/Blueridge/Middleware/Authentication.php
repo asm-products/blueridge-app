@@ -55,9 +55,15 @@ class Authentication extends Middleware
                 if (preg_match($urlPattern, $path) === 1 && $blueridge['authenticationService']->hasIdentity() === false) {
 
                     if($path == '/app/todos/' && !empty($app->getCookie('_blrdg_connect'))) {
-                        list ($email, $code) = explode(':',$app->getCookie('_blrdg_connect'));
-                        $providerAdapter = new ProviderAdapter($blueridge['documentManager'],$email,$code);
-                        $blueridge['authenticationService']->authenticate($providerAdapter);
+                        try {
+                            list ($email, $code) = explode(':',$app->getCookie('_blrdg_connect'));
+                            $providerAdapter = new ProviderAdapter($blueridge['documentManager'],$email,$code);
+                            $blueridge['authenticationService']->authenticate($providerAdapter);
+                        } catch (Exception $e) {
+                            error_log($e->getMessage());
+                            $app->deletCookie('_blrdg_connect');
+                            return $app->redirect('/');
+                        }
 
                     } else {
                         return $app->redirect('/');
