@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Blueridge
@@ -12,13 +13,12 @@ use Blueridge\Utilities\Teller;
 use Blueridge\Authentication\ProviderAdapter;
 use Blueridge\Providers\Basecamp\OAuth;
 use Blueridge\Providers\Basecamp\BasecampClient as Basecamp;
-use Zend\Authentication\Result;
-
 
 /**
  * Connect to Basecamp
  */
 $app->get('/basecamp/connect/',function() use ($app,$blueridge){
+
     $provider = new OAuth($blueridge['configs']['providers']['basecamp']);
     $provider->authorize($app);
 });
@@ -51,11 +51,12 @@ $app->get('/basecamp/auth/',function() use ($app,$blueridge){
         return;
     }
 
+
+
     $userDetails['profile'] = [
     'accounts'=>$authorization['accounts'],
     'projects'=>[]
     ];
-    $userDetails['identifier'] = Doorman::getToken();
 
     $basecampDetails =  [
     'token'=>$token,
@@ -87,24 +88,18 @@ $app->get('/basecamp/auth/',function() use ($app,$blueridge){
 
     }
 
-    $userQr->setProvider($user,'basecamp',$basecampDetails);
+    $identifier = Doorman::getCode();
 
-    $providerAdapter = new ProviderAdapter($blueridge['documentManager'],$user->identifier);
+    $userQr->setProvider($user,'basecamp',$basecampDetails);
+    $userQr->setIdentifierKey($user,$identifier['key']);
+
+    $providerAdapter = new ProviderAdapter($blueridge['documentManager'],$userDetails['email'],$identifier['code']);
     $result = $blueridge['authenticationService']->authenticate($providerAdapter);
 
-
-    switch ($result->getCode()) {
-        case Result::SUCCESS:
-        $app->setCookie('_blrdg_connect', $_SERVER['REQUEST_TIME'], '14 days');
-        if($user->status != 'active'){
-            $app->redirect('/app/projects/');
-        }
-        $app->redirect('/app/todos/');
-        break;
-        default:
-        $app->response()->status(403);
-        $app->flash('errors', $result->getMessages());
-        $app->redirect('/sign-in/');
-        break;
+    $app->setCookie('_blrdg_connect',"{$userDetails['email']}:{$identifier['code']}", '14 days');
+    if($user->status != 'active'){
+        $app->redirect('/app/projects/');
     }
+    $app->redirect('/app/todos/');
+
 });

@@ -12,7 +12,7 @@ $app->get('/app/export/csv/',function () use ($app,$blueridge) {
     $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
     $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
 
-    $user = $userQr->findOneByIdentifier($blueridge['authenticationService']->getIdentity()); 
+    $user = $userQr->findOneById($blueridge['authenticationService']->getIdentity());
 
     $collection = $todoQr->fetchByUser($user);
     $todos = Array();
@@ -41,15 +41,15 @@ $app->get('/app/export/csv/',function () use ($app,$blueridge) {
             $line .= '"' . $todo['rel']['project']['name'] . '",';
             $line .= '"' . $todo['assignee']['name'] . '",';
             $line .= '"' . $todo['rel']['href'] . '"';
-            echo $line . "\n";            
+            echo $line . "\n";
         }
 
     };
 
     $arrayToCsv($todos);
 
-    
+
     $app->response->headers->set('Content-Type', 'text/csv');
     $app->response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
-    
+
 });

@@ -1,7 +1,7 @@
 <?php
 /**
- * Blueridge 
- * 
+ * Blueridge
+ *
  * @copyright Ninelabs 2013
  * @author Moses Ngone <moses@ninelabs.com>
  */
@@ -11,6 +11,7 @@ namespace Blueridge\Middleware;
 use Slim\Middleware;
 use Blueridge\Application;
 use Blueridge\Utilities\Doorman;
+use Blueridge\Authentication\ProviderAdapter;
 
 /**
  * Authentication middleware
@@ -25,7 +26,7 @@ class Authentication extends Middleware
      * @var Blueridge\Application
      */
     private $blueridge;
-    
+
     /**
      * Public Constructor
      * @param Bluridge\Application $blueridge
@@ -44,14 +45,26 @@ class Authentication extends Middleware
     	$app = $this->app;
     	$blueridge = $this->blueridge;
 
-    	$authenticate = function () use ($app, $blueridge) {            
-    		$securedUrls = !empty($blueridge['configs']['secured.urls']) ? $blueridge['configs']['secured.urls'] : [];
-    		foreach ($securedUrls as $url) {                
-    			$urlPattern = '@^' . $url . '$@';
-    			if (preg_match($urlPattern, $app->request()->getPathInfo()) === 1 && $blueridge['authenticationService']->hasIdentity() === false) {
-    				return $app->redirect('/');
-    			}             
-    		}            
+        $authenticate = function () use ($app, $blueridge) {
+            $securedUrls = !empty($blueridge['configs']['secured.urls']) ? $blueridge['configs']['secured.urls'] : [];
+            $path = $app->request()->getPathInfo();
+
+
+            foreach ($securedUrls as $url) {
+                $urlPattern = '@^' . $url . '$@';
+                if (preg_match($urlPattern, $path) === 1 && $blueridge['authenticationService']->hasIdentity() === false) {
+
+                    if($path == '/app/todos/' && !empty($app->getCookie('_blrdg_connect'))) {
+                        list ($email, $code) = explode(':',$app->getCookie('_blrdg_connect'));
+                        $providerAdapter = new ProviderAdapter($blueridge['documentManager'],$email,$code);
+                        $blueridge['authenticationService']->authenticate($providerAdapter);
+
+                    } else {
+                        return $app->redirect('/');
+                    }
+
+                }
+            }
         };
 
         $this->app->hook('slim.before.router', $authenticate);

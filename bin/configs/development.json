@@ -37,6 +37,7 @@
     "debug": true,
     "log.enabled": true,
     "mode": "development",
+    "cookies.lifetime": "2 weeks",
     "cookies.encrypt": true,
     "cookies.secure": true,
     "cookies.httponly": true,
@@ -44,13 +45,11 @@
     "cookies.domain": "dev.blueridgeapp.com"
   },
   "secured.urls": [
-    "/app/.+",
-    "/admin/.+",
-    "/sign-out/"
+    "/app/.+"
   ],
   "session": {
     "remember_me_seconds": 2419200,
-    "cookie_lifetime":2419200,
+    "cookie_lifetime": 2419200,
     "use_cookies": true,
     "cookie_httponly": true,
     "cookie_secure": true,

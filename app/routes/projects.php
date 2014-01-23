@@ -1,7 +1,7 @@
 <?php
 /**
- * Blueridge 
- * 
+ * Blueridge
+ *
  * @copyright Ninelabs 2013
  * @author Moses Ngone <moses@ninelabs.com>
  */
@@ -11,21 +11,21 @@ use Blueridge\Providers\Basecamp;
 
 /**
  * Display projects
- * @param string '/app/projects/' 
- * @param type function () use ($app 
- * @param type $blueridge 
+ * @param string '/app/projects/'
+ * @param type function () use ($app
+ * @param type $blueridge
  * @return type
  */
 $app->get('/app/projects/',function () use ($app,$blueridge) {
 
     $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
-    $user = $userQr->findOneByIdentifier($blueridge['authenticationService']->getIdentity());
-    
+    $user = $userQr->findOneById($blueridge['authenticationService']->getIdentity());
+
     $basecampClient = new Basecamp($blueridge);
     $basecampProjects = $basecampClient->getProjects($user);
-    $user= $userQr->updateProjects($user, $basecampProjects);    
-    $projects = $user->projects;    
-    $userDetails = $user->toArray(); 
+    $user= $userQr->updateProjects($user, $basecampProjects);
+    $projects = $user->projects;
+    $userDetails = $user->toArray();
 
     $view = [
     'user'=>$userDetails,
@@ -44,8 +44,8 @@ $app->post('/app/projects/',function() use ($app,$blueridge){
     $params = array_map('intval', $params);
 
     $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
-    $user = $userQr->findOneByIdentifier($blueridge['authenticationService']->getIdentity());
-    
+    $user = $userQr->findOneById($blueridge['authenticationService']->getIdentity());
+
     $userQr->updateProfile($user,'projects',$params);
     $userQr->setStatus($user,"active");
 
