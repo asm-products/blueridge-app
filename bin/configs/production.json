@@ -8,27 +8,57 @@
   },
   "providers": {
     "basecamp": {
-      "name": "basecamp",
-      "handler": "BasecampApi",
-      "user_agent": "BlueRidgeApp (api@blueridgeapp.com)",
+      "type": "web_server",
+      "user_agent": "BlueRidgeApp (team@blueridgeapp.com)",
       "client_id": "e391c424f7787e13c608bda67a22c2b121e50418",
       "client_secret": "c0d00cc97adda78505784d56c3f2eae158db63aa",
-      "redirect_uri": "https://blueridgeapp.com/auth/basecamp/",
+      "redirect_uri": "https://blueridgeapp.com/basecamp/auth/",
       "auth_url": "https://launchpad.37signals.com/authorization/new",
       "token_url": "https://launchpad.37signals.com/authorization/token"
     }
   },
   "services": {
     "mail": {
-      "name": "mandrillapp",
-      "api_key": "IgxS9suuhImK6ewUnfOxqg"
+      "mandrill": {
+        "api_key": "IgxS9suuhImK6ewUnfOxqg",
+        "sender": {
+          "name": "Team BlueRidge",
+          "email": "team@blueridgeapp.com",
+          "reply_to": "team@blueridgeapp.com"
+        }
+      }
     },
     "subscriber": {
-      "name": "stripe",
-      "secret_key": "sk_live_FttCclfXqcKEZ6UEzvRyELwJ",
-      "publishable_key": "pk_live_5SzeUx1mRGBGmTdkRzn9xoGi"
+      "stripe": {
+        "secret_key": "sk_live_FttCclfXqcKEZ6UEzvRyELwJ",
+        "publishable_key": "pk_live_5SzeUx1mRGBGmTdkRzn9xoGi"
+      }
     }
   },
-  "debug": false,
-  "log.enabled": true
+  "app": {
+    "debug": false,
+    "log.enabled": true,
+    "mode": "production",
+    "cookies.encrypt": true,
+    "cookies.secure": true,
+    "cookies.httponly": true,
+    "cookies.secret_key": "4VtUZrv8@Y",
+    "cookies.domain": "blueridgeapp.com"
+  },
+  "secured.urls": [
+    "/app/.+"
+  ],
+  "session": {
+    "remember_me_seconds": 2419200,
+    "cookie_lifetime": 2419200,
+    "use_cookies": true,
+    "cookie_httponly": true,
+    "cookie_secure": true,
+    "name": "_blrdg_session",
+    "cookie_domain": "blueridgeapp.com"
+  },
+  "cache": {
+    "storage": "file",
+    "ttl": 2419200
+  }
 }

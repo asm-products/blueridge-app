@@ -44,9 +44,7 @@
     "cookies.domain": "next.blueridgeapp.com"
   },
   "secured.urls": [
-    "/app/.+",
-    "/admin/.+",
-    "/sign-out/"
+    "/app/.+"
   ],
   "session": {
     "remember_me_seconds": 2419200,
