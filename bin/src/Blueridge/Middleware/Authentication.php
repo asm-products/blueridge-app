@@ -12,6 +12,7 @@ use Slim\Middleware;
 use Blueridge\Application;
 use Blueridge\Utilities\Doorman;
 use Blueridge\Authentication\ProviderAdapter;
+use Zend\Authentication\Result;
 
 /**
  * Authentication middleware
@@ -55,13 +56,19 @@ class Authentication extends Middleware
                 if (preg_match($urlPattern, $path) === 1 && $blueridge['authenticationService']->hasIdentity() === false) {
 
                     if($path == '/app/todos/' && !empty($app->getCookie('_blrdg_connect'))) {
+
                         try {
                             list ($email, $code) = explode(':',$app->getCookie('_blrdg_connect'));
                             $providerAdapter = new ProviderAdapter($blueridge['documentManager'],$email,$code);
-                            $blueridge['authenticationService']->authenticate($providerAdapter);
-                        } catch (Exception $e) {
+                            $result = $blueridge['authenticationService']->authenticate($providerAdapter);
+                        } catch (\ErrorException $e) {
                             error_log($e->getMessage());
-                            $app->deletCookie('_blrdg_connect');
+                            $app->deleteCookie('_blrdg_connect');
+                            return $app->redirect('/');
+                        }
+
+                        if($result->getCode() != Result::SUCCESS) {
+                            $app->deleteCookie('_blrdg_connect');
                             return $app->redirect('/');
                         }
 
