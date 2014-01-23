@@ -18,7 +18,7 @@ use Blueridge\Providers\Basecamp\BasecampClient as Basecamp;
  * Connect to Basecamp
  */
 $app->get('/basecamp/connect/',function() use ($app,$blueridge){
-    // check for
+
     $provider = new OAuth($blueridge['configs']['providers']['basecamp']);
     $provider->authorize($app);
 });
