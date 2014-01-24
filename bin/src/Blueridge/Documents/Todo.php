@@ -7,8 +7,8 @@ namespace Blueridge\Documents;
 use \Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use \Doctrine\ODM\MongoDB\DocumentRepository;
 
-/** 
- * @ODM\Document(collection="Todos",repositoryClass="Blueridge\Documents\TodoRepository") 
+/**
+ * @ODM\Document(collection="Todos",repositoryClass="Blueridge\Documents\TodoRepository")
  */
 class Todo
 {
@@ -37,7 +37,7 @@ class Todo
     /**
      * Assignee
      * @var Array
-     * @ODM\Hash   
+     * @ODM\Hash
      */
     protected $assignee;
 
@@ -61,7 +61,7 @@ class Todo
      * @ODM\Int
      */
     protected $overdue_by;
-    
+
 
     /**
      * Source
@@ -92,20 +92,19 @@ class Todo
     /**
      * Set Properties
      * @return Object
-     */ 
+     */
     public function setProperties(Array $properties)
     {
-        foreach($properties as $property => $value){          
+        foreach($properties as $property => $value){
             if (property_exists($this, $property)) {
                 $this->$property = $value;
             }
         }
         return $this;
     }
-    
 
     /**
-     * To Array
+     * Return an Array representation of the Todo object
      * @return Array
      */
     public function toArray()
@@ -118,26 +117,48 @@ class Todo
         foreach ($this as $property => $value)
         {
             if (in_array($property, $properties))
-            {               
-                $item[$property]=$value;                                
+            {
+                $item[$property]=$value;
             }
         }
         return $item;
     }
 
     /**
-     * Getter
+     * Returns the Array Object with the expected properties for export
+     * @return Array
+     */
+    public function toExport()
+    {
+        $todo = [
+        $this->source['due_on'],
+        $this->overdue_by,
+        $this->content,
+        $this->rel['list_name'],
+        $this->rel['project']['name'],
+        $this->assignee['name'],
+        $this->rel['href']
+        ];
+        return $todo;
+    }
+
+    /**
+     * Get Property
+     * @param  mixed $property
+     * @return mixed  $value
      */
     public function __get($property)
     {
         if (property_exists($this, $property)) {
 
-            return $this->$property;   
+            return $this->$property;
         }
     }
-    
+
     /**
-     * Setter
+     * Set property
+     * @param mixed $property
+     * @param mixed $value
      */
     public function __set($property, $value)
     {
@@ -156,14 +177,14 @@ class Todo
         $todo['overdue_by'] = 0;
         $now= new \DateTime('now');
 
-        if(!empty($todo['due_on'])){            
-            $due_on= new \DateTime($todo['due_on']);                
+        if(!empty($todo['due_on'])){
+            $due_on= new \DateTime($todo['due_on']);
             $todo['due_date']=$due_on->getTimestamp();
             if($now > $due_on){
                 $todo['overdue_by']= $due_on->diff($now, true)->format('%a');
             }
 
-        }else{                
+        }else{
             $todo['due_date']=$now->add(new \DateInterval('P6Y'))->getTimestamp();
         }
 

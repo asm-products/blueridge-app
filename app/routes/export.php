@@ -6,6 +6,9 @@
 use Blueridge\Documents\User;
 use Blueridge\Documents\Todo;
 
+/**
+ * Return a csv file as an attachment with all the todos from selected projects
+ */
 $app->get('/app/export/csv/',function () use ($app,$blueridge) {
 
     $filename = 'To-Dos-'.date("Ymd").'.csv';
@@ -17,37 +20,16 @@ $app->get('/app/export/csv/',function () use ($app,$blueridge) {
     $collection = $todoQr->fetchByUser($user);
     $todos = Array();
     foreach ($collection as $todo ) {
-        $todos[]=$todo->toArray();
+        $todos[]=$todo->toExport();
     }
+    $columnTitles = ['Due Date','Days Overdue','Description','To-do List','Project','Owner','URL'];
+    array_unshift($todos,$columnTitles);
 
-    $arrayToCsv = function (array &$todos, $delimiter = ';', $enclosure = '"', $encloseAll = false){
-        $delimiter_esc = preg_quote($delimiter, '/');
-        $enclosure_esc = preg_quote($enclosure, '/');
-        echo '"Due Date","Days Overdue","Description","To-do List","Project","Owner","URL"'."\n";
-
-        $output = array();
-
-        /**
-         * @todo use iterator
-         */
-        foreach ( $todos as $todo ) {
-
-
-            $line = '';
-            $line .= '"' . $todo['due_on'] . '",';
-            $line .= '"' . $todo['overdue_by'] . '",';
-            $line .= '"' . $todo['content'] . '",';
-            $line .= '"' . $todo['rel']['list_name'] . '",';
-            $line .= '"' . $todo['rel']['project']['name'] . '",';
-            $line .= '"' . $todo['assignee']['name'] . '",';
-            $line .= '"' . $todo['rel']['href'] . '"';
-            echo $line . "\n";
-        }
-
-    };
-
-    $arrayToCsv($todos);
-
+    $out = fopen('php://output', 'w');
+    foreach ($todos as $todo ) {
+        fputcsv($out, $todo,',');
+    }
+    fclose($out);
 
     $app->response->headers->set('Content-Type', 'text/csv');
     $app->response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
