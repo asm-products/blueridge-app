@@ -1,12 +1,12 @@
 {% for todo in todos %}
-<li class="app-todo-list-item mix {{todo.assignee.name|e('html')|replace({' ':'_'})|lower}}" data-duedate="{{todo.due_date.sec|date('U')}}">
-    <div class="row-fluid">        
+<li class="app-todo-list-item mix {{todo.assignee|e('html')|replace({' ':'_'})|lower}}" data-duedate="{{todo.due_date}}">
+    <div class="row-fluid">
         <div class="span8 app-todo-content">
             <label class="app-todo-checkdone checkbox">
-                <input type="checkbox" class="app-checkdone-submit" data-todo-id="{{todo.todoId}}">
-            </label>                            
-            <p>{{todo.content|e('html')}}</p>
-            <small>{{todo.rel.list_name|e('html')}} | {{todo.rel.project.name|e('html')}}</small>
+                <input type="checkbox" class="app-checkdone-submit" data-todo-id="{{todo.uid}}">
+            </label>
+            <p><a href="#" class="app-todo-title">{{todo.title|e('html')}}</a></p>
+            <small>{{todo.todo_list|e('html')}} | {{todo.project_name|e('html')}}</small>
         </div>
         <div class="span2 app-todo-duedate">
             <!-- <a class="app-todo-changeduedate"> -->
@@ -14,19 +14,37 @@
             <p class="app-alert-warning">None</p>
             {% endif %}
             {% if todo.due_on != null %}
-            {{todo.due_date.sec|date('m/d/Y')}}
-            {% endif %} 
+            {{todo.due_on|date('m/d/Y')}}
+            {% endif %}
             {% if todo.overdue_by>0 %}
             <p class="app-alert-warning app-todo-overdue">{{todo.overdue_by|e('html')}} days</p>
             {% endif %}
             <!-- </a> -->
         </div>
         <div class="span2 app-todo-owner">
-            <span class="app-assignee{% if todo.assignee.name == 'Unassigned' %} app-assignee-warning{% endif %}">
-                <a class="app-assignee-name" data-nametoken="{{todo.assignee.name|e('html')|replace({' ':'_'})|lower}}">{{todo.assignee.name|e('html')}}</a>
-                <span class="app-assignee-mutesolo app-filter-assignee filter" data-filter="{{todo.assignee.name|e('html')|replace({' ':'_'})|lower}}"><i class="icon-zoom-in" title="Solo"></i></span>
+            <span class="app-assignee{% if todo.assignee == 'Unassigned' %} app-assignee-warning{% endif %}">
+                <a class="app-assignee-name" data-nametoken="{{todo.assignee|e('html')|replace({' ':'_'})|lower}}">{{todo.assignee|e('html')}}</a>
+                <span class="app-assignee-mutesolo app-filter-assignee filter" data-filter="{{todo.assignee|e('html')|replace({' ':'_'})|lower}}"><i class="icon-zoom-in" title="Solo"></i></span>
             </span>
         </div>
     </div>
-</li>    
+    <div class="row-fluid app-todo-details">
+        <div class="span6 app-todo-lastcomments">
+            {% if todo.source.comments_count > 0 %}
+            {% for comment in todo.source.comments %}
+            <div class="comment-block">
+                <div class="comment-content">
+                    <span class="comment-meta">{{comment.creator.name}} &mdash; {{comment.updated_at|date('m/d/Y')}}</span>
+                    {{comment.content}}
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="span6 todo-commentform">
+          <textarea name=""></textarea>
+          <button class="btn btn-success btn-small">Add Comment</button>
+      </div>
+  </div>
+</li>
 {% endfor %}

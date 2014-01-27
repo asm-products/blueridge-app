@@ -45,7 +45,8 @@
     "cookies.domain": "dev.blueridgeapp.com"
   },
   "secured.urls": [
-    "/app/.+"
+    "/app/.+",
+    "/api/.+"
   ],
   "session": {
     "remember_me_seconds": 2419200,

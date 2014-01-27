@@ -4,8 +4,8 @@
  */
 namespace Blueridge\Documents;
 
-use \Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use \Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ODM\MongoDB\DocumentRepository;
 
 /**
  * @ODM\Document(collection="Todos",repositoryClass="Blueridge\Documents\TodoRepository")
@@ -23,16 +23,17 @@ class Todo
      * TodoId
      * @var string
      * @ODM\String
+     * @ODM\Index
      */
     protected $todoId;
 
     /**
-     * Content
+     * Title
      * @var string
      * @ODM\String
+     * @ODM\AlsoLoad("content")
      */
-    protected $content;
-
+    protected $title;
 
     /**
      * Assignee
@@ -46,22 +47,22 @@ class Todo
      * @var string
      * @ODM\String
      */
-    protected $due_on;
+    protected $dueOn;
 
     /**
      * Due Date
-     * @var timestamp
-     * @ODM\Timestamp
+     * @var string
+     * @ODM\String
      */
-    protected $due_date;
+    protected $dueDate;
 
     /**
      * Overdue By
      * @var int
      * @ODM\Int
+     * @ODM\AlsoLoad("overdue_by")
      */
-    protected $overdue_by;
-
+    protected $overdueBy;
 
     /**
      * Source
@@ -76,18 +77,6 @@ class Todo
      * @ODM\Hash
      */
     protected $rel;
-
-    /**
-     * Todo
-     */
-    public function __construct()
-    {
-        // $this->assignee = new \ArrayCollection();
-        // $this->source = new \ArrayCollection;
-        // $this->rel = new \ArrayCollection;
-    }
-
-
 
     /**
      * Set Properties
@@ -110,7 +99,7 @@ class Todo
     public function toArray()
     {
 
-        $properties = ['id','todoId','content','assignee','due_on','due_date','overdue_by','source','rel'];
+        $properties = ['id','todoId','title','assignee','due_on','due_date','overdue_by','source','rel'];
 
         $item=array();
 
@@ -125,21 +114,41 @@ class Todo
     }
 
     /**
+     * Return an preped array for the view
+     * @return Array
+     */
+    public function toView()
+    {
+        return [
+        'id' => $this->id,
+        'uid' => $this->todoId,
+        'title' => $this->title,
+        'assignee' => $this->assignee['name'],
+        'due_on' => $this->dueOn,
+        'overdue_by' => $this->overdueBy,
+        'due_date' => $this->dueDate,
+        'account_name' => $this->rel['project']['account']['name'],
+        'project_name' => $this->rel['project']['name'],
+        'todo_list' => $this->rel['list_name'],
+        'source' => $this->source
+        ];
+    }
+
+    /**
      * Returns the Array Object with the expected properties for export
      * @return Array
      */
     public function toExport()
     {
-        $todo = [
+        return [
         $this->source['due_on'],
         $this->overdue_by,
-        $this->content,
+        $this->title,
         $this->rel['list_name'],
         $this->rel['project']['name'],
         $this->assignee['name'],
         $this->rel['href']
         ];
-        return $todo;
     }
 
     /**
@@ -166,34 +175,5 @@ class Todo
             $this->$property = $value;
         }
         return $this;
-    }
-
-    /**
-     * Polish
-     */
-    public function polish($todo)
-    {
-
-        $todo['overdue_by'] = 0;
-        $now= new \DateTime('now');
-
-        if(!empty($todo['due_on'])){
-            $due_on= new \DateTime($todo['due_on']);
-            $todo['due_date']=$due_on->getTimestamp();
-            if($now > $due_on){
-                $todo['overdue_by']= $due_on->diff($now, true)->format('%a');
-            }
-
-        }else{
-            $todo['due_date']=$now->add(new \DateInterval('P6Y'))->getTimestamp();
-        }
-
-        if(empty($todo['assignee']))
-        {
-            $todo['assignee'] = ['id'=>null,'type'=>'Person','name'=>'Unassigned'];
-        }
-
-        return $todo;
-
     }
 }
