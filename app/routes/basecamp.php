@@ -84,7 +84,7 @@ $app->get('/basecamp/auth/',function() use ($app,$blueridge){
         $subscription=Teller::addCustomer($blueridge['configs']['services']['subscriber'],$user->toArray());
         $userQr->setSubscription($user,$subscription);
 
-        Resque::enqueue('mail', 'Blueridge\Jobs\Push\SignUpEmail', ['email'=>$user->email,'postman'=>$blueridge['configs']['services']['mail']['mandrill']]);
+        Resque::enqueue('mail', 'Blueridge\Jobs\SendSignUpEmail', ['email'=>$user->email,'postman'=>$blueridge['configs']['services']['mail']['mandrill']]);
 
     }
 
