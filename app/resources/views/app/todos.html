@@ -6,7 +6,6 @@
 <div id="app-todos" class="container app-container">
 	{% include "app/sections/nav.html" %}
   <div class="app-filter-message alert alert-error">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
     You are now in Solo Mode. Click 'Show Everyone' to see everyone again.
   </div>
   <div class="panel">
@@ -36,6 +35,11 @@
       <img src="/img/loading-bar.gif" />
       <p>Refreshing your todos.</p>
     </div>
+    <div class="messages no-todos">
+      <div class="alert alert-info">
+        <p><strong>Headsup!</strong> The are no todos for us to sort in the project(s) you have selected.</p>
+      </div>
+    </div>
 
     <ul id="todos"></ul>
     <div id="tally" class="muted">
@@ -44,7 +48,7 @@
       <div class="span12">
         <div class="btn-toolbar">
           <div class="btn-group">
-            <a class="btn btn-mini btn-info" href="/app/export/csv/"><i class="icon-download-alt"></i> Export CSV</a>
+            <a class="btn btn-mini" href="/app/export/csv/"><i class="icon-download-alt"></i> Export CSV</a>
           </div>
         </div>
       </div>

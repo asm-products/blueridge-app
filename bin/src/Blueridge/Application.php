@@ -25,7 +25,7 @@ use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Storage\Session as SessionStorage;
 
 /**
- * Blueridge 
+ * Blueridge
  */
 class Application extends Pimple
 {
@@ -35,7 +35,7 @@ class Application extends Pimple
 
         $reflection = new \ReflectionClass(__NAMESPACE__ . '\Application');
 
-        $methods = $reflection -> getMethods();        
+        $methods = $reflection -> getMethods();
         foreach ($methods as $method) {
             if (strpos($method -> name, '_init') !== false) {
                 $method_name = $method -> name;
@@ -52,7 +52,7 @@ class Application extends Pimple
         $appEnv= APPLICATION_ENV;
         $config_file = BIN_PATH."/configs/{$appEnv}.json";
         $config_content= file_get_contents($config_file);
-        $configs =json_decode($config_content,true);         
+        $configs =json_decode($config_content,true);
         $this['configs']=$configs;
     }
 
@@ -67,9 +67,9 @@ class Application extends Pimple
             $dbConfigs = $container['configs']['database'];
             try{
                 if(empty($dbConfigs['user'])){
-                    $connection_url = "mongodb://{$dbConfigs['host']}:{$dbConfigs['port']}/{$dbConfigs['name']}";    
+                    $connection_url = "mongodb://{$dbConfigs['host']}:{$dbConfigs['port']}/{$dbConfigs['name']}";
                 }else{
-                    $connection_url = "mongodb://{$dbConfigs['user']}:{$dbConfigs['passwd']}@{$dbConfigs['host']}:{$dbConfigs['port']}/{$dbConfigs['name']}";   
+                    $connection_url = "mongodb://{$dbConfigs['user']}:{$dbConfigs['passwd']}@{$dbConfigs['host']}:{$dbConfigs['port']}/{$dbConfigs['name']}";
                 }
                 AnnotationDriver::registerAnnotationClasses();
 
@@ -80,12 +80,12 @@ class Application extends Pimple
                 $config->setHydratorNamespace('Hydrators');
                 $config->setMetadataDriverImpl(AnnotationDriver::create(BIN_PATH.'/src/Blueridge/Documents'));
                 $config->setDefaultDB($dbConfigs['name']);
-                
+
                 return DocumentManager::create( new Connection($connection_url), $config);
 
             }catch(Exception $e){
                 error_log($e->getMessage());
-            } 
+            }
         });
     }
 
@@ -111,7 +111,7 @@ class Application extends Pimple
                     $cache  = StorageFactory::adapterFactory('filesystem', ['ttl' => $cacheConfigs['ttl'],'cache_dir'=>CACHE_DIR.'/sessions']);
                     break;
             }
-            
+
             $plugin = StorageFactory::pluginFactory('exception_handler',['throw_exceptions' => true]);
             $cache->addPlugin($plugin);
             return $cache;
@@ -128,7 +128,7 @@ class Application extends Pimple
         $container = $this;
         $this['mailService'] =  $this->share(function () use ($container) {
 
-            $mailConfigs = $container['configs']['services']['mail']['mandrill'];         
+            $mailConfigs = $container['configs']['services']['mail']['mandrill'];
             if(!empty($mailConfigs))
             {
                 return new Mandrill($mailConfigs['api_key']);
@@ -169,7 +169,7 @@ class Application extends Pimple
         $this['authenticationService'] = $this->share( function () use ($container){
             $sessionStorage = new SessionStorage('Blueridge','storage', $container['sessionManager']);
             $auth= new AuthenticationService();
-            return $auth->setStorage($sessionStorage);        
+            return $auth->setStorage($sessionStorage);
         });
     }
 }

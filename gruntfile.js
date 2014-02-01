@@ -10,11 +10,13 @@ module.exports = function(grunt) {
     },
     vendor: {
       js: [
-      '<%= dir.bower %>/jquery/jquery.min.js', 
-      '<%= dir.bower %>/jquery/jquery-migrate.js',   
+      '<%= dir.bower %>/jquery/jquery.min.js',
+      '<%= dir.bower %>/jquery/jquery-migrate.js',
       '<%= dir.bower %>/mixitup/src/jquery.mixitup.js',
       '<%= dir.bower %>/bootstrap-sass/js/bootstrap-modal.js',
-      '<%= dir.node %>/twig/twig.min.js',  
+      '<%= dir.bower %>/bootstrap-sass/js/bootstrap-alert.js',
+      '<%= dir.bower %>/bootstrap-sass/js/bootstrap-dropdown.js',
+      '<%= dir.node %>/twig/twig.min.js',
       '<%= dir.bower %>/underscore/underscore-min.js',
       ]
     },
@@ -36,7 +38,7 @@ module.exports = function(grunt) {
       '<%= dir.publish %>/fonts',
       '<%= dir.publish %>/js',
       '<%= dir.publish %>/img',
-      '<%= dir.publish %>/views'          
+      '<%= dir.publish %>/views'
       ]
     },
     concat: {
@@ -59,7 +61,7 @@ module.exports = function(grunt) {
     options: {
       banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
     },
-    libs: {      
+    libs: {
       files: {
         '<%= dir.publish %>/js/libs.min.js': ['<%= concat.libs.dest %>']
       }
@@ -82,9 +84,9 @@ module.exports = function(grunt) {
       amd_wrapper:false,
       template_key: function(filename) {
         return filename.split('/').pop();
-      }      
+      }
     },
-    publish: {      
+    publish: {
       files:{
         "<%= dir.publish %>/js/tmpl.js": ["<%= dir.src %>/templates/**/*.html"]
       }
@@ -134,14 +136,14 @@ module.exports = function(grunt) {
       build: {
         files: [
         {expand: true, cwd:'<%= dir.src %>', src: ['img/**','fonts/**'], dest: '<%= dir.build %>'},
-        {expand: true, flatten:true,src: ['<%= dir.src %>/sass/**/{*.eot,*.svg,*ttf,*woff,*.otf}'], dest: '<%= dir.build %>/fonts',filter: 'isFile'},        
+        {expand: true, flatten:true,src: ['<%= dir.src %>/sass/**/{*.eot,*.svg,*ttf,*woff,*.otf}'], dest: '<%= dir.build %>/fonts',filter: 'isFile'},
         {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'}
         ]
       },
       publish: {
         files: [
         {expand: true, cwd:'<%= dir.build %>/', src: ['img/**','fonts/**','js/**'], dest: '<%= dir.publish %>/'},
-        {expand: true, flatten:true ,src: '<%= dir.build %>/css/**/*.css', dest: '<%= dir.publish %>/css',filter: 'isFile'},        
+        {expand: true, flatten:true ,src: '<%= dir.build %>/css/**/*.css', dest: '<%= dir.publish %>/css',filter: 'isFile'},
         ]
       }
     },

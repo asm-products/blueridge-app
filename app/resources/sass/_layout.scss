@@ -18,17 +18,28 @@ body {
   margin: 0 auto;
   max-width: 680px;
   & > hr {
-  	margin: 3em 0;
+    margin: 3em 0;
   }
 }
 
 .loading {
-	margin: 3em auto 0;
-	max-width:500px;
-	text-align: center;
-	p {
-		font-size: 2.5em;
-		line-height: 1.4em;
-	}
-	img { margin-bottom: 2em; }
+  margin: 3em auto 0;
+  max-width:500px;
+  text-align: center;
+  p {
+    font-size: 2.5em;
+    line-height: 1.4em;
+  }
+  img { margin-bottom: 2em; }
+}
+
+.messages {
+  display: none;
+  margin: 3em auto 0;
+  text-align: center;
+  p {
+    font-size: 1.5em;
+    line-height: 1.1em;
+  }
+  img { margin-bottom: 1em; }
 }

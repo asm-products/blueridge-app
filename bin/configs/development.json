@@ -58,7 +58,7 @@
     "cookie_domain": "dev.blueridgeapp.com"
   },
   "cache": {
-    "storage": "file",
+    "storage": "apc",
     "ttl": 2419200
   }
 }
