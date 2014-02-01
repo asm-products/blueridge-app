@@ -17,6 +17,7 @@ module.exports = function(grunt) {
       '<%= dir.bower %>/bootstrap-sass/js/bootstrap-alert.js',
       '<%= dir.bower %>/bootstrap-sass/js/bootstrap-dropdown.js',
       '<%= dir.node %>/twig/twig.min.js',
+      '<%= dir.node %>/modernizr/modernizr.js',
       '<%= dir.bower %>/underscore/underscore-min.js',
       ]
     },
