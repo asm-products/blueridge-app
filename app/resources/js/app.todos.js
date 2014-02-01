@@ -16,9 +16,20 @@
         }
         $(".app-checkdone-submit" ).on( "change", checkOffTodo );
 
-        $('.app-todo-title').click(function(e){
+        $(".app-todo-title").click(function(e){
             e.preventDefault();
-            $(this).parents('.row-fluid').siblings('.app-todo-details').toggle();
+            details = $(this).parents('.row-fluid').siblings('.app-todo-details'); //.toggle();
+            console.log($(details).attr('data-comment-count'));
+            if ($(details).attr('data-comment-count') > 0) {
+                $(details).toggle();
+            }
+        });
+
+        $(".todo-commentform .btn").click(function(){
+            todo_uid= $(this).attr('data-todo-uid');
+            comment = $("#"+todo_uid).val();
+            // console.log(todo_uid);
+            // console.log(comment);
         });
     });
 
@@ -69,33 +80,26 @@
     });
 
 
+    /* Change duedate */
+    $('.app-todo-changeduedate').click(function(event){
+     event.preventDefault();
+     $(this).popover({
+        animation: false,
+        placement: "bottom",
+        title: "Set the due date:",
+        content: "this should be a calendar"
+    });
+ });
 
-    /* Toggle To-do details */
-// $('.app-todo-title').click(function(e){
-//     e.preventDefault();
-//     $(this).parents('.row-fluid').siblings('.app-todo-details').toggle();
-// });
-
-/* Change duedate */
-$('.app-todo-changeduedate').click(function(event){
- event.preventDefault();
- $(this).popover({
-    animation: false,
-    placement: "bottom",
-    title: "Set the due date:",
-    content: "this should be a calendar"
-});
-});
-
-/* Change assignee */
-$('.app-assignee-name').click(function(event){
- event.preventDefault();
- $(this).popover({
-    animation: false,
-    placement: "bottom",
-    title: "Assign this to-do to:",
-    content: "names of potential assignees here"
-});
-});
+    /* Change assignee */
+    $('.app-assignee-name').click(function(event){
+     event.preventDefault();
+     $(this).popover({
+        animation: false,
+        placement: "bottom",
+        title: "Assign this to-do to:",
+        content: "names of potential assignees here"
+    });
+ });
 
 });

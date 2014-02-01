@@ -28,7 +28,7 @@
             </span>
         </div>
     </div>
-    <div class="row-fluid app-todo-details">
+    <div class="row-fluid app-todo-details" data-comment-count="{{todo.source.comments_count}}">
         <div class="span6 app-todo-lastcomments">
             {% if todo.source.comments_count > 0 %}
             {% for comment in todo.source.comments %}
@@ -41,10 +41,10 @@
             {% endfor %}
             {% endif %}
         </div>
-        <div class="span6 todo-commentform">
-          <textarea name=""></textarea>
-          <button class="btn btn-success btn-small">Add Comment</button>
-      </div>
+        <!-- <div class="span6 todo-commentform">
+          <textarea id="{{todo.uid}}"></textarea>
+          <button class="btn btn-success btn-small" data-todo-uid="{{todo.uid}}">Add Comment</button>
+      </div> -->
   </div>
 </li>
 {% endfor %}

@@ -12,7 +12,6 @@ use Blueridge\Utilities\Doorman;
 use Blueridge\Utilities\Teller;
 use Blueridge\Authentication\ProviderAdapter;
 use Blueridge\Providers\Basecamp\OAuth;
-use Blueridge\Providers\Basecamp\BasecampClient as Basecamp;
 
 /**
  * Connect to Basecamp

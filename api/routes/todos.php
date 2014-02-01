@@ -48,17 +48,21 @@ $app->get('/api/todos/',function () use ($app,$blueridge) {
     }
 
     $userTodos = Array();
+
+    $service = BasecampClient::factory([
+        'token'    => $user->providers['basecamp']['token']['access_token'],
+        'user_agent' => $blueridge['configs']['providers']['basecamp']['user_agent'],
+        'cache' => $blueridge['cacheManager'],
+        ]);
+
     foreach ($user->profile['projects'] as $selectedProject) {
 
         $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
         $projectTodos = $todoQr->fetchByProject($user,$selectedProject)->toArray();
 
         if(empty($todos)) {
-            $providerConfigs = $blueridge['configs']['providers']['basecamp'];
-            $service = BasecampClient::factory([
-                'token'    => $user->providers['basecamp']['token']['access_token'],
-                'user_agent' => $providerConfigs['user_agent'],
-                ]);
+
+
             $serviceHelper = new ServiceHelper($service);
             $todoItems = $serviceHelper->fetchTodos($user,[$selectedProject]);
             if(!empty($todoItems)) {
@@ -74,7 +78,6 @@ $app->get('/api/todos/',function () use ($app,$blueridge) {
                         $blueridge['documentManager']->persist($todo);
                         $blueridge['documentManager']->flush();
                     }
-            // Resque::enqueue('activity', 'Blueridge\Jobs\Pull\SaveTodoDocument', ['todoItem'=>$todoItem]);
                 }
             }
 
@@ -116,6 +119,9 @@ $app->post('/api/todos/:id/',function ($id) use ($app,$blueridge) {
 
     $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
     $todo = $todoQr->findOneByTodoId($id);
+
+    var_dump($todo);
+    exit();
 
     $basecampClient = new Basecamp($blueridge);
     $result = $basecampClient->updateTodo($user,$todo,$payload);
