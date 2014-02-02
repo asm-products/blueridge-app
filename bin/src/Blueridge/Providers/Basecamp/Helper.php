@@ -103,21 +103,23 @@ class Helper
      */
     public function toStoreage(Array $todoItem)
     {
-        return [
-        'todoId'=> $todoItem['rel']['project']['account']['product'].'_'.$todoItem['id'],
+
+        $todo = [
         'title' => $todoItem['content'],
         'assignee' => $this->setAssignee($todoItem),
         'dueOn' => $todoItem['due_on'],
         'dueDate' => $this->getDueDate($todoItem['due_on']),
         'overdueBy' => $this->calculateOverdueDays($todoItem['due_on']),
-        'source' => $this->service->getTodo([
-            'accountId'=>$todoItem['rel']['project']['account']['id'],
-            'projectId'=>$todoItem['rel']['project']['id'],
-            'todoId'=>$todoItem['id'],
-            ]),
-        'rel' => $todoItem['rel']
+        'source' => $todoItem,
         ];
 
+        if(!empty($todoItem['rel'])) {
+            $todo['rel'] = $todoItem['rel'];
+            $todo['todoId']= $todoItem['rel']['project']['account']['product'].'_'.$todoItem['id'];
+        }
+
+        unset($todo['source']['rel']);
+        return $todo;
     }
 
     /**
