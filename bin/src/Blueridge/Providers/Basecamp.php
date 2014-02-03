@@ -5,18 +5,17 @@
 
 namespace Blueridge\Providers;
 
-use \Doctrine\Common\Cache\MemcacheCache;
-use \Doctrine\Common\Cache\FilesystemCache;
-use \Guzzle\Http\Client;
-use \Guzzle\Common\Event;
-
-use \Guzzle\Cache\DoctrineCacheAdapter;
-use \Guzzle\Plugin\Cache\DefaultCacheStorage;
-use \Guzzle\Plugin\Cache\CachePlugin;
+use Doctrine\Common\Cache\MemcacheCache;
+use Doctrine\Common\Cache\FilesystemCache;
+use Guzzle\Http\Client;
+use Guzzle\Common\Event;
+use Guzzle\Cache\DoctrineCacheAdapter;
+use Guzzle\Plugin\Cache\DefaultCacheStorage;
+use Guzzle\Plugin\Cache\CachePlugin;
 
 
 class Basecamp
-{    
+{
 
     protected $client;
     protected $configs;
@@ -28,7 +27,7 @@ class Basecamp
     public function __construct($blueridge)
     {
         $this->blueridge = $blueridge;
-        $this->configs = $blueridge['configs']['providers']['basecamp']; 
+        $this->configs = $blueridge['configs']['providers']['basecamp'];
         $this->client = new Client('https://basecamp.com/',['params.cache.override_ttl' => 3600]);
 
         $this->client->setUserAgent($this->configs['user_agent']);
@@ -55,7 +54,7 @@ class Basecamp
         'client_secret'=>$this->configs['client_secret'],
         'code'=>$code
         ];
-        return $this->client->post($this->configs['token_url'],[],$params)->send()->json();  
+        return $this->client->post($this->configs['token_url'],[],$params)->send()->json();
 
     }
 
@@ -67,7 +66,7 @@ class Basecamp
     public  function getAuthorization($token)
     {
         $this->setAuth($token);
-        $endpoint="https://launchpad.37signals.com/authorization.json";     
+        $endpoint="https://launchpad.37signals.com/authorization.json";
         $auth = $this->client->get($endpoint)->send()->json();
 
         $authorization = [];
@@ -80,7 +79,7 @@ class Basecamp
             if($account['product'] =='bcx'){
                 $authorization['accounts'][] = $account;
             }
-        }       
+        }
         return $authorization;
     }
 
@@ -90,7 +89,7 @@ class Basecamp
     public function getMe($authorization)
     {
 
-        $endpoint = "people/me.json";        
+        $endpoint = "people/me.json";
         $url="{$authorization['accounts'][0]['href']}/{$endpoint}";
 
         $whoami = $this->client->get($url)->send()->json();
@@ -101,32 +100,41 @@ class Basecamp
         'lastName'=>$authorization['identity']['last_name'],
         'email'=>$whoami['email_address'],
         'avatar'=>"//{$avatar['host']}/{$avatar['path']}?{$avatar['query']}"
-        ];        
+        ];
 
     }
 
     /**
      * Get Projects
-     */    
+     */
     public function getProjects(\Blueridge\Documents\User $user)
-    {        
+    {
 
         $endpoint="projects.json";
         $projects=[];
         $index=0;
 
+
         $this->setAuth($user->providers['basecamp']['token']);
-        $accountIterator = new \ArrayIterator($user->providers['basecamp']['accounts']);        
-        foreach ($accountIterator as $account) {            
-            $list = $this->client->get("{$account['href']}/{$endpoint}")->send()->json();
+
+
+        $accountIterator = new \ArrayIterator($user->providers['basecamp']['accounts']);
+        foreach ($accountIterator as $account) {
+
+            try {
+                $list = $this->client->get("{$account['href']}/{$endpoint}")->send()->json();
+            } catch(\Exception $e) {
+                error_log($e->getMessage());
+                $list = null;
+            }
 
             if(!empty($list)){
                 array_walk($list, function(&$project, $key, $account) {
-                    $project['account'] = $account;                    
+                    $project['account'] = $account;
                 },$account);
 
-                $projects = array_merge($projects,$list);     
-            }            
+                $projects = array_merge($projects,$list);
+            }
         }
         return $projects;
     }
@@ -149,18 +157,18 @@ class Basecamp
 
             if(!empty($projects)){
                 if(in_array($project['id'], $projects)){
-                    $endpoint = "{$project['account']['href']}/projects/{$project['id']}/todolists.json";            
-                    $list = $this->client->get($endpoint)->send()->json();             
+                    $endpoint = "{$project['account']['href']}/projects/{$project['id']}/todolists.json";
+                    $list = $this->client->get($endpoint)->send()->json();
                     array_walk($list, function(&$a, $key, $project) {
-                        $a['rel']['project'] = $project;                    
+                        $a['rel']['project'] = $project;
                     },$project);
                     $todolists = array_merge($todolists,$list);
-                }   
-            }else{            
-                $endpoint = "{$project['account']['href']}/projects/{$project['id']}/todolists.json";            
-                $list = $this->client->get($endpoint)->send()->json();             
+                }
+            }else{
+                $endpoint = "{$project['account']['href']}/projects/{$project['id']}/todolists.json";
+                $list = $this->client->get($endpoint)->send()->json();
                 array_walk($list, function(&$a, $key, $project) {
-                    $a['rel']['project'] = $project;                    
+                    $a['rel']['project'] = $project;
                 },$project);
                 $todolists = array_merge($todolists,$list);
             }
@@ -185,20 +193,20 @@ class Basecamp
             return;
         }
 
-        $todolistIterator = new \ArrayIterator($todolists); 
+        $todolistIterator = new \ArrayIterator($todolists);
 
         foreach ($todolistIterator as $todolist) {
 
             $bc_todolist = $this->client->get($todolist['url'])->send()->json();
             $list = $bc_todolist['todos']['remaining'];
-            
+
             $rel=['project'=>$todolist['rel']['project'],'list_name'=>$bc_todolist['name']];
-            array_walk($list, function(&$a, $key, $rel) {             
-                $a['rel'] = $rel;                
-                $a['rel']['href'] = $this->getSiteUrl($a['url']);                
+            array_walk($list, function(&$a, $key, $rel) {
+                $a['rel'] = $rel;
+                $a['rel']['href'] = $this->getSiteUrl($a['url']);
             },$rel);
 
-            $todos = array_merge($todos,$list);  
+            $todos = array_merge($todos,$list);
 
         }
         return $todos;
@@ -211,14 +219,14 @@ class Basecamp
      * @return Object
      */
     public function getTodo(\Blueridge\Documents\User $user, $url)
-    {                
+    {
         try{
             $this->setAuth($user->providers['basecamp']['token']);
-            return $this->client->get($url)->send()->json();            
+            return $this->client->get($url)->send()->json();
         }catch(\Exception $e){
             return;
         }
-        
+
     }
 
     /**
@@ -227,14 +235,14 @@ class Basecamp
      * @return [type]                       [description]
      */
     public function updateTodo(\Blueridge\Documents\User $user,\Blueridge\Documents\Todo $todo,$payload)
-    {        
+    {
         try{
             $this->setAuth($user->providers['basecamp']['token']);
             $data = [
-                'content'=>$todo->source['content'],
-                'due_at'=>(empty($todo->source['due_at']))?false:$todo->source['due_at'],
-                'assignee'=>(empty($todo->source['assignee']))?null:$todo->source['assignee'],
-                'completed'=>(empty($todo->source['completed']))?false:$todo->source['completed']
+            'content'=>$todo->source['content'],
+            'due_at'=>(empty($todo->source['due_at']))?false:$todo->source['due_at'],
+            'assignee'=>(empty($todo->source['assignee']))?null:$todo->source['assignee'],
+            'completed'=>(empty($todo->source['completed']))?false:$todo->source['completed']
             ];
 
             foreach ($payload as $key => $value) {
@@ -242,10 +250,10 @@ class Basecamp
                     $data[$key]=$value;
                 }
             }
-            return $this->client->put($todo->source['url'],['Content-Type'=>'application/json'],json_encode($data))->send()->getStatusCode();    
+            return $this->client->put($todo->source['url'],['Content-Type'=>'application/json'],json_encode($data))->send()->getStatusCode();
         }catch(\Exception $e){
             error_log($e->getMessage());
-        }   
+        }
 
     }
 
@@ -266,7 +274,7 @@ class Basecamp
                 $event['request']->addHeader('Authorization', $authorization);
 
             });
-        } 
+        }
 
     }
 
