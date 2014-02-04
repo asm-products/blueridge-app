@@ -16,21 +16,22 @@
     }
   },
   "services": {
-    "mail": {
-      "mandrill": {
-        "api_key": "IgxS9suuhImK6ewUnfOxqg",
-        "sender": {
-          "name": "Team BlueRidge",
-          "email": "team@blueridgeapp.com",
-          "reply_to": "team@blueridgeapp.com"
-        }
+    "mandrill": {
+      "api_key": "IgxS9suuhImK6ewUnfOxqg",
+      "sender": {
+        "name": "Team BlueRidge",
+        "email": "team@blueridgeapp.com",
+        "reply_to": "team@blueridgeapp.com"
       }
     },
-    "subscriber": {
-      "stripe": {
-        "secret_key": "sk_test_4vcuf4y5rna0k8NpRN6cuKK2",
-        "publishable_key": "pk_test_1yJ4OqVTXyu42OI7wXT6TSnr"
-      }
+    "mailchimp": {
+      "api_key": "67a3b2c509a4b9deadd2ab16f6dcdf10-us4",
+      "list_id":"01d1e2c6f8",
+      "groupings_id":41157
+    },
+    "stripe": {
+      "secret_key": "sk_test_4vcuf4y5rna0k8NpRN6cuKK2",
+      "publishable_key": "pk_test_1yJ4OqVTXyu42OI7wXT6TSnr"
     }
   },
   "app": {

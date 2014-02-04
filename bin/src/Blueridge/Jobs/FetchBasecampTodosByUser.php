@@ -11,7 +11,7 @@ use Blueridge\Documents\Todo;
 use Blueridge\Providers\Basecamp\BasecampClient;
 use Blueridge\Providers\Basecamp\Helper as ServiceHelper;
 
-class FetchBasecampTodos
+class FetchBasecampTodosByUser
 {
     public function perform()
     {
@@ -22,7 +22,7 @@ class FetchBasecampTodos
         $todoQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\Todo');
 
 
-        $user= $userQr->findOneById($this->args['user_id']);
+        $user= $userQr->findOneById($this->args['userid']);
         if(empty($user)){
             return;
         }

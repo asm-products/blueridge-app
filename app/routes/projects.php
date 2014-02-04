@@ -28,11 +28,11 @@ $app->get('/app/projects/',function () use ($app,$blueridge) {
     $userDetails = $user->toArray();
 
     $view = [
-    'user'=>$userDetails,
-    'projects' => $projects,
-    'route'=>'projects',
-    'plan'=>$userDetails['subscription']['plan'],
-    'mode'=>$app->mode
+        'user'=>$userDetails,
+        'projects' => $projects,
+        'route'=>'projects',
+        'plan'=>$userDetails['subscription']['plan'],
+        'mode'=>$app->mode
     ];
 
     $app->render("app/projects.html", $view);
@@ -50,8 +50,8 @@ $app->post('/app/projects/',function() use ($app,$blueridge){
     $userQr->setStatus($user,"active");
 
 
-    Resque::enqueue('activity', 'Blueridge\Jobs\SyncTodos', ['user_id'=>$user->id]);
-    Resque::enqueue('activity', 'Blueridge\Jobs\FetchBasecampTodos', ['user_id'=>$user->id]);
+    Resque::enqueue('sync', 'Blueridge\Jobs\FilterBasecampTodosByUser', ['userid'=>$user->id]);
+    Resque::enqueue('sync', 'Blueridge\Jobs\FetchBasecampTodosByUser', ['userid'=>$user->id]);
 
     $app->redirect('/app/todos/');
 });

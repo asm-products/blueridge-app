@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Blueridge
@@ -80,10 +79,11 @@ $app->get('/basecamp/auth/',function() use ($app,$blueridge){
         $blueridge['documentManager']->persist($user);
         $blueridge['documentManager']->flush();
 
-        $subscription=Teller::addCustomer($blueridge['configs']['services']['subscriber'],$user->toArray());
+        $subscription=Teller::addCustomer($blueridge['configs']['services'],$user->toArray());
         $userQr->setSubscription($user,$subscription);
 
-        Resque::enqueue('mail', 'Blueridge\Jobs\SendSignUpEmail', ['email'=>$user->email,'postman'=>$blueridge['configs']['services']['mail']['mandrill']]);
+        Resque::enqueue('mail', 'Blueridge\Jobs\SendSignUpEmail', ['userid'=>$user->id]);
+        Resque::enqueue('mail', 'Blueridge\Jobs\UpdateMailingListSubscription', ['userid'=>$user->id,'groups'=>['Forever Free']]);
 
     }
 
