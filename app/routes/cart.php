@@ -17,7 +17,7 @@ $app->post('/app/cart/update-payment/',function () use ($app,$blueridge) {
 
         $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
         $user = $userQr->findOneById($blueridge['authenticationService']->getIdentity());
-        $payment = Teller::updatePayment($blueridge['configs']['services']['subscriber'],$user->subscription['customerId'],$token);
+        $payment = Teller::updatePayment($blueridge['configs']['services'],$user->subscription['customerId'],$token);
         $userQr->updatePayment($user,$payment);
         $app->redirect('/app/profile/');
     }
@@ -35,7 +35,7 @@ $app->post('/app/cart/update-subscription/',function () use ($app,$blueridge) {
         $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
         $user = $userQr->findOneById($blueridge['authenticationService']->getIdentity());
 
-        $plan = Teller::updateSubscription($blueridge['configs']['services']['subscriber'],$user->subscription['customerId'],$plan);
+        $plan = Teller::updateSubscription($blueridge['configs']['services'],$user->subscription['customerId'],$plan);
         $updated= $userQr->updateSubscriptionPlan($user,$plan);
         if(empty($updated['err'])){
             $app->flash('success', 'Your subscription has been updated successfully');

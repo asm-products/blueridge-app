@@ -118,25 +118,6 @@ class Application extends Pimple
         });
     }
 
-
-    /**
-     * Initailaize Mandrill for mail transactions
-     * @return Mandrill
-     */
-    public function _initMailTransactionService()
-    {
-        $container = $this;
-        $this['mailService'] =  $this->share(function () use ($container) {
-
-            $mailConfigs = $container['configs']['services']['mail']['mandrill'];
-            if(!empty($mailConfigs))
-            {
-                return new Mandrill($mailConfigs['api_key']);
-            }
-            return;
-        });
-    }
-
     /**
      * Create a session manager using the cache manager as storage
      * @return Zend\Session\Manager
