@@ -142,7 +142,7 @@ class Todo
     {
         return [
         $this->source['due_on'],
-        $this->overdue_by,
+        $this->overdueBy,
         $this->title,
         $this->rel['list_name'],
         $this->rel['project']['name'],
