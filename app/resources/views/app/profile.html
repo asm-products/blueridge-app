@@ -28,7 +28,7 @@
 						<label class="radio">
 							<input type="radio" name="plan" id="br-pro" value="br-pro" {% if user.subscription.plan.id == 'br-pro'%} checked {% endif %}>
 							<h4>Pro &mdash; <span class="plan-price"><sup>$</sup>19.95<small>/mo.</small></span></h4>
-							<p class="plan-feature">30 projects at a time.</p>
+							<p class="plan-feature">40 projects at a time.</p>
 							<p class="plan-feature">Priority Support.</p>
 						</label>
 
@@ -57,7 +57,7 @@
 			</div>
 			<div class="span5 offset1">
 				<h3>Payment Method</h3>
-				<form action="/app/cart/update-payment/" method="post" id="update-payment" data-card="{{user.subscription.card.id|default('none')}}" data-key="{{subscriber.publishable_key}}">
+				<form action="/app/cart/update-payment/" method="post" id="update-payment" data-card="{{user.subscription.card.id|default('none')}}" data-key="{{subscriber.stripe.publishable_key}}">
 					{% if user.subscription.card.id != null %}
 					<p><strong>{{user.subscription.card.type}}</strong> ending in <strong>{{user.subscription.card.last4}}</strong>, expires <strong>{{user.subscription.card.exp_month}}/{{user.subscription.card.exp_year}}</strong></p>
 					<button type="submit" class="btn btn-success btn-small" id="payment-button">Update Payment Method</button>
@@ -88,5 +88,5 @@
 {% endblock %}
 {% block js %}
 <script type="text/javascript" src="//checkout.stripe.com/v2/checkout.js"></script>
-<script type="text/javascript" src="/js/app.behavior.js"></script>
+<script type="text/javascript" src="/js/app.profile.js"></script>
 {% endblock %}

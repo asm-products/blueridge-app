@@ -1,0 +1,32 @@
+{% extends "site/base.html" %}
+{% block title %}Sign In{% endblock %}
+{% block content %}
+<div id="signin" class="container-narrow">
+    {% include "site/sections/header.html" %}
+    <div class="greeting-message">
+        <h3>Welcome back. You&rsquo;re looking good today.</h3>
+    </div>
+    <form method="post" action="/sign-in/">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="email">Email Address</label>
+                <div class="controls">
+                    <input id="email" name="email" type="email" placeholder="youare@wesome.com" required>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                    <input id="password" name="password" type="password" placeholder="Password" required>
+                    <span class="help-block"><a href="/forgot-password/">Forgot your password?</a></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button class="btn btn-success" type="submit">Sign in</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

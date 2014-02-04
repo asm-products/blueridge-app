@@ -1,9 +1,8 @@
 .DS_Store
 .vagrant
-**/vendor/*
 vendor/*
+***/Hydrators/**
 node_modules/*
-bower_modules/*
 *.scssc
 *.sublime-*
 *.lock

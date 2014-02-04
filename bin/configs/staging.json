@@ -6,31 +6,58 @@
   },
   "providers": {
     "basecamp": {
-      "name": "basecamp",
-      "handler": "BasecampApi",
-      "userAgent": "BlueRidgeApp (mo@mospired.com)",
-      "client_id": "cbc3f4cff1def7da310df4d74c7baaffa106772a",
-      "client_secret": "41ffa461186d66b1876d526ecab677d92df0533a",
-      "redirect_uri": "http://dev.blueridgeapp.com/app/basecamp",
+      "type": "web_server",
+      "user_agent": "BlueRidgeApp (team@blueridgeapp.com)",
+      "client_id": "4262c5c129649aa17ddb7bae825e05c55aadaf6f",
+      "client_secret": "6685290db25e72824afaa3ce3ce44a400fb6ea87",
+      "redirect_uri": "https://next.blueridgeapp.com/basecamp/auth/",
       "auth_url": "https://launchpad.37signals.com/authorization/new",
       "token_url": "https://launchpad.37signals.com/authorization/token"
     }
   },
-  "memcache": {
-    "host": "localhost",
-    "port": 11211
-  },
   "services": {
-    "mail": {
-      "name": "mandrillapp",
-      "api_key": "IgxS9suuhImK6ewUnfOxqg"
+    "mandrill": {
+      "api_key": "IgxS9suuhImK6ewUnfOxqg",
+      "sender": {
+        "name": "Team BlueRidge",
+        "email": "team@blueridgeapp.com",
+        "reply_to": "team@blueridgeapp.com"
+      }
     },
-    "subscriber": {
-      "name": "stripe",
+    "mailchimp": {
+      "api_key": "67a3b2c509a4b9deadd2ab16f6dcdf10-us4",
+      "list_id": "01d1e2c6f8",
+      "groupings_id": 41157
+    },
+    "stripe": {
       "secret_key": "sk_test_4vcuf4y5rna0k8NpRN6cuKK2",
       "publishable_key": "pk_test_1yJ4OqVTXyu42OI7wXT6TSnr"
     }
   },
-  "debug": true,
-  "log.enabled": true
+  "app": {
+    "debug": true,
+    "log.enabled": true,
+    "mode": "staging",
+    "cookies.encrypt": true,
+    "cookies.secure": true,
+    "cookies.httponly": true,
+    "cookies.secret_key": "4VtUZrv8@Y",
+    "cookies.domain": "next.blueridgeapp.com"
+  },
+  "secured.urls": [
+    "/app/.+"
+  ],
+  "session": {
+    "remember_me_seconds": 2419200,
+    "cookie_lifetime": 2419200,
+    "use_cookies": true,
+    "cookie_httponly": true,
+    "cookie_secure": true,
+    "name": "_blrdg_session",
+    "cookie_domain": "next.blueridgeapp.com"
+  },
+  "cache": {
+    "storage": "apc",
+    "ttl": 2419200
+  }
 }

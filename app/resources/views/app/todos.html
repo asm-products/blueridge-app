@@ -1,21 +1,16 @@
 {% extends "app/base.html" %}
 {% block title %}Todos{% endblock %}
+{% block script %}
+{% endblock %}
 {% block content %}
 <div id="app-todos" class="container app-container">
 	{% include "app/sections/nav.html" %}
   <div class="app-filter-message alert alert-error">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
     You are now in Solo Mode. Click 'Show Everyone' to see everyone again.
   </div>
   <div class="panel">
-    {% if todos == null %}
-    <div class="loading">
-      <h2>Whoops! There are no To-dos in the projects you've selected.</h2>
-      <a href="/app/projects/" class="btn btn-success btn-large" style="margin-bottom:2em">Change Selected Projects</a>
-    </div>
-    {% else %}
     <div class="app-todo-controls row-fluid">
-      <div class="span7">
+      <div class="span8">
         <h3>To-Do Items</h3>
       </div>
       <div class="span2">
@@ -26,52 +21,42 @@
           </div>
         </div>
       </div>
-      <div class="span3">
-        <div class="btn-toolbar">
+      <div class="span2">
+        <div class="btn-toolbar pull-right">
           <div class="btn-group mixfilters">
             <button class="btn btn-mini filter active" data-filter="all" id="app-assignee-filter-show-all">Everyone</button>
-            <button class="btn btn-mini filter" data-filter="{{user.name|e('html')|replace({' ':''})|lower}}" id="app-assignee-filter-show-me">Me</button>
+            <button class="btn btn-mini filter" data-filter="{{user.name|e('html')|replace({' ':'_'})|lower}}" id="app-assignee-filter-show-me">Me</button>
             <button class="btn btn-mini filter" data-filter="unassigned" id="app-assignee-filter-show-unassigned">Unassigned</button>
           </div>
         </div>
       </div>
     </div>
-    <div id="todos">
-      {% for todo in todos %}
-      <div class="app-todo-list-item row-fluid mix {{todo.assignee.name|e('html')|replace({' ':''})|lower}}" data-duedate="{{todo.due_date|date('U')}}">
-        <div class="span7 app-todo-content">
-          <a class="app-todo-title" href="{{todo.href}}" target="_blank">{{todo.content|e('html')}}</a>
-          <span class="app-todo-meta">{{todo.parent.list_name|e('html')}} | {{todo.parent.project_name|e('html')}}</span>
-        </div>
-        <div class="span2 app-todo-duedate">
-          {% if todo.due_on == null %}<span class="app-alert-warning">None</span>{% else %} {{todo.due_on|date('m/d/Y')}}{% endif %} {% if todo.overdue_by>0 %}<span class="app-alert-warning app-todo-overdue">{{todo.overdue_by|e('html')}} days</span>{% endif %}
-        </div>
-        <div class="span3 app-todo-owner">
-          <span class="app-assignee{% if todo.assignee.name == 'Unassigned' %} app-assignee-warning{% endif %}">
-            <span class="app-assignee-name" data-nametoken="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}">{{todo.assignee.name|e('html')}}</span>
-            <span class="app-assignee-mutesolo app-filter-assignee filter" data-filter="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}"><i class="icon-zoom-in" title="Solo"></i></span>
-            <!-- <span class="app-assignee-mutesolo app-mute-assignee" data-filter="{{todo.assignee.name|e('html')|replace({' ':''})|lower}}"><i class="icon-ban-circle" title="Mute"></i></span> -->
-          </span>
-        </div>
+    <div class="loading">
+      <img src="/img/loading-bar.gif" />
+      <p>Refreshing your todos.</p>
+    </div>
+    <div class="message no-todos">
+      <div class="alert alert-info">
+        <p><strong>Headsup!</strong> The are no todos for us to sort in the project(s) you have selected.</p>
       </div>
-      {% endfor %}
+    </div>
+    <ul id="todos"></ul>
+    <div id="tally" class="muted">
     </div>
     <div class="row-fluid subcontrols">
       <div class="span12">
         <div class="btn-toolbar">
           <div class="btn-group">
-            <button class="btn btn-mini" href="/app/export/csv/"><i class="icon-download-alt"></i> Export CSV</button>
+            <a class="btn btn-mini" href="/app/export/csv/"><i class="icon-download-alt"></i> Export CSV</a>
           </div>
         </div>
       </div>
     </div>
-    {% endif %}
   </div>
-
-
 </div>
 {% include "app/sections/footer.html" %}
 {% endblock %}
 {% block js %}
-<script type="text/javascript" src="/js/app.behavior.js"></script>
+<script id="module" type="text/javascript" src="/js/app.todos.js" data-user="{{user.id}}"></script>
+<script type="text/javascript" src="/js/tmpl.js"></script>
 {% endblock %}

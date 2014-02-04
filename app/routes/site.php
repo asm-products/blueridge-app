@@ -1,17 +1,30 @@
 <?php
 /**
- * Routes for the Application
+ * Blueridge 
+ * 
+ * Site routes
+ * @copyright Ninelabs 2013
+ * @author Moses Ngone <moses@ninelabs.com>
  */
 
-
-$app->get('/:page/',function($page) use ($app){
-    $allowed_routes = ['pricing','preview','privacy','about'];
-    if(in_array($page, $allowed_routes))
-    {
-        $app->render("site/{$page}.html", array('routeName' => $page));    
-    }else{
-        $app->render("common/error-404.html",['message'=>'No Joy. File not found',404]);
-    }
-
+$app->get('/pricing/',function() use ($app){
+    $app->render('site/pricing.html',['mode'=>$app->mode]);
+    $app->response->headers->set('Content-Type', 'text/html');
 });
-$app->response->headers->set('Content-Type', 'text/html');
+
+$app->get('/preview/',function() use ($app){
+    $app->render('site/preview.html',['mode'=>$app->mode]);
+    $app->response->headers->set('Content-Type', 'text/html');
+});
+
+
+$app->get('/privacy/',function() use ($app){
+    $app->render('site/privacy.html',['mode'=>$app->mode]);
+    $app->response->headers->set('Content-Type', 'text/html');
+});
+
+$app->get('/about/',function() use ($app){
+    $app->render('site/about.html',['mode'=>$app->mode]);
+    $app->response->headers->set('Content-Type', 'text/html');
+});
+

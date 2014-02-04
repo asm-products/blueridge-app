@@ -3,17 +3,22 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     dir:{
       publish:'pub',
-      build:'build',
+      build:'app/build',
       src:'app/resources',
-      vendor:'app/vendor'
+      bower:'app/bower_modules',
+      node:'node_modules'
     },
     vendor: {
       js: [
-      '<%= dir.vendor %>/jquery/jquery.min.js',
-      '<%= dir.vendor %>/underscore/underscore-min.js',
-      '<%= dir.vendor %>/bootstrap/dist/js/bootstrap.js',
-      '<%= dir.vendor %>/isotope/jquery.isotope.min.js',
-      '<%= dir.vendor %>/mixitup/src/jquery.mixitup.js',
+      '<%= dir.bower %>/jquery/jquery.min.js',
+      '<%= dir.bower %>/jquery/jquery-migrate.js',
+      '<%= dir.bower %>/mixitup/src/jquery.mixitup.js',
+      '<%= dir.bower %>/bootstrap-sass/js/bootstrap-modal.js',
+      '<%= dir.bower %>/bootstrap-sass/js/bootstrap-alert.js',
+      '<%= dir.bower %>/bootstrap-sass/js/bootstrap-dropdown.js',
+      '<%= dir.node %>/twig/twig.min.js',
+      '<%= dir.node %>/modernizr/modernizr.js',
+      '<%= dir.bower %>/underscore/underscore-min.js',
       ]
     },
 
@@ -34,9 +39,7 @@ module.exports = function(grunt) {
       '<%= dir.publish %>/fonts',
       '<%= dir.publish %>/js',
       '<%= dir.publish %>/img',
-      '<%= dir.publish %>/views',
-      '<%= dir.publish %>/*.html',
-      '<%= dir.publish %>/*.php'
+      '<%= dir.publish %>/views'
       ]
     },
     concat: {
@@ -65,12 +68,29 @@ module.exports = function(grunt) {
       }
     },
     dist: {
+      options:{
+        mangle:true
+      },
       files: [{
         expand: true,
         src: '**/*.js',
         dest: '<%= dir.publish %>/js',
         cwd: '<%= dir.src %>/js'
       }]
+    }
+  },
+  twig: {
+    options: {
+      variable:"window.Blueridge",
+      amd_wrapper:false,
+      template_key: function(filename) {
+        return filename.split('/').pop();
+      }
+    },
+    publish: {
+      files:{
+        "<%= dir.publish %>/js/tmpl.js": ["<%= dir.src %>/templates/**/*.html"]
+      }
     }
   },
   qunit: {
@@ -105,28 +125,26 @@ module.exports = function(grunt) {
         tasks: ['copy'],
       },
       html: {
-        files: ['<%= dir.src %>/**/*.html','<%= dir.src %>/**/*.php'],
-        tasks: ['copy'],
+        files: ['<%= dir.src %>/**/*.html'],
+        tasks: ['copy','twig'],
       },
       scripts: {
         files: ['<%= dir.src %>/js/**/*.js'],
-        tasks: ['concat','uglify'],
+        tasks: ['concat','uglify','twig'],
       },
     },
     copy: {
       build: {
         files: [
-        {expand: true, cwd:'<%= dir.src %>', src: ['img/**','views/**','fonts/**'], dest: '<%= dir.build %>'},
+        {expand: true, cwd:'<%= dir.src %>', src: ['img/**','fonts/**'], dest: '<%= dir.build %>'},
         {expand: true, flatten:true,src: ['<%= dir.src %>/sass/**/{*.eot,*.svg,*ttf,*woff,*.otf}'], dest: '<%= dir.build %>/fonts',filter: 'isFile'},
-        {expand: true, cwd:'<%= dir.src %>',src: ['*.html','*.php'], dest: '<%= dir.build %>/'},
         {expand: true, flatten:true ,src: '<%= vendor.js %>', dest: '<%= dir.build %>/libs',filter: 'isFile'}
         ]
       },
       publish: {
         files: [
-        {expand: true, cwd:'<%= dir.build %>/', src: ['img/**','views/**','fonts/**','js/**'], dest: '<%= dir.publish %>/'},
+        {expand: true, cwd:'<%= dir.build %>/', src: ['img/**','fonts/**','js/**'], dest: '<%= dir.publish %>/'},
         {expand: true, flatten:true ,src: '<%= dir.build %>/css/**/*.css', dest: '<%= dir.publish %>/css',filter: 'isFile'},
-        {expand: true, cwd:'<%= dir.build %>/',src: ['*.html','*.php'], dest: '<%= dir.publish %>/'},
         ]
       }
     },
@@ -158,9 +176,10 @@ grunt.loadNpmTasks('grunt-contrib-qunit');
 grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-contrib-concat');
 grunt.loadNpmTasks('grunt-contrib-compass');
+grunt.loadNpmTasks('grunt-twig');
 
 grunt.registerTask('test', ['jshint', 'qunit']);
 grunt.registerTask('default', ['build']);
-grunt.registerTask('build', ['jshint','clean','compass','copy:build','copy:publish','concat','uglify']);
+grunt.registerTask('build', ['jshint','clean','compass','copy:build','copy:publish','concat','uglify','twig']);
 
 };
