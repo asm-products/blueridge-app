@@ -24,7 +24,7 @@ $app->get('/basecamp/connect/',function() use ($app,$blueridge){
 /**
  * Authorize the Basecamp connection
  */
-$app->get('/basecamp/auth/',function() use ($app,$blueridge){
+$app->get('/auth/basecamp/',function() use ($app,$blueridge){
 
     $code = $app->request()->params('code');
 

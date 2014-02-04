@@ -10,7 +10,7 @@
       "user_agent": "BlueRidgeApp (team@blueridgeapp.com)",
       "client_id": "4262c5c129649aa17ddb7bae825e05c55aadaf6f",
       "client_secret": "6685290db25e72824afaa3ce3ce44a400fb6ea87",
-      "redirect_uri": "https://next.blueridgeapp.com/basecamp/auth/",
+      "redirect_uri": "https://next.blueridgeapp.com/auth/basecamp/",
       "auth_url": "https://launchpad.37signals.com/authorization/new",
       "token_url": "https://launchpad.37signals.com/authorization/token"
     }
