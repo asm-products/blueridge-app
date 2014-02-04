@@ -16,5 +16,7 @@ $userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User
 
 $users = $userQr->fetchAll();
 foreach ($users as $user) {
+    echo  "syncing todos for : {$user->name} \n";
     Resque::enqueue('sync', 'Blueridge\Jobs\FetchBasecampTodos', ['userid'=>$user->id]);
+    sleep(4);
 }
