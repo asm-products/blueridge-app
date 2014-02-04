@@ -14,7 +14,7 @@ $app->get('/app/profile/',function () use ($app,$blueridge) {
 
     $view = [
     'user' =>$user->toArray(),
-    'subscriber'=>$blueridge['configs']['services']['subscriber'],
+    'subscriber'=>$blueridge['configs']['services'],
     'route'=>'profile',
     'mode'=>$app->mode
     ];
