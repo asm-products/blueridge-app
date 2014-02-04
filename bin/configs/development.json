@@ -26,8 +26,8 @@
     },
     "mailchimp": {
       "api_key": "67a3b2c509a4b9deadd2ab16f6dcdf10-us4",
-      "list_id":"01d1e2c6f8",
-      "groupings_id":41157
+      "list_id": "01d1e2c6f8",
+      "groupings_id": 41157
     },
     "stripe": {
       "secret_key": "sk_test_4vcuf4y5rna0k8NpRN6cuKK2",

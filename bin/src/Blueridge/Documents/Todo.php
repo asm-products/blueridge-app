@@ -130,7 +130,7 @@ class Todo
         'account_name' => $this->rel['project']['account']['name'],
         'project_name' => $this->rel['project']['name'],
         'todo_list' => $this->rel['list_name'],
-        'source' => $this->source
+        'href'=>$this->rel['href']
         ];
     }
 
@@ -142,7 +142,7 @@ class Todo
     {
         return [
         $this->source['due_on'],
-        $this->overdue_by,
+        $this->overdueBy,
         $this->title,
         $this->rel['list_name'],
         $this->rel['project']['name'],
