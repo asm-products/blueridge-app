@@ -123,19 +123,6 @@ class User
     protected $member_since;
 
 
-
-    /**
-     * User
-     */
-    public function __construct()
-    {
-        // $this->roles = new ArrayCollection();
-        // $this->profile = new ArrayCollection();
-        // $this->projects = new ArrayCollection();
-        // $this->subscription = new ArrayCollection();
-        //  $this->providers = new ArrayCollection();
-    }
-
     /**
      * Set Properties
      * @param Array $properties
@@ -153,7 +140,10 @@ class User
 
 
     /**
-     * Update Profile
+     * Update the profile
+     * @param  string $segment
+     * @param  Array $properties
+     * @return boolean
      */
     public function updateProfile($segment,$properties)
     {
@@ -187,7 +177,8 @@ class User
     }
 
     /**
-     * Fetch Projects
+     * Returns an array of the users selected projects
+     * @return Array Projects
      */
     protected function fetchProjects()
     {
