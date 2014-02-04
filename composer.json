@@ -6,7 +6,7 @@
     "twig/twig": "1.*",
     "stripe/stripe-php": "dev-master",
     "mandrill/mandrill": "1.0.*",
-    "mailchimp/mailchimp": "2.0.4",
+    "drewm/mailchimp-api": "dev-master",
     "doctrine/mongodb-odm": "1.0.*@dev",
     "guzzle/guzzle": "3.*",
     "pimple/pimple": "v1.0.2",
