@@ -22,21 +22,23 @@ class SendSignUpEmail
 	{
 		$blueridge= new Application();
 		$userQr= $blueridge['documentManager']->getRepository('\Blueridge\Documents\User');
-		$user = $userQr->findOneByEmail($this->args['email']);
+		$user = $userQr->find($this->args['userid']);
 		$template = file_get_contents(APP_PATH.'/resources/emails/signup.html');
 		$holders =['{{user.firstName}}',"{{plan}}"];
 		$values =[$user->firstName,$user->subscription['plan']['name']];
 		$message= str_replace($holders, $values, $template);
 
+		$postman = $blueridge['configs']['services']['mandrill'];
+
 		try{
-			$mandrill = new Mandrill($this->args['postman']['api_key']);
+			$mandrill = new Mandrill($postman['api_key']);
 			$message = [
 			'html' => $message,
 			'subject' => 'Welcome to BlueRidge',
-			'from_email' => $this->args['postman']['sender']['email'],
-			'from_name' => $this->args['postman']['sender']['name'],
-			'to' => [['email' => $this->args['email'],'type' => 'to']],
-			'headers' => ['Reply-To' => $this->args['postman']['sender']['reply_to']],
+			'from_email' => $postman['sender']['email'],
+			'from_name' => $postman['sender']['name'],
+			'to' => [['email' => $user->email,'type' => 'to']],
+			'headers' => ['Reply-To' => $postman['sender']['reply_to']],
 			'tags' => ['new-account','credentials'],
 			'subaccount' => 'blueridge',
 			];

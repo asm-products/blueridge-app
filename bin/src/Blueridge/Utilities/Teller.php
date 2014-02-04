@@ -30,17 +30,17 @@ class Teller
      */
     public static function updatePayment($service,$customerId,$token)
     {
-        \Stripe::setApiKey($service['stripe']['secret_key']);    
+        \Stripe::setApiKey($service['stripe']['secret_key']);
         $customer = \Stripe_Customer::retrieve($customerId);
         /**
         * @todo delete any cards before adding a new one
         */
 
         $card = $customer->cards->create(array("card" => $token));
-        
+
         return [
         'id'=>$card->id,
-        'type'=>$card->type,        
+        'type'=>$card->type,
         'last4'=>$card->last4,
         'exp_month' => $card->exp_month,
         'exp_year' => $card->exp_year
@@ -49,7 +49,7 @@ class Teller
 
     public static function updateSubscription($service,$customerId,$plan)
     {
-        \Stripe::setApiKey($service['stripe']['secret_key']);    
+        \Stripe::setApiKey($service['stripe']['secret_key']);
         $customer = \Stripe_Customer::retrieve($customerId);
         $customer->updateSubscription(array("plan" => $plan, "prorate" => true));
 

@@ -19,7 +19,7 @@
             {% endif %}
         {% endif %}
         {% if projects is empty %}
-        <p class="lead">Hey {{user.firstName}}, looks like you do not have any active projects in Basecamp.</p>
+        <p class="lead">Hey {{user.firstName}}, looks like you do not have any active projects in Basecamp. <br /> Please head over to Basecamp and add some.</p>
         {% endif %}
         <form action="/app/projects/" method="post" id="project-selection-list">
             <div class="row-fluid">
